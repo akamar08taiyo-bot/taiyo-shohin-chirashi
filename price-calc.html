@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>価格・単価計算シート | 太陽シルバーサービス 行橋営業所</title>
+<meta name="description" content="社内用。仕入価格から単価（100mLあたり・1kgあたり・1枚あたり等）を自動計算。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #eef5f5; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
+  a { color: #0f7f86; }
+  a:hover { color: #c25a17; }
+  input { font-family: 'Roboto Mono', monospace; }
+  .wrap { min-height: 100vh; padding: 28px 24px 60px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .inner { width: 100%; max-width: 1180px; display: flex; flex-direction: column; gap: 16px; }
+  .back { font-size: 13px; font-weight: 700; }
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .badge { background: #0f7f86; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .14em; padding: 5px 12px; }
+  .office { font-size: 12px; font-weight: 500; color: #41595E; }
+  h1 { margin: 0; font-size: 34px; line-height: 1.15; font-weight: 900; letter-spacing: -.01em; }
+  .lead { margin: 0; font-size: 13px; line-height: 1.7; color: #41595E; max-width: 640px; text-wrap: pretty; }
+  .filled { display: flex; align-items: baseline; gap: 8px; }
+  .filled-label { font-size: 12px; font-weight: 700; color: #41595E; }
+  .filled-value { font-family: 'Roboto Mono', monospace; font-size: 26px; font-weight: 700; color: #0f7f86; }
+  .actions { display: flex; gap: 8px; }
+  .btn { border: 1.5px solid #0f7f86; background: #fff; color: #0f7f86; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 8px 14px; cursor: pointer; }
+  .btn:hover { background: #0f7f86; color: #fff; }
+  .btn-danger { border-color: #c3cac7; color: #6f8688; }
+  .btn-danger:hover { border-color: #c25a17; color: #c25a17; background: #fff; }
+  .filterbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .filter-btn { border: 1.5px solid #cfe0e2; background: #fff; color: #41595E; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 7px 15px; cursor: pointer; }
+  .filter-btn.active { border-color: #0f7f86; background: #0f7f86; color: #fff; }
+  .sortlabel { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: #41595E; cursor: pointer; }
+  .sortlabel input { width: 15px; height: 15px; accent-color: #0f7f86; cursor: pointer; }
+  table.rows { width: 100%; border-collapse: collapse; background: #fff; border: 1.5px solid #cfe0e2; }
+  .thead-row, .row { display: grid; grid-template-columns: 96px 1fr 128px 118px 116px 132px; align-items: center; }
+  .thead-row { background: #0f7f86; color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; }
+  .thead-row > div { padding: 10px 12px; }
+  .row { border-top: 1px solid #e6f3f3; }
+  .row > div { padding: 9px 12px; }
+  .col-right { text-align: right; }
+  .cell-maker { font-size: 11px; font-weight: 700; color: #0f7f86; letter-spacing: .04em; }
+  .cell-name { display: flex; flex-direction: column; gap: 2px; }
+  .cell-name .name { font-size: 13px; font-weight: 700; line-height: 1.35; }
+  .cell-name .code { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #8aa0a2; }
+  .cell-spec { font-size: 12px; color: #41595E; }
+  .cell-qty, .cell-price { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+  .qty-input { width: 62px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 12.5px; text-align: right; padding: 6px 7px; color: #12242A; }
+  .qty-input.unknown { border-color: #e8c9a8; background: #fdf6ee; }
+  .qty-unit { font-size: 11px; font-weight: 700; color: #41595E; min-width: 22px; }
+  .yen-mark { font-size: 12px; font-weight: 700; color: #8aa0a2; }
+  .price-input { width: 74px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #12242A; }
+  .cell-unit { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+  .cell-unit .value { font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; }
+  .cell-unit .label { font-size: 10px; font-weight: 500; color: #8aa0a2; }
+  .notes { display: flex; flex-wrap: wrap; gap: 12px; }
+  .note-box { flex: 1; min-width: 320px; border: 1.5px solid #cfe0e2; background: #fff; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .note-box-title { font-size: 12px; font-weight: 700; color: #0f7f86; letter-spacing: .06em; }
+  .note-box-body { font-size: 12px; line-height: 1.7; color: #41595E; text-wrap: pretty; }
+  .footnote { margin: 0; font-size: 11px; color: #6f8688; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="inner">
+    <div><a class="back" href="./index.html">← 一覧へ</a></div>
+    <header>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="badge">社内用ツール</div>
+          <div class="office">太陽シルバーサービス㈱　行橋営業所</div>
+        </div>
+        <h1>価格・単価計算シート</h1>
+        <p class="lead">仕入価格を入れると単価（100mLあたり・1kgあたり・1枚あたり等）を自動計算します。入力内容はこの端末に保存され、次に開いたときも残ります。</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+        <div class="filled">
+          <span class="filled-label">入力済</span>
+          <span class="filled-value" id="filled-value">0 / 0</span>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-copy">入力分をコピー</button>
+          <button type="button" class="btn btn-danger" id="btn-clear">入力を全消去</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="filterbar" id="filterbar">
+      <div style="flex:1"></div>
+      <label class="sortlabel"><input type="checkbox" id="sort-toggle" />単価の安い順に並べる</label>
+    </div>
+
+    <div class="rows-wrap">
+      <div class="thead-row">
+        <div>メーカー</div><div>商品名</div><div>規格</div>
+        <div class="col-right">内容量・入数</div><div class="col-right">仕入価格（税抜）</div><div class="col-right">単価</div>
+      </div>
+      <div id="rows-body"></div>
+    </div>
+
+    <div class="notes">
+      <div class="note-box">
+        <div class="note-box-title">単価の出し方</div>
+        <div class="note-box-body">液体は「100mLあたり」、粉末・ジェルは「1kgあたり」、袋・シート類は「1枚あたり」、ロール・箱物は「1ロール／1箱あたり」で計算します。容量・入数が空欄の商品はパッケージから読み取れなかったものです。カタログ値を入力すると単価が出ます。</div>
+      </div>
+      <div class="note-box">
+        <div class="note-box-title">チラシへの反映</div>
+        <div class="note-box-body">各チラシページ上部の「価格表示（社内用）」をONにすると、ここで入力した価格・単価がその場でチラシカードに反映されます（この端末内・画面表示のみ）。</div>
+      </div>
+    </div>
+    <p class="footnote">価格は社内資料です。チラシに載せる際は掲載可否をご確認ください。</p>
+  </div>
+</div>
+
+<script src="./assets/pricing.js"></script>
+<script>
+(async function () {
+  const [products, priceRowsRaw] = await Promise.all([
+    fetch('./data/products.json').then(r => r.json()),
+    fetch('./data/price-rows.json').then(r => r.json()),
+  ]);
+
+  function escapeHTML(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  const makers = ['すべて', ...Array.from(new Set(priceRowsRaw.map(r => r.maker)))];
+  let state = { maker: 'すべて', sort: false, ...tssLoadPrices() };
+
+  function persist() { tssSavePrices(state.prices, state.qtys); }
+
+  function computedRows() {
+    return priceRowsRaw.map(r => {
+      const price = tssNum(state.prices[r.code]);
+      const qty = state.qtys[r.code] != null ? tssNum(state.qtys[r.code]) : r.baseQty;
+      return { ...r, priceNum: price, qtyNum: qty, unitNum: tssCalcUnitPrice(price, qty, r.kind) };
+    });
+  }
+
+  function renderFilterbar() {
+    const bar = document.getElementById('filterbar');
+    bar.innerHTML = makers.map(m =>
+      `<button type="button" class="filter-btn${state.maker === m ? ' active' : ''}" data-maker="${escapeHTML(m)}">${escapeHTML(m)}</button>`
+    ).join('') + bar.innerHTML.match(/<div style="flex:1"><\/div>.*$/s)?.[0] ?? '';
+    bar.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => { state.maker = btn.dataset.maker; renderAll(); });
+    });
+  }
+
+  function renderRows() {
+    const rows0 = computedRows();
+    let filtered = state.maker === 'すべて' ? rows0 : rows0.filter(r => r.maker === state.maker);
+    if (state.sort) {
+      filtered = filtered.slice().sort((a, b) => {
+        if (a.unitNum == null && b.unitNum == null) return 0;
+        if (a.unitNum == null) return 1;
+        if (b.unitNum == null) return -1;
+        return a.unitNum - b.unitNum;
+      });
+    }
+    const body = document.getElementById('rows-body');
+    body.innerHTML = filtered.map(r => {
+      const unknown = r.baseQty == null && state.qtys[r.code] == null;
+      const qtyVal = state.qtys[r.code] != null ? state.qtys[r.code] : (r.baseQty == null ? '' : String(r.baseQty));
+      return `<div class="row">
+        <div class="cell-maker">${escapeHTML(r.maker)}</div>
+        <div class="cell-name"><span class="name">${escapeHTML(r.name)}</span><span class="code">${escapeHTML(r.code)}</span></div>
+        <div class="cell-spec">${escapeHTML(r.spec)}</div>
+        <div class="cell-qty">
+          <input type="text" inputmode="decimal" class="qty-input${unknown ? ' unknown' : ''}" data-code="${escapeHTML(r.code)}" value="${escapeHTML(qtyVal)}" placeholder="${r.baseQty == null ? '未確認' : ''}" />
+          <span class="qty-unit">${escapeHTML(r.kind)}</span>
+        </div>
+        <div class="cell-price">
+          <span class="yen-mark">￥</span>
+          <input type="text" inputmode="decimal" class="price-input" data-code="${escapeHTML(r.code)}" value="${state.prices[r.code] == null ? '' : escapeHTML(state.prices[r.code])}" placeholder="0" />
+        </div>
+        <div class="cell-unit">
+          <span class="value" style="color:${r.unitNum == null ? '#c3cac7' : '#c25a17'}">${tssFmtYen(r.unitNum)}</span>
+          <span class="label">${escapeHTML(tssUnitLabel(r.kind))}</span>
+        </div>
+      </div>`;
+    }).join('');
+
+    body.querySelectorAll('.qty-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        state.qtys = { ...state.qtys, [inp.dataset.code]: inp.value };
+        persist();
+        renderRows();
+        renderFilled();
+      });
+    });
+    body.querySelectorAll('.price-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        state.prices = { ...state.prices, [inp.dataset.code]: inp.value };
+        persist();
+        renderRows();
+        renderFilled();
+      });
+    });
+  }
+
+  function renderFilled() {
+    const rows0 = computedRows();
+    document.getElementById('filled-value').textContent =
+      rows0.filter(r => r.priceNum != null).length + ' / ' + rows0.length;
+  }
+
+  function renderAll() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.maker === state.maker));
+    renderRows();
+    renderFilled();
+  }
+
+  // filterbar: build once (maker buttons + sort checkbox stay in DOM)
+  const bar = document.getElementById('filterbar');
+  bar.innerHTML = makers.map(m =>
+    `<button type="button" class="filter-btn${state.maker === m ? ' active' : ''}" data-maker="${escapeHTML(m)}">${escapeHTML(m)}</button>`
+  ).join('') + '<div style="flex:1"></div><label class="sortlabel"><input type="checkbox" id="sort-toggle" />単価の安い順に並べる</label>';
+  bar.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => { state.maker = btn.dataset.maker; renderAll(); });
+  });
+  document.getElementById('sort-toggle').addEventListener('change', (e) => { state.sort = e.target.checked; renderRows(); });
+
+  document.getElementById('btn-copy').addEventListener('click', () => {
+    const rows0 = computedRows().filter(r => r.priceNum != null);
+    const lines = rows0.map(r => [r.code, r.name, r.spec, '￥' + r.priceNum, tssFmtYen(r.unitNum) + '/' + tssUnitLabel(r.kind)].join('\t'));
+    const text = lines.length ? lines.join('\n') : '（価格の入力がありません）';
+    if (navigator.clipboard) navigator.clipboard.writeText(text);
+  });
+  document.getElementById('btn-clear').addEventListener('click', () => {
+    if (!confirm('入力した価格・容量をすべて消去します。よろしいですか？')) return;
+    state.prices = {}; state.qtys = {};
+    persist();
+    renderAll();
+  });
+
+  renderRows();
+  renderFilled();
+})();
+</script>
+</body>
+</html>

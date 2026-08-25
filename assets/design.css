@@ -1,0 +1,233 @@
+/* 消耗品チラシ デザイントークン（design_handoff_flier/README.md §5-6 に準拠、忠実再現） */
+
+:root {
+  --accent: #0f7f86;
+  --accent-hover: #c25a17;
+  --paper-bg: #F6FBFB;
+  --card-bg: #ffffff;
+  --text-main: #12242A;
+  --text-sub: #41595E;
+  --text-note: #6f8688;
+  --border: #cfe0e2;
+  --tag-bg: #e6f3f3;
+  --code-color: #8aa0a2;
+  --price-color: #c25a17;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans JP', sans-serif;
+  background: #dfeceb;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+
+/* ---- 画面用チュートリアル/ツールバー ---- */
+
+.tss-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  background: #ffffff;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.tss-toolbar .tss-back {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tss-toolbar .tss-back:hover { color: var(--accent-hover); }
+
+.tss-toolbar h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--text-main);
+  flex: 1;
+  min-width: 120px;
+}
+
+.tss-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-sub);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tss-toggle input { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+
+.tss-btn {
+  border: 1.5px solid var(--accent);
+  background: #fff;
+  color: var(--accent);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tss-btn:hover { background: var(--accent); color: #fff; }
+
+.tss-pagejump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #eef5f5;
+  border-bottom: 1px solid var(--border);
+}
+.tss-pagejump a {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-sub);
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+}
+.tss-pagejump a:hover { border-color: var(--accent); color: var(--accent); }
+
+.tss-pages-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 28px 12px 60px;
+}
+
+/* ---- A4ページ本体（doc-page size="a4" 相当: 794x1123px） ---- */
+
+.page {
+  box-sizing: border-box;
+  width: 794px;
+  height: 1123px;
+  padding: 28px 36px 26px;
+  background: var(--paper-bg);
+  color: var(--text-main);
+  font-family: 'Noto Sans JP', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  box-shadow: 0 2px 14px rgba(15, 40, 42, 0.18);
+  flex-shrink: 0;
+}
+
+.tss-page-header { display: flex; flex-direction: column; gap: 11px; }
+
+.tss-band { display: flex; align-items: center; gap: 12px; }
+.tss-band-label {
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  padding: 6px 14px;
+  white-space: nowrap;
+}
+.tss-band-rule { flex: 1; height: 2px; background: var(--accent); }
+.tss-band-aud { font-size: 12px; font-weight: 500; color: var(--text-sub); letter-spacing: .06em; white-space: nowrap; }
+
+.tss-title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.tss-title-row h1 { margin: 0; font-size: 46px; line-height: 1.05; font-weight: 900; letter-spacing: -.02em; }
+.tss-title-row h1 .tss-subtitle { font-size: 30px; color: var(--accent); }
+.tss-lead { margin: 0 0 6px; font-size: 13.5px; line-height: 1.7; font-weight: 500; color: var(--text-sub); max-width: 236px; text-wrap: pretty; }
+
+.tss-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 14px;
+  min-height: 0;
+}
+
+.tss-card {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.tss-card-photo {
+  flex: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--tag-bg);
+}
+.tss-card-photo img { max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; display: block; }
+
+.tss-card-body { padding: 7px 12px 8px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+.tss-card-maker { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
+.tss-card-name { margin: 0; font-weight: 700; line-height: 1.25; }
+.tss-card-tags { min-height: 22px; display: flex; flex-wrap: wrap; gap: 6px; }
+.tss-tag-spec { font-size: 12px; font-weight: 700; background: var(--accent); color: #fff; padding: 3px 8px; }
+.tss-tag-cat { font-size: 12px; font-weight: 500; background: var(--tag-bg); color: var(--text-sub); padding: 3px 8px; }
+.tss-card-desc { margin: 0; line-height: 1.45; color: var(--text-sub); text-wrap: pretty; }
+.tss-card-code { font-family: 'Roboto Mono', monospace; font-size: 10.5px; color: var(--code-color); }
+.tss-card-price { display: flex; align-items: baseline; gap: 10px; }
+.tss-card-price .amount { font-size: 16px; font-weight: 900; color: var(--price-color); }
+.tss-card-price .unit { font-size: 10.5px; font-weight: 500; color: var(--text-sub); }
+
+.tss-sizebox {
+  flex: none;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  padding: 7px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.tss-sizebox-title { font-size: 11.5px; font-weight: 700; color: var(--accent); letter-spacing: .06em; }
+.tss-sizebox-body { font-size: 11px; line-height: 1.5; color: var(--text-sub); text-wrap: pretty; }
+
+.tss-note { margin: 0; font-size: 11px; line-height: 1.5; color: var(--text-note); text-wrap: pretty; }
+
+.tss-footer {
+  border-top: 3px solid var(--accent);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+.tss-footer-left { display: flex; flex-direction: column; gap: 4px; }
+.tss-footer-office { font-size: 20px; font-weight: 900; letter-spacing: .01em; }
+.tss-footer-addr { font-size: 12.5px; font-weight: 500; color: var(--text-sub); }
+.tss-footer-tel { display: flex; gap: 18px; font-size: 14.5px; font-weight: 700; }
+.tss-footer-contact { display: flex; align-items: baseline; gap: 14px; }
+.tss-footer-contact-item { display: flex; align-items: baseline; gap: 8px; }
+.tss-footer-contact-label { font-size: 12.5px; font-weight: 700; color: var(--text-sub); }
+.tss-footer-contact-name { font-size: 14.5px; font-weight: 700; }
+.tss-footer-contact-mobile { font-size: 15.5px; font-weight: 900; }
+
+@media print {
+  body { background: #fff; }
+  .tss-toolbar, .tss-pagejump { display: none !important; }
+  .tss-pages-scroll { padding: 0; gap: 0; }
+  .page { box-shadow: none; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
