@@ -10,6 +10,7 @@ function escapeHTML(s) {
 
 const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
+const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -18,6 +19,18 @@ function tssLoadBool(key, fallback) {
 }
 function tssSaveBool(key, val) {
   localStorage.setItem(key, val ? '1' : '0');
+}
+
+// 掲載商品の差し替え（おすすめ構成からの上書き）。
+// 形状: { [flierKey]: { [pageKey]: [code, code, code, code] } }
+function tssLoadComposition() {
+  try {
+    const raw = localStorage.getItem(TSS_COMPOSITION_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+function tssSaveComposition(comp) {
+  try { localStorage.setItem(TSS_COMPOSITION_KEY, JSON.stringify(comp)); } catch (e) {}
 }
 
 async function renderFlyer(flyerKey, mountId) {
@@ -35,22 +48,48 @@ async function renderFlyer(flyerKey, mountId) {
 
   const priceByCode = new Map(priceRows.map(r => [r.code, r]));
   const { prices: savedPrices, qtys: savedQtys, margins: savedMargins, sellPrices: savedSellPrices } = tssLoadPrices();
+  const itemByCode = new Map(productsData.items.map(it => [it.code, it]));
 
-  // 商品を flier+page でグループ化（掲載順を保持）
-  const itemsByPage = new Map();
+  // おすすめ構成（flier+page でグループ化、掲載順を保持）
+  const defaultItemsByPage = new Map();
   for (const item of productsData.items) {
     if (item.flier !== flyer.name) continue;
-    const arr = itemsByPage.get(item.page) || [];
+    const arr = defaultItemsByPage.get(item.page) || [];
     arr.push(item);
-    itemsByPage.set(item.page, arr);
+    defaultItemsByPage.set(item.page, arr);
   }
 
   let showCodes = tssLoadBool(TSS_SHOW_CODES_KEY, true);
   let showPrice = tssLoadBool(TSS_SHOW_PRICE_KEY, false);
+  let editMode = false;
+  let composition = tssLoadComposition();
+  let pickerTarget = null; // { pageKey, slotIndex } while picker is open
 
   const mount = document.getElementById(mountId);
 
-  function cardHTML(item, idx, tokens) {
+  function pageComposition(pageKey) {
+    composition[flyer.key] = composition[flyer.key] || {};
+    return composition[flyer.key][pageKey] || null;
+  }
+  function itemsForPage(pageKey) {
+    const override = pageComposition(pageKey);
+    if (!override) return defaultItemsByPage.get(pageKey) || [];
+    return override.map(code => itemByCode.get(code)).filter(Boolean);
+  }
+  function setSlot(pageKey, slotIndex, code) {
+    const current = pageComposition(pageKey) || (defaultItemsByPage.get(pageKey) || []).map(it => it.code);
+    const next = current.slice();
+    next[slotIndex] = code;
+    composition[flyer.key] = composition[flyer.key] || {};
+    composition[flyer.key][pageKey] = next;
+    tssSaveComposition(composition);
+  }
+  function resetPage(pageKey) {
+    if (composition[flyer.key]) delete composition[flyer.key][pageKey];
+    tssSaveComposition(composition);
+  }
+
+  function cardHTML(item, idx, tokens, pageKey) {
     const priceRow = priceByCode.get(item.code);
     let priceHTML = '';
     if (showPrice && priceRow) {
@@ -64,8 +103,12 @@ async function renderFlyer(flyerKey, mountId) {
       priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(priceRow.kind))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span></div>`;
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
+    const editBtn = editMode
+      ? `<button type="button" class="tss-card-editbtn" data-page-key="${escapeHTML(pageKey)}" data-slot="${idx}">商品を変更</button>`
+      : '';
     return `
       <article class="tss-card">
+        ${editBtn}
         <div class="tss-card-photo" style="height:${tokens.photoHeight}px">
           <img src="./images/${item.image.replace(/^\.\/images\//, '')}" alt="${escapeHTML(item.name)}" loading="lazy" />
         </div>
@@ -84,7 +127,8 @@ async function renderFlyer(flyerKey, mountId) {
   }
 
   function pageHTML(page, tokens, pageIndex) {
-    const items = itemsByPage.get(page.pageKey) || [];
+    const items = itemsForPage(page.pageKey);
+    const isCustom = !!pageComposition(page.pageKey);
     const titleHTML = page.subtitle
       ? `${escapeHTML(page.title)}<br /><span class="tss-subtitle">${escapeHTML(page.subtitle)}</span>`
       : escapeHTML(page.title);
@@ -94,8 +138,15 @@ async function renderFlyer(flyerKey, mountId) {
            <div class="tss-sizebox-body">${escapeHTML(page.sizeBoxBody)}</div>
          </div>`
       : '';
+    const editBar = editMode
+      ? `<div class="tss-page-editbar">編集モード${isCustom ? '・この ページはカスタム構成です' : '・おすすめ構成'}
+           ${isCustom ? `<button type="button" class="tss-reset-btn" data-page-key="${escapeHTML(page.pageKey)}">おすすめ構成に戻す</button>` : ''}
+         </div>`
+      : '';
     return `
-    <section class="page" id="tss-page-${pageIndex}" data-page-label="${escapeHTML(page.pageKey)}">
+    <div class="tss-page-wrap">
+      ${editBar}
+      <section class="page" id="tss-page-${pageIndex}" data-page-label="${escapeHTML(page.pageKey)}">
       <header class="tss-page-header">
         <div class="tss-band">
           <div class="tss-band-label">${escapeHTML(page.categoryLabel)}</div>
@@ -108,7 +159,7 @@ async function renderFlyer(flyerKey, mountId) {
         </div>
       </header>
       <div class="tss-grid">
-        ${items.map((it, i) => cardHTML(it, i, tokens)).join('')}
+        ${items.map((it, i) => cardHTML(it, i, tokens, page.pageKey)).join('')}
       </div>
       ${sizeBoxHTML}
       <p class="tss-note">${escapeHTML(page.note)}</p>
@@ -123,12 +174,103 @@ async function renderFlyer(flyerKey, mountId) {
           </div>
         </div>
       </footer>
-    </section>`;
+      </section>
+    </div>`;
   }
 
   function renderAll() {
     mount.innerHTML = flyer.pages.map((p, i) => pageHTML(p, flyer.tokens, i)).join('');
   }
+
+  // ---- 商品差し替えピッカー ----
+  const picker = document.createElement('div');
+  picker.className = 'tss-picker-backdrop';
+  picker.innerHTML = `
+    <div class="tss-picker">
+      <div class="tss-picker-head">
+        <div class="tss-picker-title">商品を差し替え</div>
+        <button type="button" class="tss-picker-close">閉じる</button>
+      </div>
+      <div class="tss-picker-filters">
+        <input type="text" class="tss-picker-search" placeholder="商品名・メーカーで検索" />
+        <select class="tss-picker-page"><option value="">場所（分類）: すべて</option></select>
+        <select class="tss-picker-maker"><option value="">メーカー: すべて</option></select>
+      </div>
+      <div class="tss-picker-list"></div>
+    </div>`;
+  document.body.appendChild(picker);
+
+  const allPages = Array.from(new Set(productsData.items.map(it => it.page))).sort();
+  const allMakers = Array.from(new Set(productsData.items.map(it => it.maker)));
+  const pageSelect = picker.querySelector('.tss-picker-page');
+  const makerSelect = picker.querySelector('.tss-picker-maker');
+  allPages.forEach(p => pageSelect.insertAdjacentHTML('beforeend', `<option value="${escapeHTML(p)}">${escapeHTML(p)}</option>`));
+  allMakers.forEach(m => makerSelect.insertAdjacentHTML('beforeend', `<option value="${escapeHTML(m)}">${escapeHTML(m)}</option>`));
+
+  function renderPickerList() {
+    const q = picker.querySelector('.tss-picker-search').value.trim();
+    const pageFilter = pageSelect.value;
+    const makerFilter = makerSelect.value;
+    const list = productsData.items.filter(it => {
+      if (pageFilter && it.page !== pageFilter) return false;
+      if (makerFilter && it.maker !== makerFilter) return false;
+      if (q && !(it.name.includes(q) || it.maker.includes(q))) return false;
+      return true;
+    });
+    const listEl = picker.querySelector('.tss-picker-list');
+    if (!list.length) {
+      listEl.innerHTML = '<div class="tss-picker-empty">該当する商品がありません</div>';
+      return;
+    }
+    listEl.innerHTML = list.map(it => `
+      <button type="button" class="tss-picker-item" data-code="${escapeHTML(it.code)}">
+        <img src="./images/${it.image.replace(/^\.\/images\//, '')}" alt="" loading="lazy" />
+        <span class="tss-picker-item-info">
+          <span class="tss-picker-item-name">${escapeHTML(it.name)}</span>
+          <span class="tss-picker-item-meta">${escapeHTML(it.maker)} ／ ${escapeHTML(it.spec)} ／ ${escapeHTML(it.page)}</span>
+        </span>
+      </button>`).join('');
+  }
+
+  function openPicker(pageKey, slotIndex) {
+    pickerTarget = { pageKey, slotIndex };
+    picker.querySelector('.tss-picker-search').value = '';
+    pageSelect.value = '';
+    makerSelect.value = '';
+    renderPickerList();
+    picker.classList.add('is-open');
+  }
+  function closePicker() {
+    picker.classList.remove('is-open');
+    pickerTarget = null;
+  }
+  picker.querySelector('.tss-picker-close').addEventListener('click', closePicker);
+  picker.addEventListener('click', (e) => { if (e.target === picker) closePicker(); });
+  picker.querySelector('.tss-picker-search').addEventListener('input', renderPickerList);
+  pageSelect.addEventListener('change', renderPickerList);
+  makerSelect.addEventListener('change', renderPickerList);
+  picker.querySelector('.tss-picker-list').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tss-picker-item');
+    if (!btn || !pickerTarget) return;
+    setSlot(pickerTarget.pageKey, pickerTarget.slotIndex, btn.dataset.code);
+    closePicker();
+    renderAll();
+  });
+
+  // カードの「商品を変更」ボタン・ページの「おすすめ構成に戻す」は再描画後も
+  // 消えないよう mount への委譲イベントで拾う
+  mount.addEventListener('click', (e) => {
+    const editBtn = e.target.closest('.tss-card-editbtn');
+    if (editBtn) {
+      openPicker(editBtn.dataset.pageKey, Number(editBtn.dataset.slot));
+      return;
+    }
+    const resetBtn = e.target.closest('.tss-reset-btn');
+    if (resetBtn) {
+      resetPage(resetBtn.dataset.pageKey);
+      renderAll();
+    }
+  });
 
   renderAll();
 
@@ -148,6 +290,15 @@ async function renderFlyer(flyerKey, mountId) {
     priceToggle.addEventListener('change', () => {
       showPrice = priceToggle.checked;
       tssSaveBool(TSS_SHOW_PRICE_KEY, showPrice);
+      renderAll();
+    });
+  }
+
+  const editToggle = document.getElementById('tss-toggle-edit');
+  if (editToggle) {
+    editToggle.checked = editMode;
+    editToggle.addEventListener('change', () => {
+      editMode = editToggle.checked;
       renderAll();
     });
   }

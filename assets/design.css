@@ -157,12 +157,52 @@ a:hover { color: var(--accent-hover); }
 }
 
 .tss-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 1.5px solid var(--border);
   background: var(--card-bg);
   overflow: hidden;
 }
+
+.tss-card-editbtn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 5;
+  border: none;
+  background: rgba(15, 36, 42, 0.72);
+  color: #fff;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.tss-card-editbtn:hover { background: var(--accent); }
+
+.tss-page-editbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #b45309;
+  background: #fef3e2;
+  border: 1px solid #f3d9ab;
+  padding: 5px 10px;
+}
+.tss-reset-btn {
+  border: 1px solid #b45309;
+  background: #fff;
+  color: #b45309;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  cursor: pointer;
+}
+.tss-reset-btn:hover { background: #b45309; color: #fff; }
 
 .tss-card-photo {
   flex: none;
@@ -219,13 +259,67 @@ a:hover { color: var(--accent-hover); }
 .tss-footer-contact-name { font-size: 14.5px; font-weight: 700; }
 .tss-footer-contact-mobile { font-size: 15.5px; font-weight: 900; }
 
+.tss-page-wrap { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
 @media print {
   body { background: #fff; }
-  .tss-toolbar, .tss-pagejump { display: none !important; }
+  .tss-toolbar, .tss-pagejump, .tss-page-editbar, .tss-card-editbtn { display: none !important; }
   .tss-pages-scroll { padding: 0; gap: 0; }
+  .tss-page-wrap { gap: 0; }
   .page { box-shadow: none; page-break-after: always; }
-  .page:last-child { page-break-after: auto; }
+  .tss-page-wrap:last-child .page { page-break-after: auto; }
 }
+
+/* ---- 商品差し替えピッカー ---- */
+.tss-picker-backdrop {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(15, 36, 42, 0.55);
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.tss-picker-backdrop.is-open { display: flex; }
+.tss-picker {
+  width: 100%; max-width: 680px; max-height: 82vh;
+  background: #fff; border: 1.5px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.tss-picker-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1.5px solid var(--border);
+}
+.tss-picker-title { font-size: 15px; font-weight: 900; color: var(--text-main); }
+.tss-picker-close {
+  border: 1.5px solid var(--border); background: #fff; color: var(--text-sub);
+  font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 700;
+  padding: 6px 12px; cursor: pointer;
+}
+.tss-picker-close:hover { border-color: var(--accent); color: var(--accent); }
+.tss-picker-filters {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 12px 18px; border-bottom: 1px solid var(--tag-bg);
+}
+.tss-picker-search {
+  flex: 1; min-width: 160px; box-sizing: border-box;
+  border: 1.5px solid var(--border); padding: 8px 10px; font-size: 13px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.tss-picker-page, .tss-picker-maker {
+  border: 1.5px solid var(--border); padding: 8px 10px; font-size: 12.5px;
+  font-family: 'Noto Sans JP', sans-serif; background: #fff; color: var(--text-main);
+}
+.tss-picker-list { overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.tss-picker-empty { padding: 24px; text-align: center; color: var(--text-note); font-size: 13px; }
+.tss-picker-item {
+  display: flex; align-items: center; gap: 12px;
+  border: 1px solid transparent; background: #fff; cursor: pointer;
+  padding: 8px 10px; text-align: left; font-family: 'Noto Sans JP', sans-serif;
+}
+.tss-picker-item:hover { border-color: var(--accent); background: var(--tag-bg); }
+.tss-picker-item img { width: 48px; height: 48px; object-fit: contain; flex: none; }
+.tss-picker-item-info { display: flex; flex-direction: column; gap: 2px; }
+.tss-picker-item-name { font-size: 13px; font-weight: 700; color: var(--text-main); }
+.tss-picker-item-meta { font-size: 11px; color: var(--text-sub); }
 
 @page {
   size: A4 portrait;
