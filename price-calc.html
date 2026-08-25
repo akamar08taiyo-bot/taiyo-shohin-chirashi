@@ -35,24 +35,29 @@
   .filter-btn.active { border-color: #0f7f86; background: #0f7f86; color: #fff; }
   .sortlabel { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: #41595E; cursor: pointer; }
   .sortlabel input { width: 15px; height: 15px; accent-color: #0f7f86; cursor: pointer; }
+  .rows-wrap { overflow-x: auto; }
   table.rows { width: 100%; border-collapse: collapse; background: #fff; border: 1.5px solid #cfe0e2; }
-  .thead-row, .row { display: grid; grid-template-columns: 96px 1fr 128px 118px 116px 132px; align-items: center; }
+  .thead-row, .row { display: grid; grid-template-columns: 88px 1fr 96px 96px 92px 76px 96px 128px; align-items: center; min-width: 980px; }
   .thead-row { background: #0f7f86; color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; }
-  .thead-row > div { padding: 10px 12px; }
+  .thead-row > div { padding: 10px 10px; }
   .row { border-top: 1px solid #e6f3f3; }
-  .row > div { padding: 9px 12px; }
+  .row > div { padding: 9px 10px; }
   .col-right { text-align: right; }
   .cell-maker { font-size: 11px; font-weight: 700; color: #0f7f86; letter-spacing: .04em; }
   .cell-name { display: flex; flex-direction: column; gap: 2px; }
   .cell-name .name { font-size: 13px; font-weight: 700; line-height: 1.35; }
   .cell-name .code { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #8aa0a2; }
   .cell-spec { font-size: 12px; color: #41595E; }
-  .cell-qty, .cell-price { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
-  .qty-input { width: 62px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 12.5px; text-align: right; padding: 6px 7px; color: #12242A; }
+  .cell-qty, .cell-price, .cell-margin, .cell-sell { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+  .qty-input { width: 58px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 12.5px; text-align: right; padding: 6px 7px; color: #12242A; }
   .qty-input.unknown { border-color: #e8c9a8; background: #fdf6ee; }
   .qty-unit { font-size: 11px; font-weight: 700; color: #41595E; min-width: 22px; }
   .yen-mark { font-size: 12px; font-weight: 700; color: #8aa0a2; }
-  .price-input { width: 74px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #12242A; }
+  .price-input { width: 68px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #12242A; }
+  .margin-input { width: 46px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 6px; color: #12242A; }
+  .margin-input.is-default { color: #8aa0a2; font-weight: 500; }
+  .percent-mark { font-size: 11px; font-weight: 700; color: #8aa0a2; }
+  .sell-input { width: 74px; box-sizing: border-box; border: 1.5px solid #0f7f86; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #0f7f86; }
   .cell-unit { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
   .cell-unit .value { font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; }
   .cell-unit .label { font-size: 10px; font-weight: 500; color: #8aa0a2; }
@@ -74,7 +79,7 @@
           <div class="office">太陽シルバーサービス㈱　行橋営業所</div>
         </div>
         <h1>価格・単価計算シート</h1>
-        <p class="lead">仕入価格を入れると単価（100mLあたり・1kgあたり・1枚あたり等）を自動計算します。入力内容はこの端末に保存され、次に開いたときも残ります。</p>
+        <p class="lead">仕入価格を入れると、利益率20%を基準に販売金額と単価（100mLあたり・1kgあたり・1枚あたり等）を自動計算します。利益率または金額を直接入力すればそちらを優先し、もう片方を逆算します。入力内容はこの端末に保存され、次に開いたときも残ります。</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
         <div class="filled">
@@ -96,7 +101,8 @@
     <div class="rows-wrap">
       <div class="thead-row">
         <div>メーカー</div><div>商品名</div><div>規格</div>
-        <div class="col-right">内容量・入数</div><div class="col-right">仕入価格（税抜）</div><div class="col-right">単価</div>
+        <div class="col-right">内容量・入数</div><div class="col-right">仕入価格</div><div class="col-right">利益率</div>
+        <div class="col-right">金額（税抜）</div><div class="col-right">単価</div>
       </div>
       <div id="rows-body"></div>
     </div>
@@ -130,13 +136,20 @@
   const makers = ['すべて', ...Array.from(new Set(priceRowsRaw.map(r => r.maker)))];
   let state = { maker: 'すべて', sort: false, ...tssLoadPrices() };
 
-  function persist() { tssSavePrices(state.prices, state.qtys); }
+  function persist() { tssSavePrices(state.prices, state.qtys, state.margins, state.sellPrices); }
 
   function computedRows() {
     return priceRowsRaw.map(r => {
-      const price = tssNum(state.prices[r.code]);
+      const cost = tssNum(state.prices[r.code]);
       const qty = state.qtys[r.code] != null ? tssNum(state.qtys[r.code]) : r.baseQty;
-      return { ...r, priceNum: price, qtyNum: qty, unitNum: tssCalcUnitPrice(price, qty, r.kind) };
+      const marginIsDefault = state.margins[r.code] == null;
+      const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssNum(state.margins[r.code]) ?? TSS_DEFAULT_MARGIN;
+      const sellOverride = tssNum(state.sellPrices[r.code]);
+      const sellNum = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, marginNum) : null);
+      return {
+        ...r, costNum: cost, qtyNum: qty, marginNum, marginIsDefault, sellNum,
+        unitNum: tssCalcUnitPrice(sellNum, qty, r.kind),
+      };
     });
   }
 
@@ -165,6 +178,8 @@
     body.innerHTML = filtered.map(r => {
       const unknown = r.baseQty == null && state.qtys[r.code] == null;
       const qtyVal = state.qtys[r.code] != null ? state.qtys[r.code] : (r.baseQty == null ? '' : String(r.baseQty));
+      const marginVal = r.marginIsDefault ? String(TSS_DEFAULT_MARGIN) : (state.margins[r.code] == null ? '' : state.margins[r.code]);
+      const sellVal = state.sellPrices[r.code] != null ? state.sellPrices[r.code] : (r.sellNum != null ? String(Math.round(r.sellNum)) : '');
       return `<div class="row">
         <div class="cell-maker">${escapeHTML(r.maker)}</div>
         <div class="cell-name"><span class="name">${escapeHTML(r.name)}</span><span class="code">${escapeHTML(r.code)}</span></div>
@@ -175,7 +190,15 @@
         </div>
         <div class="cell-price">
           <span class="yen-mark">￥</span>
-          <input type="text" inputmode="decimal" class="price-input" data-code="${escapeHTML(r.code)}" value="${state.prices[r.code] == null ? '' : escapeHTML(state.prices[r.code])}" placeholder="0" />
+          <input type="text" inputmode="decimal" class="price-input" data-field="cost" data-code="${escapeHTML(r.code)}" value="${state.prices[r.code] == null ? '' : escapeHTML(state.prices[r.code])}" placeholder="0" />
+        </div>
+        <div class="cell-margin">
+          <input type="text" inputmode="decimal" class="margin-input${r.marginIsDefault ? ' is-default' : ''}" data-field="margin" data-code="${escapeHTML(r.code)}" value="${escapeHTML(marginVal)}" ${r.costNum == null ? 'disabled' : ''} />
+          <span class="percent-mark">%</span>
+        </div>
+        <div class="cell-sell">
+          <span class="yen-mark">￥</span>
+          <input type="text" inputmode="decimal" class="sell-input" data-field="sell" data-code="${escapeHTML(r.code)}" value="${escapeHTML(sellVal)}" placeholder="0" ${r.costNum == null ? 'disabled' : ''} />
         </div>
         <div class="cell-unit">
           <span class="value" style="color:${r.unitNum == null ? '#c3cac7' : '#c25a17'}">${tssFmtYen(r.unitNum)}</span>
@@ -192,9 +215,33 @@
         renderFilled();
       });
     });
-    body.querySelectorAll('.price-input').forEach(inp => {
+    // 仕入価格・利益率・金額は互いに連動する（price-calc-logic 規約）:
+    //   仕入価格変更 → 利益率(既定20%)から金額を再計算
+    //   利益率変更   → 仕入価格から金額を逆算
+    //   金額変更     → 仕入価格から利益率を逆算
+    body.querySelectorAll('.price-input, .margin-input, .sell-input').forEach(inp => {
       inp.addEventListener('change', () => {
-        state.prices = { ...state.prices, [inp.dataset.code]: inp.value };
+        const code = inp.dataset.code;
+        const field = inp.dataset.field;
+        if (field === 'cost') {
+          state.prices = { ...state.prices, [code]: inp.value };
+          const cost = tssNum(inp.value);
+          const margin = tssNum(state.margins[code]) ?? TSS_DEFAULT_MARGIN;
+          const sell = cost != null ? tssSellFromMargin(cost, margin) : null;
+          state.sellPrices = { ...state.sellPrices, [code]: sell != null ? String(Math.round(sell)) : '' };
+        } else if (field === 'margin') {
+          state.margins = { ...state.margins, [code]: inp.value };
+          const cost = tssNum(state.prices[code]);
+          const margin = tssNum(inp.value);
+          const sell = (cost != null && margin != null) ? tssSellFromMargin(cost, margin) : null;
+          state.sellPrices = { ...state.sellPrices, [code]: sell != null ? String(Math.round(sell)) : '' };
+        } else if (field === 'sell') {
+          state.sellPrices = { ...state.sellPrices, [code]: inp.value };
+          const cost = tssNum(state.prices[code]);
+          const sell = tssNum(inp.value);
+          const margin = (cost != null && sell != null) ? tssMarginFromSell(cost, sell) : null;
+          if (margin != null) state.margins = { ...state.margins, [code]: String(margin) };
+        }
         persist();
         renderRows();
         renderFilled();
@@ -205,7 +252,7 @@
   function renderFilled() {
     const rows0 = computedRows();
     document.getElementById('filled-value').textContent =
-      rows0.filter(r => r.priceNum != null).length + ' / ' + rows0.length;
+      rows0.filter(r => r.costNum != null).length + ' / ' + rows0.length;
   }
 
   function renderAll() {
@@ -225,14 +272,14 @@
   document.getElementById('sort-toggle').addEventListener('change', (e) => { state.sort = e.target.checked; renderRows(); });
 
   document.getElementById('btn-copy').addEventListener('click', () => {
-    const rows0 = computedRows().filter(r => r.priceNum != null);
-    const lines = rows0.map(r => [r.code, r.name, r.spec, '￥' + r.priceNum, tssFmtYen(r.unitNum) + '/' + tssUnitLabel(r.kind)].join('\t'));
+    const rows0 = computedRows().filter(r => r.costNum != null);
+    const lines = rows0.map(r => [r.code, r.name, r.spec, '仕入￥' + r.costNum, '利益率' + r.marginNum + '%', '金額￥' + Math.round(r.sellNum), tssFmtYen(r.unitNum) + '/' + tssUnitLabel(r.kind)].join('\t'));
     const text = lines.length ? lines.join('\n') : '（価格の入力がありません）';
     if (navigator.clipboard) navigator.clipboard.writeText(text);
   });
   document.getElementById('btn-clear').addEventListener('click', () => {
-    if (!confirm('入力した価格・容量をすべて消去します。よろしいですか？')) return;
-    state.prices = {}; state.qtys = {};
+    if (!confirm('入力した仕入価格・利益率・金額・容量をすべて消去します。よろしいですか？')) return;
+    state.prices = {}; state.qtys = {}; state.margins = {}; state.sellPrices = {};
     persist();
     renderAll();
   });

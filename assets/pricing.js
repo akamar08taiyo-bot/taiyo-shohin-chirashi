@@ -2,21 +2,35 @@
 // localStorage キー tsss-price-v1 は元の「価格・単価計算シート」から引き継ぎ。
 const TSS_PRICE_KEY = 'tsss-price-v1';
 
+const TSS_DEFAULT_MARGIN = 20;
+
 function tssLoadPrices() {
   try {
     const raw = localStorage.getItem(TSS_PRICE_KEY);
-    if (!raw) return { prices: {}, qtys: {} };
+    if (!raw) return { prices: {}, qtys: {}, margins: {}, sellPrices: {} };
     const v = JSON.parse(raw);
-    return { prices: v.prices || {}, qtys: v.qtys || {} };
+    return { prices: v.prices || {}, qtys: v.qtys || {}, margins: v.margins || {}, sellPrices: v.sellPrices || {} };
   } catch (e) {
-    return { prices: {}, qtys: {} };
+    return { prices: {}, qtys: {}, margins: {}, sellPrices: {} };
   }
 }
 
-function tssSavePrices(prices, qtys) {
+function tssSavePrices(prices, qtys, margins, sellPrices) {
   try {
-    localStorage.setItem(TSS_PRICE_KEY, JSON.stringify({ prices, qtys }));
+    localStorage.setItem(TSS_PRICE_KEY, JSON.stringify({ prices, qtys, margins, sellPrices }));
   } catch (e) {}
+}
+
+// 利益率（粗利率） = (販売価格 - 原価) / 販売価格 × 100 （price-calc-logic 規約準拠）
+function tssMarginFromSell(cost, sell) {
+  if (cost == null || sell == null || sell <= 0) return null;
+  return Math.round(((sell - cost) / sell) * 1000) / 10;
+}
+
+// 販売価格 = 原価 / (1 - 目標利益率/100)
+function tssSellFromMargin(cost, marginPercent) {
+  if (cost == null || marginPercent == null || marginPercent >= 100) return null;
+  return cost / (1 - marginPercent / 100);
 }
 
 function tssNum(v) {

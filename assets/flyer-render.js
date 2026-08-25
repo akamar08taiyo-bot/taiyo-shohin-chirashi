@@ -34,7 +34,7 @@ async function renderFlyer(flyerKey, mountId) {
   }
 
   const priceByCode = new Map(priceRows.map(r => [r.code, r]));
-  const { prices: savedPrices, qtys: savedQtys } = tssLoadPrices();
+  const { prices: savedPrices, qtys: savedQtys, margins: savedMargins, sellPrices: savedSellPrices } = tssLoadPrices();
 
   // 商品を flier+page でグループ化（掲載順を保持）
   const itemsByPage = new Map();
@@ -54,10 +54,14 @@ async function renderFlyer(flyerKey, mountId) {
     const priceRow = priceByCode.get(item.code);
     let priceHTML = '';
     if (showPrice && priceRow) {
-      const priceInput = tssNum(savedPrices[item.code]);
+      // 販売金額 = 仕入価格 ／ (1 - 利益率)。金額を直接入力していればそちらを優先（price-calc.html と同じ規約）
+      const cost = tssNum(savedPrices[item.code]);
+      const margin = tssNum(savedMargins[item.code]) ?? TSS_DEFAULT_MARGIN;
+      const sellOverride = tssNum(savedSellPrices[item.code]);
+      const sell = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
       const qty = savedQtys[item.code] != null ? tssNum(savedQtys[item.code]) : priceRow.baseQty;
-      const unit = tssCalcUnitPrice(priceInput, qty, priceRow.kind);
-      priceHTML = `<div class="tss-card-price"><span class="amount">${priceInput != null ? '￥' + Math.round(priceInput).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(priceRow.kind))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span></div>`;
+      const unit = tssCalcUnitPrice(sell, qty, priceRow.kind);
+      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(priceRow.kind))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span></div>`;
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
     return `
