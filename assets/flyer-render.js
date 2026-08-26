@@ -41,6 +41,7 @@ async function renderFlyer(flyerKey, mountId) {
   ]);
 
   const office = tssLoadOffice();
+  document.title = document.title.replace(/太陽シルバーサービス\s*\S*営業所$/, '太陽シルバーサービス ' + office.name);
 
   const flyer = pagesData.flyers.find(f => f.key === flyerKey);
   if (!flyer) {
@@ -303,6 +304,13 @@ async function renderFlyer(flyerKey, mountId) {
   });
 
   renderAll();
+
+  // 商品データの取得後にページが組み立てられるため、URLにページ内リンク（#tss-page-N）が
+  // 付いていてもブラウザの自動スクロールには間に合わない。描画完了後に手動でスクロールする。
+  if (location.hash) {
+    const target = document.querySelector(location.hash);
+    if (target) target.scrollIntoView();
+  }
 
   // ツールバー・ページジャンプの配線
   const codesToggle = document.getElementById('tss-toggle-codes');
