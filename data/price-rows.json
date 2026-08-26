@@ -900,8 +900,8 @@
  {
   "maker": "竹虎",
   "name": "竹虎® ビニールエプロンP",
-  "spec": "100枚入",
-  "code": "JAN 未確認",
+  "spec": "50枚入",
+  "code": "品番 076355",
   "kind": "枚",
   "baseQty": null,
   "id": 99
@@ -936,8 +936,8 @@
  {
   "maker": "竹虎",
   "name": "タケトラ® ニトリル手袋",
-  "spec": "SS/S/M/L",
-  "code": "JAN 未確認",
+  "spec": "100枚入（SS〜L）",
+  "code": "品番 075961〜075964",
   "kind": "枚",
   "baseQty": null,
   "id": 103
@@ -945,8 +945,8 @@
  {
   "maker": "竹虎",
   "name": "サージマスクAC",
-  "spec": "9.5×17.5cm",
-  "code": "JAN 未確認",
+  "spec": "9.5×17cm 50枚入",
+  "code": "品番 076050",
   "kind": "枚",
   "baseQty": null,
   "id": 104
@@ -954,8 +954,8 @@
  {
   "maker": "竹虎",
   "name": "サージマスクN-95(折りたたみ式)",
-  "spec": "50枚入",
-  "code": "JAN 未確認",
+  "spec": "1枚入×10",
+  "code": "品番 076078",
   "kind": "枚",
   "baseQty": null,
   "id": 105
@@ -963,8 +963,8 @@
  {
   "maker": "竹虎",
   "name": "タケトラ® プラスチック手袋100",
-  "spec": "100枚入",
-  "code": "JAN 未確認",
+  "spec": "100枚入（S〜L）",
+  "code": "品番 075972〜075974",
   "kind": "枚",
   "baseQty": null,
   "id": 106
@@ -972,8 +972,8 @@
  {
   "maker": "竹虎",
   "name": "タケトラ® プラスチック手袋200",
-  "spec": "200枚入",
-  "code": "JAN 未確認",
+  "spec": "200枚入（SS〜L）",
+  "code": "品番 075881〜075884",
   "kind": "枚",
   "baseQty": null,
   "id": 107
@@ -981,8 +981,8 @@
  {
   "maker": "竹虎",
   "name": "サージマスクCP",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "9.5×17.5cm 50枚入",
+  "code": "品番 076161",
   "kind": "枚",
   "baseQty": null,
   "id": 108
@@ -990,8 +990,8 @@
  {
   "maker": "竹虎",
   "name": "サージマスクL2",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "9.5×17.5cm 50枚入",
+  "code": "品番 076261",
   "kind": "枚",
   "baseQty": null,
   "id": 109
@@ -1009,8 +1009,8 @@
  {
   "maker": "竹虎",
   "name": "サージマスクTC",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "9×17cm 50枚入",
+  "code": "品番 076105",
   "kind": "枚",
   "baseQty": null,
   "id": 111
@@ -1018,8 +1018,8 @@
  {
   "maker": "竹虎",
   "name": "タケトラ® シールド付マスクTC",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "9.5×17.5cm 25枚入",
+  "code": "品番 076056",
   "kind": "枚",
   "baseQty": null,
   "id": 112
@@ -1027,8 +1027,8 @@
  {
   "maker": "竹虎",
   "name": "守りマスク®",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "9×17cm 1枚入",
+  "code": "品番 076010",
   "kind": "枚",
   "baseQty": null,
   "id": 113
@@ -1036,8 +1036,8 @@
  {
   "maker": "竹虎",
   "name": "ディスポマスク 2枚入",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "9×17cm 2枚入",
+  "code": "品番 076042",
   "kind": "枚",
   "baseQty": null,
   "id": 114
@@ -1045,8 +1045,8 @@
  {
   "maker": "竹虎",
   "name": "防ぎマスク® N-95 1枚入",
-  "spec": "未確認",
-  "code": "JAN 未確認",
+  "spec": "7.5×24.0cm 1枚入",
+  "code": "品番 076086",
   "kind": "枚",
   "baseQty": null,
   "id": 115
@@ -1054,8 +1054,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.10",
-  "spec": "No.10",
-  "code": "JAN 未確認",
+  "spec": "フリー 1枚",
+  "code": "品番 076270",
   "kind": "枚",
   "baseQty": null,
   "id": 116
@@ -1063,8 +1063,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.20",
-  "spec": "No.20",
-  "code": "JAN 未確認",
+  "spec": "フリー 1枚",
+  "code": "品番 076380",
   "kind": "枚",
   "baseQty": null,
   "id": 117
@@ -1072,8 +1072,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.40",
-  "spec": "No.40",
-  "code": "JAN 未確認",
+  "spec": "1枚入×100袋",
+  "code": "品番 076420",
   "kind": "枚",
   "baseQty": null,
   "id": 118
@@ -1081,8 +1081,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.50",
-  "spec": "No.50",
-  "code": "JAN 未確認",
+  "spec": "1枚入×50袋",
+  "code": "品番 076430",
   "kind": "枚",
   "baseQty": null,
   "id": 119
@@ -1090,8 +1090,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.50半袖",
-  "spec": "No.50半袖",
-  "code": "JAN 未確認",
+  "spec": "1枚入×50袋",
+  "code": "品番 076490",
   "kind": "枚",
   "baseQty": null,
   "id": 120
@@ -1099,8 +1099,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.55",
-  "spec": "No.55",
-  "code": "JAN 未確認",
+  "spec": "1枚入×50袋",
+  "code": "品番 076500",
   "kind": "枚",
   "baseQty": null,
   "id": 121
@@ -1108,8 +1108,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.60",
-  "spec": "No.60",
-  "code": "JAN 未確認",
+  "spec": "1枚入×100袋",
+  "code": "品番 076412",
   "kind": "枚",
   "baseQty": null,
   "id": 122
@@ -1117,8 +1117,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.75",
-  "spec": "No.75",
-  "code": "JAN 未確認",
+  "spec": "1枚入×50袋",
+  "code": "品番 076300",
   "kind": "枚",
   "baseQty": null,
   "id": 123
@@ -1126,8 +1126,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.85",
-  "spec": "No.85",
-  "code": "JAN 未確認",
+  "spec": "1枚入×50袋",
+  "code": "品番 076416",
   "kind": "枚",
   "baseQty": null,
   "id": 124
@@ -1135,8 +1135,8 @@
  {
   "maker": "竹虎",
   "name": "フェルラック® No.100",
-  "spec": "No.100",
-  "code": "JAN 未確認",
+  "spec": "1枚入×50袋",
+  "code": "品番 076290",
   "kind": "枚",
   "baseQty": null,
   "id": 125
