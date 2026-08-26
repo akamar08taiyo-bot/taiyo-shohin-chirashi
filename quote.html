@@ -116,6 +116,22 @@
   .totals-row.grand { font-size: 18px; font-weight: 900; color: #12242A; border-top: 1.5px solid #cfe0e2; padding-top: 8px; margin-top: 4px; }
   .totals-row .val { font-family: 'Roboto Mono', monospace; }
 
+  /* ---- 保存した見積（施設ごと） ---- */
+  .saved-panel { background: #fff; border: 1.5px solid #cfe0e2; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .saved-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .saved-title { font-size: 14px; font-weight: 900; color: #12242A; }
+  .saved-title .n { font-family: 'Roboto Mono', monospace; color: #0f7f86; margin-left: 6px; }
+  .saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto; }
+  .saved-item { display: flex; align-items: center; gap: 12px; border: 1px solid #e3edee; padding: 9px 12px; }
+  .saved-item:hover { border-color: #0f7f86; background: #f6fbfb; }
+  .saved-item .facility { font-size: 14px; font-weight: 700; flex: 1; min-width: 0; }
+  .saved-item .meta { font-size: 11.5px; color: #5c7376; white-space: nowrap; }
+  .saved-item .acts { display: flex; gap: 6px; }
+  .saved-item button { font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 700; padding: 6px 12px; cursor: pointer; border: 1.5px solid #cfe0e2; background: #fff; color: #41595E; }
+  .saved-item .load-btn:hover { border-color: #0f7f86; color: #0f7f86; }
+  .saved-item .del-btn:hover { border-color: #b85214; color: #b85214; }
+  .saved-empty { font-size: 13px; color: #8aa0a2; padding: 12px 2px; }
+
   /* ---- 画面下部の固定バー ----
      商品一覧は長くスクロールするため、選択件数と次の操作を常に見える位置に置く。 */
   .sticky-bar {
@@ -299,6 +315,18 @@
           <div class="totals-row"><span>消費税（10%）</span><span class="val" id="sum-tax">￥0</span></div>
           <div class="totals-row grand"><span>合計</span><span class="val" id="sum-total">￥0</span></div>
         </div>
+      </div>
+
+      <div class="saved-panel">
+        <div class="saved-head">
+          <div class="field" style="flex:1;min-width:240px">
+            <label for="save-facility">施設名をつけて保存</label>
+            <input type="text" id="save-facility" placeholder="例：〇〇苑（空欄ならお客様名を使います）" />
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-save">この見積を保存</button>
+        </div>
+        <div class="saved-title">保存した見積<span class="n" id="saved-count">0</span>件</div>
+        <div class="saved-list" id="saved-list"></div>
       </div>
     </div>
   </div>
@@ -750,8 +778,104 @@
     window.print();
   });
 
+  /* ================= 保存した見積（施設ごと） =================
+     1件 = { id, facility, savedAt, cart, meta }。施設名をキーに上書き保存する。 */
+  const SAVED_KEY = 'tss_quote_saved_v1';
+  function loadSaved() {
+    try { return JSON.parse(localStorage.getItem(SAVED_KEY)) || []; } catch (e) { return []; }
+  }
+  function writeSaved(list) {
+    try { localStorage.setItem(SAVED_KEY, JSON.stringify(list)); return true; }
+    catch (e) { alert('保存できませんでした。ブラウザの保存容量が上限に達している可能性があります。'); return false; }
+  }
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+
+  function renderSaved() {
+    const list = loadSaved().sort((a, b) => (a.savedAt < b.savedAt ? 1 : -1));
+    document.getElementById('saved-count').textContent = list.length;
+    const el = document.getElementById('saved-list');
+    if (!list.length) {
+      el.innerHTML = '<div class="saved-empty">まだ保存された見積はありません。施設名を入れて「この見積を保存」を押すと、ここに残ります。</div>';
+      return;
+    }
+    el.innerHTML = list.map(s => `
+      <div class="saved-item" data-id="${escapeHTML(s.id)}">
+        <span class="facility">${escapeHTML(s.facility)}</span>
+        <span class="meta">${Object.keys(s.cart || {}).length}品目 ／ ${escapeHTML(fmtDate(s.savedAt))}</span>
+        <span class="acts">
+          <button type="button" class="load-btn">呼び出す</button>
+          <button type="button" class="del-btn">削除</button>
+        </span>
+      </div>`).join('');
+  }
+
+  document.getElementById('btn-save').addEventListener('click', () => {
+    const input = document.getElementById('save-facility');
+    const facility = (input.value.trim() || (meta.customerName || '').trim());
+    if (!facility) { alert('施設名（またはお客様名）を入力してください。'); input.focus(); return; }
+    if (!Object.keys(cart).length) { alert('見積に商品が追加されていません。'); return; }
+
+    const list = loadSaved();
+    const existing = list.find(s => s.facility === facility);
+    if (existing && !confirm('「' + facility + '」の見積はすでに保存されています。上書きしますか？')) return;
+
+    const entry = {
+      id: existing ? existing.id : 'q' + Date.now(),
+      facility: facility,
+      savedAt: new Date().toISOString(),
+      cart: JSON.parse(JSON.stringify(cart)),
+      meta: JSON.parse(JSON.stringify(meta)),
+    };
+    const next = existing ? list.map(s => (s.id === existing.id ? entry : s)) : list.concat([entry]);
+    if (!writeSaved(next)) return;
+    input.value = '';
+    renderSaved();
+  });
+
+  document.getElementById('saved-list').addEventListener('click', (e) => {
+    const row = e.target.closest('.saved-item');
+    if (!row) return;
+    const id = row.dataset.id;
+    const list = loadSaved();
+    const entry = list.find(s => s.id === id);
+    if (!entry) return;
+
+    if (e.target.closest('.del-btn')) {
+      if (!confirm('「' + entry.facility + '」の保存を削除します。よろしいですか？')) return;
+      writeSaved(list.filter(s => s.id !== id));
+      renderSaved();
+      return;
+    }
+    if (e.target.closest('.load-btn')) {
+      if (Object.keys(cart).length &&
+          !confirm('いま作成中の見積を破棄して「' + entry.facility + '」を呼び出します。よろしいですか？')) return;
+      cart = JSON.parse(JSON.stringify(entry.cart || {}));
+      meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS, entry.meta || {});
+      tssSaveQuoteCart(cart);
+      saveMeta(meta);
+      // 入力欄に反映
+      document.getElementById('customer-name').value = meta.customerName || '';
+      document.getElementById('quote-title').value = meta.title || META_DEFAULTS.title;
+      document.getElementById('quote-number').value = meta.quoteNumber || '';
+      document.getElementById('quote-validity').value = meta.validityPeriod || '';
+      document.getElementById('quote-payment').value = meta.paymentTerms || '';
+      document.getElementById('quote-delivery').value = meta.deliveryInfo || '';
+      document.getElementById('quote-staff').value = meta.staffName || '';
+      document.getElementById('quote-mobile').value = meta.staffMobile || '';
+      document.getElementById('quote-remarks').value = meta.remarks || '';
+      renderRows();
+      renderPicker();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
   renderPicker();
   renderRows();
+  renderSaved();
 })();
 </script>
 </body>
