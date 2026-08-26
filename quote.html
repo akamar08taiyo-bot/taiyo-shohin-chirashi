@@ -23,7 +23,7 @@
   .btn { border: 1.5px solid #0f7f86; background: #fff; color: #0f7f86; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 9px 16px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
   .btn:hover { background: #0f7f86; color: #fff; }
   .btn-primary { background: #0f7f86; color: #fff; }
-  .btn-primary:hover { background: #0c6articulate; }
+  .btn-primary:hover { background: #0c6a70; }
   .btn-danger { border-color: #c3cac7; color: #6f8688; }
   .btn-danger:hover { border-color: #c25a17; color: #c25a17; background: #fff; }
 
@@ -171,7 +171,7 @@
   let meta = loadMeta();
   meta.priceOverrides = meta.priceOverrides || {};
 
-  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, qtys: savedQtys } = tssLoadPrices();
+  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, qtys: savedQtys, units: savedUnits } = tssLoadPrices();
 
   document.getElementById('customer-name').value = meta.customerName || '';
   document.getElementById('quote-title').value = meta.title || '御見積書';
@@ -212,7 +212,7 @@
         <div></div>
         <div class="cell-name"><span class="name">${escapeHTML(r.item.name)}</span><span class="maker">${escapeHTML(r.item.maker)} ／ ${escapeHTML(r.item.spec)}</span></div>
         <div><input type="text" inputmode="numeric" class="num-input qty-input" data-id="${r.id}" value="${r.qty}" /></div>
-        <div>${escapeHTML(r.priceRow ? r.priceRow.kind : '')}</div>
+        <div>${escapeHTML(r.priceRow ? (savedUnits[r.id] || r.priceRow.kind) : '')}</div>
         <div><input type="text" inputmode="decimal" class="num-input price-input" data-id="${r.id}" value="${escapeHTML(r.unitPriceStr)}" placeholder="0" /></div>
         <div class="amount-cell">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</div>
         <div><button type="button" class="remove-btn" data-id="${r.id}" title="削除">×</button></div>
@@ -290,7 +290,7 @@
       <tr>
         <td>${escapeHTML(r.item.name)}<br><span style="color:#6b7280;font-size:8pt">${escapeHTML(r.item.maker)} ／ ${escapeHTML(r.item.spec)}</span></td>
         <td class="num">${r.qty}</td>
-        <td class="num">${escapeHTML(r.priceRow ? r.priceRow.kind : '')}</td>
+        <td class="num">${escapeHTML(r.priceRow ? (savedUnits[r.id] || r.priceRow.kind) : '')}</td>
         <td class="num">${r.unitPrice != null ? '￥' + Math.round(r.unitPrice).toLocaleString('ja-JP') : '—'}</td>
         <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
       </tr>`).join('');

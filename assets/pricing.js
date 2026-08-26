@@ -22,18 +22,28 @@ function tssQuoteCartCount(cart) { return Object.keys(cart || tssLoadQuoteCart()
 function tssLoadPrices() {
   try {
     const raw = localStorage.getItem(TSS_PRICE_KEY);
-    if (!raw) return { prices: {}, qtys: {}, margins: {}, sellPrices: {} };
+    if (!raw) return { prices: {}, qtys: {}, margins: {}, sellPrices: {}, units: {}, bases: {} };
     const v = JSON.parse(raw);
-    return { prices: v.prices || {}, qtys: v.qtys || {}, margins: v.margins || {}, sellPrices: v.sellPrices || {} };
+    return {
+      prices: v.prices || {}, qtys: v.qtys || {}, margins: v.margins || {}, sellPrices: v.sellPrices || {},
+      units: v.units || {}, bases: v.bases || {},
+    };
   } catch (e) {
-    return { prices: {}, qtys: {}, margins: {}, sellPrices: {} };
+    return { prices: {}, qtys: {}, margins: {}, sellPrices: {}, units: {}, bases: {} };
   }
 }
 
-function tssSavePrices(prices, qtys, margins, sellPrices) {
+function tssSavePrices(prices, qtys, margins, sellPrices, units, bases) {
   try {
-    localStorage.setItem(TSS_PRICE_KEY, JSON.stringify({ prices, qtys, margins, sellPrices }));
+    localStorage.setItem(TSS_PRICE_KEY, JSON.stringify({ prices, qtys, margins, sellPrices, units: units || {}, bases: bases || {} }));
   } catch (e) {}
+}
+
+// 単価の基準（100mLあたり・1000gあたり 等の「100」「1000」部分）の既定値
+function tssDefaultBasis(kind) {
+  if (kind === 'mL') return 100;
+  if (kind === 'g') return 1000;
+  return 1;
 }
 
 // 利益率（粗利率） = (販売価格 - 原価) / 販売価格 × 100 （price-calc-logic 規約準拠）
@@ -53,19 +63,19 @@ function tssNum(v) {
   return isFinite(n) && n > 0 ? n : null;
 }
 
-function tssUnitLabel(kind) {
-  if (kind === 'mL') return '100mLあたり';
-  if (kind === 'g') return '1kgあたり';
-  if (kind === 'ロール') return '1ロールあたり';
-  if (kind === '箱') return '1箱あたり';
-  return '1枚あたり';
+// basis を省略すると既定値（100mL・1000g・1枚等）を使う。
+// mL/g は「{basis}{kind}あたり」、それ以外は「{basis}{kind}あたり」（basis=1なら「1枚あたり」等）。
+function tssUnitLabel(kind, basis) {
+  const b = basis != null ? basis : tssDefaultBasis(kind);
+  if (kind === 'mL' || kind === 'g') return b + kind + 'あたり';
+  const unitName = kind === 'ロール' ? 'ロール' : kind === '箱' ? '箱' : '枚';
+  return b + unitName + 'あたり';
 }
 
-function tssCalcUnitPrice(price, qty, kind) {
+function tssCalcUnitPrice(price, qty, kind, basis) {
   if (price == null || qty == null) return null;
-  if (kind === 'mL') return price / (qty / 100);
-  if (kind === 'g') return price / (qty / 1000);
-  return price / qty;
+  const b = basis != null ? basis : tssDefaultBasis(kind);
+  return price / (qty / b);
 }
 
 // トイレットペーパー等ロール物の「1mあたり」= 1ロールあたり単価 ÷ 1ロールの長さ(m)

@@ -53,7 +53,7 @@ async function renderFlyer(flyerKey, mountId) {
   // 別商品の行を誤って参照するため使わない。
   const priceRowById = new Map(priceRows.map(r => [r.id, r]));
   const priceByCode = new Map(productsData.items.map(it => [it, priceRowById.get(it.id)]));
-  const { prices: savedPrices, qtys: savedQtys, margins: savedMargins, sellPrices: savedSellPrices } = tssLoadPrices();
+  const { prices: savedPrices, qtys: savedQtys, margins: savedMargins, sellPrices: savedSellPrices, units: savedUnits, bases: savedBases } = tssLoadPrices();
   const itemById = new Map(productsData.items.map(it => [it.id, it]));
 
   // おすすめ構成（flier+page でグループ化、掲載順を保持）
@@ -107,11 +107,13 @@ async function renderFlyer(flyerKey, mountId) {
       const sellOverride = tssNum(savedSellPrices[item.id]);
       const sell = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
       const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
-      const unit = tssCalcUnitPrice(sell, qty, priceRow.kind);
+      const kind = savedUnits[item.id] || priceRow.kind;
+      const basis = tssNum(savedBases[item.id]) ?? tssDefaultBasis(kind);
+      const unit = tssCalcUnitPrice(sell, qty, kind, basis);
       const perMeterHTML = priceRow.metersPerRoll
         ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
         : '';
-      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(priceRow.kind))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span>${perMeterHTML}</div>`;
+      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span>${perMeterHTML}</div>`;
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
     const editBtn = editMode

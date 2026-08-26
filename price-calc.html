@@ -37,7 +37,7 @@
   .sortlabel input { width: 15px; height: 15px; accent-color: #0f7f86; cursor: pointer; }
   .rows-wrap { overflow-x: auto; }
   table.rows { width: 100%; border-collapse: collapse; background: #fff; border: 1.5px solid #cfe0e2; }
-  .thead-row, .row { display: grid; grid-template-columns: 88px 1fr 96px 96px 92px 76px 96px 128px; align-items: center; min-width: 980px; }
+  .thead-row, .row { display: grid; grid-template-columns: 88px 1fr 96px 96px 92px 76px 96px 176px; align-items: center; min-width: 1030px; }
   .thead-row { background: #0f7f86; color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; }
   .thead-row > div { padding: 10px 10px; }
   .row { border-top: 1px solid #e6f3f3; }
@@ -59,10 +59,15 @@
   .margin-input:not(:disabled):hover, .margin-input:focus { border-color: #0f7f86; outline: none; }
   .percent-mark { font-size: 11px; font-weight: 700; color: #8aa0a2; }
   .sell-input { width: 74px; box-sizing: border-box; border: 1.5px solid #0f7f86; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #0f7f86; }
-  .cell-unit { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+  .cell-unit { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
   .cell-unit .value { font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; }
   .cell-unit .value-sub { font-size: 12px; margin-top: 3px; }
   .cell-unit .label { font-size: 10px; font-weight: 500; color: #8aa0a2; }
+  .unit-basis-edit { display: flex; align-items: center; gap: 3px; }
+  .basis-input { width: 40px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 10.5px; text-align: right; padding: 3px 4px; color: #12242A; font-family: 'Roboto Mono', monospace; }
+  .basis-input.is-default { border-color: #a8c8ca; }
+  .kind-select { border: 1.5px solid #cfe0e2; background: #fff; font-size: 10.5px; padding: 3px 2px; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
+  .unit-suffix { font-size: 10px; font-weight: 500; color: #8aa0a2; }
   .notes { display: flex; flex-wrap: wrap; gap: 12px; }
   .note-box { flex: 1; min-width: 320px; border: 1.5px solid #cfe0e2; background: #fff; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
   .note-box-title { font-size: 12px; font-weight: 700; color: #0f7f86; letter-spacing: .06em; }
@@ -138,7 +143,7 @@
   const makers = ['すべて', ...Array.from(new Set(priceRowsRaw.map(r => r.maker)))];
   let state = { maker: 'すべて', sort: false, ...tssLoadPrices() };
 
-  function persist() { tssSavePrices(state.prices, state.qtys, state.margins, state.sellPrices); }
+  function persist() { tssSavePrices(state.prices, state.qtys, state.margins, state.sellPrices, state.units, state.bases); }
 
   function computedRows() {
     return priceRowsRaw.map(r => {
@@ -148,9 +153,12 @@
       const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssNum(state.margins[r.id]) ?? TSS_DEFAULT_MARGIN;
       const sellOverride = tssNum(state.sellPrices[r.id]);
       const sellNum = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, marginNum) : null);
+      const kind = state.units[r.id] || r.kind;
+      const basisIsDefault = state.bases[r.id] == null;
+      const basisNum = basisIsDefault ? tssDefaultBasis(kind) : (tssNum(state.bases[r.id]) ?? tssDefaultBasis(kind));
       return {
-        ...r, costNum: cost, qtyNum: qty, marginNum, marginIsDefault, sellNum,
-        unitNum: tssCalcUnitPrice(sellNum, qty, r.kind),
+        ...r, costNum: cost, qtyNum: qty, marginNum, marginIsDefault, sellNum, kind, basisNum, basisIsDefault,
+        unitNum: tssCalcUnitPrice(sellNum, qty, kind, basisNum),
         perMeterNum: r.metersPerRoll ? tssCalcPerMeterPrice(sellNum, qty, r.metersPerRoll) : null,
       };
     });
@@ -205,7 +213,13 @@
         </div>
         <div class="cell-unit">
           <span class="value" style="color:${r.unitNum == null ? '#c3cac7' : '#c25a17'}">${tssFmtYen(r.unitNum)}</span>
-          <span class="label">${escapeHTML(tssUnitLabel(r.kind))}</span>
+          <div class="unit-basis-edit">
+            <input type="text" inputmode="numeric" class="basis-input${r.basisIsDefault ? ' is-default' : ''}" data-field="basis" data-id="${r.id}" value="${r.basisNum}" />
+            <select class="kind-select" data-field="kind" data-id="${r.id}">
+              ${['mL','g','枚','ロール','箱'].map(k => `<option value="${k}" ${r.kind === k ? 'selected' : ''}>${k}</option>`).join('')}
+            </select>
+            <span class="unit-suffix">あたり</span>
+          </div>
           ${r.metersPerRoll ? `<span class="value value-sub" style="color:${r.perMeterNum == null ? '#c3cac7' : '#0f7f86'}">${tssFmtYen(r.perMeterNum)}</span><span class="label">1mあたり</span>` : ''}
         </div>
       </div>`;
@@ -217,6 +231,21 @@
         persist();
         renderRows();
         renderFilled();
+      });
+    });
+    // 単価の基準（数量・単位）はどちらも手修正できる。既定値は data/price-rows.json の kind から。
+    body.querySelectorAll('.basis-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        state.bases = { ...state.bases, [inp.dataset.id]: inp.value };
+        persist();
+        renderRows();
+      });
+    });
+    body.querySelectorAll('.kind-select').forEach(sel => {
+      sel.addEventListener('change', () => {
+        state.units = { ...state.units, [sel.dataset.id]: sel.value };
+        persist();
+        renderRows();
       });
     });
     // 仕入価格・利益率・金額は互いに連動する（price-calc-logic 規約）:
@@ -283,7 +312,7 @@
   });
   document.getElementById('btn-clear').addEventListener('click', () => {
     if (!confirm('入力した仕入価格・利益率・金額・容量をすべて消去します。よろしいですか？')) return;
-    state.prices = {}; state.qtys = {}; state.margins = {}; state.sellPrices = {};
+    state.prices = {}; state.qtys = {}; state.margins = {}; state.sellPrices = {}; state.units = {}; state.bases = {};
     persist();
     renderAll();
   });
