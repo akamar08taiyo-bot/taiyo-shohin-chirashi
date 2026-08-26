@@ -313,6 +313,16 @@
           "sizeBoxTitle": null,
           "sizeBoxBody": null,
           "note": "サイズ・入数、JANコードはメーカーカタログ照合後に記載します。"
+        },
+        {
+          "pageKey": "05 マスク",
+          "categoryLabel": "業務用 サージカルマスク",
+          "title": "マスク",
+          "subtitle": "感染対策の基本に",
+          "lead": "医療・介護の現場で使えるサージカルマスク。用途に合わせて選べる4アイテムです。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "入数・サイズ、JANコードはメーカーカタログ照合後に記載します。"
         }
       ]
     }

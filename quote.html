@@ -218,6 +218,7 @@
         <p class="lead">メーカーごとの商品一覧から選ぶか、検索して商品にチェックを付けると見積書に追加されます。数量・単価は見積書タブで編集できます。</p>
       </div>
       <div class="actions">
+        <a class="btn" href="./cover.html">📘 表紙をつくる</a>
         <button type="button" class="btn btn-primary" id="btn-print">印刷 / PDF保存</button>
         <button type="button" class="btn btn-danger" id="btn-clear">見積をクリア</button>
       </div>
@@ -264,6 +265,16 @@
         <div class="field">
           <label for="quote-delivery">納期</label>
           <input type="text" id="quote-delivery" />
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="field">
+          <label for="quote-staff">担当者名</label>
+          <input type="text" id="quote-staff" placeholder="例：久保" />
+        </div>
+        <div class="field">
+          <label for="quote-mobile">担当携帯番号</label>
+          <input type="text" id="quote-mobile" placeholder="例：080-0000-0000" />
         </div>
       </div>
       <div class="meta-grid">
@@ -341,6 +352,11 @@
   let meta = loadMeta();
   meta.priceOverrides = meta.priceOverrides || {};
 
+  // 担当者名・携帯は、未入力なら選択中の営業所マスタの値を初期値にする
+  const initOffice = tssLoadOffice();
+  if (meta.staffName == null) meta.staffName = initOffice.contactName || '';
+  if (meta.staffMobile == null) meta.staffMobile = initOffice.mobile || '';
+
   const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, units: savedUnits } = tssLoadPrices();
 
   document.getElementById('customer-name').value = meta.customerName || '';
@@ -349,6 +365,8 @@
   document.getElementById('quote-validity').value = meta.validityPeriod;
   document.getElementById('quote-payment').value = meta.paymentTerms;
   document.getElementById('quote-delivery').value = meta.deliveryInfo;
+  document.getElementById('quote-staff').value = meta.staffName || '';
+  document.getElementById('quote-mobile').value = meta.staffMobile || '';
   document.getElementById('quote-remarks').value = meta.remarks || '';
 
   /* ================= タブ切替 ================= */
@@ -616,12 +634,16 @@
   document.getElementById('quote-validity').addEventListener('change', (e) => { meta.validityPeriod = e.target.value; saveMeta(meta); });
   document.getElementById('quote-payment').addEventListener('change', (e) => { meta.paymentTerms = e.target.value; saveMeta(meta); });
   document.getElementById('quote-delivery').addEventListener('change', (e) => { meta.deliveryInfo = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-staff').addEventListener('change', (e) => { meta.staffName = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-mobile').addEventListener('change', (e) => { meta.staffMobile = e.target.value; saveMeta(meta); });
   document.getElementById('quote-remarks').addEventListener('change', (e) => { meta.remarks = e.target.value; saveMeta(meta); });
 
   document.getElementById('btn-clear').addEventListener('click', () => {
     if (!confirm('見積の内容をすべて消去します。よろしいですか？')) return;
     cart = {};
-    meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS);
+    const o = tssLoadOffice();
+    meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS,
+      { staffName: o.contactName || '', staffMobile: o.mobile || '' });
     tssSaveQuoteCart(cart);
     saveMeta(meta);
     document.getElementById('customer-name').value = '';
@@ -630,6 +652,8 @@
     document.getElementById('quote-validity').value = meta.validityPeriod;
     document.getElementById('quote-payment').value = meta.paymentTerms;
     document.getElementById('quote-delivery').value = meta.deliveryInfo;
+    document.getElementById('quote-staff').value = meta.staffName;
+    document.getElementById('quote-mobile').value = meta.staffMobile;
     document.getElementById('quote-remarks').value = '';
     renderRows();
     renderPicker();
@@ -699,7 +723,7 @@
                 <div class="addr">TEL ${escapeHTML(office.tel)}　FAX ${escapeHTML(office.fax)}</div>
                 <div class="addr invoice-no">登録番号　T1290001044462</div>
                 <div class="staff">所長　<strong>${escapeHTML(office.manager)}</strong></div>
-                ${office.contactName ? `<div class="staff">担当　<strong>${escapeHTML(office.contactName)}</strong></div>` : ''}
+                ${meta.staffName ? `<div class="staff">担当　<strong>${escapeHTML(meta.staffName)}</strong>${meta.staffMobile ? `<br><span style="font-size:8pt">携帯　${escapeHTML(meta.staffMobile)}</span>` : ''}</div>` : ''}
               </div>
               <div class="stamps">
                 <div class="stamp-box"><div class="stamp-label">所長印</div><div class="stamp-square"></div></div>
