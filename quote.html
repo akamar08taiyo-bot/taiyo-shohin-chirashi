@@ -95,7 +95,7 @@
   .empty { border: 1.5px dashed #cfe0e2; background: #fff; padding: 48px 24px; text-align: center; color: #8aa0a2; font-size: 14px; }
 
   table.rows { width: 100%; border-collapse: collapse; background: #fff; border: 1.5px solid #cfe0e2; }
-  .thead-row, .item-row { display: grid; grid-template-columns: 40px 1fr 110px 90px 110px 120px 40px; align-items: center; min-width: 900px; }
+  .thead-row, .item-row { display: grid; grid-template-columns: 40px 1fr 96px 96px 110px 116px 116px 40px; align-items: center; min-width: 1010px; }
   .thead-row { background: #0f7f86; color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; }
   .thead-row > div { padding: 10px 10px; }
   .item-row { border-top: 1px solid #e6f3f3; }
@@ -109,6 +109,16 @@
   .amount-cell { text-align: right; font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 700; color: #c25a17; }
   .remove-btn { border: none; background: none; color: #c3cac7; font-size: 18px; cursor: pointer; line-height: 1; }
   .remove-btn:hover { color: #c25a17; }
+  .unit-select { width: 100%; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; border: 1.5px solid #cfe0e2; background: #fff; padding: 6px 6px; color: #12242A; cursor: pointer; }
+  .unit-select:focus { outline: none; border-color: #0f7f86; }
+  .txt-input { width: 100%; font-family: 'Noto Sans JP', sans-serif; border: 1.5px solid #cfe0e2; background: #fff; padding: 6px 8px; color: #12242A; }
+  .name-input { font-size: 13px; font-weight: 700; }
+  .spec-input { font-size: 11px; margin-top: 3px; }
+  .txt-input:focus { outline: none; border-color: #0f7f86; }
+  /* 単価を中身の量で割った表示（100mLあたり・1ロールあたり など） */
+  .per-cell { text-align: right; font-size: 11px; line-height: 1.45; color: #5c7376; font-family: 'Roboto Mono', monospace; }
+  .manual-mark { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #b45309; color: #fff; font-size: 10.5px; font-weight: 700; }
+  .add-manual { display: flex; justify-content: flex-start; }
 
   .totals { display: flex; justify-content: flex-end; }
   .totals-box { width: 320px; display: flex; flex-direction: column; gap: 6px; background: #fff; border: 1.5px solid #cfe0e2; padding: 16px 20px; }
@@ -304,9 +314,13 @@
 
       <div id="table-section" class="rows-wrap">
         <div class="thead-row">
-          <div></div><div>商品名</div><div class="col-right">数量</div><div>単位</div><div class="col-right">単価</div><div class="col-right">金額</div><div></div>
+          <div></div><div>商品名</div><div class="col-right">数量</div><div>単位</div><div class="col-right">単価</div><div class="col-right">金額</div><div class="col-right">単価の内訳</div><div></div>
         </div>
         <div id="rows-body"></div>
+      </div>
+
+      <div class="add-manual">
+        <button type="button" class="btn" id="btn-add-manual">＋ 手入力で商品を追加</button>
       </div>
 
       <div class="totals" id="totals-section">
@@ -385,7 +399,8 @@
   if (meta.staffName == null) meta.staffName = initOffice.contactName || '';
   if (meta.staffMobile == null) meta.staffMobile = initOffice.mobile || '';
 
-  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, units: savedUnits } = tssLoadPrices();
+  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices,
+          units: savedUnits, bases: savedBases, qtys: savedQtys } = tssLoadPrices();
 
   document.getElementById('customer-name').value = meta.customerName || '';
   document.getElementById('quote-title').value = meta.title;
@@ -564,8 +579,35 @@
     return sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
   }
 
+  // 販売単位（袋・箱・本など）の選択肢。単価は「1○○あたりいくら」の○○にあたる。
+  const SALE_UNITS = ['袋', '箱', 'ケース', '本', '個', '巻', 'セット', '組'];
+
+  // 規格の書き方から販売単位を推測する。あくまで初期値で、行ごとに変更できる。
+  function defaultSaleUnit(item) {
+    const s = String(item.spec || '');
+    if (/ケース/.test(s)) return 'ケース';
+    if (/箱|入り箱/.test(s)) return '箱';
+    if (/枚入|ロール|R\b|×\d+袋|袋/.test(s)) return '袋';
+    if (/L|mL|ml|kg|g\b/.test(s)) return '本';
+    return '個';
+  }
+  function saleUnitOf(id, item) {
+    return (meta.saleUnits && meta.saleUnits[id]) || defaultSaleUnit(item);
+  }
+
+  // 「100mLあたり」「1ロールあたり」など、中身の量で割った単価
+  function perBasis(priceRow, id, unitPrice) {
+    if (!priceRow || unitPrice == null) return null;
+    const kind = savedUnits[id] || priceRow.kind;
+    const basis = tssNum(savedBases ? savedBases[id] : null) ?? tssDefaultBasis(kind);
+    const qty = savedQtys && savedQtys[id] != null ? tssNum(savedQtys[id]) : priceRow.baseQty;
+    const v = tssCalcUnitPrice(unitPrice, qty, kind, basis);
+    if (v == null) return null;
+    return { label: tssUnitLabel(kind, basis), value: v };
+  }
+
   function computedRows() {
-    return Object.keys(cart).map(idStr => {
+    const master = Object.keys(cart).map(idStr => {
       const id = Number(idStr);
       const item = itemById.get(id);
       if (!item) return null;
@@ -574,19 +616,41 @@
       const suggested = suggestedUnitPrice(item, priceRow);
       const unitPrice = meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested;
       const amount = unitPrice != null ? unitPrice * qty : null;
-      return { id, item, priceRow, qty, unitPrice, unitPriceStr: meta.priceOverrides[id] != null ? meta.priceOverrides[id] : (suggested != null ? String(Math.round(suggested)) : ''), amount };
+      return {
+        key: String(id), id, manual: false, item, priceRow, qty,
+        name: item.name, sub: item.maker + ' ／ ' + item.spec,
+        saleUnit: saleUnitOf(id, item),
+        unitPrice,
+        unitPriceStr: meta.priceOverrides[id] != null ? meta.priceOverrides[id] : (suggested != null ? String(Math.round(suggested)) : ''),
+        amount, per: perBasis(priceRow, id, unitPrice),
+      };
     }).filter(Boolean).sort((a, b) => a.id - b.id);
+
+    // 手入力で足した商品（商品マスターに無いもの）
+    const manual = (meta.manual || []).map(m => {
+      const qty = tssNum(m.qty) ?? 1;
+      const unitPrice = tssNum(m.price);
+      return {
+        key: m.key, id: null, manual: true, item: null, priceRow: null, qty,
+        name: m.name || '', sub: m.spec || '', saleUnit: m.unit || '個',
+        unitPrice, unitPriceStr: m.price != null ? String(m.price) : '',
+        amount: unitPrice != null ? unitPrice * qty : null, per: null,
+      };
+    });
+    return master.concat(manual);
   }
 
   function computedGroups() {
     const rows = computedRows();
     const map = new Map();
     rows.forEach(r => {
-      const maker = r.item.maker;
+      // 手入力の行はメーカーが無いので「その他」にまとめ、末尾に置く
+      const maker = r.manual ? 'その他' : r.item.maker;
       if (!map.has(maker)) map.set(maker, []);
       map.get(maker).push(r);
     });
-    return [...map.keys()].sort((a, b) => (makerIndex.get(a) ?? 0) - (makerIndex.get(b) ?? 0)).map(maker => {
+    const order = m => (m === 'その他' ? 9999 : (makerIndex.get(m) ?? 0));
+    return [...map.keys()].sort((a, b) => order(a) - order(b)).map(maker => {
       const items = map.get(maker);
       return { maker, items, subtotal: items.reduce((s, r) => s + (r.amount || 0), 0) };
     });
@@ -600,44 +664,87 @@
     document.getElementById('totals-section').style.display = hasRows ? 'flex' : 'none';
 
     const body = document.getElementById('rows-body');
-    body.innerHTML = rows.map(r => `
-      <div class="item-row" data-id="${r.id}">
-        <div></div>
-        <div class="cell-name"><span class="name">${escapeHTML(r.item.name)}</span><span class="maker">${escapeHTML(r.item.maker)} ／ ${escapeHTML(r.item.spec)}</span></div>
-        <div><input type="text" inputmode="numeric" class="num-input qty-input" data-id="${r.id}" value="${r.qty}" /></div>
-        <div>${escapeHTML(r.priceRow ? (savedUnits[r.id] || r.priceRow.kind) : '')}</div>
-        <div><input type="text" inputmode="decimal" class="num-input price-input" data-id="${r.id}" value="${escapeHTML(r.unitPriceStr)}" placeholder="0" /></div>
+    body.innerHTML = rows.map(r => {
+      const unitOpts = SALE_UNITS.concat(SALE_UNITS.includes(r.saleUnit) ? [] : [r.saleUnit])
+        .map(u => `<option value="${escapeHTML(u)}" ${u === r.saleUnit ? 'selected' : ''}>${escapeHTML(u)}</option>`).join('');
+      const nameCell = r.manual
+        ? `<div class="cell-name">
+             <input type="text" class="txt-input name-input" data-key="${escapeHTML(r.key)}" value="${escapeHTML(r.name)}" placeholder="商品名を入力" />
+             <input type="text" class="txt-input spec-input" data-key="${escapeHTML(r.key)}" value="${escapeHTML(r.sub)}" placeholder="規格・メーカーなど（任意）" />
+           </div>`
+        : `<div class="cell-name"><span class="name">${escapeHTML(r.name)}</span><span class="maker">${escapeHTML(r.sub)}</span></div>`;
+      return `
+      <div class="item-row" data-key="${escapeHTML(r.key)}">
+        <div>${r.manual ? '<span class="manual-mark" title="手入力">手</span>' : ''}</div>
+        ${nameCell}
+        <div><input type="text" inputmode="numeric" class="num-input qty-input" data-key="${escapeHTML(r.key)}" value="${r.qty}" /></div>
+        <div><select class="unit-select" data-key="${escapeHTML(r.key)}">${unitOpts}</select></div>
+        <div><input type="text" inputmode="decimal" class="num-input price-input" data-key="${escapeHTML(r.key)}" value="${escapeHTML(r.unitPriceStr)}" placeholder="0" /></div>
         <div class="amount-cell">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</div>
-        <div><button type="button" class="remove-btn" data-id="${r.id}" title="削除">×</button></div>
-      </div>`).join('');
+        <div class="per-cell">${r.per ? escapeHTML(r.per.label) + '<br>' + escapeHTML(tssFmtYen(r.per.value)) : ''}</div>
+        <div><button type="button" class="remove-btn" data-key="${escapeHTML(r.key)}" title="削除">×</button></div>
+      </div>`;
+    }).join('');
+
+    // 手入力行は meta.manual、マスター商品は cart / meta にそれぞれ書き戻す
+    const isManual = key => String(key).startsWith('m');
+    const manualOf = key => (meta.manual || []).find(m => m.key === key);
 
     body.querySelectorAll('.qty-input').forEach(inp => {
       inp.addEventListener('change', () => {
-        const id = Number(inp.dataset.id);
+        const key = inp.dataset.key;
         const n = parseInt(inp.value.replace(/[^0-9]/g, ''), 10);
-        cart[id] = isFinite(n) && n > 0 ? n : 1;
-        tssSaveQuoteCart(cart);
+        const v = isFinite(n) && n > 0 ? n : 1;
+        if (isManual(key)) { const m = manualOf(key); if (m) m.qty = v; saveMeta(meta); }
+        else { cart[Number(key)] = v; tssSaveQuoteCart(cart); }
         renderRows();
       });
     });
     body.querySelectorAll('.price-input').forEach(inp => {
       inp.addEventListener('change', () => {
-        const id = inp.dataset.id;
-        meta.priceOverrides[id] = inp.value;
+        const key = inp.dataset.key;
+        if (isManual(key)) { const m = manualOf(key); if (m) m.price = inp.value; }
+        else { meta.priceOverrides[key] = inp.value; }
         saveMeta(meta);
         renderRows();
       });
     });
-    body.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        delete cart[id];
-        delete meta.priceOverrides[id];
-        tssSaveQuoteCart(cart);
+    body.querySelectorAll('.unit-select').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const key = sel.dataset.key;
+        if (isManual(key)) { const m = manualOf(key); if (m) m.unit = sel.value; }
+        else { meta.saleUnits = meta.saleUnits || {}; meta.saleUnits[key] = sel.value; }
         saveMeta(meta);
         renderRows();
-        renderPicker();
-        updatePickerCount();
+      });
+    });
+    body.querySelectorAll('.name-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const m = manualOf(inp.dataset.key); if (m) m.name = inp.value; saveMeta(meta);
+      });
+    });
+    body.querySelectorAll('.spec-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const m = manualOf(inp.dataset.key); if (m) m.spec = inp.value; saveMeta(meta);
+      });
+    });
+    body.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        if (isManual(key)) {
+          meta.manual = (meta.manual || []).filter(m => m.key !== key);
+          saveMeta(meta);
+          renderRows();
+        } else {
+          delete cart[key];
+          delete meta.priceOverrides[key];
+          if (meta.saleUnits) delete meta.saleUnits[key];
+          tssSaveQuoteCart(cart);
+          saveMeta(meta);
+          renderRows();
+          renderPicker();
+          updatePickerCount();
+        }
       });
     });
 
@@ -705,19 +812,20 @@
       <div class="doc-group">
         <div class="doc-group-title">${escapeHTML(g.maker)}</div>
         <table class="doc-table">
-          <colgroup><col style="width:46%"><col style="width:10%"><col style="width:14%"><col style="width:14%"><col style="width:16%"></colgroup>
-          <thead><tr><th>品名</th><th style="text-align:right">数量</th><th style="text-align:right">単位</th><th style="text-align:right">単価</th><th style="text-align:right">金額</th></tr></thead>
+          <colgroup><col style="width:38%"><col style="width:8%"><col style="width:10%"><col style="width:13%"><col style="width:15%"><col style="width:16%"></colgroup>
+          <thead><tr><th>品名</th><th style="text-align:right">数量</th><th style="text-align:right">単位</th><th style="text-align:right">単価</th><th style="text-align:right">金額</th><th style="text-align:right">単価の内訳</th></tr></thead>
           <tbody>
             ${g.items.map(r => `
               <tr>
-                <td>${escapeHTML(r.item.name)}<br><span style="color:#6b7280;font-size:8pt">${escapeHTML(r.item.spec)}</span></td>
+                <td>${escapeHTML(r.name)}${r.sub ? `<br><span style="color:#6b7280;font-size:8pt">${escapeHTML(r.sub)}</span>` : ''}</td>
                 <td class="num">${r.qty}</td>
-                <td class="num">${escapeHTML(r.priceRow ? (savedUnits[r.id] || r.priceRow.kind) : '')}</td>
+                <td class="num">${escapeHTML(r.saleUnit)}</td>
                 <td class="num">${r.unitPrice != null ? '￥' + Math.round(r.unitPrice).toLocaleString('ja-JP') : '—'}</td>
                 <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
+                <td class="num" style="font-size:8pt">${r.per ? escapeHTML(r.per.label) + ' ' + escapeHTML(tssFmtYen(r.per.value)) : ''}</td>
               </tr>`).join('')}
             <tr class="group-subtotal">
-              <td colspan="4" style="text-align:right">小計</td>
+              <td colspan="5" style="text-align:right">小計</td>
               <td class="num">￥${Math.round(g.subtotal).toLocaleString('ja-JP')}</td>
             </tr>
           </tbody>
@@ -812,6 +920,16 @@
         </span>
       </div>`).join('');
   }
+
+  // 商品マスターに無いものを、その場で1行足せるようにする
+  document.getElementById('btn-add-manual').addEventListener('click', () => {
+    meta.manual = meta.manual || [];
+    meta.manual.push({ key: 'm' + Date.now(), name: '', spec: '', qty: 1, unit: '個', price: '' });
+    saveMeta(meta);
+    renderRows();
+    const inputs = document.querySelectorAll('.name-input');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  });
 
   document.getElementById('btn-save').addEventListener('click', () => {
     const input = document.getElementById('save-facility');
