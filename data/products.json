@@ -2,7 +2,7 @@
  "meta": {
   "generated": "2026-08-26",
   "owner": "太陽シルバーサービス㈱ 行橋営業所",
-  "items": 92,
+  "items": 108,
   "note": "各チラシHTMLから機械抽出した掲載商品マスター。unitBasis は単価計算の基準（100mL/1kg/1枚/1ロール/1箱）。code の「未確認」は情報が未取得の意味で、推測値を入れてはならない。"
  },
  "items": [
@@ -1109,6 +1109,198 @@
    "code": "JAN 未確認",
    "unitBasis": "1枚あたり",
    "image": "./images/daio/15_sasayell_nuretowel.jpg"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "01 食事用エプロン",
+   "maker": "竹虎",
+   "name": "竹虎® 食事用エプロン 使い捨て",
+   "spec": "フリーサイズ",
+   "tag": "使い捨て",
+   "desc": "食事の汚れをガードする使い捨てエプロン。ケアの合間にさっと使える。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/shokuji_epuron.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "01 食事用エプロン",
+   "maker": "竹虎",
+   "name": "タケトラ® エコノミーエプロン",
+   "spec": "42×56cm",
+   "tag": "M・テープ付",
+   "desc": "経済的な使い捨てエプロン。歯科・食事介助など幅広い用途に。Lサイズもあり。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/economy_epuron.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "01 食事用エプロン",
+   "maker": "竹虎",
+   "name": "フェルラック® エプロン",
+   "spec": "Lサイズ",
+   "tag": "100枚入・テープ付",
+   "desc": "紙製ディスポエプロン。No.20〜85までサイズ展開が豊富。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/ferurakku_epuron.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "01 食事用エプロン",
+   "maker": "竹虎",
+   "name": "やわらか紙エプロン",
+   "spec": "フリーサイズ",
+   "tag": "紙製",
+   "desc": "肌あたりのやわらかい紙製エプロン。食事介助の場面で使いやすい。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/yawaraka_kami_epuron.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "02 ビニールエプロン",
+   "maker": "竹虎",
+   "name": "竹虎® ビニールエプロン",
+   "spec": "フリーサイズ",
+   "tag": "カラー展開",
+   "desc": "水仕事・食事介助向けのビニール製エプロン。ブルー・ピンクなど選べる。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/vinyl_epuron.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "02 ビニールエプロン",
+   "maker": "竹虎",
+   "name": "竹虎® ビニールエプロンCP",
+   "spec": "フリーサイズ",
+   "tag": "CPタイプ",
+   "desc": "竹虎ビニールエプロンのCPタイプ。用途に応じて選べるラインアップ。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/vinyl_epuron_cp.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "02 ビニールエプロン",
+   "maker": "竹虎",
+   "name": "竹虎® ビニールエプロンE",
+   "spec": "フリーサイズ",
+   "tag": "Eタイプ",
+   "desc": "竹虎ビニールエプロンのEタイプ。水や汚れをしっかりガード。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/vinyl_epuron_e.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "02 ビニールエプロン",
+   "maker": "竹虎",
+   "name": "竹虎® ビニールエプロンP",
+   "spec": "100枚入",
+   "tag": "箱入り",
+   "desc": "ロール状で1枚ずつ取り出せる箱入りタイプ。使う分だけ衛生的に。50枚入もあり。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/vinyl_epuron_p100.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "03 ガウン・予防着",
+   "maker": "竹虎",
+   "name": "サージガウンA",
+   "spec": "フリーサイズ",
+   "tag": "カラー展開",
+   "desc": "医療・介護現場向けの使い捨てガウン。ブルー・ピンクなど選べる。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/surge_gown_a.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "03 ガウン・予防着",
+   "maker": "竹虎",
+   "name": "サージガウンT",
+   "spec": "フリーサイズ",
+   "tag": "袖口ゴム入り",
+   "desc": "袖口がしぼれるタイプの使い捨てガウン。着脱しやすい。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/surge_gown_t.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "03 ガウン・予防着",
+   "maker": "竹虎",
+   "name": "ディスポ予防着",
+   "spec": "フリーサイズ",
+   "tag": "不織布・ポケット付",
+   "desc": "感染対策・清掃時などに使う使い捨ての予防衣。ポケット付き。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/disposal_yobougi.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "03 ガウン・予防着",
+   "maker": "竹虎",
+   "name": "タケトラ® ニトリル手袋",
+   "spec": "SS/S/M/L",
+   "tag": "パウダーフリー",
+   "desc": "素手のような使用感のニトリルゴム手袋。食品衛生法適合品。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/nitrile_glove_blue.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "04 マスク・手袋",
+   "maker": "竹虎",
+   "name": "サージマスクAC",
+   "spec": "9.5×17.5cm",
+   "tag": "50枚入・ひも結び",
+   "desc": "医療機関でも使われるディスポーザブルマスク。ラテックスフリー・JIS T9001適合。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/surge_mask_ac.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "04 マスク・手袋",
+   "maker": "竹虎",
+   "name": "サージマスクN-95(折りたたみ式)",
+   "spec": "50枚入",
+   "tag": "NIOSH認可・日本製",
+   "desc": "N-95対応の折りたたみ式サージカルマスク。ノーズブリッジ入りで密着しやすい。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/surge_mask_n95.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "04 マスク・手袋",
+   "maker": "竹虎",
+   "name": "タケトラ® プラスチック手袋100",
+   "spec": "100枚入",
+   "tag": "パウダーフリー",
+   "desc": "調理・清掃・介護など幅広く使えるプラスチック手袋。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/plastic_glove_100.png"
+  },
+  {
+   "flier": "タケトラ",
+   "page": "04 マスク・手袋",
+   "maker": "竹虎",
+   "name": "タケトラ® プラスチック手袋200",
+   "spec": "200枚入",
+   "tag": "パウダーフリー・5サイズ",
+   "desc": "開閉式のフタで衛生的な箱入りタイプ。SS〜LLの5サイズ展開。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/plastic_glove_200.png"
   }
  ]
 }

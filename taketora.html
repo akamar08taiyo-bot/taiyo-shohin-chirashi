@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>タケトラ 消耗品チラシ | 太陽シルバーサービス 行橋営業所</title>
+<meta name="description" content="施設・病院・事業所さま向け タケトラ 食事用エプロン・ビニールエプロン・ガウン・マスク・手袋 消耗品チラシ（全4ページ）" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/design.css" />
+</head>
+<body>
+  <div class="tss-toolbar">
+    <a class="tss-back" href="./index.html">← 一覧へ</a>
+    <h1 id="tss-flyer-title">タケトラ</h1>
+    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-codes" />品番・JAN表示</label>
+    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-price" />価格表示（社内用）</label>
+    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-edit" />商品を編集</label>
+    <button type="button" class="tss-btn" id="tss-print-btn">印刷 / PDF保存</button>
+  </div>
+  <nav class="tss-pagejump" id="tss-pagejump"></nav>
+  <main class="tss-pages-scroll" id="tss-mount"></main>
+
+  <script src="./assets/pricing.js"></script>
+  <script src="./assets/flyer-render.js"></script>
+  <script>renderFlyer('taketora', 'tss-mount');</script>
+</body>
+</html>

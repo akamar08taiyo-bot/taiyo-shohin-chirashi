@@ -261,6 +261,60 @@
           "note": "流せるタイプは配管条件により詰まる場合があるため、施設の排水設備をご確認のうえご使用ください。"
         }
       ]
+    },
+    {
+      "key": "taketora",
+      "name": "タケトラ",
+      "file": "taketora.html",
+      "tokens": {
+        "photoHeight": 104,
+        "cardTitleMinHeight": 34,
+        "cardTitleFontSize": "14.5",
+        "descMinHeight": 28,
+        "descFontSize": "10.5"
+      },
+      "pages": [
+        {
+          "pageKey": "01 食事用エプロン",
+          "categoryLabel": "業務用 食事用エプロン",
+          "title": "食事用エプロン",
+          "subtitle": "使い捨てで衛生的に",
+          "lead": "食事の汚れをガードする使い捨てエプロン。紙製・不織布などタイプで選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・入数・JANコードはメーカーカタログ照合後に記載します。写真はメーカー提供画像です。"
+        },
+        {
+          "pageKey": "02 ビニールエプロン",
+          "categoryLabel": "業務用 ビニールエプロン",
+          "title": "ビニールエプロン",
+          "subtitle": "水仕事・食事介助に",
+          "lead": "水や汚れをしっかりガードするビニール製エプロン。用途に応じたタイプを展開。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "カラー・サイズ展開、JANコードはメーカーカタログ照合後に記載します。"
+        },
+        {
+          "pageKey": "03 ガウン・予防着",
+          "categoryLabel": "業務用 ガウン・予防着",
+          "title": "ガウン・予防着",
+          "subtitle": "感染対策・清掃に",
+          "lead": "医療・介護現場向けの使い捨てガウンと予防着。手袋とあわせてご用意できます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "カラー・サイズ展開、JANコードはメーカーカタログ照合後に記載します。"
+        },
+        {
+          "pageKey": "04 マスク・手袋",
+          "categoryLabel": "業務用 マスク・手袋",
+          "title": "マスク・手袋",
+          "subtitle": "衛生対策の基本に",
+          "lead": "サージカルマスクと使い捨て手袋。食品衛生法適合品も取り扱っています。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・入数、JANコードはメーカーカタログ照合後に記載します。"
+        }
+      ]
     }
   ]
 }

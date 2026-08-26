@@ -11,17 +11,19 @@ index.html          一覧ページ
 kao-rocket.html      花王・ロケット石鹸（全11ページ・44商品）
 japacks.html         ジャパックス（全8ページ・32商品）
 paper.html            紙製品（全3ページ・12商品。他4商品は商品編集ピッカーから選択可）
+taketora.html         タケトラ（医療・介護用ディスポ用品、全4ページ・16商品）
 price-calc.html       価格・単価計算シート（社内用）
 assets/
   design.css          デザイントークン・A4ページのCSS（794×1123px = A4 @96dpi）
   flyer-render.js      data/ からページを組み立てる共通レンダラー
   pricing.js           単価計算ロジック（localStorage 共有）
 data/
-  products.json         商品マスター（92商品。出所: design_handoff_flier/product-master.json）
-  pages.json            ページ構成（見出し・リード文・サイズ展開欄・注記。3つの元 .dc.html から抽出）
-  price-rows.json       価格計算シート用の行データ（容量・入数を商品マスターから自動導出）
+  products.json         商品マスター（108商品。花王/ロケット/ジャパックス/紙製品92商品は design_handoff_flier/product-master.json が出所、タケトラ16商品はメーカー提供写真から追加）
+  pages.json            ページ構成（見出し・リード文・サイズ展開欄・注記）
+  price-rows.json       価格計算シート用の行データ（容量・入数を商品マスターから自動導出。タケトラ分は容量未確認）
 images/
-  kao/ rocket/ japacks/ daio/ bews/   商品写真（メーカー公式画像）
+  kao/ rocket/ japacks/ daio/ bews/   商品写真（design_handoff_flier由来、メーカー公式画像）
+  taketora/                            商品写真（メーカー提供画像。背景トリミングのみ、色は加工していない）
 ```
 
 データとテンプレートを分離しているため、**HTMLを増やさず** `data/*.json` の編集だけで内容を更新できます。
@@ -63,3 +65,4 @@ main ブランチ直下を GitHub Pages で配信する設定。反映は push �
 ## 保留中の確認事項
 
 - **トイレットペーパー「200m芯なし」品**: 手元のデータには170m品の写真・商品情報しかないため、`01 トイレットペーパー` ページは代わりに「エルヴェール170 芯なし徳用」を経済枠として掲載しています。実在する200m品（商品名・JAN・写真）が分かれば、`data/products.json` に追加するか「商品を編集」ピッカーで差し替えてください。
+- **タケトラ商品**: JANコード・仕入価格は全て未確認です。写真はメーカー提供画像から代表的な16点を掲載し、サイズ・カラー展開の詳細（フェルラックNo.20〜85の各サイズ、ビニールエプロンの50枚入など）は商品ページの説明・注記で簡略に触れるにとどめています。正式なJAN・仕様が分かり次第、該当商品の `code` を更新してください。サージマスクCP・L2の写真も `images/taketora/` に用意済みですが、今回は未掲載です（掲載する場合は `data/products.json` に追加）。
