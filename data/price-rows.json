@@ -995,5 +995,15 @@
   "kind": "枚",
   "baseQty": null,
   "id": 109
+ },
+ {
+  "maker": "大王製紙　エルヴェール",
+  "name": "エルヴェール 200 芯なしトイレットティシュー",
+  "spec": "シングル 200m×6R",
+  "code": "JAN 未確認",
+  "kind": "ロール",
+  "baseQty": 6,
+  "metersPerRoll": 200,
+  "id": 110
  }
 ]
