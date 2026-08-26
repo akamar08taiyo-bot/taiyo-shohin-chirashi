@@ -16,7 +16,8 @@
    "desc": "除菌・消臭・除渣。においを残したくない厨房に。",
    "code": "JAN 4901301360489",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/11_4901301360489.jpg"
+   "image": "./images/kao/11_4901301360489.jpg",
+   "id": 0
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -28,7 +29,8 @@
    "desc": "大量洗浄向け。うすめて使えてコスト重視。",
    "code": "JAN 4901301051752",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/12_4901301051752.jpg"
+   "image": "./images/kao/12_4901301051752.jpg",
+   "id": 1
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -40,7 +42,8 @@
    "desc": "業務用の大容量ボトル。厨房への据置き使用に。",
    "code": "JAN 4903367005045 ／ 容量 4L",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/101_4903367005045.png"
+   "image": "./images/rocket/101_4903367005045.png",
+   "id": 2
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -52,7 +55,8 @@
    "desc": "箱型で保管しやすい。コックから直接補充できる。",
    "code": "JAN 4903367306562 ／ 容量 18L",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/102_4903367306562.png"
+   "image": "./images/rocket/102_4903367306562.png",
+   "id": 3
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -64,7 +68,8 @@
    "desc": "香料無配合。においが移りにくく食品を扱う現場に。",
    "code": "JAN 4901301511355 ／ 容量 2L",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/08_4901301511355.jpg"
+   "image": "./images/kao/08_4901301511355.jpg",
+   "id": 4
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -76,7 +81,8 @@
    "desc": "強力つけおき洗浄。こすらず落とす粉末タイプ。",
    "code": "JAN 4901301505057",
    "unitBasis": "1kgあたり",
-   "image": "./images/kao/14_4901301505057.jpg"
+   "image": "./images/kao/14_4901301505057.jpg",
+   "id": 5
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -88,7 +94,8 @@
    "desc": "家庭用全自動食洗機に。計量スプーン付。",
    "code": "JAN 4903367301727",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/039_4903367301727.png"
+   "image": "./images/rocket/039_4903367301727.png",
+   "id": 6
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -100,7 +107,8 @@
    "desc": "洗浄機の庫内も清潔に保つ大容量タイプ。",
    "code": "JAN 4903367093615 ／ 容量 840g",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/043_4903367093615.png"
+   "image": "./images/rocket/043_4903367093615.png",
+   "id": 7
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -112,7 +120,8 @@
    "desc": "まな板・ふきん・食器のつけおき除菌漂白に。",
    "code": "JAN 4901301501882",
    "unitBasis": "1kgあたり",
-   "image": "./images/kao/23_4901301501882.jpg"
+   "image": "./images/kao/23_4901301501882.jpg",
+   "id": 8
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -124,7 +133,8 @@
    "desc": "泡で密着。シンク・排水口のスポット除菌に。",
    "code": "JAN 4901301435767 ／ 容量 1000mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/25_4901301435767.jpg"
+   "image": "./images/kao/25_4901301435767.jpg",
+   "id": 9
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -136,7 +146,8 @@
    "desc": "使用量の多い厨房向け。詰め替えて使う大容量。",
    "code": "JAN 4903367303905 ／ 容量 5kg",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/103_4903367303905.png"
+   "image": "./images/rocket/103_4903367303905.png",
+   "id": 10
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -148,7 +159,8 @@
    "desc": "小分けで使いやすい標準ボトル。日常のつけおきに。",
    "code": "JAN 4903367000118 ／ 容量 600mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/029_4903367000118.png"
+   "image": "./images/rocket/029_4903367000118.png",
+   "id": 11
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -160,7 +172,8 @@
    "desc": "コンロまわり・レンジフードの油汚れ洗浄と除菌に。",
    "code": "JAN 4901301505996",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/13_4901301505996.jpg"
+   "image": "./images/kao/13_4901301505996.jpg",
+   "id": 12
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -172,7 +185,8 @@
    "desc": "うすめずそのまま使える。二度拭き不要で手早く。",
    "code": "JAN 4901301021168",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/16_4901301021168.jpg"
+   "image": "./images/kao/16_4901301021168.jpg",
+   "id": 13
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -184,7 +198,8 @@
    "desc": "鍋の焦げ・五徳の汚れに。自然由来の重曹タイプ。",
    "code": "JAN 4903367301895",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/048_4903367301895.png"
+   "image": "./images/rocket/048_4903367301895.png",
+   "id": 14
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -196,7 +211,8 @@
    "desc": "油汚れ・皮脂汚れに。水に溶かしてスプレー清掃。",
    "code": "JAN 4903367304513",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/044_4903367304513.png"
+   "image": "./images/rocket/044_4903367304513.png",
+   "id": 15
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -208,7 +224,8 @@
    "desc": "日常清掃の基本。便器・床・壁の洗浄と消臭に。",
    "code": "JAN 4901301504302",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/19_4901301504302.jpg"
+   "image": "./images/kao/19_4901301504302.jpg",
+   "id": 16
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -220,7 +237,8 @@
    "desc": "たまった尿石・黄ばみに。においの元から落とす。",
    "code": "JAN 4901301324184",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/20_4901301324184.jpg"
+   "image": "./images/kao/20_4901301324184.jpg",
+   "id": 17
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -232,7 +250,8 @@
    "desc": "泡で密着。便器のフチ裏まで狙って洗浄。",
    "code": "JAN 4903367301505 ／ 容量 300mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/078_4903367301505.png"
+   "image": "./images/rocket/078_4903367301505.png",
+   "id": 18
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -244,7 +263,8 @@
    "desc": "スプレー本体用のつめかえ。容器を繰り返し使える。",
    "code": "JAN 4903367090379 ／ 容量 350mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/076_4903367090379.png"
+   "image": "./images/rocket/076_4903367090379.png",
+   "id": 19
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -256,7 +276,8 @@
    "desc": "便器のフチ裏・黒ずみに密着。液だれしにくい。",
    "code": "JAN 4901301504319 ／ 容量 500mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/18_4901301504319.jpg"
+   "image": "./images/kao/18_4901301504319.jpg",
+   "id": 20
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -268,7 +289,8 @@
    "desc": "排水管のつまり・ぬめり・においに。計量キャップ付。",
    "code": "JAN 4901301507280",
    "unitBasis": "1kgあたり",
-   "image": "./images/kao/43_4901301507280.jpg"
+   "image": "./images/kao/43_4901301507280.jpg",
+   "id": 21
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -280,7 +302,8 @@
    "desc": "便器の除菌漂白に。うすめて日常清掃にも使える。",
    "code": "JAN 4903367306661 ／ 容量 500g",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/070_4903367306661.png"
+   "image": "./images/rocket/070_4903367306661.png",
+   "id": 22
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -292,7 +315,8 @@
    "desc": "髪の毛・ぬめりを分解。台所・浴室の排水口に。",
    "code": "JAN 4903367304032 ／ 容量 450g",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/072_4903367304032.png"
+   "image": "./images/rocket/072_4903367304032.png",
+   "id": 23
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -304,7 +328,8 @@
    "desc": "ワンプッシュで泡。手洗いの習慣づけに使いやすい。",
    "code": "JAN 4901301416810 ／ 容量 250mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/01_4901301416810.jpg"
+   "image": "./images/kao/01_4901301416810.jpg",
+   "id": 24
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -316,7 +341,8 @@
    "desc": "施設全体で使う大容量。ディスペンサー補充用。",
    "code": "JAN 4901301507211",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/07_4901301507211.jpg"
+   "image": "./images/kao/07_4901301507211.jpg",
+   "id": 25
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -328,7 +354,8 @@
    "desc": "洗面台に置きやすいサイズ。手肌にやさしい弱酸性。",
    "code": "JAN 4571113800611",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/047_4571113800611.png"
+   "image": "./images/rocket/047_4571113800611.png",
+   "id": 26
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -340,7 +367,8 @@
    "desc": "大容量つめかえ。複数の洗面台をまとめて補充。",
    "code": "JAN 4571113800642",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/049_4571113800642.png"
+   "image": "./images/rocket/049_4571113800642.png",
+   "id": 27
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -352,7 +380,8 @@
    "desc": "施設洗濯の基本。皮脂・食べこぼし汚れを分解。",
    "code": "JAN 4901301333513",
    "unitBasis": "1kgあたり",
-   "image": "./images/kao/27_4901301333513.jpg"
+   "image": "./images/kao/27_4901301333513.jpg",
+   "id": 28
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -364,7 +393,8 @@
    "desc": "大量洗濯向けのコスト重視。計量しやすい液体。",
    "code": "JAN 4901301435163",
    "unitBasis": "1kgあたり",
-   "image": "./images/kao/30_4901301435163.jpg"
+   "image": "./images/kao/30_4901301435163.jpg",
+   "id": 29
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -376,7 +406,8 @@
    "desc": "弱アルカリ性でしっかり洗浄。大量洗濯のケース入り。",
    "code": "JAN 4903367306418",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/113_4903367306418.png"
+   "image": "./images/rocket/113_4903367306418.png",
+   "id": 30
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -388,7 +419,8 @@
    "desc": "コインランドリー・施設洗濯機向けの大容量ジャグ。",
    "code": "JAN 4903367305343 ／ 容量 未確認",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/115_4903367305343.png"
+   "image": "./images/rocket/115_4903367305343.png",
+   "id": 31
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -400,7 +432,8 @@
    "desc": "色柄物も使える酸素系。つけおきで黄ばみ対策。",
    "code": "JAN 4901301334664",
    "unitBasis": "1kgあたり",
-   "image": "./images/kao/33_4901301334664.jpg"
+   "image": "./images/kao/33_4901301334664.jpg",
+   "id": 32
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -412,7 +445,8 @@
    "desc": "洗剤と一緒に投入できる液体タイプ。毎回の洗濯に。",
    "code": "JAN 4901301509819",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/34_4901301509819.jpg"
+   "image": "./images/kao/34_4901301509819.jpg",
+   "id": 33
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -424,7 +458,8 @@
    "desc": "白物のふきん・タオルの漂白除菌に。大容量ジャグ。",
    "code": "JAN 4903367303912 ／ 容量 5kg",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/123_4903367303912.png"
+   "image": "./images/rocket/123_4903367303912.png",
+   "id": 34
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -436,7 +471,8 @@
    "desc": "施設洗濯の仕上げに。静電気とごわつきを抑える。",
    "code": "JAN 4903367005014 ／ 容量 未確認",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/119_4903367005014.png"
+   "image": "./images/rocket/119_4903367005014.png",
+   "id": 35
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -448,7 +484,8 @@
    "desc": "浴槽・床・壁の日常清掃に。においを残さない。",
    "code": "JAN 4901301021205",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/38_4901301021205.jpg"
+   "image": "./images/kao/38_4901301021205.jpg",
+   "id": 36
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -460,7 +497,8 @@
    "desc": "ゴムパッキン・タイル目地の黒カビに。",
    "code": "JAN 4901301506184 ／ 容量 1000mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/42_4901301506184.jpg"
+   "image": "./images/kao/42_4901301506184.jpg",
+   "id": 37
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -472,7 +510,8 @@
    "desc": "こすらず時短。浴槽の湯垢・皮脂汚れに。",
    "code": "JAN 4903367093738 ／ 容量 未確認",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/065_4903367093738.png"
+   "image": "./images/rocket/065_4903367093738.png",
+   "id": 38
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -484,7 +523,8 @@
    "desc": "浴室全体の日常清掃に使える標準タイプ。",
    "code": "JAN 4903367001771 ／ 容量 500mL",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/059_4903367001771.png"
+   "image": "./images/rocket/059_4903367001771.png",
+   "id": 39
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -496,7 +536,8 @@
    "desc": "カーテン・ソファ・車内に。布のにおいと菌に。",
    "code": "JAN 4901301503381",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/35_4901301503381.jpg"
+   "image": "./images/kao/35_4901301503381.jpg",
+   "id": 40
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -508,7 +549,8 @@
    "desc": "しみついた強いにおいに。消臭力を高めたタイプ。",
    "code": "JAN 4901301344038",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/36_4901301344038.jpg"
+   "image": "./images/kao/36_4901301344038.jpg",
+   "id": 41
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -520,7 +562,8 @@
    "desc": "共用部の布製品に。抗ウイルス・抗菌を両立。",
    "code": "JAN 4901301404152",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/37_4901301404152.jpg"
+   "image": "./images/kao/37_4901301404152.jpg",
+   "id": 42
   },
   {
    "flier": "花王・ロケット石鹸",
@@ -532,7 +575,8 @@
    "desc": "尿臭・便臭が残る衣類・空間に。狙って消臭。",
    "code": "JAN 4901301447197",
    "unitBasis": "100mLあたり",
-   "image": "./images/kao/46_4901301447197.jpg"
+   "image": "./images/kao/46_4901301447197.jpg",
+   "id": 43
   },
   {
    "flier": "ジャパックス",
@@ -544,7 +588,8 @@
    "desc": "550×600×0.015mm。分別ペール・卓上ゴミ箱に使いやすい標準厚。",
    "code": "品番 JNH23 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNH23.png"
+   "image": "./images/japacks/JNH23.png",
+   "id": 44
   },
   {
    "flier": "ジャパックス",
@@ -556,7 +601,8 @@
    "desc": "650×800×0.025mm。事務所・共用部のゴミ袋の定番サイズ。",
    "code": "品番 JNH42 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNH42.png"
+   "image": "./images/japacks/JNH42.png",
+   "id": 45
   },
   {
    "flier": "ジャパックス",
@@ -568,7 +614,8 @@
    "desc": "650×800×0.020mm。使用量の多い施設向けのまとめ入り。",
    "code": "品番 JNH53 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNH53.png"
+   "image": "./images/japacks/JNH53.png",
+   "id": 46
   },
   {
    "flier": "ジャパックス",
@@ -580,7 +627,8 @@
    "desc": "650×800×0.030mm。重い生ゴミ・厨房ゴミの破れ対策に。",
    "code": "品番 JNH64 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNH64.png"
+   "image": "./images/japacks/JNH64.png",
+   "id": 47
   },
   {
    "flier": "ジャパックス",
@@ -592,7 +640,8 @@
    "desc": "550×600×0.020mm。中身が確認できる透明タイプ。",
    "code": "品番 JNL231 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNL231.png"
+   "image": "./images/japacks/JNL231.png",
+   "id": 48
   },
   {
    "flier": "ジャパックス",
@@ -604,7 +653,8 @@
    "desc": "650×800×0.030mm。中身が見えにくい白色の半透明。",
    "code": "品番 JNL441 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNL441.png"
+   "image": "./images/japacks/JNL441.png",
+   "id": 49
   },
   {
    "flier": "ジャパックス",
@@ -616,7 +666,8 @@
    "desc": "650×800×0.040mm。ガラス・陶器の廃棄など重量物に。",
    "code": "品番 JNL641 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNL641.png"
+   "image": "./images/japacks/JNL641.png",
+   "id": 50
   },
   {
    "flier": "ジャパックス",
@@ -628,7 +679,8 @@
    "desc": "650×800×0.025mm。色分け分別に使える青色の大入り。",
    "code": "品番 JNL565 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JNL565.png"
+   "image": "./images/japacks/JNL565.png",
+   "id": 51
   },
   {
    "flier": "ジャパックス",
@@ -640,7 +692,8 @@
    "desc": "小型ペール用。中身が見えない不透明タイプ。",
    "code": "品番 P-21 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/P-21.png"
+   "image": "./images/japacks/P-21.png",
+   "id": 52
   },
   {
    "flier": "ジャパックス",
@@ -652,7 +705,8 @@
    "desc": "施設・事業所の標準サイズ。もっとも需要の多い容量。",
    "code": "品番 P-41 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/P-41.png"
+   "image": "./images/japacks/P-41.png",
+   "id": 53
   },
   {
    "flier": "ジャパックス",
@@ -664,7 +718,8 @@
    "desc": "大型ペール・屋外集積用。まとめて廃棄する現場に。",
    "code": "品番 P-71 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/P-71.png"
+   "image": "./images/japacks/P-71.png",
+   "id": 54
   },
   {
    "flier": "ジャパックス",
@@ -676,7 +731,8 @@
    "desc": "最大容量。搬出回数を減らしたい大規模施設に。",
    "code": "品番 P-91 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/P-91.png"
+   "image": "./images/japacks/P-91.png",
+   "id": 55
   },
   {
    "flier": "ジャパックス",
@@ -688,7 +744,8 @@
    "desc": "520×600×0.030mm。再生原料を使用した厚手の透明袋。",
    "code": "品番 LR23 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/LR23.png"
+   "image": "./images/japacks/LR23.png",
+   "id": 56
   },
   {
    "flier": "ジャパックス",
@@ -700,7 +757,8 @@
    "desc": "650×800×0.030mm。施設の標準サイズを環境配慮品で。",
    "code": "品番 LR43 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/LR43.png"
+   "image": "./images/japacks/LR43.png",
+   "id": 57
   },
   {
    "flier": "ジャパックス",
@@ -712,7 +770,8 @@
    "desc": "570×600×0.020mm。分別ペールにぴったり合う寸法。",
    "code": "品番 KT25 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/KT25.png"
+   "image": "./images/japacks/KT25.png",
+   "id": 58
   },
   {
    "flier": "ジャパックス",
@@ -724,7 +783,8 @@
    "desc": "530×600×0.015mm。日常の分別収集に使いやすい薄手。",
    "code": "品番 GS23 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/GS23.png"
+   "image": "./images/japacks/GS23.png",
+   "id": 59
   },
   {
    "flier": "ジャパックス",
@@ -736,7 +796,8 @@
    "desc": "居室のサニタリー・小分けゴミに。片手で運べる小型。",
    "code": "品番 JTW05 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JTW05.png"
+   "image": "./images/japacks/JTW05.png",
+   "id": 60
   },
   {
    "flier": "ジャパックス",
@@ -748,7 +809,8 @@
    "desc": "詰所・給湯室の卓上ゴミ箱に合わせやすい中間サイズ。",
    "code": "品番 JTW10 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JTW10.png"
+   "image": "./images/japacks/JTW10.png",
+   "id": 61
   },
   {
    "flier": "ジャパックス",
@@ -760,7 +822,8 @@
    "desc": "まとめて運ぶ用途に。持ち手付きで搬送がラク。",
    "code": "品番 JTW20 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JTW20.png"
+   "image": "./images/japacks/JTW20.png",
+   "id": 62
   },
   {
    "flier": "ジャパックス",
@@ -772,7 +835,8 @@
    "desc": "500(330+170)×700×0.015mm。手付きタイプの最大容量。",
    "code": "品番 ON03 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/ON03.png"
+   "image": "./images/japacks/ON03.png",
+   "id": 63
   },
   {
    "flier": "ジャパックス",
@@ -784,7 +848,8 @@
    "desc": "320×380×0.010mm 半透明。卓上・洗面所の小型ごみ箱に。",
    "code": "品番 PR100 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/PR100.png"
+   "image": "./images/japacks/PR100.png",
+   "id": 64
   },
   {
    "flier": "ジャパックス",
@@ -796,7 +861,8 @@
    "desc": "350×450×0.010mm 半透明。居室のごみ箱の定番サイズ。",
    "code": "品番 PR101 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/PR101.png"
+   "image": "./images/japacks/PR101.png",
+   "id": 65
   },
   {
    "flier": "ジャパックス",
@@ -808,7 +874,8 @@
    "desc": "550(275+275)×600×0.015mm。マチ付きで口が広がる。",
    "code": "品番 PR105 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/PR105.png"
+   "image": "./images/japacks/PR105.png",
+   "id": 66
   },
   {
    "flier": "ジャパックス",
@@ -820,7 +887,8 @@
    "desc": "中身が見えない目隠しタイプ。居室・トイレの備品に。",
    "code": "品番 PK01 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/PK01.png"
+   "image": "./images/japacks/PK01.png",
+   "id": 67
   },
   {
    "flier": "ジャパックス",
@@ -832,7 +900,8 @@
    "desc": "圧縮パックで棚に収まる。1枚ずつ取り出せるタイプ。",
    "code": "品番 PNC44 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/PNC44.png"
+   "image": "./images/japacks/PNC44.png",
+   "id": 68
   },
   {
    "flier": "ジャパックス",
@@ -844,7 +913,8 @@
    "desc": "コンパクトな枕型パック。目立たないデザインで居室にも。",
    "code": "品番 CS38 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/CS38.png"
+   "image": "./images/japacks/CS38.png",
+   "id": 69
   },
   {
    "flier": "ジャパックス",
@@ -856,7 +926,8 @@
    "desc": "ロール形状で場所を取らない。ミシン目で1枚ずつ切り離し。",
    "code": "品番 JR-02 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JR-02.png"
+   "image": "./images/japacks/JR-02.png",
+   "id": 70
   },
   {
    "flier": "ジャパックス",
@@ -868,7 +939,8 @@
    "desc": "箱から1枚ずつ引き出せる。据置きで見た目もすっきり。",
    "code": "品番 MUH30 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/MUH30.png"
+   "image": "./images/japacks/MUH30.png",
+   "id": 71
   },
   {
    "flier": "ジャパックス",
@@ -880,7 +952,8 @@
    "desc": "ロールから1枚ずつ。持ち手付きで結んで捨てられる。",
    "code": "品番 JH48 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/JH48.png"
+   "image": "./images/japacks/JH48.png",
+   "id": 72
   },
   {
    "flier": "ジャパックス",
@@ -892,7 +965,8 @@
    "desc": "半透明。小型ペールに合う持ち手付きタイプ。",
    "code": "品番 HI14 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/HI14.png"
+   "image": "./images/japacks/HI14.png",
+   "id": 73
   },
   {
    "flier": "ジャパックス",
@@ -904,7 +978,8 @@
    "desc": "中身が確認できる透明タイプ。分別確認が必要な現場に。",
    "code": "品番 OL03 ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/OL03.png"
+   "image": "./images/japacks/OL03.png",
+   "id": 74
   },
   {
    "flier": "ジャパックス",
@@ -916,7 +991,8 @@
    "desc": "500×700×0.022mm。重い廃棄物の破れ対策に。",
    "code": "品番 PR3B ／ JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/japacks/PR3B.png"
+   "image": "./images/japacks/PR3B.png",
+   "id": 75
   },
   {
    "flier": "紙製品",
@@ -928,7 +1004,8 @@
    "desc": "芯なしで最後まで使える最長タイプ。芯ゴミが出ない。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/03_elvere170.png"
+   "image": "./images/daio/03_elvere170.png",
+   "id": 76
   },
   {
    "flier": "紙製品",
@@ -940,7 +1017,8 @@
    "desc": "再生紙使用。まとめ買い用の6ロールパック。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/02_elvere170_6r.png"
+   "image": "./images/daio/02_elvere170_6r.png",
+   "id": 77
   },
   {
    "flier": "紙製品",
@@ -952,7 +1030,8 @@
    "desc": "1ロールずつ個包装。保管中も清潔に持ち運べる。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/01_elvere170_single_shinnashi.png"
+   "image": "./images/daio/01_elvere170_single_shinnashi.png",
+   "id": 78
   },
   {
    "flier": "紙製品",
@@ -964,7 +1043,8 @@
    "desc": "標準的な巻長。ホルダーのサイズを問わず使いやすい。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/05_elvere100_single.png"
+   "image": "./images/daio/05_elvere100_single.png",
+   "id": 79
   },
   {
    "flier": "紙製品",
@@ -976,7 +1056,8 @@
    "desc": "一般ロール4個分。交換回数を大きく減らせる。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/07_ina_toilet_single100.png"
+   "image": "./images/daio/07_ina_toilet_single100.png",
+   "id": 80
   },
   {
    "flier": "紙製品",
@@ -988,7 +1069,8 @@
    "desc": "一般ロール2.5個分。やわらかなダブルで肌ざわり良好。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/09_ina_toilet_double50.png"
+   "image": "./images/daio/09_ina_toilet_double50.png",
+   "id": 81
   },
   {
    "flier": "紙製品",
@@ -1000,7 +1082,8 @@
    "desc": "香りを付けない業務用仕様。共用トイレの標準品に。",
    "code": "JAN 未確認",
    "unitBasis": "1ロールあたり",
-   "image": "./images/daio/10_ina_toilet_double50_biz.png"
+   "image": "./images/daio/10_ina_toilet_double50_biz.png",
+   "id": 82
   },
   {
    "flier": "紙製品",
@@ -1012,19 +1095,21 @@
    "desc": "ペーパーに吹きかけて使う清浄剤。やさしくふきとる。",
    "code": "JAN 4901301013743",
    "unitBasis": "100mL",
-   "image": "./images/daio/16_kao_sanina.jpg"
+   "image": "./images/daio/16_kao_sanina.jpg",
+   "id": 83
   },
   {
    "flier": "紙製品",
    "page": "02 ペーパータオル・ティシュー",
-   "maker": "BEWS",
-   "name": "BEWS light ペーパータオル",
+   "maker": "新橋製紙",
+   "name": "ベルライトタオル",
    "spec": "200×220mm 200枚",
    "tag": "再生紙100%",
    "desc": "100%上質古紙使用。手にやさしく使い心地の良い再生紙。",
    "code": "JAN 4967855892128 ／ ケース40入",
    "unitBasis": "1枚あたり",
-   "image": "./images/bews/bews_light_200.png"
+   "image": "./images/shinbashi/bell_light_towel_200.png",
+   "id": 84
   },
   {
    "flier": "紙製品",
@@ -1036,7 +1121,8 @@
    "desc": "手ふき用の定番。厨房・洗面所の衛生管理に。",
    "code": "JAN 未確認",
    "unitBasis": "1枚あたり",
-   "image": "./images/daio/04_elvere_papertowel_eco.png"
+   "image": "./images/daio/04_elvere_papertowel_eco.png",
+   "id": 85
   },
   {
    "flier": "紙製品",
@@ -1048,7 +1134,8 @@
    "desc": "居室・詰所に。5箱パックでまとめて配置できる。",
    "code": "JAN 未確認",
    "unitBasis": "1箱あたり",
-   "image": "./images/daio/08_ina_tissue_150x5.png"
+   "image": "./images/daio/08_ina_tissue_150x5.png",
+   "id": 86
   },
   {
    "flier": "紙製品",
@@ -1060,7 +1147,8 @@
    "desc": "箱ゴミが出ないソフトパック。省スペースで置ける。",
    "code": "JAN 未確認",
    "unitBasis": "1箱あたり",
-   "image": "./images/daio/11_ina_tissue_softpack.png"
+   "image": "./images/daio/11_ina_tissue_softpack.png",
+   "id": 87
   },
   {
    "flier": "紙製品",
@@ -1072,7 +1160,8 @@
    "desc": "手指の洗浄・消毒に。ウイルス・菌に効く薬用タイプ。",
    "code": "JAN 未確認",
    "unitBasis": "1枚あたり",
-   "image": "./images/daio/12_alcohol_towel_body.png"
+   "image": "./images/daio/12_alcohol_towel_body.png",
+   "id": 88
   },
   {
    "flier": "紙製品",
@@ -1084,7 +1173,8 @@
    "desc": "本体ボトル用のつめかえ。継続使用のコストを抑える。",
    "code": "JAN 未確認",
    "unitBasis": "1枚あたり",
-   "image": "./images/daio/06_alcohol_towel_refill.png"
+   "image": "./images/daio/06_alcohol_towel_refill.png",
+   "id": 89
   },
   {
    "flier": "紙製品",
@@ -1096,7 +1186,8 @@
    "desc": "物品の清拭にも使える一般タイプのつめかえ。",
    "code": "JAN 未確認",
    "unitBasis": "1枚あたり",
-   "image": "./images/daio/13_alcohol_towel_refill2.png"
+   "image": "./images/daio/13_alcohol_towel_refill2.png",
+   "id": 90
   },
   {
    "flier": "紙製品",
@@ -1108,10 +1199,11 @@
    "desc": "約200×200mmの大判。水99%・無香料・ノンアルコール。",
    "code": "JAN 未確認",
    "unitBasis": "1枚あたり",
-   "image": "./images/daio/15_sasayell_nuretowel.jpg"
+   "image": "./images/daio/15_sasayell_nuretowel.jpg",
+   "id": 91
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "01 食事用エプロン",
    "maker": "竹虎",
    "name": "竹虎® 食事用エプロン 使い捨て",
@@ -1120,10 +1212,11 @@
    "desc": "食事の汚れをガードする使い捨てエプロン。ケアの合間にさっと使える。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/shokuji_epuron.png"
+   "image": "./images/taketora/shokuji_epuron.png",
+   "id": 92
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "01 食事用エプロン",
    "maker": "竹虎",
    "name": "タケトラ® エコノミーエプロン",
@@ -1132,10 +1225,11 @@
    "desc": "経済的な使い捨てエプロン。歯科・食事介助など幅広い用途に。Lサイズもあり。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/economy_epuron.png"
+   "image": "./images/taketora/economy_epuron.png",
+   "id": 93
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "01 食事用エプロン",
    "maker": "竹虎",
    "name": "フェルラック® エプロン",
@@ -1144,10 +1238,11 @@
    "desc": "紙製ディスポエプロン。No.20〜85までサイズ展開が豊富。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/ferurakku_epuron.png"
+   "image": "./images/taketora/ferurakku_epuron.png",
+   "id": 94
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "01 食事用エプロン",
    "maker": "竹虎",
    "name": "やわらか紙エプロン",
@@ -1156,10 +1251,11 @@
    "desc": "肌あたりのやわらかい紙製エプロン。食事介助の場面で使いやすい。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/yawaraka_kami_epuron.png"
+   "image": "./images/taketora/yawaraka_kami_epuron.png",
+   "id": 95
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "02 ビニールエプロン",
    "maker": "竹虎",
    "name": "竹虎® ビニールエプロン",
@@ -1168,10 +1264,11 @@
    "desc": "水仕事・食事介助向けのビニール製エプロン。ブルー・ピンクなど選べる。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/vinyl_epuron.png"
+   "image": "./images/taketora/vinyl_epuron.png",
+   "id": 96
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "02 ビニールエプロン",
    "maker": "竹虎",
    "name": "竹虎® ビニールエプロンCP",
@@ -1180,10 +1277,11 @@
    "desc": "竹虎ビニールエプロンのCPタイプ。用途に応じて選べるラインアップ。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/vinyl_epuron_cp.png"
+   "image": "./images/taketora/vinyl_epuron_cp.png",
+   "id": 97
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "02 ビニールエプロン",
    "maker": "竹虎",
    "name": "竹虎® ビニールエプロンE",
@@ -1192,10 +1290,11 @@
    "desc": "竹虎ビニールエプロンのEタイプ。水や汚れをしっかりガード。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/vinyl_epuron_e.png"
+   "image": "./images/taketora/vinyl_epuron_e.png",
+   "id": 98
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "02 ビニールエプロン",
    "maker": "竹虎",
    "name": "竹虎® ビニールエプロンP",
@@ -1204,10 +1303,11 @@
    "desc": "ロール状で1枚ずつ取り出せる箱入りタイプ。使う分だけ衛生的に。50枚入もあり。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/vinyl_epuron_p100.png"
+   "image": "./images/taketora/vinyl_epuron_p100.png",
+   "id": 99
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "03 ガウン・予防着",
    "maker": "竹虎",
    "name": "サージガウンA",
@@ -1216,10 +1316,11 @@
    "desc": "医療・介護現場向けの使い捨てガウン。ブルー・ピンクなど選べる。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/surge_gown_a.png"
+   "image": "./images/taketora/surge_gown_a.png",
+   "id": 100
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "03 ガウン・予防着",
    "maker": "竹虎",
    "name": "サージガウンT",
@@ -1228,10 +1329,11 @@
    "desc": "袖口がしぼれるタイプの使い捨てガウン。着脱しやすい。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/surge_gown_t.png"
+   "image": "./images/taketora/surge_gown_t.png",
+   "id": 101
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "03 ガウン・予防着",
    "maker": "竹虎",
    "name": "ディスポ予防着",
@@ -1240,10 +1342,11 @@
    "desc": "感染対策・清掃時などに使う使い捨ての予防衣。ポケット付き。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/disposal_yobougi.png"
+   "image": "./images/taketora/disposal_yobougi.png",
+   "id": 102
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "03 ガウン・予防着",
    "maker": "竹虎",
    "name": "タケトラ® ニトリル手袋",
@@ -1252,10 +1355,11 @@
    "desc": "素手のような使用感のニトリルゴム手袋。食品衛生法適合品。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/nitrile_glove_blue.png"
+   "image": "./images/taketora/nitrile_glove_blue.png",
+   "id": 103
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "04 マスク・手袋",
    "maker": "竹虎",
    "name": "サージマスクAC",
@@ -1264,10 +1368,11 @@
    "desc": "医療機関でも使われるディスポーザブルマスク。ラテックスフリー・JIS T9001適合。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/surge_mask_ac.png"
+   "image": "./images/taketora/surge_mask_ac.png",
+   "id": 104
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "04 マスク・手袋",
    "maker": "竹虎",
    "name": "サージマスクN-95(折りたたみ式)",
@@ -1276,10 +1381,11 @@
    "desc": "N-95対応の折りたたみ式サージカルマスク。ノーズブリッジ入りで密着しやすい。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/surge_mask_n95.png"
+   "image": "./images/taketora/surge_mask_n95.png",
+   "id": 105
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "04 マスク・手袋",
    "maker": "竹虎",
    "name": "タケトラ® プラスチック手袋100",
@@ -1288,10 +1394,11 @@
    "desc": "調理・清掃・介護など幅広く使えるプラスチック手袋。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/plastic_glove_100.png"
+   "image": "./images/taketora/plastic_glove_100.png",
+   "id": 106
   },
   {
-   "flier": "タケトラ",
+   "flier": "竹虎",
    "page": "04 マスク・手袋",
    "maker": "竹虎",
    "name": "タケトラ® プラスチック手袋200",
@@ -1300,7 +1407,8 @@
    "desc": "開閉式のフタで衛生的な箱入りタイプ。SS〜LLの5サイズ展開。",
    "code": "JAN 未確認",
    "unitBasis": "1枚",
-   "image": "./images/taketora/plastic_glove_200.png"
+   "image": "./images/taketora/plastic_glove_200.png",
+   "id": 107
   }
  ]
 }

@@ -40,20 +40,21 @@ async function renderFlyer(flyerKey, mountId) {
     fetch('./data/price-rows.json').then(r => r.json()),
   ]);
 
+  const office = tssLoadOffice();
+
   const flyer = pagesData.flyers.find(f => f.key === flyerKey);
   if (!flyer) {
     document.getElementById(mountId).textContent = 'チラシデータが見つかりません: ' + flyerKey;
     return;
   }
 
-  // products.json と price-rows.json は同じ商品マスターから同じ順序・同じ件数で
-  // 生成されているため、配列インデックスで対応させる。code は「JAN 未確認」等の
-  // 重複値を持つ商品が複数あり、code をキーにすると別商品の行を誤って参照する。
-  const priceByCode = productsData.items.length === priceRows.length
-    ? new Map(productsData.items.map((it, i) => [it, priceRows[i]]))
-    : new Map(productsData.items.map(it => [it, priceRows.find(r => r.code === it.code && r.name === it.name)]));
+  // products.json と price-rows.json は id（安定した連番）で対応させる。
+  // code は「JAN 未確認」等の重複値を持つ商品が複数あり、code をキーにすると
+  // 別商品の行を誤って参照するため使わない。
+  const priceRowById = new Map(priceRows.map(r => [r.id, r]));
+  const priceByCode = new Map(productsData.items.map(it => [it, priceRowById.get(it.id)]));
   const { prices: savedPrices, qtys: savedQtys, margins: savedMargins, sellPrices: savedSellPrices } = tssLoadPrices();
-  const itemByCode = new Map(productsData.items.map(it => [it.code, it]));
+  const itemById = new Map(productsData.items.map(it => [it.id, it]));
 
   // おすすめ構成（flier+page でグループ化、掲載順を保持）
   const defaultItemsByPage = new Map();
@@ -67,6 +68,8 @@ async function renderFlyer(flyerKey, mountId) {
   let showCodes = tssLoadBool(TSS_SHOW_CODES_KEY, true);
   let showPrice = tssLoadBool(TSS_SHOW_PRICE_KEY, false);
   let editMode = false;
+  let quoteMode = false;
+  let quoteCart = tssLoadQuoteCart();
   let composition = tssLoadComposition();
   let pickerTarget = null; // { pageKey, slotIndex } while picker is open
 
@@ -79,12 +82,12 @@ async function renderFlyer(flyerKey, mountId) {
   function itemsForPage(pageKey) {
     const override = pageComposition(pageKey);
     if (!override) return defaultItemsByPage.get(pageKey) || [];
-    return override.map(code => itemByCode.get(code)).filter(Boolean);
+    return override.map(id => itemById.get(id)).filter(Boolean);
   }
-  function setSlot(pageKey, slotIndex, code) {
-    const current = pageComposition(pageKey) || (defaultItemsByPage.get(pageKey) || []).map(it => it.code);
+  function setSlot(pageKey, slotIndex, id) {
+    const current = pageComposition(pageKey) || (defaultItemsByPage.get(pageKey) || []).map(it => it.id);
     const next = current.slice();
-    next[slotIndex] = code;
+    next[slotIndex] = id;
     composition[flyer.key] = composition[flyer.key] || {};
     composition[flyer.key][pageKey] = next;
     tssSaveComposition(composition);
@@ -99,11 +102,11 @@ async function renderFlyer(flyerKey, mountId) {
     let priceHTML = '';
     if (showPrice && priceRow) {
       // 販売金額 = 仕入価格 ／ (1 - 利益率)。金額を直接入力していればそちらを優先（price-calc.html と同じ規約）
-      const cost = tssNum(savedPrices[item.code]);
-      const margin = tssNum(savedMargins[item.code]) ?? TSS_DEFAULT_MARGIN;
-      const sellOverride = tssNum(savedSellPrices[item.code]);
+      const cost = tssNum(savedPrices[item.id]);
+      const margin = tssNum(savedMargins[item.id]) ?? TSS_DEFAULT_MARGIN;
+      const sellOverride = tssNum(savedSellPrices[item.id]);
       const sell = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
-      const qty = savedQtys[item.code] != null ? tssNum(savedQtys[item.code]) : priceRow.baseQty;
+      const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
       const unit = tssCalcUnitPrice(sell, qty, priceRow.kind);
       const perMeterHTML = priceRow.metersPerRoll
         ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
@@ -114,9 +117,13 @@ async function renderFlyer(flyerKey, mountId) {
     const editBtn = editMode
       ? `<button type="button" class="tss-card-editbtn" data-page-key="${escapeHTML(pageKey)}" data-slot="${idx}">商品を変更</button>`
       : '';
+    const quoteChk = quoteMode
+      ? `<label class="tss-card-quotechk"><input type="checkbox" data-id="${item.id}" ${quoteCart[item.id] != null ? 'checked' : ''} />見積に追加</label>`
+      : '';
     return `
       <article class="tss-card">
         ${editBtn}
+        ${quoteChk}
         <div class="tss-card-photo" style="height:${tokens.photoHeight}px">
           <img src="./images/${item.image.replace(/^\.\/images\//, '')}" alt="${escapeHTML(item.name)}" loading="lazy" />
         </div>
@@ -173,12 +180,12 @@ async function renderFlyer(flyerKey, mountId) {
       <p class="tss-note">${escapeHTML(page.note)}</p>
       <footer class="tss-footer">
         <div class="tss-footer-left">
-          <div class="tss-footer-office">太陽シルバーサービス㈱　行橋営業所</div>
-          <div class="tss-footer-addr">福岡県行橋市大字流末1327番地</div>
-          <div class="tss-footer-tel"><span>TEL 0930-26-9640</span><span>FAX 0930-26-9641</span></div>
+          <div class="tss-footer-office">太陽シルバーサービス㈱　${escapeHTML(office.name)}</div>
+          <div class="tss-footer-addr">${escapeHTML(office.address)}</div>
+          <div class="tss-footer-tel"><span>TEL ${escapeHTML(office.tel)}</span><span>FAX ${escapeHTML(office.fax)}</span></div>
           <div class="tss-footer-contact">
-            <div class="tss-footer-contact-item"><span class="tss-footer-contact-label">担当</span><span class="tss-footer-contact-name">久保</span></div>
-            <div class="tss-footer-contact-item"><span class="tss-footer-contact-label">携帯</span><span class="tss-footer-contact-mobile">080-9151-0294</span></div>
+            <div class="tss-footer-contact-item"><span class="tss-footer-contact-label">${office.contactName ? '担当' : '所長'}</span><span class="tss-footer-contact-name">${escapeHTML(office.contactName || office.manager)}</span></div>
+            ${office.mobile ? `<div class="tss-footer-contact-item"><span class="tss-footer-contact-label">携帯</span><span class="tss-footer-contact-mobile">${escapeHTML(office.mobile)}</span></div>` : ''}
           </div>
         </div>
       </footer>
@@ -231,7 +238,7 @@ async function renderFlyer(flyerKey, mountId) {
       return;
     }
     listEl.innerHTML = list.map(it => `
-      <button type="button" class="tss-picker-item" data-code="${escapeHTML(it.code)}">
+      <button type="button" class="tss-picker-item" data-id="${it.id}">
         <img src="./images/${it.image.replace(/^\.\/images\//, '')}" alt="" loading="lazy" />
         <span class="tss-picker-item-info">
           <span class="tss-picker-item-name">${escapeHTML(it.name)}</span>
@@ -260,7 +267,7 @@ async function renderFlyer(flyerKey, mountId) {
   picker.querySelector('.tss-picker-list').addEventListener('click', (e) => {
     const btn = e.target.closest('.tss-picker-item');
     if (!btn || !pickerTarget) return;
-    setSlot(pickerTarget.pageKey, pickerTarget.slotIndex, btn.dataset.code);
+    setSlot(pickerTarget.pageKey, pickerTarget.slotIndex, Number(btn.dataset.id));
     closePicker();
     renderAll();
   });
@@ -278,6 +285,19 @@ async function renderFlyer(flyerKey, mountId) {
       resetPage(resetBtn.dataset.pageKey);
       renderAll();
     }
+  });
+
+  mount.addEventListener('change', (e) => {
+    const chk = e.target.closest('.tss-card-quotechk input');
+    if (!chk) return;
+    const id = Number(chk.dataset.id);
+    if (chk.checked) {
+      quoteCart[id] = quoteCart[id] || 1;
+    } else {
+      delete quoteCart[id];
+    }
+    tssSaveQuoteCart(quoteCart);
+    updateQuoteBadge();
   });
 
   renderAll();
@@ -310,6 +330,20 @@ async function renderFlyer(flyerKey, mountId) {
       renderAll();
     });
   }
+
+  const quoteToggle = document.getElementById('tss-toggle-quote');
+  if (quoteToggle) {
+    quoteToggle.checked = quoteMode;
+    quoteToggle.addEventListener('change', () => {
+      quoteMode = quoteToggle.checked;
+      renderAll();
+    });
+  }
+  function updateQuoteBadge() {
+    const badge = document.getElementById('tss-quote-badge');
+    if (badge) badge.textContent = '見積を見る（' + tssQuoteCartCount(quoteCart) + '）';
+  }
+  updateQuoteBadge();
 
   const printBtn = document.getElementById('tss-print-btn');
   if (printBtn) printBtn.addEventListener('click', () => window.print());

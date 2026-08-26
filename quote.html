@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>見積もりを作成する | 太陽シルバーサービス</title>
+<meta name="description" content="チラシでチェックした商品から見積書を作成します。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #eef5f5; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
+  a { color: #0f7f86; }
+  .wrap { min-height: 100vh; padding: 24px 24px 60px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .inner { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 16px; }
+  .back { font-size: 13px; font-weight: 700; text-decoration: none; }
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .badge { background: #0f7f86; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .14em; padding: 5px 12px; }
+  h1 { margin: 8px 0 0; font-size: 30px; line-height: 1.2; font-weight: 900; letter-spacing: -.01em; }
+  .lead { margin: 6px 0 0; font-size: 13px; line-height: 1.7; color: #41595E; max-width: 620px; }
+  .actions { display: flex; gap: 8px; }
+  .btn { border: 1.5px solid #0f7f86; background: #fff; color: #0f7f86; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 9px 16px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+  .btn:hover { background: #0f7f86; color: #fff; }
+  .btn-primary { background: #0f7f86; color: #fff; }
+  .btn-primary:hover { background: #0c6articulate; }
+  .btn-danger { border-color: #c3cac7; color: #6f8688; }
+  .btn-danger:hover { border-color: #c25a17; color: #c25a17; background: #fff; }
+
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 12px; font-weight: 700; color: #41595E; }
+  .field input, .field textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 9px 10px; }
+  .field textarea { resize: vertical; min-height: 54px; }
+
+  .empty { border: 1.5px dashed #cfe0e2; background: #fff; padding: 48px 24px; text-align: center; color: #8aa0a2; font-size: 14px; }
+
+  table.rows { width: 100%; border-collapse: collapse; background: #fff; border: 1.5px solid #cfe0e2; }
+  .thead-row, .item-row { display: grid; grid-template-columns: 40px 1fr 110px 90px 110px 120px 40px; align-items: center; min-width: 900px; }
+  .thead-row { background: #0f7f86; color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; }
+  .thead-row > div { padding: 10px 10px; }
+  .item-row { border-top: 1px solid #e6f3f3; }
+  .item-row > div { padding: 8px 10px; }
+  .rows-wrap { overflow-x: auto; }
+  .col-right { text-align: right; }
+  .cell-name { display: flex; flex-direction: column; gap: 2px; }
+  .cell-name .name { font-size: 13px; font-weight: 700; line-height: 1.35; }
+  .cell-name .maker { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #8aa0a2; }
+  .num-input { width: 100%; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; text-align: right; padding: 6px 8px; color: #12242A; font-family: 'Roboto Mono', monospace; }
+  .amount-cell { text-align: right; font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 700; color: #c25a17; }
+  .remove-btn { border: none; background: none; color: #c3cac7; font-size: 18px; cursor: pointer; line-height: 1; }
+  .remove-btn:hover { color: #c25a17; }
+
+  .totals { display: flex; justify-content: flex-end; }
+  .totals-box { width: 320px; display: flex; flex-direction: column; gap: 6px; background: #fff; border: 1.5px solid #cfe0e2; padding: 16px 20px; }
+  .totals-row { display: flex; justify-content: space-between; font-size: 13.5px; color: #41595E; }
+  .totals-row.grand { font-size: 18px; font-weight: 900; color: #12242A; border-top: 1.5px solid #cfe0e2; padding-top: 8px; margin-top: 4px; }
+  .totals-row .val { font-family: 'Roboto Mono', monospace; }
+
+  #print-content-holder { display: none; }
+  @media print {
+    body > *:not(#print-content-holder) { display: none !important; }
+    #print-content-holder { display: block !important; }
+    @page { size: A4 portrait; margin: 0; }
+  }
+
+  /* ---- 印刷帳票（見積書）---- */
+  .doc { width: 210mm; min-height: 297mm; padding: 14mm; background: #fff; font-family: 'BIZ UDPMincho','Yu Mincho','Hiragino Mincho ProN',serif; font-size: 9.5pt; line-height: 1.6; color: #1f2937; }
+  .doc-page { max-width: 182mm; margin: 0 auto; }
+  .doc-header { display: flex; justify-content: space-between; gap: 10mm; margin-bottom: 8mm; }
+  .doc-header .left { flex: 1; }
+  .doc-title { font-size: 22pt; font-weight: 700; letter-spacing: .5em; color: #1e3a8a; border-bottom: 1.5px solid #3b82f6; padding-bottom: 4mm; margin-bottom: 6mm; }
+  .doc-to { font-size: 15pt; font-weight: 700; color: #1f2937; }
+  .doc-to .suffix { font-size: 10.5pt; font-weight: 500; color: #2563eb; margin-left: 4px; }
+  .doc-greeting { font-size: 8.5pt; color: #4b5563; margin-top: 4mm; }
+  .doc-header .right { width: 70mm; flex: none; font-size: 8.5pt; }
+  .doc-date { text-align: right; margin-bottom: 3mm; }
+  .doc-issuer { border: 1px solid #bfdbfe; background: #f0f7ff; padding: 3mm 4mm; }
+  .doc-issuer .company { font-size: 10.5pt; font-weight: 700; margin-bottom: 1.5mm; }
+  .doc-total-banner { background: #eff6ff; border: 1px solid #93c5fd; padding: 3mm 4mm; margin-bottom: 5mm; display: flex; justify-content: space-between; align-items: baseline; }
+  .doc-total-banner .label { font-size: 10pt; font-weight: 700; color: #1e3a8a; }
+  .doc-total-banner .value { font-size: 16pt; font-weight: 700; color: #1e3a8a; }
+  table.doc-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 5mm; }
+  table.doc-table th { background: #dbeafe; color: #1e3a8a; font-weight: 700; font-size: 8.5pt; padding: 2.2mm 2mm; text-align: left; border: 1px solid #bfdbfe; }
+  table.doc-table td { padding: 2mm; border: 1px solid #bfdbfe; font-size: 9.5pt; overflow-wrap: anywhere; word-break: break-word; }
+  table.doc-table tbody tr:nth-child(even) { background: #f8fbff; }
+  .doc-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 9pt; }
+  .doc-bottom { display: flex; justify-content: space-between; gap: 8mm; }
+  .doc-remarks { flex: 1; border-left: 2px solid #bfdbfe; padding-left: 4mm; font-size: 8.5pt; color: #4b5563; white-space: pre-wrap; }
+  .doc-sums { width: 65mm; flex: none; }
+  .doc-sums-row { display: flex; justify-content: space-between; padding: 1.5mm 0; font-size: 9.5pt; }
+  .doc-sums-row.grand { border-top: 1.5px solid #1e3a8a; margin-top: 1.5mm; padding-top: 2.5mm; font-size: 12pt; font-weight: 700; color: #1e3a8a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="inner">
+    <div><a class="back" href="./index.html">← メインメニューへ</a></div>
+    <header>
+      <div>
+        <div class="badge">見積もりを作成する</div>
+        <h1>見積書</h1>
+        <p class="lead">各チラシページの「見積に追加」をONにしてチェックした商品がここに並びます。数量・単価は自由に編集できます。</p>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="btn-print">印刷 / PDF保存</button>
+        <button type="button" class="btn btn-danger" id="btn-clear">見積をクリア</button>
+      </div>
+    </header>
+
+    <div class="meta-grid">
+      <div class="field">
+        <label for="customer-name">お客様名（御中）</label>
+        <input type="text" id="customer-name" placeholder="例：〇〇苑" />
+      </div>
+      <div class="field">
+        <label for="quote-title">帳票タイトル</label>
+        <input type="text" id="quote-title" value="御見積書" />
+      </div>
+      <div class="field" style="grid-column: 1 / -1;">
+        <label for="quote-remarks">備考</label>
+        <textarea id="quote-remarks" placeholder="納期・支払条件など"></textarea>
+      </div>
+    </div>
+
+    <div id="empty-state" class="empty" style="display:none">見積に追加された商品がありません。チラシページで「見積に追加」をONにして、商品にチェックを付けてください。</div>
+
+    <div id="table-section" class="rows-wrap">
+      <div class="thead-row">
+        <div></div><div>商品名</div><div class="col-right">数量</div><div>単位</div><div class="col-right">単価</div><div class="col-right">金額</div><div></div>
+      </div>
+      <div id="rows-body"></div>
+    </div>
+
+    <div class="totals" id="totals-section">
+      <div class="totals-box">
+        <div class="totals-row"><span>小計</span><span class="val" id="sum-subtotal">￥0</span></div>
+        <div class="totals-row"><span>消費税（10%）</span><span class="val" id="sum-tax">￥0</span></div>
+        <div class="totals-row grand"><span>合計</span><span class="val" id="sum-total">￥0</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="print-content-holder"></div>
+
+<script src="./assets/offices.js"></script>
+<script src="./assets/pricing.js"></script>
+<script>
+(async function () {
+  const [products, priceRowsRaw] = await Promise.all([
+    fetch('./data/products.json').then(r => r.json()),
+    fetch('./data/price-rows.json').then(r => r.json()),
+  ]);
+  const itemById = new Map(products.items.map(it => [it.id, it]));
+  const priceRowById = new Map(priceRowsRaw.map(r => [r.id, r]));
+
+  function escapeHTML(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  const META_KEY = 'tss_quote_meta_v1';
+  function loadMeta() {
+    try { return JSON.parse(localStorage.getItem(META_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function saveMeta(meta) {
+    try { localStorage.setItem(META_KEY, JSON.stringify(meta)); } catch (e) {}
+  }
+
+  let cart = tssLoadQuoteCart();
+  let meta = loadMeta();
+  meta.priceOverrides = meta.priceOverrides || {};
+
+  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, qtys: savedQtys } = tssLoadPrices();
+
+  document.getElementById('customer-name').value = meta.customerName || '';
+  document.getElementById('quote-title').value = meta.title || '御見積書';
+  document.getElementById('quote-remarks').value = meta.remarks || '';
+
+  function suggestedUnitPrice(item, priceRow) {
+    if (!priceRow) return null;
+    const cost = tssNum(savedPrices[item.id]);
+    const margin = tssNum(savedMargins[item.id]) ?? TSS_DEFAULT_MARGIN;
+    const sellOverride = tssNum(savedSellPrices[item.id]);
+    return sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
+  }
+
+  function computedRows() {
+    return Object.keys(cart).map(idStr => {
+      const id = Number(idStr);
+      const item = itemById.get(id);
+      if (!item) return null;
+      const priceRow = priceRowById.get(id);
+      const qty = cart[id] || 1;
+      const suggested = suggestedUnitPrice(item, priceRow);
+      const unitPrice = meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested;
+      const amount = unitPrice != null ? unitPrice * qty : null;
+      return { id, item, priceRow, qty, unitPrice, unitPriceStr: meta.priceOverrides[id] != null ? meta.priceOverrides[id] : (suggested != null ? String(Math.round(suggested)) : ''), amount };
+    }).filter(Boolean);
+  }
+
+  function renderRows() {
+    const rows = computedRows();
+    const hasRows = rows.length > 0;
+    document.getElementById('empty-state').style.display = hasRows ? 'none' : 'block';
+    document.getElementById('table-section').style.display = hasRows ? 'block' : 'none';
+    document.getElementById('totals-section').style.display = hasRows ? 'flex' : 'none';
+
+    const body = document.getElementById('rows-body');
+    body.innerHTML = rows.map(r => `
+      <div class="item-row" data-id="${r.id}">
+        <div></div>
+        <div class="cell-name"><span class="name">${escapeHTML(r.item.name)}</span><span class="maker">${escapeHTML(r.item.maker)} ／ ${escapeHTML(r.item.spec)}</span></div>
+        <div><input type="text" inputmode="numeric" class="num-input qty-input" data-id="${r.id}" value="${r.qty}" /></div>
+        <div>${escapeHTML(r.priceRow ? r.priceRow.kind : '')}</div>
+        <div><input type="text" inputmode="decimal" class="num-input price-input" data-id="${r.id}" value="${escapeHTML(r.unitPriceStr)}" placeholder="0" /></div>
+        <div class="amount-cell">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</div>
+        <div><button type="button" class="remove-btn" data-id="${r.id}" title="削除">×</button></div>
+      </div>`).join('');
+
+    body.querySelectorAll('.qty-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const id = Number(inp.dataset.id);
+        const n = parseInt(inp.value.replace(/[^0-9]/g, ''), 10);
+        cart[id] = isFinite(n) && n > 0 ? n : 1;
+        tssSaveQuoteCart(cart);
+        renderRows();
+      });
+    });
+    body.querySelectorAll('.price-input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const id = inp.dataset.id;
+        meta.priceOverrides[id] = inp.value;
+        saveMeta(meta);
+        renderRows();
+      });
+    });
+    body.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        delete cart[id];
+        delete meta.priceOverrides[id];
+        tssSaveQuoteCart(cart);
+        saveMeta(meta);
+        renderRows();
+      });
+    });
+
+    renderTotals(rows);
+  }
+
+  function renderTotals(rows) {
+    const subtotal = rows.reduce((s, r) => s + (r.amount || 0), 0);
+    const tax = Math.round(subtotal * 0.1);
+    const total = subtotal + tax;
+    document.getElementById('sum-subtotal').textContent = '￥' + Math.round(subtotal).toLocaleString('ja-JP');
+    document.getElementById('sum-tax').textContent = '￥' + tax.toLocaleString('ja-JP');
+    document.getElementById('sum-total').textContent = '￥' + total.toLocaleString('ja-JP');
+  }
+
+  document.getElementById('customer-name').addEventListener('change', (e) => { meta.customerName = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-title').addEventListener('change', (e) => { meta.title = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-remarks').addEventListener('change', (e) => { meta.remarks = e.target.value; saveMeta(meta); });
+
+  document.getElementById('btn-clear').addEventListener('click', () => {
+    if (!confirm('見積の内容をすべて消去します。よろしいですか？')) return;
+    cart = {};
+    meta = { priceOverrides: {} };
+    tssSaveQuoteCart(cart);
+    saveMeta(meta);
+    document.getElementById('customer-name').value = '';
+    document.getElementById('quote-title').value = '御見積書';
+    document.getElementById('quote-remarks').value = '';
+    renderRows();
+  });
+
+  document.getElementById('btn-print').addEventListener('click', () => {
+    const rows = computedRows();
+    if (!rows.length) { alert('見積に商品が追加されていません。'); return; }
+    const office = tssLoadOffice();
+    const subtotal = rows.reduce((s, r) => s + (r.amount || 0), 0);
+    const tax = Math.round(subtotal * 0.1);
+    const total = subtotal + tax;
+    const today = new Date();
+    const dateStr = today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
+    const customerName = meta.customerName || '';
+    const title = meta.title || '御見積書';
+
+    const rowsHTML = rows.map(r => `
+      <tr>
+        <td>${escapeHTML(r.item.name)}<br><span style="color:#6b7280;font-size:8pt">${escapeHTML(r.item.maker)} ／ ${escapeHTML(r.item.spec)}</span></td>
+        <td class="num">${r.qty}</td>
+        <td class="num">${escapeHTML(r.priceRow ? r.priceRow.kind : '')}</td>
+        <td class="num">${r.unitPrice != null ? '￥' + Math.round(r.unitPrice).toLocaleString('ja-JP') : '—'}</td>
+        <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
+      </tr>`).join('');
+
+    const html = `
+      <div class="doc">
+        <div class="doc-page">
+          <div class="doc-header">
+            <div class="left">
+              <div class="doc-title">${escapeHTML(title)}</div>
+              <div class="doc-to">${customerName ? escapeHTML(customerName) : 'お客様'}<span class="suffix">御中</span></div>
+              <div class="doc-greeting">下記の通りお見積り申し上げます。</div>
+            </div>
+            <div class="right">
+              <div class="doc-date">発行日　${dateStr}</div>
+              <div class="doc-issuer">
+                <div class="company">太陽シルバーサービス㈱</div>
+                <div>${escapeHTML(office.name)}</div>
+                <div>${escapeHTML(office.address)}</div>
+                <div>TEL ${escapeHTML(office.tel)}　FAX ${escapeHTML(office.fax)}</div>
+                <div>${office.contactName ? '担当　' + escapeHTML(office.contactName) : '所長　' + escapeHTML(office.manager)}</div>
+              </div>
+            </div>
+          </div>
+          <div class="doc-total-banner">
+            <span class="label">お見積り合計金額（税込）</span>
+            <span class="value">￥${total.toLocaleString('ja-JP')}</span>
+          </div>
+          <table class="doc-table">
+            <colgroup><col style="width:46%"><col style="width:10%"><col style="width:14%"><col style="width:14%"><col style="width:16%"></colgroup>
+            <thead><tr><th>品名</th><th style="text-align:right">数量</th><th style="text-align:right">単位</th><th style="text-align:right">単価</th><th style="text-align:right">金額</th></tr></thead>
+            <tbody>${rowsHTML}</tbody>
+          </table>
+          <div class="doc-bottom">
+            <div class="doc-remarks">${meta.remarks ? escapeHTML(meta.remarks) : ''}</div>
+            <div class="doc-sums">
+              <div class="doc-sums-row"><span>小計</span><span>￥${Math.round(subtotal).toLocaleString('ja-JP')}</span></div>
+              <div class="doc-sums-row"><span>消費税（10%）</span><span>￥${tax.toLocaleString('ja-JP')}</span></div>
+              <div class="doc-sums-row grand"><span>合計</span><span>￥${total.toLocaleString('ja-JP')}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('print-content-holder').innerHTML = html;
+    window.print();
+  });
+
+  renderRows();
+})();
+</script>
+</body>
+</html>

@@ -4,6 +4,21 @@ const TSS_PRICE_KEY = 'tsss-price-v1';
 
 const TSS_DEFAULT_MARGIN = 20;
 
+// 見積カート: 各チラシの「見積に追加」チェックから商品を集める。
+// 形状: { [商品id]: 数量 }。id は data/products.json の連番。
+const TSS_QUOTE_CART_KEY = 'tss_quote_cart_v1';
+
+function tssLoadQuoteCart() {
+  try {
+    const raw = localStorage.getItem(TSS_QUOTE_CART_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+function tssSaveQuoteCart(cart) {
+  try { localStorage.setItem(TSS_QUOTE_CART_KEY, JSON.stringify(cart)); } catch (e) {}
+}
+function tssQuoteCartCount(cart) { return Object.keys(cart || tssLoadQuoteCart()).length; }
+
 function tssLoadPrices() {
   try {
     const raw = localStorage.getItem(TSS_PRICE_KEY);

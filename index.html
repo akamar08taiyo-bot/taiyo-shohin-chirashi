@@ -3,73 +3,107 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>消耗品チラシ | 太陽シルバーサービス 行橋営業所</title>
-<meta name="description" content="施設・病院・事業所さま向け 消耗品カタログチラシ一覧（花王・ロケット石鹸／ジャパックス／紙製品）" />
+<title>消耗品チラシ | 太陽シルバーサービス</title>
+<meta name="description" content="施設・病院・事業所さま向け 消耗品チラシ・見積・価格表の作成ツール" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; background: #F6FBFB; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
-  .wrap { max-width: 1360px; margin: 0 auto; padding: 64px 48px 96px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 56px 48px 96px; }
+  .top-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
   .badge { display: inline-block; background: #0f7f86; color: #fff; font-size: 15px; font-weight: 700; letter-spacing: .14em; padding: 8px 18px; margin-bottom: 20px; }
-  h1 { margin: 0 0 14px; font-size: 52px; font-weight: 900; letter-spacing: -.01em; }
-  .lead { margin: 0 0 48px; font-size: 18px; line-height: 1.8; color: #41595E; max-width: 780px; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 26px; }
-  .card { display: block; text-decoration: none; color: inherit; border: 2px solid #cfe0e2; background: #fff; padding: 32px 30px 28px; transition: border-color .15s; }
+  h1 { margin: 0 0 14px; font-size: 48px; font-weight: 900; letter-spacing: -.01em; }
+  .lead { margin: 0 0 48px; font-size: 17px; line-height: 1.8; color: #41595E; max-width: 720px; }
+
+  .office-picker { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .office-picker label { font-size: 12px; font-weight: 700; color: #41595E; letter-spacing: .06em; }
+  .office-picker select {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 700; color: #12242A;
+    border: 2px solid #cfe0e2; background: #fff; padding: 10px 36px 10px 14px; cursor: pointer;
+    min-width: 220px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%230f7f86' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+  }
+  .office-picker select:focus { outline: none; border-color: #0f7f86; }
+  .office-info { font-size: 12.5px; color: #8aa0a2; text-align: right; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 26px; }
+  .card { display: block; text-decoration: none; color: inherit; border: 2px solid #cfe0e2; background: #fff; padding: 36px 32px 30px; transition: border-color .15s, transform .1s; }
   .card:hover { border-color: #0f7f86; }
-  .card .cat { font-size: 14px; font-weight: 700; color: #0f7f86; letter-spacing: .1em; margin-bottom: 12px; }
-  .card h2 { margin: 0 0 12px; font-size: 28px; font-weight: 900; }
-  .card p { margin: 0; font-size: 16px; line-height: 1.7; color: #41595E; }
-  .card .pages { margin-top: 20px; font-size: 15px; font-weight: 700; color: #8aa0a2; }
-  .tool-card { border-style: dashed; }
-  footer { margin-top: 72px; padding-top: 26px; border-top: 3px solid #0f7f86; font-size: 15px; color: #41595E; display: flex; flex-direction: column; gap: 6px; }
-  footer .office { font-size: 20px; font-weight: 900; color: #12242A; }
+  .card .icon { font-size: 34px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 12px; font-size: 26px; font-weight: 900; }
+  .card p { margin: 0; font-size: 15px; line-height: 1.7; color: #41595E; }
+
+  footer { margin-top: 72px; padding-top: 26px; border-top: 3px solid #0f7f86; font-size: 14px; color: #41595E; display: flex; flex-direction: column; gap: 6px; }
+  footer .office { font-size: 18px; font-weight: 900; color: #12242A; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="badge">施設・病院・事業所さま向け</div>
-  <h1>消耗品チラシ</h1>
-  <p class="lead">太陽シルバーサービス㈱ 行橋営業所が取り扱う業務用消耗品のカタログチラシです。カテゴリを選ぶとA4ページを画面で確認・印刷・PDF保存できます。</p>
+  <div class="top-row">
+    <div>
+      <div class="badge">施設・病院・事業所さま向け</div>
+      <h1>消耗品チラシ</h1>
+    </div>
+    <div class="office-picker">
+      <label for="office-select">発行営業所</label>
+      <select id="office-select"></select>
+      <div class="office-info" id="office-info"></div>
+    </div>
+  </div>
+  <p class="lead">太陽シルバーサービス㈱の業務用消耗品カタログです。チラシの作成、見積書の作成、価格表の管理ができます。</p>
 
   <div class="cards">
-    <a class="card" href="./kao-rocket.html">
-      <div class="cat">洗剤・衛生用品</div>
-      <h2>花王・ロケット石鹸</h2>
-      <p>食器用洗剤・洗濯用洗剤・トイレ洗剤・浴室用洗剤・手指衛生・消臭除菌など</p>
-      <div class="pages">全11ページ・44商品</div>
+    <a class="card" href="./flyers.html">
+      <div class="icon">📄</div>
+      <h2>チラシを作成する</h2>
+      <p>メーカーから、または使用用途からカタログチラシを選び、画面で確認・印刷・PDF保存します。</p>
     </a>
-    <a class="card" href="./japacks.html">
-      <div class="cat">ゴミ袋・ポリ袋</div>
-      <h2>ジャパックス</h2>
-      <p>ゴミ袋・レジ袋・業務用カラーポリ袋・環境配慮タイプなど、サイズ展開つき</p>
-      <div class="pages">全8ページ・32商品</div>
+    <a class="card" href="./quote.html">
+      <div class="icon">🧾</div>
+      <h2>見積もりを作成する</h2>
+      <p>チラシの商品をチェックして見積書を作成します。商品名・規格・単価・金額を自動で並べます。</p>
     </a>
-    <a class="card" href="./paper.html">
-      <div class="cat">紙製品</div>
-      <h2>紙製品</h2>
-      <p>トイレットペーパー・ペーパータオル・ティシュー・手指衛生用清拭タオルなど</p>
-      <div class="pages">全3ページ・12商品</div>
-    </a>
-    <a class="card" href="./taketora.html">
-      <div class="cat">医療・介護用ディスポ用品</div>
-      <h2>タケトラ</h2>
-      <p>食事用・ビニールエプロン、ガウン・予防着、サージマスク、手袋など</p>
-      <div class="pages">全4ページ・16商品</div>
-    </a>
-    <a class="card tool-card" href="./price-calc.html">
-      <div class="cat">社内用ツール</div>
-      <h2>価格・単価計算シート</h2>
-      <p>仕入価格を入力すると単価を自動計算します。入力するとチラシの価格表示にも反映されます。</p>
+    <a class="card" href="./price-calc.html">
+      <div class="icon">💰</div>
+      <h2>価格表を管理する</h2>
+      <p>仕入価格を入力すると、利益率をもとに販売金額・単価を自動計算します。</p>
     </a>
   </div>
 
   <footer>
-    <div class="office">太陽シルバーサービス㈱　行橋営業所</div>
-    <div>福岡県行橋市大字流末1327番地</div>
-    <div>TEL 0930-26-9640　FAX 0930-26-9641　担当 久保　携帯 080-9151-0294</div>
+    <div class="office" id="footer-office">太陽シルバーサービス㈱　行橋営業所</div>
+    <div id="footer-address">福岡県行橋市大字流末1327番地</div>
+    <div id="footer-tel">TEL 0930-26-9640　FAX 0930-26-9641</div>
   </footer>
 </div>
+
+<script src="./assets/offices.js"></script>
+<script>
+  const select = document.getElementById('office-select');
+  TSS_OFFICE_MASTER.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o.name;
+    opt.textContent = o.name;
+    select.appendChild(opt);
+  });
+
+  function renderOffice() {
+    const office = tssLoadOffice();
+    select.value = office.name;
+    document.getElementById('office-info').textContent = office.tel;
+    document.getElementById('footer-office').textContent = '太陽シルバーサービス㈱　' + office.name;
+    document.getElementById('footer-address').textContent = office.address;
+    document.getElementById('footer-tel').textContent = 'TEL ' + office.tel + '　FAX ' + office.fax;
+  }
+  select.addEventListener('change', () => {
+    tssSaveOffice(select.value);
+    renderOffice();
+  });
+  renderOffice();
+</script>
 </body>
 </html>
