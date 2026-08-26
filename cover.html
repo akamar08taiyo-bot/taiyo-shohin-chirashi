@@ -11,12 +11,13 @@
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; background: #eef5f5; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
-  .wrap { min-height: 100vh; padding: 24px 24px 120px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .wrap { min-height: 100vh; padding: 24px 24px 48px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
   .inner { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 16px; }
   .back { font-size: 13px; font-weight: 700; color: #0f7f86; text-decoration: none; }
   header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .badge { background: #1e3a8a; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .14em; padding: 5px 12px; }
-  h1 { margin: 8px 0 0; font-size: 30px; line-height: 1.2; font-weight: 900; }
+  h1 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 900; }
+  .title-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
   .lead { margin: 6px 0 0; font-size: 13px; line-height: 1.7; color: #41595E; max-width: 620px; }
 
   .btn { border: 1.5px solid #1e3a8a; background: #fff; color: #1e3a8a; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 10px 18px; cursor: pointer; }
@@ -40,8 +41,6 @@
   .preview-label { font-size: 12px; font-weight: 700; color: #5c7376; letter-spacing: .08em; }
   .preview-scroll { overflow-x: auto; background: #dfe8e8; padding: 20px; }
 
-  .sticky-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; align-items: center; justify-content: flex-end; gap: 14px; padding: 12px 24px; background: #fff; border-top: 2px solid #1e3a8a; box-shadow: 0 -4px 16px rgba(15,40,42,.10); }
-  .sticky-bar .info { margin-right: auto; font-size: 13px; font-weight: 700; color: #41595E; }
 
   /* ============ 表紙本体（A4横 297×210mm = 1123×794px @96dpi）============ */
   .cover {
@@ -54,7 +53,7 @@
   }
   /* 原本は左パネルの内容が下寄せ（上半分は余白）なので justify-content: flex-end で揃える */
   .cover-back { width: 50%; padding: 46px 34px 30px 46px; display: flex; flex-direction: column; justify-content: flex-end; }
-  .cover-front { width: 50%; padding: 68px 46px 34px 34px; display: flex; flex-direction: column; position: relative; }
+  .cover-front { width: 50%; padding: 62px 34px 34px 30px; display: flex; flex-direction: column; position: relative; }
 
   /* --- 右側（表面） --- */
   .corp-en { text-align: right; font-size: 13.5px; letter-spacing: .06em; color: #1a1a1a; }
@@ -64,8 +63,7 @@
   .cover-title-rule { height: 3px; background: #0a8a3c; margin: 10px auto 0; width: 40%; }
   .cover-client { margin-top: 38px; text-align: center; font-size: 17px; font-weight: 600; letter-spacing: .08em; }
   .cover-client .suffix { font-size: 13px; font-weight: 400; margin-left: 10px; }
-  .cover-front-foot { margin-top: auto; display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
-  .logo-mark { width: 42px; height: 42px; border-radius: 50%; background: #d81f26; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 900; letter-spacing: .02em; flex: none; }
+  .cover-front-foot { margin-top: auto; display: flex; align-items: center; justify-content: center; }
   .foot-name { font-size: 21px; font-weight: 600; letter-spacing: .04em; }
 
   /* --- 左側（裏面：営業所一覧） --- */
@@ -100,7 +98,10 @@
     <header>
       <div>
         <div class="badge">表紙をつくる</div>
-        <h1>見積書カバー</h1>
+        <div class="title-row">
+          <h1>見積書カバー</h1>
+          <button type="button" class="btn btn-primary" id="btn-print">🖨 印刷 / PDF保存</button>
+        </div>
         <p class="lead">御見積書・ご提案書などの表紙です。A4横1枚で、二つ折りにすると右が表面、左が営業所一覧になります。</p>
       </div>
     </header>
@@ -142,18 +143,13 @@
   </div>
 </div>
 
-<div class="sticky-bar">
-  <div class="info" id="bar-info"></div>
-  <button type="button" class="btn btn-primary" id="btn-print">🖨 印刷 / PDF保存</button>
-</div>
-
 <div id="print-holder"></div>
 
 <script src="./assets/offices.js"></script>
 <script>
 (function () {
   const COVER_KEY = 'tss_cover_v1';
-  const PRESETS = ['御見積書', 'ご提案書', '御請求書', '商品のご案内'];
+  const PRESETS = ['御見積書', 'ご提案書', '商品のご案内'];
   // 本社情報は見積書カバー（2025-02-01版）に印刷されているものを転記
   const HQ = { zip: '838-0814', address: '福岡県朝倉郡筑前町高田585番地1', tel: '0946-21-4700', fax: '0946-21-4701' };
 
@@ -222,7 +218,6 @@
             ${client ? `<div class="cover-client">${escapeHTML(client)}${state.suffix ? `<span class="suffix">${escapeHTML(state.suffix)}</span>` : ''}</div>` : ''}
           </div>
           <div class="cover-front-foot">
-            <span class="logo-mark">TAIYO</span>
             <span class="foot-name">太陽シルバーサービス株式会社</span>
           </div>
         </div>
@@ -233,8 +228,6 @@
     document.getElementById('preview').innerHTML = coverHTML();
     document.querySelectorAll('.preset').forEach(b =>
       b.classList.toggle('active', b.dataset.t === state.title));
-    document.getElementById('bar-info').textContent =
-      '表題：' + (state.title || '—') + (state.client ? '／' + state.client + ' ' + state.suffix : '');
   }
 
   titleInput.addEventListener('input', () => { state.title = titleInput.value; save(state); render(); });
