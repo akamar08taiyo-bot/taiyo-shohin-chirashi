@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>見積もりを作成する | 太陽シルバーサービス</title>
-<meta name="description" content="チラシでチェックした商品から見積書を作成します。" />
+<meta name="description" content="メーカーごとの商品一覧から選ぶ、または検索して見積書を作成します。" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -27,7 +27,40 @@
   .btn-danger { border-color: #c3cac7; color: #6f8688; }
   .btn-danger:hover { border-color: #c25a17; color: #c25a17; background: #fff; }
 
+  /* ---- タブ切替 ---- */
+  .switcher { display: flex; gap: 10px; }
+  .switch-btn { border: 2px solid #cfe0e2; background: #fff; color: #41595E; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700; padding: 11px 22px; cursor: pointer; }
+  .switch-btn.active { border-color: #0f7f86; background: #0f7f86; color: #fff; }
+  .switch-btn .count { font-family: 'Roboto Mono', monospace; margin-left: 6px; opacity: .85; }
+  .view { display: none; flex-direction: column; gap: 16px; }
+  .view.active { display: flex; }
+
+  /* ---- 商品を選ぶ（ピッカー） ---- */
+  .picker-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .picker-search { flex: 1; min-width: 240px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 11px 14px; }
+  .picker-search:focus { outline: none; border-color: #0f7f86; }
+  .picker-count { font-size: 12.5px; font-weight: 700; color: #41595E; white-space: nowrap; }
+  .picker-count strong { color: #0f7f86; font-family: 'Roboto Mono', monospace; font-size: 14px; }
+  .picker-groups { display: flex; flex-direction: column; gap: 14px; }
+  .picker-group { background: #fff; border: 1.5px solid #cfe0e2; }
+  .picker-group-title { display: flex; align-items: baseline; gap: 8px; background: #e3f1f1; color: #0f7f86; font-size: 13.5px; font-weight: 900; letter-spacing: .04em; padding: 9px 14px; }
+  .picker-group-title .cnt { font-size: 11px; font-weight: 700; color: #6f9294; }
+  .picker-list { display: flex; flex-direction: column; }
+  .picker-item { display: flex; align-items: center; gap: 12px; padding: 9px 14px; border-top: 1px solid #eef5f5; cursor: pointer; }
+  .picker-group .picker-item:first-child { border-top: none; }
+  .picker-item:hover { background: #f6fbfb; }
+  .picker-item.is-checked { background: #eaf7f4; }
+  .picker-item input[type="checkbox"] { width: 18px; height: 18px; flex: none; accent-color: #0f7f86; cursor: pointer; }
+  .picker-item .thumb { width: 56px; height: 56px; flex: none; background: #fff; border: 1px solid #e3edee; display: flex; align-items: center; justify-content: center; }
+  .picker-item .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .picker-item-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .picker-item-name { font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+  .picker-item-meta { font-size: 11.5px; color: #8aa0a2; }
+  .picker-empty { padding: 40px 20px; text-align: center; color: #8aa0a2; font-size: 14px; background: #fff; border: 1.5px dashed #cfe0e2; }
+
+  /* ---- 見積書を確認・印刷（画面） ---- */
   .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .meta-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .field { display: flex; flex-direction: column; gap: 4px; }
   .field label { font-size: 12px; font-weight: 700; color: #41595E; }
   .field input, .field textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 9px 10px; }
@@ -64,28 +97,57 @@
     @page { size: A4 portrait; margin: 0; }
   }
 
-  /* ---- 印刷帳票（見積書）---- */
+  /* ================= 印刷帳票（御見積書）================= */
   .doc { width: 210mm; min-height: 297mm; padding: 14mm; background: #fff; font-family: 'BIZ UDPMincho','Yu Mincho','Hiragino Mincho ProN',serif; font-size: 9.5pt; line-height: 1.6; color: #1f2937; }
   .doc-page { max-width: 182mm; margin: 0 auto; }
-  .doc-header { display: flex; justify-content: space-between; gap: 10mm; margin-bottom: 8mm; }
-  .doc-header .left { flex: 1; }
-  .doc-title { font-size: 22pt; font-weight: 700; letter-spacing: .5em; color: #1e3a8a; border-bottom: 1.5px solid #3b82f6; padding-bottom: 4mm; margin-bottom: 6mm; }
+  .doc-header { display: flex; justify-content: space-between; gap: 8mm; margin-bottom: 6mm; align-items: flex-start; }
+  .doc-header .left { flex: 1; min-width: 0; }
+  .doc-title { font-size: 22pt; font-weight: 700; letter-spacing: .5em; color: #1e3a8a; border-bottom: 1.5px solid #3b82f6; padding-bottom: 4mm; margin-bottom: 5mm; }
   .doc-to { font-size: 15pt; font-weight: 700; color: #1f2937; }
-  .doc-to .suffix { font-size: 10.5pt; font-weight: 500; color: #2563eb; margin-left: 4px; }
-  .doc-greeting { font-size: 8.5pt; color: #4b5563; margin-top: 4mm; }
+  .doc-to .suffix { font-size: 10.5pt; font-weight: 500; color: #2563eb; margin-left: 8px; }
+  .doc-greeting { font-size: 8.5pt; color: #4b5563; margin-top: 4mm; line-height: 1.7; }
+
+  .terms-table { width: 100%; max-width: 100mm; border-collapse: collapse; margin-top: 6mm; font-size: 7.5pt; border: .5px solid #bfdbfe; }
+  .terms-table td { padding: 3px 6px; border-bottom: .5px solid #dbeafe; vertical-align: top; }
+  .terms-table tr:last-child td { border-bottom: none; }
+  .terms-table td.label { color: #2563eb; font-size: 7pt; letter-spacing: .05em; font-weight: 700; background: #f0f7ff; white-space: nowrap; width: 24mm; }
+  .terms-table td.value { color: #374151; font-size: 7.5pt; }
+
   .doc-header .right { width: 70mm; flex: none; font-size: 8.5pt; }
-  .doc-date { text-align: right; margin-bottom: 3mm; }
-  .doc-issuer { border: 1px solid #bfdbfe; background: #f0f7ff; padding: 3mm 4mm; }
-  .doc-issuer .company { font-size: 10.5pt; font-weight: 700; margin-bottom: 1.5mm; }
-  .doc-total-banner { background: #eff6ff; border: 1px solid #93c5fd; padding: 3mm 4mm; margin-bottom: 5mm; display: flex; justify-content: space-between; align-items: baseline; }
-  .doc-total-banner .label { font-size: 10pt; font-weight: 700; color: #1e3a8a; }
-  .doc-total-banner .value { font-size: 16pt; font-weight: 700; color: #1e3a8a; }
-  table.doc-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 5mm; }
-  table.doc-table th { background: #dbeafe; color: #1e3a8a; font-weight: 700; font-size: 8.5pt; padding: 2.2mm 2mm; text-align: left; border: 1px solid #bfdbfe; }
-  table.doc-table td { padding: 2mm; border: 1px solid #bfdbfe; font-size: 9.5pt; overflow-wrap: anywhere; word-break: break-word; }
+  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; font-size: 8.5pt; }
+  .meta-table td { padding: 2px 5px; border-bottom: .5px solid #dbeafe; }
+  .meta-table td.label { color: #2563eb; width: 22mm; letter-spacing: .05em; font-size: 8pt; font-weight: 700; }
+  .meta-table td.value { text-align: right; font-weight: 700; color: #111827; }
+  .meta-table tr:last-child td { border-bottom: none; }
+  .doc-issuer { border: 1px solid #bfdbfe; background: #f0f7ff; padding: 5px 8px; }
+  .doc-issuer .company { font-size: 10.5pt; font-weight: 700; margin-bottom: 1.5mm; color: #1e3a8a; }
+  .doc-issuer .office { font-weight: 700; font-size: 9pt; color: #1e40af; margin-bottom: 2px; }
+  .doc-issuer .addr { font-size: 8pt; color: #4b5563; line-height: 1.4; }
+  .doc-issuer .invoice-no { font-size: 7.5pt; color: #2563eb; font-weight: 700; letter-spacing: .03em; margin-top: 1px; }
+  .doc-issuer .staff { font-size: 8.5pt; margin-top: 3px; padding-top: 3px; border-top: .5px dashed #bfdbfe; color: #1f2937; }
+  .doc-issuer .staff strong { font-weight: 700; letter-spacing: .05em; color: #111827; }
+
+  .stamps { display: flex; justify-content: flex-end; gap: 4mm; margin-top: 4px; padding-top: 4px; }
+  .stamp-box { text-align: center; }
+  .stamp-label { font-size: 7pt; color: #3b82f6; font-weight: 700; letter-spacing: .1em; margin-bottom: 2px; }
+  .stamp-square { width: 17mm; height: 17mm; border: 1px solid #93c5fd; background: #fff; }
+
+  .doc-total-banner { background: #eff6ff; border: 1.5px solid #3b82f6; padding: 3mm 4mm; margin-bottom: 6mm; display: flex; justify-content: space-between; align-items: baseline; }
+  .doc-total-banner .label { font-size: 10pt; font-weight: 700; letter-spacing: .3em; color: #1e3a8a; }
+  .doc-total-banner .value { font-size: 17pt; font-weight: 700; color: #1e3a8a; font-variant-numeric: tabular-nums; }
+  .doc-total-banner .value .suffix { font-size: 10pt; margin-left: 4px; color: #93c5fd; }
+
+  .doc-group { margin-bottom: 5mm; }
+  .doc-group-title { font-size: 10.5pt; font-weight: 700; color: #1e3a8a; padding: 5px 10px; background: #eff6ff; border: 1px solid #bfdbfe; border-bottom: none; letter-spacing: .06em; }
+  table.doc-table { width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid #bfdbfe; }
+  table.doc-table th { background: #dbeafe; color: #1e3a8a; font-weight: 700; font-size: 8.5pt; padding: 2.2mm 2mm; text-align: left; border-bottom: 1px solid #93c5fd; }
+  table.doc-table td { padding: 2mm; border-bottom: .5px solid #dbeafe; font-size: 9.5pt; overflow-wrap: anywhere; word-break: break-word; }
   table.doc-table tbody tr:nth-child(even) { background: #f8fbff; }
+  table.doc-table tbody tr:last-child td { border-bottom: none; }
   .doc-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 9pt; }
-  .doc-bottom { display: flex; justify-content: space-between; gap: 8mm; }
+  .doc-table tr.group-subtotal td { background: #f0f7ff; font-weight: 700; color: #1e3a8a; border-top: 1px solid #bfdbfe; }
+
+  .doc-bottom { display: flex; justify-content: space-between; gap: 8mm; margin-top: 2mm; }
   .doc-remarks { flex: 1; border-left: 2px solid #bfdbfe; padding-left: 4mm; font-size: 8.5pt; color: #4b5563; white-space: pre-wrap; }
   .doc-sums { width: 65mm; flex: none; }
   .doc-sums-row { display: flex; justify-content: space-between; padding: 1.5mm 0; font-size: 9.5pt; }
@@ -99,8 +161,8 @@
     <header>
       <div>
         <div class="badge">見積もりを作成する</div>
-        <h1>見積書</h1>
-        <p class="lead">各チラシページの「見積に追加」をONにしてチェックした商品がここに並びます。数量・単価は自由に編集できます。</p>
+        <h1>見積・提案書作成</h1>
+        <p class="lead">メーカーごとの商品一覧から選ぶか、検索して商品にチェックを付けると見積書に追加されます。数量・単価は見積書タブで編集できます。</p>
       </div>
       <div class="actions">
         <button type="button" class="btn btn-primary" id="btn-print">印刷 / PDF保存</button>
@@ -108,35 +170,70 @@
       </div>
     </header>
 
-    <div class="meta-grid">
-      <div class="field">
-        <label for="customer-name">お客様名（御中）</label>
-        <input type="text" id="customer-name" placeholder="例：〇〇苑" />
-      </div>
-      <div class="field">
-        <label for="quote-title">帳票タイトル</label>
-        <input type="text" id="quote-title" value="御見積書" />
-      </div>
-      <div class="field" style="grid-column: 1 / -1;">
-        <label for="quote-remarks">備考</label>
-        <textarea id="quote-remarks" placeholder="納期・支払条件など"></textarea>
-      </div>
+    <div class="switcher">
+      <button type="button" class="switch-btn active" data-view="picker">商品を選ぶ</button>
+      <button type="button" class="switch-btn" data-view="quote">見積書を確認・印刷<span class="count" id="tab-quote-count">(0)</span></button>
     </div>
 
-    <div id="empty-state" class="empty" style="display:none">見積に追加された商品がありません。チラシページで「見積に追加」をONにして、商品にチェックを付けてください。</div>
-
-    <div id="table-section" class="rows-wrap">
-      <div class="thead-row">
-        <div></div><div>商品名</div><div class="col-right">数量</div><div>単位</div><div class="col-right">単価</div><div class="col-right">金額</div><div></div>
+    <div class="view active" id="view-picker">
+      <div class="picker-toolbar">
+        <input type="search" class="picker-search" id="picker-search" placeholder="商品名・メーカー名・規格で検索" />
+        <div class="picker-count"><strong id="picker-count-num">0</strong>件 選択中</div>
       </div>
-      <div id="rows-body"></div>
+      <div class="picker-groups" id="picker-groups"></div>
     </div>
 
-    <div class="totals" id="totals-section">
-      <div class="totals-box">
-        <div class="totals-row"><span>小計</span><span class="val" id="sum-subtotal">￥0</span></div>
-        <div class="totals-row"><span>消費税（10%）</span><span class="val" id="sum-tax">￥0</span></div>
-        <div class="totals-row grand"><span>合計</span><span class="val" id="sum-total">￥0</span></div>
+    <div class="view" id="view-quote">
+      <div class="meta-grid">
+        <div class="field">
+          <label for="customer-name">お客様名（御中）</label>
+          <input type="text" id="customer-name" placeholder="例：〇〇苑" />
+        </div>
+        <div class="field">
+          <label for="quote-title">帳票タイトル</label>
+          <input type="text" id="quote-title" value="御見積書" />
+        </div>
+      </div>
+      <div class="meta-grid-4">
+        <div class="field">
+          <label for="quote-number">見積番号</label>
+          <input type="text" id="quote-number" placeholder="任意" />
+        </div>
+        <div class="field">
+          <label for="quote-validity">見積有効期限</label>
+          <input type="text" id="quote-validity" />
+        </div>
+        <div class="field">
+          <label for="quote-payment">お支払条件</label>
+          <input type="text" id="quote-payment" />
+        </div>
+        <div class="field">
+          <label for="quote-delivery">納期</label>
+          <input type="text" id="quote-delivery" />
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label for="quote-remarks">備考</label>
+          <textarea id="quote-remarks" placeholder="特記事項など"></textarea>
+        </div>
+      </div>
+
+      <div id="empty-state" class="empty" style="display:none">見積に追加された商品がありません。「商品を選ぶ」タブで商品にチェックを付けてください。</div>
+
+      <div id="table-section" class="rows-wrap">
+        <div class="thead-row">
+          <div></div><div>商品名</div><div class="col-right">数量</div><div>単位</div><div class="col-right">単価</div><div class="col-right">金額</div><div></div>
+        </div>
+        <div id="rows-body"></div>
+      </div>
+
+      <div class="totals" id="totals-section">
+        <div class="totals-box">
+          <div class="totals-row"><span>小計</span><span class="val" id="sum-subtotal">￥0</span></div>
+          <div class="totals-row"><span>消費税（10%）</span><span class="val" id="sum-tax">￥0</span></div>
+          <div class="totals-row grand"><span>合計</span><span class="val" id="sum-total">￥0</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -148,20 +245,30 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const [products, priceRowsRaw] = await Promise.all([
-    fetch('./data/products.json').then(r => r.json()),
-    fetch('./data/price-rows.json').then(r => r.json()),
-  ]);
+  const products = await fetch('./data/products.json').then(r => r.json());
+  const priceRowsRaw = await fetch('./data/price-rows.json').then(r => r.json());
   const itemById = new Map(products.items.map(it => [it.id, it]));
   const priceRowById = new Map(priceRowsRaw.map(r => [r.id, r]));
+
+  const makerOrder = [];
+  products.items.forEach(it => { if (!makerOrder.includes(it.maker)) makerOrder.push(it.maker); });
+  const makerIndex = new Map(makerOrder.map((m, i) => [m, i]));
 
   function escapeHTML(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
   }
 
   const META_KEY = 'tss_quote_meta_v1';
+  const META_DEFAULTS = {
+    title: '御見積書',
+    validityPeriod: 'お見積日より30日間',
+    paymentTerms: '月末締め翌月末払い',
+    deliveryInfo: 'ご注文後、通常2〜3営業日',
+  };
   function loadMeta() {
-    try { return JSON.parse(localStorage.getItem(META_KEY)) || {}; } catch (e) { return {}; }
+    let m = {};
+    try { m = JSON.parse(localStorage.getItem(META_KEY)) || {}; } catch (e) { m = {}; }
+    return Object.assign({}, META_DEFAULTS, m);
   }
   function saveMeta(meta) {
     try { localStorage.setItem(META_KEY, JSON.stringify(meta)); } catch (e) {}
@@ -171,12 +278,102 @@
   let meta = loadMeta();
   meta.priceOverrides = meta.priceOverrides || {};
 
-  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, qtys: savedQtys, units: savedUnits } = tssLoadPrices();
+  const { prices: savedPrices, margins: savedMargins, sellPrices: savedSellPrices, units: savedUnits } = tssLoadPrices();
 
   document.getElementById('customer-name').value = meta.customerName || '';
-  document.getElementById('quote-title').value = meta.title || '御見積書';
+  document.getElementById('quote-title').value = meta.title;
+  document.getElementById('quote-number').value = meta.quoteNumber || '';
+  document.getElementById('quote-validity').value = meta.validityPeriod;
+  document.getElementById('quote-payment').value = meta.paymentTerms;
+  document.getElementById('quote-delivery').value = meta.deliveryInfo;
   document.getElementById('quote-remarks').value = meta.remarks || '';
 
+  /* ================= タブ切替 ================= */
+  document.querySelectorAll('.switch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.switch-btn').forEach(b => b.classList.toggle('active', b === btn));
+      const target = btn.dataset.view;
+      document.getElementById('view-picker').classList.toggle('active', target === 'picker');
+      document.getElementById('view-quote').classList.toggle('active', target === 'quote');
+    });
+  });
+
+  /* ================= 商品を選ぶ（メーカー別一覧＋検索） ================= */
+  const pickerSearch = document.getElementById('picker-search');
+  const pickerGroupsEl = document.getElementById('picker-groups');
+
+  function pickerItemHTML(it) {
+    const checked = cart[it.id] ? ' checked' : '';
+    const isChecked = cart[it.id] ? ' is-checked' : '';
+    return `
+      <label class="picker-item${isChecked}" data-id="${it.id}">
+        <input type="checkbox" class="picker-check" data-id="${it.id}"${checked} />
+        <span class="thumb"><img src="${escapeHTML(it.image)}" alt="" loading="lazy" /></span>
+        <span class="picker-item-info">
+          <span class="picker-item-name">${escapeHTML(it.name)}</span>
+          <span class="picker-item-meta">${escapeHTML(it.spec)}${it.tag ? ' ／ ' + escapeHTML(it.tag) : ''}</span>
+        </span>
+      </label>`;
+  }
+
+  function renderPicker() {
+    const q = pickerSearch.value.trim().toLowerCase();
+    let list = products.items;
+    if (q) {
+      list = list.filter(it =>
+        String(it.name).toLowerCase().includes(q) ||
+        String(it.maker).toLowerCase().includes(q) ||
+        String(it.spec).toLowerCase().includes(q));
+    }
+    const groups = new Map();
+    list.forEach(it => {
+      if (!groups.has(it.maker)) groups.set(it.maker, []);
+      groups.get(it.maker).push(it);
+    });
+    const sortedMakers = [...groups.keys()].sort((a, b) => (makerIndex.get(a) ?? 0) - (makerIndex.get(b) ?? 0));
+
+    if (!sortedMakers.length) {
+      pickerGroupsEl.innerHTML = '<div class="picker-empty">該当する商品がありません。検索語を変えてお試しください。</div>';
+      return;
+    }
+
+    pickerGroupsEl.innerHTML = sortedMakers.map(maker => {
+      const items = groups.get(maker);
+      return `
+        <div class="picker-group">
+          <div class="picker-group-title">${escapeHTML(maker)}<span class="cnt">${items.length}件</span></div>
+          <div class="picker-list">${items.map(pickerItemHTML).join('')}</div>
+        </div>`;
+    }).join('');
+  }
+
+  pickerGroupsEl.addEventListener('change', (e) => {
+    const cb = e.target.closest('.picker-check');
+    if (!cb) return;
+    const id = Number(cb.dataset.id);
+    if (cb.checked) {
+      cart[id] = cart[id] || 1;
+    } else {
+      delete cart[id];
+      delete meta.priceOverrides[id];
+      saveMeta(meta);
+    }
+    tssSaveQuoteCart(cart);
+    const row = cb.closest('.picker-item');
+    if (row) row.classList.toggle('is-checked', cb.checked);
+    updatePickerCount();
+    renderRows();
+  });
+
+  pickerSearch.addEventListener('input', renderPicker);
+
+  function updatePickerCount() {
+    const n = Object.keys(cart).length;
+    document.getElementById('picker-count-num').textContent = n;
+    document.getElementById('tab-quote-count').textContent = '(' + n + ')';
+  }
+
+  /* ================= 見積書（画面・編集） ================= */
   function suggestedUnitPrice(item, priceRow) {
     if (!priceRow) return null;
     const cost = tssNum(savedPrices[item.id]);
@@ -196,7 +393,21 @@
       const unitPrice = meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested;
       const amount = unitPrice != null ? unitPrice * qty : null;
       return { id, item, priceRow, qty, unitPrice, unitPriceStr: meta.priceOverrides[id] != null ? meta.priceOverrides[id] : (suggested != null ? String(Math.round(suggested)) : ''), amount };
-    }).filter(Boolean);
+    }).filter(Boolean).sort((a, b) => a.id - b.id);
+  }
+
+  function computedGroups() {
+    const rows = computedRows();
+    const map = new Map();
+    rows.forEach(r => {
+      const maker = r.item.maker;
+      if (!map.has(maker)) map.set(maker, []);
+      map.get(maker).push(r);
+    });
+    return [...map.keys()].sort((a, b) => (makerIndex.get(a) ?? 0) - (makerIndex.get(b) ?? 0)).map(maker => {
+      const items = map.get(maker);
+      return { maker, items, subtotal: items.reduce((s, r) => s + (r.amount || 0), 0) };
+    });
   }
 
   function renderRows() {
@@ -243,10 +454,13 @@
         tssSaveQuoteCart(cart);
         saveMeta(meta);
         renderRows();
+        renderPicker();
+        updatePickerCount();
       });
     });
 
     renderTotals(rows);
+    updatePickerCount();
   }
 
   function renderTotals(rows) {
@@ -259,41 +473,66 @@
   }
 
   document.getElementById('customer-name').addEventListener('change', (e) => { meta.customerName = e.target.value; saveMeta(meta); });
-  document.getElementById('quote-title').addEventListener('change', (e) => { meta.title = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-title').addEventListener('change', (e) => { meta.title = e.target.value || META_DEFAULTS.title; saveMeta(meta); });
+  document.getElementById('quote-number').addEventListener('change', (e) => { meta.quoteNumber = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-validity').addEventListener('change', (e) => { meta.validityPeriod = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-payment').addEventListener('change', (e) => { meta.paymentTerms = e.target.value; saveMeta(meta); });
+  document.getElementById('quote-delivery').addEventListener('change', (e) => { meta.deliveryInfo = e.target.value; saveMeta(meta); });
   document.getElementById('quote-remarks').addEventListener('change', (e) => { meta.remarks = e.target.value; saveMeta(meta); });
 
   document.getElementById('btn-clear').addEventListener('click', () => {
     if (!confirm('見積の内容をすべて消去します。よろしいですか？')) return;
     cart = {};
-    meta = { priceOverrides: {} };
+    meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS);
     tssSaveQuoteCart(cart);
     saveMeta(meta);
     document.getElementById('customer-name').value = '';
-    document.getElementById('quote-title').value = '御見積書';
+    document.getElementById('quote-title').value = meta.title;
+    document.getElementById('quote-number').value = '';
+    document.getElementById('quote-validity').value = meta.validityPeriod;
+    document.getElementById('quote-payment').value = meta.paymentTerms;
+    document.getElementById('quote-delivery').value = meta.deliveryInfo;
     document.getElementById('quote-remarks').value = '';
     renderRows();
+    renderPicker();
   });
 
+  /* ================= 印刷（御見積書） ================= */
   document.getElementById('btn-print').addEventListener('click', () => {
-    const rows = computedRows();
-    if (!rows.length) { alert('見積に商品が追加されていません。'); return; }
+    const groups = computedGroups();
+    if (!groups.length) { alert('見積に商品が追加されていません。「商品を選ぶ」タブでチェックを付けてください。'); return; }
     const office = tssLoadOffice();
+    const rows = computedRows();
     const subtotal = rows.reduce((s, r) => s + (r.amount || 0), 0);
     const tax = Math.round(subtotal * 0.1);
     const total = subtotal + tax;
     const today = new Date();
     const dateStr = today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
     const customerName = meta.customerName || '';
-    const title = meta.title || '御見積書';
+    const title = meta.title || META_DEFAULTS.title;
 
-    const rowsHTML = rows.map(r => `
-      <tr>
-        <td>${escapeHTML(r.item.name)}<br><span style="color:#6b7280;font-size:8pt">${escapeHTML(r.item.maker)} ／ ${escapeHTML(r.item.spec)}</span></td>
-        <td class="num">${r.qty}</td>
-        <td class="num">${escapeHTML(r.priceRow ? (savedUnits[r.id] || r.priceRow.kind) : '')}</td>
-        <td class="num">${r.unitPrice != null ? '￥' + Math.round(r.unitPrice).toLocaleString('ja-JP') : '—'}</td>
-        <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
-      </tr>`).join('');
+    const groupsHTML = groups.map(g => `
+      <div class="doc-group">
+        <div class="doc-group-title">${escapeHTML(g.maker)}</div>
+        <table class="doc-table">
+          <colgroup><col style="width:46%"><col style="width:10%"><col style="width:14%"><col style="width:14%"><col style="width:16%"></colgroup>
+          <thead><tr><th>品名</th><th style="text-align:right">数量</th><th style="text-align:right">単位</th><th style="text-align:right">単価</th><th style="text-align:right">金額</th></tr></thead>
+          <tbody>
+            ${g.items.map(r => `
+              <tr>
+                <td>${escapeHTML(r.item.name)}<br><span style="color:#6b7280;font-size:8pt">${escapeHTML(r.item.spec)}</span></td>
+                <td class="num">${r.qty}</td>
+                <td class="num">${escapeHTML(r.priceRow ? (savedUnits[r.id] || r.priceRow.kind) : '')}</td>
+                <td class="num">${r.unitPrice != null ? '￥' + Math.round(r.unitPrice).toLocaleString('ja-JP') : '—'}</td>
+                <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
+              </tr>`).join('')}
+            <tr class="group-subtotal">
+              <td colspan="4" style="text-align:right">小計</td>
+              <td class="num">￥${Math.round(g.subtotal).toLocaleString('ja-JP')}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`).join('');
 
     const html = `
       <div class="doc">
@@ -302,28 +541,39 @@
             <div class="left">
               <div class="doc-title">${escapeHTML(title)}</div>
               <div class="doc-to">${customerName ? escapeHTML(customerName) : 'お客様'}<span class="suffix">御中</span></div>
-              <div class="doc-greeting">下記の通りお見積り申し上げます。</div>
+              <div class="doc-greeting">下記の通り、お見積り申し上げます。<br>ご検討のほど、よろしくお願い申し上げます。</div>
+              <table class="terms-table">
+                <tr><td class="label">見積有効期限</td><td class="value">${escapeHTML(meta.validityPeriod || '—')}</td></tr>
+                <tr><td class="label">お支払条件</td><td class="value">${escapeHTML(meta.paymentTerms || '—')}</td></tr>
+                <tr><td class="label">納期</td><td class="value">${escapeHTML(meta.deliveryInfo || '—')}</td></tr>
+              </table>
             </div>
             <div class="right">
-              <div class="doc-date">発行日　${dateStr}</div>
+              <table class="meta-table">
+                <tr><td class="label">見積番号</td><td class="value">${escapeHTML(meta.quoteNumber || '—')}</td></tr>
+                <tr><td class="label">発行日</td><td class="value">${dateStr}</td></tr>
+              </table>
               <div class="doc-issuer">
                 <div class="company">太陽シルバーサービス㈱</div>
-                <div>${escapeHTML(office.name)}</div>
-                <div>${escapeHTML(office.address)}</div>
-                <div>TEL ${escapeHTML(office.tel)}　FAX ${escapeHTML(office.fax)}</div>
-                <div>${office.contactName ? '担当　' + escapeHTML(office.contactName) : '所長　' + escapeHTML(office.manager)}</div>
+                <div class="office">${escapeHTML(office.name)}</div>
+                <div class="addr">〒${escapeHTML(office.zip)}</div>
+                <div class="addr">${escapeHTML(office.address)}</div>
+                <div class="addr">TEL ${escapeHTML(office.tel)}　FAX ${escapeHTML(office.fax)}</div>
+                <div class="addr invoice-no">登録番号　T1290001044462</div>
+                <div class="staff">所長　<strong>${escapeHTML(office.manager)}</strong></div>
+                ${office.contactName ? `<div class="staff">担当　<strong>${escapeHTML(office.contactName)}</strong></div>` : ''}
+              </div>
+              <div class="stamps">
+                <div class="stamp-box"><div class="stamp-label">所長印</div><div class="stamp-square"></div></div>
+                <div class="stamp-box"><div class="stamp-label">担当印</div><div class="stamp-square"></div></div>
               </div>
             </div>
           </div>
           <div class="doc-total-banner">
-            <span class="label">お見積り合計金額（税込）</span>
-            <span class="value">￥${total.toLocaleString('ja-JP')}</span>
+            <span class="label">御見積金額　合計（税込）</span>
+            <span class="value">￥${total.toLocaleString('ja-JP')}<span class="suffix">―</span></span>
           </div>
-          <table class="doc-table">
-            <colgroup><col style="width:46%"><col style="width:10%"><col style="width:14%"><col style="width:14%"><col style="width:16%"></colgroup>
-            <thead><tr><th>品名</th><th style="text-align:right">数量</th><th style="text-align:right">単位</th><th style="text-align:right">単価</th><th style="text-align:right">金額</th></tr></thead>
-            <tbody>${rowsHTML}</tbody>
-          </table>
+          ${groupsHTML}
           <div class="doc-bottom">
             <div class="doc-remarks">${meta.remarks ? escapeHTML(meta.remarks) : ''}</div>
             <div class="doc-sums">
@@ -338,6 +588,7 @@
     window.print();
   });
 
+  renderPicker();
   renderRows();
 })();
 </script>
