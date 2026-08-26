@@ -977,5 +977,23 @@
   "kind": "枚",
   "baseQty": null,
   "id": 107
+ },
+ {
+  "maker": "竹虎",
+  "name": "サージマスクCP",
+  "spec": "未確認",
+  "code": "JAN 未確認",
+  "kind": "枚",
+  "baseQty": null,
+  "id": 108
+ },
+ {
+  "maker": "竹虎",
+  "name": "サージマスクL2",
+  "spec": "未確認",
+  "code": "JAN 未確認",
+  "kind": "枚",
+  "baseQty": null,
+  "id": 109
  }
 ]

@@ -1409,6 +1409,32 @@
    "unitBasis": "1枚",
    "image": "./images/taketora/plastic_glove_200.png",
    "id": 107
+  },
+  {
+   "flier": "竹虎",
+   "page": "05 マスク（予備）",
+   "maker": "竹虎",
+   "name": "サージマスクCP",
+   "spec": "未確認",
+   "tag": "プリーツ型・耳ゴム式",
+   "desc": "プリーツタイプの使い捨てマスク。耳ゴム式で着脱しやすい。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/surge_mask_cp.png",
+   "id": 108
+  },
+  {
+   "flier": "竹虎",
+   "page": "05 マスク（予備）",
+   "maker": "竹虎",
+   "name": "サージマスクL2",
+   "spec": "未確認",
+   "tag": "プリーツ型・耳ゴム式",
+   "desc": "プリーツタイプの使い捨てマスク。耳ゴム式で着脱しやすい。",
+   "code": "JAN 未確認",
+   "unitBasis": "1枚",
+   "image": "./images/taketora/surge_mask_l2.png",
+   "id": 109
   }
  ]
 }
