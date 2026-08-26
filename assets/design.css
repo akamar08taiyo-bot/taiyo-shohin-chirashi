@@ -42,14 +42,26 @@ a:hover { color: var(--accent-hover); }
   border-bottom: 1.5px solid var(--border);
 }
 
+/* 戻る導線は文字リンクだと見落とされるため、タイトル横のボタンとして見せる */
 .tss-toolbar .tss-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  padding: 8px 15px;
   font-size: 13px;
   font-weight: 700;
   color: var(--text-sub);
   text-decoration: none;
   white-space: nowrap;
+  flex: none;
 }
-.tss-toolbar .tss-back:hover { color: var(--accent-hover); }
+.tss-toolbar .tss-back:hover {
+  border-color: var(--accent);
+  background: var(--tag-bg);
+  color: var(--accent);
+}
 
 .tss-toolbar h1 {
   margin: 0;
