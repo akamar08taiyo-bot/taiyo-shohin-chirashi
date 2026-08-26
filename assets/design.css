@@ -1,17 +1,19 @@
 /* 消耗品チラシ デザイントークン（design_handoff_flier/README.md §5-6 に準拠、忠実再現） */
 
+/* 色は白背景に対するコントラスト比 4.5:1（WCAG AA）以上を満たす濃さにしている。
+   チラシは印刷して配る前提で、小さい文字（JANコード・注記）が薄いと紙で読めなくなるため。 */
 :root {
-  --accent: #0f7f86;
-  --accent-hover: #c25a17;
+  --accent: #0f7f86;          /* 4.77:1 */
+  --accent-hover: #b85214;
   --paper-bg: #F6FBFB;
   --card-bg: #ffffff;
-  --text-main: #12242A;
-  --text-sub: #41595E;
-  --text-note: #6f8688;
+  --text-main: #12242A;       /* 16.01:1 */
+  --text-sub: #41595E;        /* 7.46:1 */
+  --text-note: #5c7376;       /* 5.04:1（旧 #6f8688 は 3.86:1 で基準未満だった） */
   --border: #cfe0e2;
   --tag-bg: #e6f3f3;
-  --code-color: #8aa0a2;
-  --price-color: #c25a17;
+  --code-color: #5c7376;      /* 5.04:1（旧 #8aa0a2 は 2.75:1。紙で判読できなかった） */
+  --price-color: #b85214;     /* 4.94:1（旧 #c25a17 は 4.40:1） */
 }
 
 * { box-sizing: border-box; }
@@ -61,14 +63,33 @@ a:hover { color: var(--accent-hover); }
 .tss-toggle {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   font-size: 12.5px;
   font-weight: 700;
   color: var(--text-sub);
   cursor: pointer;
   white-space: nowrap;
+  padding: 4px 2px;
 }
-.tss-toggle input { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+.tss-toggle:hover { color: var(--accent); }
+.tss-toggle input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; flex: none; }
+
+/* 「表示切替」と「編集」で役割が違うトグルを、囲みラベルで見分けられるようにする */
+.tss-toolgroup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  background: #f7fbfb;
+}
+.tss-toolgroup-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--text-note);
+  white-space: nowrap;
+}
 
 .tss-btn {
   display: inline-block;
@@ -84,6 +105,14 @@ a:hover { color: var(--accent-hover); }
   text-decoration: none;
 }
 .tss-btn:hover { background: var(--accent); color: #fff; }
+
+/* 主要操作（印刷）は塗りつぶしで最初に目に入るようにする */
+.tss-btn-primary { background: var(--accent); color: #fff; }
+.tss-btn-primary:hover { background: #0c6a70; border-color: #0c6a70; color: #fff; }
+
+/* 見積に商品が入っているときだけ強調する */
+#tss-quote-badge.has-items { background: var(--price-color); border-color: var(--price-color); color: #fff; }
+#tss-quote-badge.has-items:hover { background: #a44a13; border-color: #a44a13; }
 
 .tss-pagejump {
   display: flex;
@@ -228,8 +257,12 @@ a:hover { color: var(--accent-hover); }
 }
 .tss-reset-btn:hover { background: #b45309; color: #fff; }
 
+/* height はページごとのトークン（pages.json の photoHeight）でインライン指定する。
+   flex-shrink を許可しているため、商品名が長い・価格を表示したなどで下の情報量が増えた場合は
+   写真枠が自動で縮み、テキストが card の overflow:hidden で見えなくなるのを防ぐ。 */
 .tss-card-photo {
-  flex: none;
+  flex: 0 1 auto;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -239,7 +272,9 @@ a:hover { color: var(--accent-hover); }
 }
 .tss-card-photo img { max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; display: block; }
 
-.tss-card-body { flex: 1; padding: 7px 12px 8px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+/* basis を auto（＝中身の高さ）にし shrink を 0 にすることで、
+   スペースが足りないときは本文ではなく上の写真枠が縮む。余ったときは本文が伸びて下端を埋める。 */
+.tss-card-body { flex: 1 0 auto; padding: 7px 12px 8px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
 .tss-card-maker { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
 .tss-card-name { margin: 0; font-weight: 700; line-height: 1.25; }
 .tss-card-tags { min-height: 22px; display: flex; flex-wrap: wrap; gap: 6px; }
@@ -293,6 +328,15 @@ a:hover { color: var(--accent-hover); }
   .tss-page-wrap { gap: 0; }
   .page { box-shadow: none; page-break-after: always; }
   .tss-page-wrap:last-child .page { page-break-after: auto; }
+
+  /* 見出しの帯・タグ・価格などの色は情報の一部なので、
+     ブラウザの「背景のグラフィック」設定に関係なく必ず印刷させる。 */
+  .page, .page * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* 1枚のチラシが2ページに分割されないようにする */
+  .page { break-inside: avoid; page-break-inside: avoid; }
 }
 
 /* ---- 商品差し替えピッカー ---- */

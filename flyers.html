@@ -11,24 +11,44 @@
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; background: #F6FBFB; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
-  .wrap { max-width: 1360px; margin: 0 auto; padding: 48px 48px 96px; }
-  .back { font-size: 14px; font-weight: 700; color: #41595E; text-decoration: none; }
+  .wrap { max-width: 1360px; margin: 0 auto; padding: 40px 48px 96px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #41595E; text-decoration: none; padding: 8px 0; }
   .back:hover { color: #0f7f86; }
-  .badge { display: inline-block; background: #0f7f86; color: #fff; font-size: 15px; font-weight: 700; letter-spacing: .14em; padding: 8px 18px; margin: 20px 0 20px; }
+  .badge { display: inline-block; background: #0f7f86; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .14em; padding: 7px 16px; margin: 12px 0 18px; }
   h1 { margin: 0 0 14px; font-size: 42px; font-weight: 900; letter-spacing: -.01em; }
-  .lead { margin: 0 0 32px; font-size: 16px; line-height: 1.8; color: #41595E; max-width: 780px; }
-  .switcher { display: flex; gap: 10px; margin-bottom: 32px; }
-  .switch-btn { border: 2px solid #cfe0e2; background: #fff; color: #41595E; font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 700; padding: 12px 24px; cursor: pointer; }
+  .lead { margin: 0 0 28px; font-size: 16px; line-height: 1.8; color: #41595E; max-width: 780px; }
+
+  .switcher { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+  .switch-btn { border: 2px solid #cfe0e2; background: #fff; color: #41595E; font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 700; padding: 13px 26px; cursor: pointer; }
+  .switch-btn:hover { border-color: #0f7f86; color: #0f7f86; }
   .switch-btn.active { border-color: #0f7f86; background: #0f7f86; color: #fff; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
-  .card { display: block; text-decoration: none; color: inherit; border: 2px solid #cfe0e2; background: #fff; padding: 28px 26px 24px; transition: border-color .15s; }
-  .card:hover { border-color: #0f7f86; }
-  .card .cat { font-size: 13px; font-weight: 700; color: #0f7f86; letter-spacing: .1em; margin-bottom: 10px; }
-  .card h2 { margin: 0 0 10px; font-size: 24px; font-weight: 900; }
-  .card p { margin: 0; font-size: 14.5px; line-height: 1.7; color: #41595E; }
-  .card .pages { margin-top: 16px; font-size: 13px; font-weight: 700; color: #8aa0a2; }
+
   .view { display: none; }
   .view.active { display: block; }
+  .view-hint { margin: 0 0 18px; font-size: 13.5px; color: #5c7376; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
+  .card {
+    display: flex; flex-direction: column; text-decoration: none; color: inherit;
+    border: 2px solid #cfe0e2; border-left: 6px solid var(--c); background: #fff;
+    padding: 24px 24px 20px;
+    transition: border-color .15s, box-shadow .15s, transform .12s;
+  }
+  .card:hover { border-color: #0f7f86; border-left-color: var(--c); box-shadow: 0 8px 20px rgba(15,40,42,.12); transform: translateY(-2px); }
+  .card:focus-visible { outline: 3px solid var(--c); outline-offset: 2px; }
+  .card .cat { display: inline-block; align-self: flex-start; font-size: 11.5px; font-weight: 700; color: #fff; background: var(--c); letter-spacing: .08em; padding: 4px 10px; margin-bottom: 12px; }
+  .card h2 { margin: 0 0 10px; font-size: 23px; font-weight: 900; }
+  .card p { margin: 0 0 16px; font-size: 14px; line-height: 1.7; color: #41595E; }
+  .card .meta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .card .count { font-size: 12.5px; font-weight: 700; color: #5c7376; }
+  .card .arrow { font-size: 14px; font-weight: 700; color: var(--c); transition: transform .15s; }
+  .card:hover .arrow { transform: translateX(4px); }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 24px 20px 64px; }
+    h1 { font-size: 32px; }
+    .lead { font-size: 15px; }
+  }
 </style>
 </head>
 <body>
@@ -44,82 +64,97 @@
   </div>
 
   <div class="view active" id="view-maker">
+    <p class="view-hint">メーカー別に掲載商品をまとめています。同じチラシの中に複数メーカーが載っている場合もあります。</p>
     <div class="cards">
-      <a class="card" href="./kao-rocket.html">
-        <div class="cat">洗剤・衛生用品</div>
-        <h2>花王</h2>
+      <a class="card" href="./kao-rocket.html" style="--c:#0f7f86;">
+        <span class="cat">洗剤・衛生用品</span>
+        <h2>花王プロフェッショナル</h2>
         <p>食器用洗剤・洗濯用洗剤・トイレ洗剤・浴室用洗剤・手指衛生・消臭除菌など</p>
-        <div class="pages">花王プロフェッショナル・25商品</div>
+        <div class="meta"><span class="count">25商品</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./kao-rocket.html">
-        <div class="cat">洗剤・衛生用品</div>
+      <a class="card" href="./kao-rocket.html" style="--c:#0f7f86;">
+        <span class="cat">洗剤・衛生用品</span>
         <h2>ロケット石鹸</h2>
         <p>食器用洗剤・洗濯用洗剤・トイレ洗剤・浴室用洗剤・手指衛生・消臭除菌など</p>
-        <div class="pages">ロケット石鹸・20商品</div>
+        <div class="meta"><span class="count">20商品</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./japacks.html">
-        <div class="cat">ゴミ袋・ポリ袋</div>
+      <a class="card" href="./japacks.html" style="--c:#2563eb;">
+        <span class="cat">ゴミ袋・ポリ袋</span>
         <h2>ジャパックス</h2>
         <p>ゴミ袋・レジ袋・業務用カラーポリ袋・環境配慮タイプなど、サイズ展開つき</p>
-        <div class="pages">全8ページ・32商品</div>
+        <div class="meta"><span class="count">全8ページ・32商品</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./paper.html#tss-page-0">
-        <div class="cat">紙製品</div>
+      <a class="card" href="./paper.html#tss-page-0" style="--c:#b45309;">
+        <span class="cat">紙製品</span>
         <h2>大王製紙</h2>
         <p>エルヴェール・エリエール i:na のトイレットペーパー、ペーパータオル、ティシューなど</p>
-        <div class="pages">大王製紙・13商品</div>
+        <div class="meta"><span class="count">13商品</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./paper.html#tss-page-1">
-        <div class="cat">紙製品</div>
+      <a class="card" href="./paper.html#tss-page-1" style="--c:#b45309;">
+        <span class="cat">紙製品</span>
         <h2>新橋製紙</h2>
         <p>ベルライトタオルなど、ペーパータオル製品</p>
-        <div class="pages">新橋製紙・1商品</div>
+        <div class="meta"><span class="count">1商品</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./taketora.html">
-        <div class="cat">医療・介護用ディスポ用品</div>
+      <a class="card" href="./paper.html#tss-page-2" style="--c:#b45309;">
+        <span class="cat">紙製品</span>
+        <h2>昭和紙工</h2>
+        <p>SaSaYell 流せるおしりふき（大人のぬれタオル）</p>
+        <div class="meta"><span class="count">1商品</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./taketora.html" style="--c:#7c3aed;">
+        <span class="cat">医療・介護用ディスポ用品</span>
         <h2>竹虎</h2>
         <p>食事用・ビニールエプロン、ガウン・予防着、サージマスク、手袋など</p>
-        <div class="pages">全4ページ・16商品</div>
+        <div class="meta"><span class="count">全4ページ・16商品</span><span class="arrow">開く →</span></div>
       </a>
     </div>
   </div>
 
   <div class="view" id="view-usecase">
+    <p class="view-hint">お客さまの困りごと・使う場所から、該当するチラシのページへ直接ひらきます。</p>
     <div class="cards">
-      <a class="card" href="./kao-rocket.html#tss-page-0">
-        <div class="cat">花王・ロケット石鹸</div>
+      <a class="card" href="./kao-rocket.html#tss-page-0" style="--c:#0f7f86;">
+        <span class="cat">花王・ロケット石鹸</span>
         <h2>調理・食器まわり</h2>
         <p>食器用洗剤・食器洗浄機用洗剤・台所用漂白剤・厨房の油汚れや床の清掃に</p>
+        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./kao-rocket.html#tss-page-4">
-        <div class="cat">花王・ロケット石鹸</div>
+      <a class="card" href="./kao-rocket.html#tss-page-4" style="--c:#0f7f86;">
+        <span class="cat">花王・ロケット石鹸</span>
         <h2>お手洗い・浴室</h2>
         <p>トイレ洗剤・便器や排水管の塩素系洗剤・浴室のカビ取りに</p>
+        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./kao-rocket.html#tss-page-7">
-        <div class="cat">花王・ロケット石鹸</div>
+      <a class="card" href="./kao-rocket.html#tss-page-7" style="--c:#0f7f86;">
+        <span class="cat">花王・ロケット石鹸</span>
         <h2>洗濯・衣類</h2>
         <p>洗濯用洗剤・衣料用漂白剤・柔軟剤など、リネン類のケアに</p>
+        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./kao-rocket.html#tss-page-6">
-        <div class="cat">花王・ロケット石鹸</div>
+      <a class="card" href="./kao-rocket.html#tss-page-6" style="--c:#0f7f86;">
+        <span class="cat">花王・ロケット石鹸</span>
         <h2>手指衛生・消臭</h2>
         <p>手指消毒・ハンドソープ・衣類やお部屋の消臭除菌に</p>
+        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./japacks.html">
-        <div class="cat">ジャパックス</div>
+      <a class="card" href="./japacks.html" style="--c:#2563eb;">
+        <span class="cat">ジャパックス</span>
         <h2>ゴミ処理・ポリ袋</h2>
         <p>ゴミ袋・レジ袋・業務用カラーポリ袋・環境配慮タイプ、サイズ展開つき</p>
+        <div class="meta"><span class="count">全8ページ</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./paper.html">
-        <div class="cat">紙製品</div>
+      <a class="card" href="./paper.html" style="--c:#b45309;">
+        <span class="cat">紙製品</span>
         <h2>トイレットペーパー・ティシュー</h2>
         <p>トイレットペーパー・ペーパータオル・ティシュー・清拭用の紙製品</p>
+        <div class="meta"><span class="count">全3ページ</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./taketora.html">
-        <div class="cat">竹虎</div>
+      <a class="card" href="./taketora.html" style="--c:#7c3aed;">
+        <span class="cat">竹虎</span>
         <h2>感染対策・食事介助</h2>
         <p>食事用・ビニールエプロン、ガウン・予防着、サージマスク、手袋など</p>
+        <div class="meta"><span class="count">全4ページ</span><span class="arrow">開く →</span></div>
       </a>
     </div>
   </div>

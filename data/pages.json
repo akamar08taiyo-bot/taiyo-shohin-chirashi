@@ -5,7 +5,7 @@
       "name": "花王・ロケット石鹸",
       "file": "kao-rocket.html",
       "tokens": {
-        "photoHeight": 152,
+        "photoHeight": 200,
         "cardTitleMinHeight": 42,
         "cardTitleFontSize": "16",
         "descMinHeight": 34,
@@ -129,7 +129,7 @@
       "name": "ジャパックス",
       "file": "japacks.html",
       "tokens": {
-        "photoHeight": 140,
+        "photoHeight": 182,
         "cardTitleMinHeight": 32,
         "cardTitleFontSize": "14.5",
         "descMinHeight": 28,
@@ -223,7 +223,7 @@
       "name": "紙製品",
       "file": "paper.html",
       "tokens": {
-        "photoHeight": 140,
+        "photoHeight": 172,
         "cardTitleMinHeight": 34,
         "cardTitleFontSize": "14.5",
         "descMinHeight": 28,
@@ -267,7 +267,7 @@
       "name": "竹虎",
       "file": "taketora.html",
       "tokens": {
-        "photoHeight": 148,
+        "photoHeight": 210,
         "cardTitleMinHeight": 34,
         "cardTitleFontSize": "14.5",
         "descMinHeight": 28,

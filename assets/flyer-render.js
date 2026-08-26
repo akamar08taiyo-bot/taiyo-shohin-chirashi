@@ -351,7 +351,10 @@ async function renderFlyer(flyerKey, mountId) {
   }
   function updateQuoteBadge() {
     const badge = document.getElementById('tss-quote-badge');
-    if (badge) badge.textContent = '見積を見る（' + tssQuoteCartCount(quoteCart) + '）';
+    if (!badge) return;
+    const n = tssQuoteCartCount(quoteCart);
+    badge.textContent = '見積を見る（' + n + '）';
+    badge.classList.toggle('has-items', n > 0);
   }
   updateQuoteBadge();
 

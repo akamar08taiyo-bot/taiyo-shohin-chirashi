@@ -1178,7 +1178,7 @@
   },
   {
    "flier": "紙製品",
-   "page": "03 手指衛生・清拭",
+   "page": "04 手指衛生・清拭",
    "maker": "大王製紙　エリエール",
    "name": "エリエール アルコールタオル つめかえ用",
    "spec": "つめかえ 70枚",
@@ -1192,14 +1192,14 @@
   {
    "flier": "紙製品",
    "page": "03 手指衛生・清拭",
-   "maker": "sasaYell",
-   "name": "sasaYell 流せるおしりふき 大人のぬれタオル",
+   "maker": "昭和紙工",
+   "name": "SaSaYell 流せるおしりふき 大人のぬれタオル",
    "spec": "72枚",
    "tag": "トイレに流せる",
-   "desc": "約200×200mmの大判。水99%・無香料・ノンアルコール。",
-   "code": "JAN 未確認",
+   "desc": "からだふき・おしりふき・手足の汚れふきに。トイレに流せます。",
+   "code": "JAN 4957434009139",
    "unitBasis": "1枚あたり",
-   "image": "./images/daio/15_sasayell_nuretowel.jpg",
+   "image": "./images/showa/15_sasayell_nuretowel.jpg",
    "id": 91
   },
   {

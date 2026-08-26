@@ -90,11 +90,38 @@
   .totals-row.grand { font-size: 18px; font-weight: 900; color: #12242A; border-top: 1.5px solid #cfe0e2; padding-top: 8px; margin-top: 4px; }
   .totals-row .val { font-family: 'Roboto Mono', monospace; }
 
+  /* ---- 画面下部の固定バー ----
+     商品一覧は長くスクロールするため、選択件数と次の操作を常に見える位置に置く。 */
+  .sticky-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: flex-end; gap: 18px;
+    padding: 12px 24px;
+    background: #fff; border-top: 2px solid #0f7f86;
+    box-shadow: 0 -4px 16px rgba(15,40,42,.10);
+  }
+  .sticky-bar .sb-info { margin-right: auto; display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .sticky-bar .sb-count { font-size: 13.5px; font-weight: 700; color: #41595E; }
+  .sticky-bar .sb-count strong { font-size: 19px; color: #0f7f86; font-family: 'Roboto Mono', monospace; margin: 0 3px; }
+  .sticky-bar .sb-total { font-size: 13.5px; font-weight: 700; color: #41595E; }
+  .sticky-bar .sb-total strong { font-size: 19px; color: #b85214; font-family: 'Roboto Mono', monospace; margin-left: 4px; }
+  .sticky-bar .btn { padding: 11px 20px; font-size: 13.5px; }
+  .wrap { padding-bottom: 108px; }
+
   #print-content-holder { display: none; }
   @media print {
+    .sticky-bar { display: none !important; }
     body > *:not(#print-content-holder) { display: none !important; }
     #print-content-holder { display: block !important; }
     @page { size: A4 portrait; margin: 0; }
+    /* 表のヘッダー色・罫線・合計欄の地色は帳票の一部なので必ず印刷させる */
+    #print-content-holder, #print-content-holder * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    /* 明細が2ページ目に渡るとき、行の途中で切れないようにする */
+    .doc-table tr { break-inside: avoid; page-break-inside: avoid; }
+    .doc-table thead { display: table-header-group; }
+    .doc-header, .doc-total-banner { break-inside: avoid; page-break-inside: avoid; }
   }
 
   /* ================= 印刷帳票（御見積書）================= */
@@ -239,6 +266,15 @@
   </div>
 </div>
 
+<div class="sticky-bar" id="sticky-bar">
+  <div class="sb-info">
+    <span class="sb-count">選択中<strong id="sb-count">0</strong>件</span>
+    <span class="sb-total">合計（税込）<strong id="sb-total">￥0</strong></span>
+  </div>
+  <button type="button" class="btn btn-danger" id="sb-clear">見積をクリア</button>
+  <button type="button" class="btn btn-primary" id="sb-action">見積書を確認する →</button>
+</div>
+
 <div id="print-content-holder"></div>
 
 <script src="./assets/offices.js"></script>
@@ -295,6 +331,7 @@
       const target = btn.dataset.view;
       document.getElementById('view-picker').classList.toggle('active', target === 'picker');
       document.getElementById('view-quote').classList.toggle('active', target === 'quote');
+      updateStickyBar();
     });
   });
 
@@ -371,7 +408,34 @@
     const n = Object.keys(cart).length;
     document.getElementById('picker-count-num').textContent = n;
     document.getElementById('tab-quote-count').textContent = '(' + n + ')';
+    document.getElementById('sb-count').textContent = n;
   }
+
+  /* ---- 画面下部の固定バー ----
+     「商品を選ぶ」タブでは見積書タブへ進むボタン、
+     「見積書」タブでは印刷ボタンになる。商品が0件のときは操作できないようにする。 */
+  function updateStickyBar() {
+    const n = Object.keys(cart).length;
+    const onPicker = document.getElementById('view-picker').classList.contains('active');
+    const action = document.getElementById('sb-action');
+    const clear = document.getElementById('sb-clear');
+    action.textContent = onPicker ? '見積書を確認する →' : '🖨 印刷 / PDF保存';
+    action.disabled = n === 0;
+    action.style.opacity = n === 0 ? '.45' : '';
+    action.style.cursor = n === 0 ? 'not-allowed' : 'pointer';
+    clear.style.display = n === 0 ? 'none' : '';
+  }
+
+  document.getElementById('sb-action').addEventListener('click', () => {
+    if (!Object.keys(cart).length) return;
+    if (document.getElementById('view-picker').classList.contains('active')) {
+      document.querySelector('.switch-btn[data-view="quote"]').click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      document.getElementById('btn-print').click();
+    }
+  });
+  document.getElementById('sb-clear').addEventListener('click', () => document.getElementById('btn-clear').click());
 
   /* ================= 見積書（画面・編集） ================= */
   function suggestedUnitPrice(item, priceRow) {
@@ -470,6 +534,8 @@
     document.getElementById('sum-subtotal').textContent = '￥' + Math.round(subtotal).toLocaleString('ja-JP');
     document.getElementById('sum-tax').textContent = '￥' + tax.toLocaleString('ja-JP');
     document.getElementById('sum-total').textContent = '￥' + total.toLocaleString('ja-JP');
+    document.getElementById('sb-total').textContent = '￥' + total.toLocaleString('ja-JP');
+    updateStickyBar();
   }
 
   document.getElementById('customer-name').addEventListener('change', (e) => { meta.customerName = e.target.value; saveMeta(meta); });

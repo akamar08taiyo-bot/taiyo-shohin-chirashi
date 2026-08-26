@@ -7,24 +7,43 @@
 ## 構成
 
 ```
-index.html          一覧ページ
+index.html          メインメニュー（チラシ / 見積 / 価格表 と 発行営業所の選択）
+flyers.html          チラシ一覧（メーカーから探す / 使用用途から探す）
+quote.html            見積・提案書作成（商品を選ぶ → 御見積書を印刷）
 kao-rocket.html      花王・ロケット石鹸（全11ページ・44商品）
 japacks.html         ジャパックス（全8ページ・32商品）
 paper.html            紙製品（全3ページ・12商品。他4商品は商品編集ピッカーから選択可）
 taketora.html         竹虎（医療・介護用ディスポ用品、全4ページ・16商品）
 price-calc.html       価格・単価計算シート（社内用）
+validate.cjs          データ整合性チェック（`node validate.cjs`）
 assets/
   design.css          デザイントークン・A4ページのCSS（794×1123px = A4 @96dpi）
   flyer-render.js      data/ からページを組み立てる共通レンダラー
   pricing.js           単価計算ロジック（localStorage 共有）
+  offices.js           全19営業所マスタと選択状態の保存
 data/
   products.json         商品マスター（108商品。花王/ロケット/ジャパックス/紙製品92商品は design_handoff_flier/product-master.json が出所、竹虎16商品はメーカー提供写真から追加）
-  pages.json            ページ構成（見出し・リード文・サイズ展開欄・注記）
+  pages.json            ページ構成（見出し・リード文・サイズ展開欄・注記・写真枠の高さ）
   price-rows.json       価格計算シート用の行データ（容量・入数を商品マスターから自動導出。竹虎分は容量未確認）
 images/
-  kao/ rocket/ japacks/ daio/ shinbashi/   商品写真（design_handoff_flier由来、メーカー公式画像）
+  kao/ rocket/ japacks/ daio/ shinbashi/ showa/   商品写真（design_handoff_flier由来、メーカー公式画像）
   taketora/                            商品写真（メーカー提供画像。背景トリミングのみ、色は加工していない）
 ```
+
+## 変更したら必ず実行する
+
+```bash
+node validate.cjs
+```
+
+商品を追加・差し替えたあとの確認用。以下を機械的に検証する。
+
+- `products.json` の `id` が重複していないか
+- `price-rows.json` と 1:1 で対応しているか
+- 画像ファイルが実在するか
+- **1ページ4商品ちょうどか**（過不足があるとカードが潰れ、`overflow:hidden` で文字が見えなくなる）
+
+`pages.json` に無いページ名を指定した商品は「ピッカー専用の予備」として扱われ、チラシには印刷されず商品編集ピッカーからのみ選べる。これは仕様なので、`validate.cjs` は件数を補足表示するだけでエラーにしない。現在4件（`01 トイレット エルヴェール` の3件と `04 手指衛生・清拭` の1件）。**この番号を「連番の誤り」と誤解して直すと、そのページが5商品になり崩れる。**
 
 データとテンプレートを分離しているため、**HTMLを増やさず** `data/*.json` の編集だけで内容を更新できます。
 

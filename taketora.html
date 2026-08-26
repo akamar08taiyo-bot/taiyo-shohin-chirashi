@@ -12,14 +12,20 @@
 </head>
 <body>
   <div class="tss-toolbar">
-    <a class="tss-back" href="./index.html">← 一覧へ</a>
-    <h1 id="tss-flyer-title">竹虎</h1>
-    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-codes" />品番・JAN表示</label>
-    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-price" />価格表示（社内用）</label>
-    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-edit" />商品を編集</label>
-    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-quote" />見積に追加</label>
+    <a class="tss-back" href="./flyers.html">← チラシ一覧</a>
+    <h1 id="tss-flyer-title"></h1>
+    <div class="tss-toolgroup">
+      <span class="tss-toolgroup-label">表示</span>
+      <label class="tss-toggle"><input type="checkbox" id="tss-toggle-codes" />品番・JAN</label>
+      <label class="tss-toggle"><input type="checkbox" id="tss-toggle-price" />価格（社内用）</label>
+    </div>
+    <div class="tss-toolgroup">
+      <span class="tss-toolgroup-label">編集</span>
+      <label class="tss-toggle"><input type="checkbox" id="tss-toggle-edit" />商品を差し替え</label>
+      <label class="tss-toggle"><input type="checkbox" id="tss-toggle-quote" />見積に追加</label>
+    </div>
     <a class="tss-btn" href="./quote.html" id="tss-quote-badge">見積を見る（0）</a>
-    <button type="button" class="tss-btn" id="tss-print-btn">印刷 / PDF保存</button>
+    <button type="button" class="tss-btn tss-btn-primary" id="tss-print-btn">🖨 印刷 / PDF保存</button>
   </div>
   <nav class="tss-pagejump" id="tss-pagejump"></nav>
   <main class="tss-pages-scroll" id="tss-mount"></main>
