@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>自分で選んでチラシを作る | 太陽シルバーサービス</title>
+<meta name="description" content="用途を選び、商品を4点えらんでオリジナルのA4チラシを作成します。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/design.css" />
+<style>
+  body { background: #eef5f5; }
+  .cx-wrap { padding: 0 0 40px; }
+  .cx-panel { background: #fff; border-bottom: 1.5px solid var(--border); padding: 18px 24px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .cx-inner { max-width: 1180px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 16px; }
+  .cx-step { display: flex; flex-direction: column; gap: 9px; }
+  .cx-step-label { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
+  .cx-cats { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cx-cat { font-family: 'Noto Sans JP', sans-serif; font-size: 13.5px; font-weight: 700; color: var(--text-sub);
+    background: #fff; border: 1.5px solid var(--border); padding: 10px 16px; cursor: pointer; white-space: nowrap; }
+  .cx-cat:hover { border-color: var(--accent); color: var(--accent); }
+  .cx-cat.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .cx-count { font-size: 13px; font-weight: 700; color: var(--text-sub); }
+  .cx-count strong { font-family: 'Roboto Mono', monospace; font-size: 17px; color: var(--accent); margin: 0 3px; }
+  .cx-count.is-full strong { color: var(--price-color); }
+
+  .cx-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+  .cx-item { display: flex; align-items: center; gap: 10px; border: 1px solid #e3edee; background: #fff; padding: 8px 10px; cursor: pointer; }
+  .cx-item:hover { border-color: var(--accent); background: #f6fbfb; }
+  .cx-item.is-checked { background: #eaf7f4; border-color: var(--accent); }
+  .cx-item.is-disabled { opacity: .4; cursor: not-allowed; }
+  .cx-item input { width: 17px; height: 17px; flex: none; accent-color: var(--accent); cursor: pointer; }
+  .cx-item .th { width: 42px; height: 42px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .cx-item .th img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .cx-item .tx { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .cx-item .nm { font-size: 12.5px; font-weight: 700; line-height: 1.3; }
+  .cx-item .mk { font-size: 10.5px; color: var(--text-note); }
+  .cx-empty { padding: 28px 10px; color: var(--text-note); font-size: 13.5px; }
+
+  .cx-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .cx-field { display: flex; flex-direction: column; gap: 4px; }
+  .cx-field label { font-size: 12px; font-weight: 700; color: var(--text-sub); }
+  .cx-field input { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid var(--border); padding: 9px 10px; }
+  .cx-field input:focus { outline: none; border-color: var(--accent); }
+
+  .cx-preview-label { max-width: 1180px; margin: 22px auto 10px; padding: 0 24px; font-size: 12px; font-weight: 700; color: var(--text-note); letter-spacing: .08em; }
+  .cx-stage { display: flex; justify-content: center; padding: 0 12px; }
+  .cx-placeholder { width: 794px; max-width: 100%; border: 2px dashed var(--border); background: #fff; padding: 70px 24px; text-align: center; color: var(--text-note); font-size: 14px; line-height: 1.9; }
+
+  @media print {
+    .tss-toolbar, .cx-panel, .cx-preview-label { display: none !important; }
+    .cx-wrap { padding: 0; }
+    .cx-stage { padding: 0; }
+    body { background: #fff; }
+  }
+  @media (max-width: 860px) {
+    .cx-fields { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="tss-toolbar">
+    <a class="tss-back" href="./flyers.html">← チラシ一覧</a>
+    <h1>自分で選んでチラシを作る</h1>
+    <div class="tss-toolgroup">
+      <span class="tss-toolgroup-label">表示</span>
+      <label class="tss-toggle"><input type="checkbox" id="cx-toggle-codes" checked />品番・JAN</label>
+      <label class="tss-toggle"><input type="checkbox" id="cx-toggle-ask" />お客様チェック欄</label>
+    </div>
+    <button type="button" class="tss-btn" id="cx-clear">選び直す</button>
+    <button type="button" class="tss-btn tss-btn-primary" id="cx-print">🖨 印刷 / PDF保存</button>
+  </div>
+
+  <div class="cx-wrap">
+    <div class="cx-panel">
+      <div class="cx-inner">
+        <div class="cx-step">
+          <div class="cx-step-label">① 用途をえらぶ</div>
+          <div class="cx-cats" id="cx-cats"></div>
+        </div>
+        <div class="cx-step">
+          <div class="cx-step-label">② 商品を4点えらぶ</div>
+          <div class="cx-count" id="cx-count">選択中<strong>0</strong>／4点</div>
+          <div class="cx-list" id="cx-list"><div class="cx-empty">上の用途ボタンを押すと、商品が表示されます。</div></div>
+        </div>
+        <div class="cx-step">
+          <div class="cx-step-label">③ 見出しを整える（任意）</div>
+          <div class="cx-fields">
+            <div class="cx-field"><label for="cx-title">タイトル</label><input type="text" id="cx-title" /></div>
+            <div class="cx-field"><label for="cx-subtitle">サブタイトル</label><input type="text" id="cx-subtitle" /></div>
+            <div class="cx-field"><label for="cx-lead">リード文</label><input type="text" id="cx-lead" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-preview-label">プレビュー（実寸 A4縦）</div>
+    <div class="cx-stage" id="cx-stage"></div>
+  </div>
+
+<script src="./assets/offices.js"></script>
+<script src="./assets/pricing.js"></script>
+<script>
+(async function () {
+  const products = await fetch('./data/products.json').then(r => r.json());
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  // 用途カテゴリ。products.json の flier / page の組み合わせをまとめ直したもの。
+  const CATS = [
+    { name:'台所・食器洗い', label:'業務用 台所・食器用洗剤', lead:'食器用洗剤と漂白剤。厨房のシンクまわりに。',
+      pages:[['花王・ロケット石鹸','01 食器用洗剤'],['花王・ロケット石鹸','02 食器洗浄機用洗剤'],['花王・ロケット石鹸','03 台所用漂白剤']] },
+    { name:'厨房の油汚れ・床', label:'業務用 厨房・床用洗剤', lead:'こびりついた油汚れと、厨房の床の清掃に。',
+      pages:[['花王・ロケット石鹸','04 厨房の油汚れ・床']] },
+    { name:'トイレ', label:'業務用 トイレ用洗剤', lead:'便器・尿石・排水管まで、お手洗いの清掃に。',
+      pages:[['花王・ロケット石鹸','05 トイレ洗剤'],['花王・ロケット石鹸','06 トイレ・排水管（塩素系）']] },
+    { name:'浴室・カビ', label:'業務用 浴室用洗剤・カビ取り', lead:'浴室の湯垢とカビの対策に。',
+      pages:[['花王・ロケット石鹸','10 浴室・カビ']] },
+    { name:'洗濯・衣類', label:'業務用 洗たく用洗剤・漂白剤', lead:'リネン類の洗濯と、しみ・においのケアに。',
+      pages:[['花王・ロケット石鹸','08 洗濯用洗剤'],['花王・ロケット石鹸','09 衣料用漂白剤・柔軟剤']] },
+    { name:'手指衛生・消毒', label:'業務用 手指衛生・清拭', lead:'手指の洗浄・消毒と、身体の清拭に。',
+      pages:[['花王・ロケット石鹸','07 手指衛生'],['紙製品','03 手指衛生・清拭'],['紙製品','04 手指衛生・清拭']] },
+    { name:'消臭・除菌', label:'業務用 消臭・除菌スプレー', lead:'衣類・布製品・お部屋のにおい対策に。',
+      pages:[['花王・ロケット石鹸','11 消臭・除菌']] },
+    { name:'ゴミ袋・ポリ袋', label:'業務用 ゴミ袋・ポリ袋', lead:'サイズ・厚み・色をそろえて、ゴミの分別に。',
+      pages:[['ジャパックス','01 ゴミ袋（半透明）'],['ジャパックス','02 ポリ袋（透明・白半透明）'],['ジャパックス','03 業務用カラーポリ袋'],
+             ['ジャパックス','04 環境配慮タイプ'],['ジャパックス','05 手付き袋・レジ袋'],['ジャパックス','06 室内ごみ箱用・小型'],
+             ['ジャパックス','07 省スペース・ロール'],['ジャパックス','08 手付き・強化タイプ']] },
+    { name:'トイレットペーパー・ティシュー', label:'業務用 紙製品', lead:'トイレットペーパー・ペーパータオル・ティシュー。',
+      pages:[['紙製品','01 トイレットペーパー'],['紙製品','01 トイレット エルヴェール'],['紙製品','02 ペーパータオル・ティシュー']] },
+    { name:'エプロン・ガウン', label:'業務用 エプロン・ガウン', lead:'食事介助と感染対策のディスポ用品。',
+      pages:[['竹虎','01 食事用エプロン'],['竹虎','02 ビニールエプロン'],['竹虎','03 ガウン・予防着'],['竹虎','07 フェルラック（予備）']] },
+    { name:'マスク・手袋', label:'業務用 マスク・手袋', lead:'サージカルマスクと使い捨て手袋。',
+      pages:[['竹虎','04 マスク・手袋'],['竹虎','05 マスク'],['竹虎','06 マスク（予備）']] },
+  ];
+
+  // カード見た目のトークン（花王チラシと同じ設定を流用）
+  const TOKENS = { photoHeight:200, cardTitleMinHeight:42, cardTitleFontSize:'16', descMinHeight:34, descFontSize:'11.5' };
+  const MAX = 4;
+
+  let activeCat = null;
+  let picked = [];            // 選んだ商品 id（最大4・選んだ順）
+  let showCodes = true;
+  let askMode = false;
+
+  const byId = new Map(products.items.map(it => [it.id, it]));
+
+  function catItems(cat) {
+    const out = [];
+    for (const [flier, page] of cat.pages) {
+      for (const it of products.items) {
+        if (it.flier === flier && it.page === page) out.push(it);
+      }
+    }
+    return out;
+  }
+
+  /* ---------- ① カテゴリ ---------- */
+  document.getElementById('cx-cats').innerHTML = CATS.map((c, i) =>
+    `<button type="button" class="cx-cat" data-i="${i}">${esc(c.name)}</button>`).join('');
+
+  document.getElementById('cx-cats').addEventListener('click', (e) => {
+    const b = e.target.closest('.cx-cat');
+    if (!b) return;
+    activeCat = CATS[Number(b.dataset.i)];
+    document.querySelectorAll('.cx-cat').forEach(x => x.classList.toggle('active', x === b));
+    // 見出しは選んだ用途から自動で入れる（あとから直せる）
+    document.getElementById('cx-title').value = activeCat.name;
+    document.getElementById('cx-subtitle').value = '';
+    document.getElementById('cx-lead').value = activeCat.lead;
+    renderList();
+    renderFlyer();
+  });
+
+  /* ---------- ② 商品を4点 ---------- */
+  function renderList() {
+    const el = document.getElementById('cx-list');
+    if (!activeCat) {
+      el.innerHTML = '<div class="cx-empty">上の用途ボタンを押すと、商品が表示されます。</div>';
+      return;
+    }
+    const items = catItems(activeCat);
+    const full = picked.length >= MAX;
+    el.innerHTML = items.map(it => {
+      const on = picked.includes(it.id);
+      const dis = !on && full;
+      return `
+        <label class="cx-item${on ? ' is-checked' : ''}${dis ? ' is-disabled' : ''}">
+          <input type="checkbox" data-id="${it.id}" ${on ? 'checked' : ''} ${dis ? 'disabled' : ''} />
+          <span class="th"><img src="${esc(it.image)}" alt="" loading="lazy" /></span>
+          <span class="tx">
+            <span class="nm">${esc(it.name)}</span>
+            <span class="mk">${esc(it.maker)}　${esc(it.spec)}</span>
+          </span>
+        </label>`;
+    }).join('');
+    const c = document.getElementById('cx-count');
+    c.innerHTML = '選択中<strong>' + picked.length + '</strong>／' + MAX + '点'
+      + (full ? '　（4点そろいました。変えるときは、どれかのチェックを外してください）' : '');
+    c.classList.toggle('is-full', full);
+  }
+
+  document.getElementById('cx-list').addEventListener('change', (e) => {
+    const cb = e.target.closest('input[type="checkbox"]');
+    if (!cb) return;
+    const id = Number(cb.dataset.id);
+    if (cb.checked) {
+      if (picked.length >= MAX) { cb.checked = false; return; }   // 4点で打ち止め
+      if (!picked.includes(id)) picked.push(id);
+    } else {
+      picked = picked.filter(x => x !== id);
+    }
+    renderList();
+    renderFlyer();
+  });
+
+  /* ---------- ③ チラシを組み立てる ---------- */
+  function cardHTML(item) {
+    const ask = askMode ? '<span class="tss-card-askchk" aria-hidden="true"></span>' : '';
+    return `
+      <article class="tss-card">
+        ${ask}
+        <div class="tss-card-photo" style="height:${TOKENS.photoHeight}px">
+          <img src="${esc(item.image)}" alt="${esc(item.name)}" />
+        </div>
+        <div class="tss-card-body">
+          <div class="tss-card-maker">${esc(item.maker)}</div>
+          <h2 class="tss-card-name" style="min-height:${TOKENS.cardTitleMinHeight}px;font-size:${TOKENS.cardTitleFontSize}px">${esc(item.name)}</h2>
+          <div class="tss-card-tags">
+            <span class="tss-tag-spec">${esc(item.spec)}</span>
+            <span class="tss-tag-cat">${esc(item.tag)}</span>
+          </div>
+          <p class="tss-card-desc" style="min-height:${TOKENS.descMinHeight}px;font-size:${TOKENS.descFontSize}px">${esc(item.desc)}</p>
+          ${showCodes ? `<div class="tss-card-code">${esc(item.code)}</div>` : ''}
+        </div>
+      </article>`;
+  }
+
+  function renderFlyer() {
+    const stage = document.getElementById('cx-stage');
+    if (picked.length === 0) {
+      stage.innerHTML = '<div class="cx-placeholder">用途をえらび、商品を4点チェックすると<br>ここにチラシができあがります。</div>';
+      return;
+    }
+    const office = tssLoadOffice();
+    const title = document.getElementById('cx-title').value.trim() || (activeCat ? activeCat.name : '');
+    const subtitle = document.getElementById('cx-subtitle').value.trim();
+    const lead = document.getElementById('cx-lead').value.trim();
+    const label = activeCat ? activeCat.label : '業務用 消耗品';
+    const titleHTML = subtitle
+      ? `${esc(title)}<br /><span class="tss-subtitle">${esc(subtitle)}</span>`
+      : esc(title);
+
+    stage.innerHTML = `
+      <section class="page">
+        <header class="tss-page-header">
+          <div class="tss-band">
+            <div class="tss-band-label">${esc(label)}</div>
+            <div class="tss-band-rule"></div>
+            <div class="tss-band-aud">病院・施設向け</div>
+          </div>
+          <div class="tss-title-row">
+            <h1>${titleHTML}</h1>
+            <p class="tss-lead">${esc(lead)}</p>
+          </div>
+        </header>
+        <div class="tss-grid">
+          ${picked.map(id => cardHTML(byId.get(id))).join('')}
+        </div>
+        <footer class="tss-footer">
+          <div class="tss-footer-left">
+            <div class="tss-footer-office">太陽シルバーサービス㈱　${esc(office.name)}</div>
+            <div class="tss-footer-addr">${esc(office.address)}</div>
+            <div class="tss-footer-tel"><span>TEL ${esc(office.tel)}</span><span>FAX ${esc(office.fax)}</span></div>
+            <div class="tss-footer-contact">
+              <div class="tss-footer-contact-item"><span class="tss-footer-contact-label">${office.contactName ? '担当' : '所長'}</span><span class="tss-footer-contact-name">${esc(office.contactName || office.manager)}</span></div>
+              ${office.mobile ? `<div class="tss-footer-contact-item"><span class="tss-footer-contact-label">携帯</span><span class="tss-footer-contact-mobile">${esc(office.mobile)}</span></div>` : ''}
+            </div>
+          </div>
+        </footer>
+      </section>`;
+  }
+
+  ['cx-title', 'cx-subtitle', 'cx-lead'].forEach(id =>
+    document.getElementById(id).addEventListener('input', renderFlyer));
+
+  document.getElementById('cx-toggle-codes').addEventListener('change', (e) => {
+    showCodes = e.target.checked; renderFlyer();
+  });
+  document.getElementById('cx-toggle-ask').addEventListener('change', (e) => {
+    askMode = e.target.checked; renderFlyer();
+  });
+  document.getElementById('cx-clear').addEventListener('click', () => {
+    picked = []; renderList(); renderFlyer();
+  });
+  document.getElementById('cx-print').addEventListener('click', () => {
+    if (picked.length < MAX) { alert('商品を4点えらんでください。（現在 ' + picked.length + '点）'); return; }
+    window.print();
+  });
+
+  renderList();
+  renderFlyer();
+})();
+</script>
+</body>
+</html>
