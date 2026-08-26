@@ -141,3 +141,74 @@ document.querySelectorAll('.tss-card-body').forEach(b => b.scrollHeight > b.clie
 
 **教訓**: 商品スペックは推測で書かない。裏が取れないものは「未確認」のままにする。
 ユーザーからも「わからない場合は絶対に入れない」と明確な指示がある。
+
+---
+
+## 9. チャットに貼られた画像はファイルとして保存できない
+
+ユーザーが会話に画像を貼っても、こちらにはそれをディスクへ書き出す手段がない
+（Write はテキストのみ、Read は既存ファイルの読み取りのみ）。
+
+**対応**: 保存先フォルダを具体的に伝えて保存してもらう。
+そのうえで `Get-ChildItem` / `find` で実ファイルを探す。
+なお OneDrive 配下はフォルダが移動されることがあるため、
+名前で全体検索するほうが確実（例: `Get-ChildItem -Recurse -Directory | Where-Object Name -like "*竹虎*"`）。
+
+Windows の日本語パスは Node の `fs` で ENOENT になることがある。
+PowerShell の `-LiteralPath` を使うと確実に扱える。
+
+---
+
+## 10. PDFカタログからの仕様抽出は座標を使う
+
+メーカーのカタログPDFは `get_text()` の素の抽出だと表の行が崩れ、
+商品番号と規格の対応が入れ替わる。PyMuPDF が使えるので、
+`get_text("words")` で座標を取り、y座標でグループ化して行を復元する。
+
+```python
+words = doc[p].get_text("words")   # x0,y0,x1,y1,word,...
+words.sort(key=lambda w: (round(w[1]/4.0), w[0]))
+```
+
+WebFetch で PDF を渡すと「バイナリで読めない」と返るが、
+**ローカルにダウンロードはされている**ので、そのパスを PyMuPDF で開けばよい。
+
+---
+
+## 11. 印刷帳票は「最悪ケースの件数」で高さを実測する
+
+見積書は商品1件では収まっても、メーカーが3つに分かれると
+グループ見出し＋表ヘッダー＋小計行が3組ぶん増えてA4を超える。
+`.doc` の `min-height: 297mm` があるため画面上は破綻して見えず、
+**合計欄だけが静かに2ページ目へ送られる**。
+
+検証は「複数メーカーにまたがる状態」で `.doc` の実高さを測り、
+1123px（A4@96dpi）以下かを確認する。
+
+---
+
+## 12. ブラウザペインが非表示だと測定値が壊れる
+
+`window.innerWidth` が 0 になり、`getBoundingClientRect()` が
+すべて 0 付近を返すため「横スクロールあり」などの誤検知が出る。
+測定前に `resize_window` で明示的にビューポートを与えること。
+
+また、`fetch` でデータを読んでから描画するページは、
+`navigate` 直後に要素を探すと**空振りする**。
+要素が現れるまで待ってから操作する。
+
+```js
+for (let i=0; i<40 && document.querySelectorAll(SEL).length===0; i++)
+  await new Promise(r=>setTimeout(r,100));
+```
+
+---
+
+## 13. 太陽ポータルへの登録
+
+このアプリは業務アプリポータル（`taiyo-portal`）のタイルから開く。
+- リポジトリ: `C:\Users\akama\taiyo-portal`（**ブランチは `master`**。`main` ではない）
+- `index.html` 内の `APPS` 配列に1件追加するだけ
+- 色クラスは `c-teal` `c-cyan` `c-orange` など既定のものから選ぶ（新規追加は不要）
+- 登録名は「チラシ作成（消耗品）」。レンタル用の別アプリ（`taiyo-chirashi`）と
+  区別するため、そちらは「チラシ作成（レンタル）」に改称済み
