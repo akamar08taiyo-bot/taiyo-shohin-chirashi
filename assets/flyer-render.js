@@ -10,6 +10,7 @@ function escapeHTML(s) {
 
 const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
+const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
 
 function tssLoadBool(key, fallback) {
@@ -70,6 +71,7 @@ async function renderFlyer(flyerKey, mountId) {
   let showPrice = tssLoadBool(TSS_SHOW_PRICE_KEY, false);
   let editMode = false;
   let quoteMode = false;
+  let askMode = tssLoadBool(TSS_ASK_KEY, false);
   let quoteCart = tssLoadQuoteCart();
   let composition = tssLoadComposition();
   let pickerTarget = null; // { pageKey, slotIndex } while picker is open
@@ -123,10 +125,13 @@ async function renderFlyer(flyerKey, mountId) {
     const quoteChk = quoteMode
       ? `<label class="tss-card-quotechk"><input type="checkbox" data-id="${item.id}" ${quoteCart[item.id] != null ? 'checked' : ''} />見積に追加</label>`
       : '';
+    // お客様がチラシに直接チェックを付けるための空欄。社内用のチェックと違い印刷にも出す。
+    const askChk = askMode ? '<span class="tss-card-askchk" aria-hidden="true"></span>' : '';
     return `
       <article class="tss-card">
         ${editBtn}
         ${quoteChk}
+        ${askChk}
         <div class="tss-card-photo" style="height:${tokens.photoHeight}px">
           <img src="./images/${item.image.replace(/^\.\/images\//, '')}" alt="${escapeHTML(item.name)}" loading="lazy" />
         </div>
@@ -337,6 +342,16 @@ async function renderFlyer(flyerKey, mountId) {
     editToggle.checked = editMode;
     editToggle.addEventListener('change', () => {
       editMode = editToggle.checked;
+      renderAll();
+    });
+  }
+
+  const askToggle = document.getElementById('tss-toggle-ask');
+  if (askToggle) {
+    askToggle.checked = askMode;
+    askToggle.addEventListener('change', () => {
+      askMode = askToggle.checked;
+      tssSaveBool(TSS_ASK_KEY, askMode);
       renderAll();
     });
   }

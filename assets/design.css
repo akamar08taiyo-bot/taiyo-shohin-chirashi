@@ -246,6 +246,21 @@ a:hover { color: var(--accent-hover); }
 }
 .tss-card-quotechk input { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
 
+/* お客様がチラシに手書きでチェックを入れるための空欄。
+   社内用の .tss-card-quotechk と違い、印刷にも必ず出す。 */
+.tss-card-askchk {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 4;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--accent);
+  background: #fff;
+}
+/* 「商品を差し替え」ボタンと重なるときだけ左へ逃がす */
+.tss-card:has(.tss-card-editbtn) .tss-card-askchk { right: 96px; }
+
 .tss-page-editbar {
   display: flex;
   align-items: center;
