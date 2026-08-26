@@ -613,7 +613,8 @@
   "spec": "シングル 170m",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 1
+  "baseQty": 1,
+  "metersPerRoll": 170
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -621,7 +622,8 @@
   "spec": "170m×6R",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 6
+  "baseQty": 6,
+  "metersPerRoll": 170
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -629,7 +631,8 @@
   "spec": "シングル 170m",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 1
+  "baseQty": 1,
+  "metersPerRoll": 170
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -637,7 +640,8 @@
   "spec": "シングル 100m",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 1
+  "baseQty": 1,
+  "metersPerRoll": 100
  },
  {
   "maker": "大王製紙　エリエール",
@@ -645,7 +649,8 @@
   "spec": "100m×12R",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 12
+  "baseQty": 12,
+  "metersPerRoll": 100
  },
  {
   "maker": "大王製紙　エリエール",
@@ -653,7 +658,8 @@
   "spec": "50m×12R",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 12
+  "baseQty": 12,
+  "metersPerRoll": 50
  },
  {
   "maker": "大王製紙　エリエール",
@@ -661,7 +667,8 @@
   "spec": "50m×12R",
   "code": "JAN 未確認",
   "kind": "ロール",
-  "baseQty": 12
+  "baseQty": 12,
+  "metersPerRoll": 50
  },
  {
   "maker": "花王プロフェッショナル",

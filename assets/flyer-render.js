@@ -46,7 +46,12 @@ async function renderFlyer(flyerKey, mountId) {
     return;
   }
 
-  const priceByCode = new Map(priceRows.map(r => [r.code, r]));
+  // products.json と price-rows.json は同じ商品マスターから同じ順序・同じ件数で
+  // 生成されているため、配列インデックスで対応させる。code は「JAN 未確認」等の
+  // 重複値を持つ商品が複数あり、code をキーにすると別商品の行を誤って参照する。
+  const priceByCode = productsData.items.length === priceRows.length
+    ? new Map(productsData.items.map((it, i) => [it, priceRows[i]]))
+    : new Map(productsData.items.map(it => [it, priceRows.find(r => r.code === it.code && r.name === it.name)]));
   const { prices: savedPrices, qtys: savedQtys, margins: savedMargins, sellPrices: savedSellPrices } = tssLoadPrices();
   const itemByCode = new Map(productsData.items.map(it => [it.code, it]));
 
@@ -90,7 +95,7 @@ async function renderFlyer(flyerKey, mountId) {
   }
 
   function cardHTML(item, idx, tokens, pageKey) {
-    const priceRow = priceByCode.get(item.code);
+    const priceRow = priceByCode.get(item);
     let priceHTML = '';
     if (showPrice && priceRow) {
       // 販売金額 = 仕入価格 ／ (1 - 利益率)。金額を直接入力していればそちらを優先（price-calc.html と同じ規約）
@@ -100,7 +105,10 @@ async function renderFlyer(flyerKey, mountId) {
       const sell = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
       const qty = savedQtys[item.code] != null ? tssNum(savedQtys[item.code]) : priceRow.baseQty;
       const unit = tssCalcUnitPrice(sell, qty, priceRow.kind);
-      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(priceRow.kind))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span></div>`;
+      const perMeterHTML = priceRow.metersPerRoll
+        ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
+        : '';
+      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(priceRow.kind))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span>${perMeterHTML}</div>`;
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
     const editBtn = editMode

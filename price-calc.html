@@ -60,6 +60,7 @@
   .sell-input { width: 74px; box-sizing: border-box; border: 1.5px solid #0f7f86; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #0f7f86; }
   .cell-unit { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
   .cell-unit .value { font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; }
+  .cell-unit .value-sub { font-size: 12px; margin-top: 3px; }
   .cell-unit .label { font-size: 10px; font-weight: 500; color: #8aa0a2; }
   .notes { display: flex; flex-wrap: wrap; gap: 12px; }
   .note-box { flex: 1; min-width: 320px; border: 1.5px solid #cfe0e2; background: #fff; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
@@ -149,6 +150,7 @@
       return {
         ...r, costNum: cost, qtyNum: qty, marginNum, marginIsDefault, sellNum,
         unitNum: tssCalcUnitPrice(sellNum, qty, r.kind),
+        perMeterNum: r.metersPerRoll ? tssCalcPerMeterPrice(sellNum, qty, r.metersPerRoll) : null,
       };
     });
   }
@@ -203,6 +205,7 @@
         <div class="cell-unit">
           <span class="value" style="color:${r.unitNum == null ? '#c3cac7' : '#c25a17'}">${tssFmtYen(r.unitNum)}</span>
           <span class="label">${escapeHTML(tssUnitLabel(r.kind))}</span>
+          ${r.metersPerRoll ? `<span class="value value-sub" style="color:${r.perMeterNum == null ? '#c3cac7' : '#0f7f86'}">${tssFmtYen(r.perMeterNum)}</span><span class="label">1mあたり</span>` : ''}
         </div>
       </div>`;
     }).join('');

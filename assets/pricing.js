@@ -53,6 +53,12 @@ function tssCalcUnitPrice(price, qty, kind) {
   return price / qty;
 }
 
+// トイレットペーパー等ロール物の「1mあたり」= 1ロールあたり単価 ÷ 1ロールの長さ(m)
+function tssCalcPerMeterPrice(price, qty, metersPerRoll) {
+  if (price == null || qty == null || !metersPerRoll) return null;
+  return (price / qty) / metersPerRoll;
+}
+
 function tssFmtYen(v) {
   if (v == null) return '—';
   if (v >= 100) return '￥' + Math.round(v).toLocaleString('ja-JP');
