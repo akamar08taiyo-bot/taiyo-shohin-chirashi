@@ -41,6 +41,32 @@
   .picker-search:focus { outline: none; border-color: #0f7f86; }
   .picker-count { font-size: 12.5px; font-weight: 700; color: #41595E; white-space: nowrap; }
   .picker-count strong { color: #0f7f86; font-family: 'Roboto Mono', monospace; font-size: 14px; }
+
+  /* ---- メーカーで絞り込む ---- */
+  .picker-makers { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .picker-makers .label { font-size: 12px; font-weight: 700; color: #5c7376; letter-spacing: .08em; margin-right: 2px; }
+  .maker-chip {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
+    color: #41595E; background: #fff; border: 1.5px solid #cfe0e2;
+    padding: 8px 14px; cursor: pointer; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: border-color .12s, background .12s, color .12s;
+  }
+  .maker-chip:hover { border-color: #0f7f86; color: #0f7f86; }
+  .maker-chip .n { font-family: 'Roboto Mono', monospace; font-size: 11.5px; color: #8aa0a2; font-weight: 700; }
+  .maker-chip:hover .n { color: #0f7f86; }
+  .maker-chip.active { background: #0f7f86; border-color: #0f7f86; color: #fff; }
+  .maker-chip.active .n { color: #cfe9ea; }
+  /* 選択済みの商品を含むメーカーが一目で分かるようにする */
+  .maker-chip .picked { font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: 700; color: #fff; background: #b85214; padding: 1px 6px; }
+  .maker-chip.active .picked { background: #fff; color: #b85214; }
+
+  /* 狭い画面では折り返すと画面の3割を占めてしまうので、横スクロールの1行にする */
+  @media (max-width: 720px) {
+    .picker-makers { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
+    .picker-makers .label { display: none; }
+    .maker-chip { flex: none; }
+  }
   .picker-groups { display: flex; flex-direction: column; gap: 14px; }
   .picker-group { background: #fff; border: 1.5px solid #cfe0e2; }
   .picker-group-title { display: flex; align-items: baseline; gap: 8px; background: #e3f1f1; color: #0f7f86; font-size: 13.5px; font-weight: 900; letter-spacing: .04em; padding: 9px 14px; }
@@ -207,6 +233,7 @@
         <input type="search" class="picker-search" id="picker-search" placeholder="商品名・メーカー名・規格で検索" />
         <div class="picker-count"><strong id="picker-count-num">0</strong>件 選択中</div>
       </div>
+      <div class="picker-makers" id="picker-makers"></div>
       <div class="picker-groups" id="picker-groups"></div>
     </div>
 
@@ -353,15 +380,50 @@
       </label>`;
   }
 
+  // 検索欄の下のメーカーボタン。null は「すべて」。
+  let activeMaker = null;
+
+  function matchesSearch(it, q) {
+    if (!q) return true;
+    return String(it.name).toLowerCase().includes(q)
+      || String(it.maker).toLowerCase().includes(q)
+      || String(it.spec).toLowerCase().includes(q);
+  }
+
+  function renderMakerChips() {
+    const q = pickerSearch.value.trim().toLowerCase();
+    // 件数は「検索条件に合う商品」で数える（メーカー選択の影響は受けない）
+    const hits = products.items.filter(it => matchesSearch(it, q));
+    const counts = new Map();
+    const picked = new Map();
+    hits.forEach(it => {
+      counts.set(it.maker, (counts.get(it.maker) || 0) + 1);
+      if (cart[it.id]) picked.set(it.maker, (picked.get(it.maker) || 0) + 1);
+    });
+    const makers = [...counts.keys()].sort((a, b) => (makerIndex.get(a) ?? 0) - (makerIndex.get(b) ?? 0));
+
+    // 検索で消えたメーカーが選ばれたままにならないようにする
+    if (activeMaker && !counts.has(activeMaker)) activeMaker = null;
+
+    const totalPicked = hits.reduce((s, it) => s + (cart[it.id] ? 1 : 0), 0);
+    const chip = (label, value, n, p) =>
+      `<button type="button" class="maker-chip${activeMaker === value ? ' active' : ''}" data-maker="${value === null ? '' : escapeHTML(value)}">`
+      + escapeHTML(label) + `<span class="n">${n}</span>`
+      + (p ? `<span class="picked">${p}</span>` : '') + '</button>';
+
+    document.getElementById('picker-makers').innerHTML =
+      '<span class="label">メーカー</span>'
+      + chip('すべて', null, hits.length, totalPicked)
+      + makers.map(m => chip(m, m, counts.get(m), picked.get(m) || 0)).join('');
+  }
+
   function renderPicker() {
     const q = pickerSearch.value.trim().toLowerCase();
-    let list = products.items;
-    if (q) {
-      list = list.filter(it =>
-        String(it.name).toLowerCase().includes(q) ||
-        String(it.maker).toLowerCase().includes(q) ||
-        String(it.spec).toLowerCase().includes(q));
-    }
+    // 先にボタンを描き直す。検索で選択中メーカーが候補から消えた場合、
+    // ここで activeMaker が null に戻るため、この順序でないと一覧が0件になる。
+    renderMakerChips();
+    let list = products.items.filter(it => matchesSearch(it, q));
+    if (activeMaker) list = list.filter(it => it.maker === activeMaker);
     const groups = new Map();
     list.forEach(it => {
       if (!groups.has(it.maker)) groups.set(it.maker, []);
@@ -384,6 +446,15 @@
     }).join('');
   }
 
+  document.getElementById('picker-makers').addEventListener('click', (e) => {
+    const chip = e.target.closest('.maker-chip');
+    if (!chip) return;
+    const v = chip.dataset.maker;
+    activeMaker = v === '' ? null : v;
+    renderPicker();
+    document.querySelector('.picker-toolbar').scrollIntoView({ block: 'nearest' });
+  });
+
   pickerGroupsEl.addEventListener('change', (e) => {
     const cb = e.target.closest('.picker-check');
     if (!cb) return;
@@ -399,6 +470,7 @@
     const row = cb.closest('.picker-item');
     if (row) row.classList.toggle('is-checked', cb.checked);
     updatePickerCount();
+    renderMakerChips();
     renderRows();
   });
 
