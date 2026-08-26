@@ -52,17 +52,18 @@
     box-shadow: 0 2px 14px rgba(15,40,42,.18);
     display: flex;
   }
-  .cover-back { width: 50%; padding: 46px 34px 34px 46px; display: flex; flex-direction: column; }
-  .cover-front { width: 50%; padding: 40px 46px 34px 34px; display: flex; flex-direction: column; position: relative; }
+  /* 原本は左パネルの内容が下寄せ（上半分は余白）なので justify-content: flex-end で揃える */
+  .cover-back { width: 50%; padding: 46px 34px 30px 46px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .cover-front { width: 50%; padding: 68px 46px 34px 34px; display: flex; flex-direction: column; position: relative; }
 
   /* --- 右側（表面） --- */
   .corp-en { text-align: right; font-size: 13.5px; letter-spacing: .06em; color: #1a1a1a; }
   .corp-rule { height: 4px; background: #0a8a3c; margin-top: 6px; }
-  .cover-title-wrap { margin-top: 150px; text-align: center; }
-  .cover-title { font-size: 46px; font-weight: 600; letter-spacing: .34em; text-indent: .34em; color: #1a1a1a; line-height: 1.2; }
-  .cover-title-rule { height: 4px; background: #0a8a3c; margin: 12px auto 0; width: 78%; }
-  .cover-client { margin-top: 46px; text-align: center; font-size: 21px; font-weight: 600; letter-spacing: .08em; }
-  .cover-client .suffix { font-size: 15px; font-weight: 400; margin-left: 12px; }
+  .cover-title-wrap { margin-top: 165px; text-align: center; }
+  .cover-title { font-size: 32px; font-weight: 600; letter-spacing: .34em; text-indent: .34em; color: #1a1a1a; line-height: 1.2; }
+  .cover-title-rule { height: 3px; background: #0a8a3c; margin: 10px auto 0; width: 40%; }
+  .cover-client { margin-top: 38px; text-align: center; font-size: 17px; font-weight: 600; letter-spacing: .08em; }
+  .cover-client .suffix { font-size: 13px; font-weight: 400; margin-left: 10px; }
   .cover-front-foot { margin-top: auto; display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
   .logo-mark { width: 42px; height: 42px; border-radius: 50%; background: #d81f26; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 900; letter-spacing: .02em; flex: none; }
   .foot-name { font-size: 21px; font-weight: 600; letter-spacing: .04em; }
@@ -72,15 +73,15 @@
   .hq-line { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; padding-left: 18px; }
   .hq-label { font-size: 13px; font-weight: 600; letter-spacing: .3em; }
   .hq-detail { font-size: 12.5px; line-height: 1.55; }
-  .office-cols { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; }
-  .office-item { display: flex; gap: 6px; font-size: 10px; line-height: 1.42; break-inside: avoid; }
-  .office-box { flex: none; width: 9px; height: 9px; border: 1px solid #1a1a1a; margin-top: 3px; }
+  .office-cols { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 16px; }
+  .office-item { display: flex; gap: 5px; font-size: 8.7px; line-height: 1.34; break-inside: avoid; }
+  .office-box { flex: none; width: 8px; height: 8px; border: 1px solid #1a1a1a; margin-top: 2px; }
   .office-item.is-current .office-box { background: #1a1a1a; }
   .office-body { min-width: 0; }
-  .office-name { font-size: 11.5px; font-weight: 600; letter-spacing: .18em; display: inline; }
-  .office-zip { font-size: 10px; margin-left: 8px; }
-  .office-addr { font-size: 10px; }
-  .office-tel { font-size: 10px; }
+  .office-name { font-size: 10px; font-weight: 600; letter-spacing: .16em; display: inline; }
+  .office-zip { font-size: 8.7px; margin-left: 6px; }
+  .office-addr { font-size: 8.7px; }
+  .office-tel { font-size: 8.7px; }
 
   #print-holder { display: none; }
   @media print {
