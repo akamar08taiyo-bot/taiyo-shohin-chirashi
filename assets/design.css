@@ -147,6 +147,12 @@ a:hover { color: var(--accent-hover); }
   align-items: center;
 }
 .tss-pagejump a:hover { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+.tss-jump-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 20px; margin-right: 8px;
+  background: var(--accent); color: #fff;
+  font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 700;
+}
 
 .tss-pages-scroll {
   display: flex;
@@ -348,9 +354,34 @@ a:hover { color: var(--accent-hover); }
 
 .tss-page-wrap { display: flex; flex-direction: column; gap: 8px; align-items: center; }
 
+/* ---- 何ページ目かの表示と、印刷するページの選択（画面のみ） ---- */
+.tss-page-bar {
+  width: 794px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 4px 0;
+}
+.tss-page-num {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+}
+.tss-page-num .of { font-size: 12.5px; font-weight: 700; color: var(--text-sub); margin-left: 2px; }
+.tss-page-key { flex: 1; font-size: 13px; font-weight: 700; color: var(--text-sub); min-width: 0; }
+.tss-page-printchk { font-size: 12.5px; }
+
+/* 印刷しないページは画面上で薄くし、紙には出さない */
+.tss-page-wrap.is-noprint .page { opacity: .38; filter: grayscale(1); }
+.tss-page-wrap.is-noprint .tss-page-num { color: var(--text-note); }
+
 @media print {
   body { background: #fff; }
-  .tss-toolbar, .tss-pagejump, .tss-page-editbar, .tss-card-editbtn, .tss-card-quotechk { display: none !important; }
+  .tss-toolbar, .tss-pagejump, .tss-page-editbar, .tss-page-bar, .tss-card-editbtn, .tss-card-quotechk { display: none !important; }
+  /* チェックを外したページは印刷しない */
+  .tss-page-wrap.is-noprint { display: none !important; }
   .tss-pages-scroll { padding: 0; gap: 0; }
   .tss-page-wrap { gap: 0; }
   .page { box-shadow: none; page-break-after: always; }

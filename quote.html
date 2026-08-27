@@ -174,6 +174,16 @@
     .doc-table tr { break-inside: avoid; page-break-inside: avoid; }
     .doc-table thead { display: table-header-group; }
     .doc-header, .doc-total-banner { break-inside: avoid; page-break-inside: avoid; }
+
+    /* メーカーのまとまりが途中で切れないよう、グループ単位で改ページする。
+       1ページに収まらないほど商品が多いグループは、ブラウザ側で分割される（その場合も
+       thead が繰り返されるので見出しは残る）。 */
+    .doc-group { break-inside: avoid; page-break-inside: avoid; }
+    /* メーカー名だけがページ末尾に取り残されないようにする */
+    .doc-group-title { break-after: avoid; page-break-after: avoid; }
+    /* 小計と合計欄も分断しない */
+    .doc-table tr.group-subtotal { break-before: avoid; page-break-before: avoid; }
+    .doc-bottom { break-inside: avoid; page-break-inside: avoid; }
   }
 
   /* ================= 印刷帳票（御見積書）================= */

@@ -72,6 +72,7 @@ async function renderFlyer(flyerKey, mountId) {
   let editMode = false;
   let quoteMode = false;
   let askMode = tssLoadBool(TSS_ASK_KEY, false);
+  const printPages = {};   // { [pageIndex]: false } 印刷しないページだけ記録する
   let quoteCart = tssLoadQuoteCart();
   let composition = tssLoadComposition();
   let pickerTarget = null; // { pageKey, slotIndex } while picker is open
@@ -166,8 +167,19 @@ async function renderFlyer(flyerKey, mountId) {
            ${isCustom ? `<button type="button" class="tss-reset-btn" data-page-key="${escapeHTML(page.pageKey)}">おすすめ構成に戻す</button>` : ''}
          </div>`
       : '';
+    // 何ページ目かの表示と、印刷するページの選択。画面だけで、紙には出さない。
+    const printChecked = printPages[pageIndex] !== false;
+    const pageBar = `
+      <div class="tss-page-bar">
+        <span class="tss-page-num">${pageIndex + 1}<span class="of">／${flyer.pages.length}ページ</span></span>
+        <span class="tss-page-key">${escapeHTML(page.pageKey)}</span>
+        <label class="tss-toggle tss-page-printchk">
+          <input type="checkbox" data-page-index="${pageIndex}" ${printChecked ? 'checked' : ''} />このページを印刷する
+        </label>
+      </div>`;
     return `
-    <div class="tss-page-wrap">
+    <div class="tss-page-wrap${printChecked ? '' : ' is-noprint'}" data-page-index="${pageIndex}">
+      ${pageBar}
       ${editBar}
       <section class="page" id="tss-page-${pageIndex}" data-page-label="${escapeHTML(page.pageKey)}">
       <header class="tss-page-header">
@@ -373,12 +385,54 @@ async function renderFlyer(flyerKey, mountId) {
   }
   updateQuoteBadge();
 
+  // 印刷するページの選択。チェックを外したページは印刷から除く。
+  function printCount() {
+    return flyer.pages.filter((p, i) => printPages[i] !== false).length;
+  }
+  function updatePrintBtn() {
+    const btn = document.getElementById('tss-print-btn');
+    if (!btn) return;
+    const n = printCount();
+    btn.textContent = n === flyer.pages.length
+      ? '🖨 印刷 / PDF保存'
+      : '🖨 印刷 / PDF保存（' + n + 'ページ）';
+    btn.disabled = n === 0;
+    btn.style.opacity = n === 0 ? '.45' : '';
+  }
+  mount.addEventListener('change', (e) => {
+    const chk = e.target.closest('.tss-page-printchk input');
+    if (!chk) return;
+    const i = Number(chk.dataset.pageIndex);
+    printPages[i] = chk.checked;
+    const wrap = chk.closest('.tss-page-wrap');
+    if (wrap) wrap.classList.toggle('is-noprint', !chk.checked);
+    updatePrintBtn();
+  });
+
+  const printAllBtn = document.getElementById('tss-print-all');
+  function setAllPages(on) {
+    flyer.pages.forEach((p, i) => { printPages[i] = on; });
+    mount.querySelectorAll('.tss-page-printchk input').forEach(c => { c.checked = on; });
+    mount.querySelectorAll('.tss-page-wrap').forEach(w => w.classList.toggle('is-noprint', !on));
+    // 全ページ選択中なら次の操作は「解除」、そうでなければ「選択」
+    if (printAllBtn) printAllBtn.textContent = on ? 'すべて解除' : 'すべて選択';
+    updatePrintBtn();
+  }
+  if (printAllBtn) {
+    printAllBtn.addEventListener('click', () => setAllPages(printCount() < flyer.pages.length));
+  }
+
   const printBtn = document.getElementById('tss-print-btn');
-  if (printBtn) printBtn.addEventListener('click', () => window.print());
+  if (printBtn) printBtn.addEventListener('click', () => {
+    if (printCount() === 0) { alert('印刷するページが選ばれていません。'); return; }
+    window.print();
+  });
+  updatePrintBtn();
 
   const jumpNav = document.getElementById('tss-pagejump');
   if (jumpNav) {
-    jumpNav.innerHTML = flyer.pages.map((p, i) => `<a href="#tss-page-${i}">${escapeHTML(p.pageKey)}</a>`).join('');
+    jumpNav.innerHTML = flyer.pages.map((p, i) =>
+      `<a href="#tss-page-${i}"><span class="tss-jump-num">${i + 1}</span>${escapeHTML(p.pageKey)}</a>`).join('');
   }
   const titleEl = document.getElementById('tss-flyer-title');
   if (titleEl) titleEl.textContent = flyer.name + '（全' + flyer.pages.length + 'ページ）';
