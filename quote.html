@@ -233,7 +233,19 @@
   table.doc-table td { padding: 2mm; border-bottom: .5px solid #dbeafe; font-size: 9.5pt; overflow-wrap: anywhere; word-break: break-word; }
   table.doc-table tbody tr:nth-child(even) { background: #f8fbff; }
   table.doc-table tbody tr:last-child td { border-bottom: none; }
-  .doc-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 9pt; }
+  /* 金額は桁が増えても列からはみ出さないようにする。
+     nowrap のままだと億単位で溢れるため、折り返しを許可しつつ
+     数字の途中では改行しない（カンマ区切りの位置で折り返る）。 */
+  .doc-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-size: 9pt;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+  /* 単価の内訳は「100mLあたり」と金額を2行に分けて幅を稼ぐ */
+  .doc-table .num .per-label { display: block; font-size: 7.5pt; color: #6b7280; }
   .doc-table tr.group-subtotal td { background: #f0f7ff; font-weight: 700; color: #1e3a8a; border-top: 1px solid #bfdbfe; }
 
   .doc-bottom { display: flex; justify-content: space-between; gap: 8mm; margin-top: 2mm; }
@@ -822,7 +834,7 @@
       <div class="doc-group">
         <div class="doc-group-title">${escapeHTML(g.maker)}</div>
         <table class="doc-table">
-          <colgroup><col style="width:38%"><col style="width:8%"><col style="width:10%"><col style="width:13%"><col style="width:15%"><col style="width:16%"></colgroup>
+          <colgroup><col style="width:34%"><col style="width:7%"><col style="width:8%"><col style="width:15%"><col style="width:18%"><col style="width:18%"></colgroup>
           <thead><tr><th>品名</th><th style="text-align:right">数量</th><th style="text-align:right">単位</th><th style="text-align:right">単価</th><th style="text-align:right">金額</th><th style="text-align:right">単価の内訳</th></tr></thead>
           <tbody>
             ${g.items.map(r => `
@@ -832,7 +844,7 @@
                 <td class="num">${escapeHTML(r.saleUnit)}</td>
                 <td class="num">${r.unitPrice != null ? '￥' + Math.round(r.unitPrice).toLocaleString('ja-JP') : '—'}</td>
                 <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
-                <td class="num" style="font-size:8pt">${r.per ? escapeHTML(r.per.label) + ' ' + escapeHTML(tssFmtYen(r.per.value)) : ''}</td>
+                <td class="num">${r.per ? `<span class="per-label">${escapeHTML(r.per.label)}</span>${escapeHTML(tssFmtYen(r.per.value))}` : ''}</td>
               </tr>`).join('')}
             <tr class="group-subtotal">
               <td colspan="5" style="text-align:right">小計</td>
