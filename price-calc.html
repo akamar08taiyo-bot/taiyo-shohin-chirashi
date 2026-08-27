@@ -56,6 +56,8 @@
   .price-input { width: 68px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #12242A; }
   .margin-input { width: 46px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 6px; color: #12242A; }
   .margin-input.is-default { border-color: #a8c8ca; }
+  /* 価格表（price-rows.json）の仕切単価をそのまま表示している状態。入力すれば上書きされる。 */
+  .price-input.is-default { border-color: #a8c8ca; background: #f7fbfb; }
   .margin-input:not(:disabled):hover, .margin-input:focus { border-color: #0f7f86; outline: none; }
   .percent-mark { font-size: 11px; font-weight: 700; color: #8aa0a2; }
   .sell-input { width: 74px; box-sizing: border-box; border: 1.5px solid #0f7f86; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #0f7f86; }
@@ -147,7 +149,7 @@
 
   function computedRows() {
     return priceRowsRaw.map(r => {
-      const cost = tssNum(state.prices[r.id]);
+      const cost = tssCostOf(state.prices, r, r.id);
       const qty = state.qtys[r.id] != null ? tssNum(state.qtys[r.id]) : r.baseQty;
       const marginIsDefault = state.margins[r.id] == null;
       const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssNum(state.margins[r.id]) ?? TSS_DEFAULT_MARGIN;
@@ -201,7 +203,7 @@
         </div>
         <div class="cell-price">
           <span class="yen-mark">￥</span>
-          <input type="text" inputmode="decimal" class="price-input" data-field="cost" data-id="${r.id}" value="${state.prices[r.id] == null ? '' : escapeHTML(state.prices[r.id])}" placeholder="0" />
+          <input type="text" inputmode="decimal" class="price-input${state.prices[r.id] == null && r.costNum != null ? ' is-default' : ''}" data-field="cost" data-id="${r.id}" value="${state.prices[r.id] != null ? escapeHTML(state.prices[r.id]) : (r.costNum != null ? r.costNum : '')}" placeholder="0" />
         </div>
         <div class="cell-margin">
           <input type="text" inputmode="decimal" class="margin-input${r.marginIsDefault ? ' is-default' : ''}" data-field="margin" data-id="${r.id}" value="${escapeHTML(marginVal)}" ${r.costNum == null ? 'disabled' : ''} />

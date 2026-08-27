@@ -105,7 +105,7 @@ async function renderFlyer(flyerKey, mountId) {
     let priceHTML = '';
     if (showPrice && priceRow) {
       // 販売金額 = 仕入価格 ／ (1 - 利益率)。金額を直接入力していればそちらを優先（price-calc.html と同じ規約）
-      const cost = tssNum(savedPrices[item.id]);
+      const cost = tssCostOf(savedPrices, priceRow, item.id);
       const margin = tssNum(savedMargins[item.id]) ?? TSS_DEFAULT_MARGIN;
       const sellOverride = tssNum(savedSellPrices[item.id]);
       const sell = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);

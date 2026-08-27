@@ -63,6 +63,15 @@ function tssNum(v) {
   return isFinite(n) && n > 0 ? n : null;
 }
 
+// 仕入価格は「画面で入力した値（localStorage）」を最優先し、
+// 未入力なら price-rows.json に登録された仕切単価を使う。
+// これにより、価格表を触っていない端末でも既定の仕入価格から単価を計算できる。
+function tssCostOf(savedPrices, priceRow, id) {
+  const entered = tssNum(savedPrices ? savedPrices[id] : null);
+  if (entered != null) return entered;
+  return priceRow ? tssNum(priceRow.cost) : null;
+}
+
 // basis を省略すると既定値（100mL・1000g・1枚等）を使う。
 // mL/g は「{basis}{kind}あたり」、それ以外は「{basis}{kind}あたり」（basis=1なら「1枚あたり」等）。
 function tssUnitLabel(kind, basis) {
