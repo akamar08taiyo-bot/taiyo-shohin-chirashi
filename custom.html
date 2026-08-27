@@ -25,6 +25,27 @@
   .cx-cat:hover { border-color: var(--accent); color: var(--accent); }
   .cx-cat.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+  /* ---- ページ切替バー ---- */
+  .cx-pagebar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .cx-pagetab {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
+    color: var(--text-sub); background: #fff; border: 1.5px solid var(--border);
+    padding: 9px 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  }
+  .cx-pagetab:hover { border-color: var(--accent); color: var(--accent); }
+  .cx-pagetab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .cx-pagetab .cnt { font-family: 'Roboto Mono', monospace; font-size: 12px; opacity: .8; }
+  .cx-pageadd { border-color: var(--price-color); color: var(--price-color); }
+  .cx-pageadd:hover { background: var(--price-color); border-color: var(--price-color); color: #fff; }
+  .cx-pagedel { border: none; background: none; color: var(--text-note); font-size: 13px; font-weight: 700; cursor: pointer; padding: 6px 8px; }
+  .cx-pagedel:hover { color: var(--price-color); }
+
+  /* プレビューのページ見出し。いま編集しているページを枠で示す */
+  .cx-pagewrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .cx-pagenum { align-self: flex-start; font-size: 13px; font-weight: 900; color: var(--text-sub); }
+  .cx-pagewrap.is-current .cx-pagenum { color: var(--accent); }
+  .cx-pagewrap.is-current .page { outline: 3px solid var(--accent); outline-offset: 4px; }
+
   .cx-count { font-size: 15px; font-weight: 700; color: var(--text-main); }
   .cx-count strong { font-family: 'Roboto Mono', monospace; font-size: 19px; color: var(--accent); margin: 0 3px; }
   .cx-count.is-full strong { color: var(--price-color); }
@@ -53,10 +74,16 @@
   .cx-placeholder { width: 794px; max-width: 100%; border: 2px dashed var(--border); background: #fff; padding: 70px 24px; text-align: center; color: var(--text-sub); font-size: 15.5px; line-height: 1.9; }
 
   @media print {
-    .tss-toolbar, .cx-panel, .cx-preview-label { display: none !important; }
+    .tss-toolbar, .cx-panel, .cx-preview-label, .cx-pagenum { display: none !important; }
     .cx-wrap { padding: 0; }
-    .cx-stage { padding: 0; }
+    .cx-stage { padding: 0; display: block; }
     body { background: #fff; }
+    /* 編集中の目印は紙に出さない。1ページずつ改ページする */
+    .cx-pagewrap { gap: 0; }
+    .cx-pagewrap.is-current .page { outline: none; }
+    .cx-pagewrap .page { page-break-after: always; break-after: page; box-shadow: none; }
+    .cx-pagewrap:last-child .page { page-break-after: auto; break-after: auto; }
+    .page, .page * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
   @media (max-width: 860px) {
     .cx-fields { grid-template-columns: 1fr; }
@@ -88,6 +115,7 @@
         </div>
         <div class="cx-step">
           <div class="cx-step-label">② 商品を4点えらぶ</div>
+          <div class="cx-pagebar" id="cx-pagebar"></div>
           <div class="cx-count" id="cx-count">選択中<strong>0</strong>／4点</div>
           <div class="cx-list" id="cx-list"><div class="cx-empty">上のボタン（用途またはメーカー）を押すと、商品が表示されます。</div></div>
         </div>
@@ -164,9 +192,14 @@
   })).filter(g => g.items.length);
 
   let activeSrc = null;       // { kind:'cat'|'maker', cat?, maker? }
-  let picked = [];            // 選んだ商品 id（最大4・選んだ順）
+  // ページごとに4商品。見出しもページ単位で持つ。
+  const newPage = () => ({ ids: [], title: '消耗品一覧', subtitle: '', lead: '', label: '業務用 消耗品' });
+  let pages = [newPage()];
+  let current = 0;            // いま編集しているページの番号（0始まり）
   let showCodes = true;
   let askMode = false;
+
+  const cur = () => pages[current];
 
   const byId = new Map(products.items.map(it => [it.id, it]));
 
@@ -183,9 +216,10 @@
     if (!activeSrc) return [];
     return activeSrc.kind === 'cat' ? catItems(activeSrc.cat) : activeSrc.maker.items;
   }
+  // 帯とタイトルにはメーカー名を出さない（お客様にお渡しする紙面のため）
   function srcLabel() {
     if (!activeSrc) return '業務用 消耗品';
-    return activeSrc.kind === 'cat' ? activeSrc.cat.label : '業務用 ' + activeSrc.maker.name;
+    return activeSrc.kind === 'cat' ? activeSrc.cat.label : '業務用 消耗品';
   }
 
   /* ---------- ① 用途 / メーカー ---------- */
@@ -195,18 +229,21 @@
     `<button type="button" class="cx-cat" data-kind="maker" data-i="${i}">${esc(m.name)}<span class="cx-n">${m.items.length}</span></button>`).join('');
 
   function chooseSource(b) {
+    const p = cur();
     if (b.dataset.kind === 'cat') {
       const c = CATS[Number(b.dataset.i)];
       activeSrc = { kind: 'cat', cat: c };
-      document.getElementById('cx-title').value = c.name;
-      document.getElementById('cx-lead').value = c.lead;
+      p.title = c.name;
+      p.lead = c.lead;
     } else {
-      const m = MAKERS[Number(b.dataset.i)];
-      activeSrc = { kind: 'maker', maker: m };
-      document.getElementById('cx-title').value = m.name;
-      document.getElementById('cx-lead').value = m.name + 'の業務用消耗品です。';
+      // メーカーを選んでも、紙面には「消耗品一覧」と当たり障りのない見出しを入れる
+      activeSrc = { kind: 'maker', maker: MAKERS[Number(b.dataset.i)] };
+      p.title = '消耗品一覧';
+      p.lead = '業務用消耗品のご案内です。';
     }
-    document.getElementById('cx-subtitle').value = '';
+    p.subtitle = '';
+    p.label = srcLabel();
+    syncFields();
     document.querySelectorAll('.cx-cat').forEach(x => x.classList.toggle('active', x === b));
     renderList();
     renderFlyer();
@@ -217,31 +254,56 @@
       if (b) chooseSource(b);
     }));
 
-  /* ---------- ② 商品を4点 ---------- */
+  /* ---------- ② 商品を4点（ページごと） ---------- */
+  function syncFields() {
+    const p = cur();
+    document.getElementById('cx-title').value = p.title;
+    document.getElementById('cx-subtitle').value = p.subtitle;
+    document.getElementById('cx-lead').value = p.lead;
+  }
+
+  function renderPagebar() {
+    const bar = document.getElementById('cx-pagebar');
+    const tabs = pages.map((p, i) =>
+      `<button type="button" class="cx-pagetab${i === current ? ' active' : ''}" data-page="${i}">${i + 1}ページ目<span class="cnt">${p.ids.length}/${MAX}</span></button>`).join('');
+    // 4点そろったページだけ、次のページを足せる
+    const canAdd = cur().ids.length >= MAX;
+    const add = canAdd
+      ? '<button type="button" class="cx-pagetab cx-pageadd" id="cx-addpage">＋ 次のページへ</button>'
+      : '';
+    const del = pages.length > 1
+      ? '<button type="button" class="cx-pagedel" id="cx-delpage">このページを削除</button>'
+      : '';
+    bar.innerHTML = tabs + add + del;
+  }
+
   function renderList() {
+    renderPagebar();
     const el = document.getElementById('cx-list');
+    const picked = cur().ids;
     if (!activeSrc) {
       el.innerHTML = '<div class="cx-empty">上のボタン（用途またはメーカー）を押すと、商品が表示されます。</div>';
-      return;
+    } else {
+      const items = srcItems();
+      const full = picked.length >= MAX;
+      el.innerHTML = items.map(it => {
+        const on = picked.includes(it.id);
+        const dis = !on && full;
+        return `
+          <label class="cx-item${on ? ' is-checked' : ''}${dis ? ' is-disabled' : ''}">
+            <input type="checkbox" data-id="${it.id}" ${on ? 'checked' : ''} ${dis ? 'disabled' : ''} />
+            <span class="th"><img src="${esc(it.image)}" alt="" loading="lazy" /></span>
+            <span class="tx">
+              <span class="nm">${esc(it.name)}</span>
+              <span class="mk">${esc(it.maker)}　${esc(it.spec)}</span>
+            </span>
+          </label>`;
+      }).join('');
     }
-    const items = srcItems();
-    const full = picked.length >= MAX;
-    el.innerHTML = items.map(it => {
-      const on = picked.includes(it.id);
-      const dis = !on && full;
-      return `
-        <label class="cx-item${on ? ' is-checked' : ''}${dis ? ' is-disabled' : ''}">
-          <input type="checkbox" data-id="${it.id}" ${on ? 'checked' : ''} ${dis ? 'disabled' : ''} />
-          <span class="th"><img src="${esc(it.image)}" alt="" loading="lazy" /></span>
-          <span class="tx">
-            <span class="nm">${esc(it.name)}</span>
-            <span class="mk">${esc(it.maker)}　${esc(it.spec)}</span>
-          </span>
-        </label>`;
-    }).join('');
     const c = document.getElementById('cx-count');
-    c.innerHTML = '選択中<strong>' + picked.length + '</strong>／' + MAX + '点'
-      + (full ? '　（4点そろいました。変えるときは、どれかのチェックを外してください）' : '');
+    const full = picked.length >= MAX;
+    c.innerHTML = (current + 1) + 'ページ目：選択中<strong>' + picked.length + '</strong>／' + MAX + '点'
+      + (full ? '　（4点そろいました。「＋ 次のページへ」で続きを作れます）' : '');
     c.classList.toggle('is-full', full);
   }
 
@@ -249,14 +311,39 @@
     const cb = e.target.closest('input[type="checkbox"]');
     if (!cb) return;
     const id = Number(cb.dataset.id);
+    const p = cur();
     if (cb.checked) {
-      if (picked.length >= MAX) { cb.checked = false; return; }   // 4点で打ち止め
-      if (!picked.includes(id)) picked.push(id);
+      if (p.ids.length >= MAX) { cb.checked = false; return; }   // 4点で打ち止め
+      if (!p.ids.includes(id)) p.ids.push(id);
     } else {
-      picked = picked.filter(x => x !== id);
+      p.ids = p.ids.filter(x => x !== id);
     }
     renderList();
     renderFlyer();
+  });
+
+  document.getElementById('cx-pagebar').addEventListener('click', (e) => {
+    if (e.target.closest('#cx-addpage')) {
+      pages.push(newPage());
+      current = pages.length - 1;
+      syncFields();
+      renderList();
+      renderFlyer();
+      document.querySelector('.cx-pagewrap.is-current').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (e.target.closest('#cx-delpage')) {
+      if (!confirm((current + 1) + 'ページ目を削除します。よろしいですか？')) return;
+      pages.splice(current, 1);
+      if (current >= pages.length) current = pages.length - 1;
+      syncFields(); renderList(); renderFlyer();
+      return;
+    }
+    const tab = e.target.closest('.cx-pagetab[data-page]');
+    if (tab) {
+      current = Number(tab.dataset.page);
+      syncFields(); renderList(); renderFlyer();
+    }
   });
 
   /* ---------- ③ チラシを組み立てる ---------- */
@@ -281,36 +368,25 @@
       </article>`;
   }
 
-  function renderFlyer() {
-    const stage = document.getElementById('cx-stage');
-    if (picked.length === 0) {
-      stage.innerHTML = '<div class="cx-placeholder">用途またはメーカーをえらび、商品を4点チェックすると<br>ここにチラシができあがります。</div>';
-      return;
-    }
-    const office = tssLoadOffice();
-    const title = document.getElementById('cx-title').value.trim();
-    const subtitle = document.getElementById('cx-subtitle').value.trim();
-    const lead = document.getElementById('cx-lead').value.trim();
-    const label = srcLabel();
-    const titleHTML = subtitle
-      ? `${esc(title)}<br /><span class="tss-subtitle">${esc(subtitle)}</span>`
-      : esc(title);
-
-    stage.innerHTML = `
+  function pageHTML(p, office) {
+    const titleHTML = p.subtitle
+      ? `${esc(p.title)}<br /><span class="tss-subtitle">${esc(p.subtitle)}</span>`
+      : esc(p.title);
+    return `
       <section class="page">
         <header class="tss-page-header">
           <div class="tss-band">
-            <div class="tss-band-label">${esc(label)}</div>
+            <div class="tss-band-label">${esc(p.label || '業務用 消耗品')}</div>
             <div class="tss-band-rule"></div>
             <div class="tss-band-aud">病院・施設向け</div>
           </div>
           <div class="tss-title-row">
             <h1>${titleHTML}</h1>
-            <p class="tss-lead">${esc(lead)}</p>
+            <p class="tss-lead">${esc(p.lead)}</p>
           </div>
         </header>
         <div class="tss-grid">
-          ${picked.map(id => cardHTML(byId.get(id))).join('')}
+          ${p.ids.map(id => cardHTML(byId.get(id))).join('')}
         </div>
         <footer class="tss-footer">
           <div class="tss-footer-left">
@@ -326,8 +402,30 @@
       </section>`;
   }
 
+  function renderFlyer() {
+    const stage = document.getElementById('cx-stage');
+    const filled = pages.filter(p => p.ids.length > 0);
+    if (!filled.length) {
+      stage.innerHTML = '<div class="cx-placeholder">用途またはメーカーをえらび、商品を4点チェックすると<br>ここにチラシができあがります。</div>';
+      return;
+    }
+    const office = tssLoadOffice();
+    // 空のページは印刷にもプレビューにも出さない
+    stage.innerHTML = pages.map((p, i) => p.ids.length === 0 ? '' : `
+      <div class="cx-pagewrap${i === current ? ' is-current' : ''}">
+        <div class="cx-pagenum">${i + 1}ページ目${i === current ? '（編集中）' : ''}</div>
+        ${pageHTML(p, office)}
+      </div>`).join('');
+  }
+
   ['cx-title', 'cx-subtitle', 'cx-lead'].forEach(id =>
-    document.getElementById(id).addEventListener('input', renderFlyer));
+    document.getElementById(id).addEventListener('input', () => {
+      const p = cur();
+      p.title = document.getElementById('cx-title').value;
+      p.subtitle = document.getElementById('cx-subtitle').value;
+      p.lead = document.getElementById('cx-lead').value;
+      renderFlyer();
+    }));
 
   document.getElementById('cx-toggle-codes').addEventListener('change', (e) => {
     showCodes = e.target.checked; renderFlyer();
@@ -336,13 +434,23 @@
     askMode = e.target.checked; renderFlyer();
   });
   document.getElementById('cx-clear').addEventListener('click', () => {
-    picked = []; renderList(); renderFlyer();
+    if (!confirm('えらんだ商品とページをすべて消して、最初からやり直します。よろしいですか？')) return;
+    pages = [newPage()];
+    current = 0;
+    activeSrc = null;
+    document.querySelectorAll('.cx-cat').forEach(x => x.classList.remove('active'));
+    syncFields(); renderList(); renderFlyer();
   });
   document.getElementById('cx-print').addEventListener('click', () => {
-    if (picked.length < MAX) { alert('商品を4点えらんでください。（現在 ' + picked.length + '点）'); return; }
+    const filled = pages.filter(p => p.ids.length > 0);
+    if (!filled.length) { alert('商品をえらんでください。'); return; }
+    const half = filled.filter(p => p.ids.length < MAX);
+    if (half.length && !confirm('商品が4点そろっていないページがあります（'
+        + half.map(p => pages.indexOf(p) + 1).join('・') + 'ページ目）。このまま印刷しますか？')) return;
     window.print();
   });
 
+  syncFields();
   renderList();
   renderFlyer();
 })();
