@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>チラシを作成する | 太陽シルバーサービス</title>
-<meta name="description" content="病院・施設向け 消耗品カタログチラシ一覧。メーカーから探す・使用用途から探す。" />
+<meta name="description" content="病院・施設向け 消耗品カタログチラシ一覧。使用用途から探す・自分で選んで作る。" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
@@ -56,63 +56,14 @@
   <a class="back" href="./index.html">← メインメニューへ</a>
   <div class="badge">病院・施設向け</div>
   <h1>チラシを作成する</h1>
-  <p class="lead">業務用消耗品のカタログチラシです。メーカーから探すか、使用用途から探すかを選べます。カテゴリを選ぶとA4ページを画面で確認・印刷・PDF保存できます。</p>
+  <p class="lead">業務用消耗品のカタログチラシです。使用用途から選ぶか、自分で商品を組み合わせて作れます。A4ページを画面で確認・印刷・PDF保存できます。</p>
 
   <div class="switcher">
-    <button type="button" class="switch-btn active" data-view="maker">メーカーから探す</button>
-    <button type="button" class="switch-btn" data-view="usecase">使用用途から探す</button>
+    <button type="button" class="switch-btn active" data-view="usecase">使用用途から探す</button>
     <a class="switch-btn" href="./custom.html" style="text-decoration:none;display:inline-flex;align-items:center;border-color:#b45309;color:#b45309;">✎ 自分で選んで作る</a>
   </div>
 
-  <div class="view active" id="view-maker">
-    <p class="view-hint">メーカー別に掲載商品をまとめています。同じチラシの中に複数メーカーが載っている場合もあります。</p>
-    <div class="cards">
-      <a class="card" href="./kao-rocket.html" style="--c:#0f7f86;">
-        <span class="cat">洗剤・衛生用品</span>
-        <h2>花王プロフェッショナル</h2>
-        <p>食器用洗剤・洗濯用洗剤・トイレ洗剤・浴室用洗剤・手指衛生・消臭除菌など</p>
-        <div class="meta"><span class="count">25商品</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./kao-rocket.html" style="--c:#0f7f86;">
-        <span class="cat">洗剤・衛生用品</span>
-        <h2>ロケット石鹸</h2>
-        <p>食器用洗剤・洗濯用洗剤・トイレ洗剤・浴室用洗剤・手指衛生・消臭除菌など</p>
-        <div class="meta"><span class="count">20商品</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./japacks.html" style="--c:#2563eb;">
-        <span class="cat">ゴミ袋・ポリ袋</span>
-        <h2>ジャパックス</h2>
-        <p>ゴミ袋・レジ袋・業務用カラーポリ袋・環境配慮タイプなど、サイズ展開つき</p>
-        <div class="meta"><span class="count">全8ページ・32商品</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./paper.html#tss-page-0" style="--c:#b45309;">
-        <span class="cat">紙製品</span>
-        <h2>大王製紙</h2>
-        <p>エルヴェール・エリエール i:na のトイレットペーパー、ペーパータオル、ティシューなど</p>
-        <div class="meta"><span class="count">13商品</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./paper.html#tss-page-1" style="--c:#b45309;">
-        <span class="cat">紙製品</span>
-        <h2>新橋製紙</h2>
-        <p>ベルライトタオルなど、ペーパータオル製品</p>
-        <div class="meta"><span class="count">1商品</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./paper.html#tss-page-2" style="--c:#b45309;">
-        <span class="cat">紙製品</span>
-        <h2>昭和紙工</h2>
-        <p>SaSaYell 流せるおしりふき（大人のぬれタオル）</p>
-        <div class="meta"><span class="count">1商品</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./taketora.html" style="--c:#7c3aed;">
-        <span class="cat">医療・介護用ディスポ用品</span>
-        <h2>竹虎</h2>
-        <p>食事用・ビニールエプロン、ガウン・予防着、サージマスク、手袋など</p>
-        <div class="meta"><span class="count">全5ページ・33商品</span><span class="arrow">開く →</span></div>
-      </a>
-    </div>
-  </div>
-
-  <div class="view" id="view-usecase">
+  <div class="view active" id="view-usecase">
     <p class="view-hint">お客さまの困りごと・使う場所から、該当するチラシのページへ直接ひらきます。</p>
     <div class="cards">
       <a class="card" href="./kao-rocket.html#tss-page-0" style="--c:#0f7f86;">
@@ -161,12 +112,10 @@
   </div>
 </div>
 <script>
-  document.querySelectorAll('.switch-btn').forEach(btn => {
+  document.querySelectorAll('button.switch-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.switch-btn').forEach(b => b.classList.toggle('active', b === btn));
-      const target = btn.dataset.view;
-      document.getElementById('view-maker').classList.toggle('active', target === 'maker');
-      document.getElementById('view-usecase').classList.toggle('active', target === 'usecase');
+      document.querySelectorAll('button.switch-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('view-usecase').classList.add('active');
     });
   });
 </script>

@@ -15,15 +15,18 @@
   .cx-panel { background: #fff; border-bottom: 1.5px solid var(--border); padding: 18px 24px 20px; display: flex; flex-direction: column; gap: 16px; }
   .cx-inner { max-width: 1180px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 16px; }
   .cx-step { display: flex; flex-direction: column; gap: 9px; }
-  .cx-step-label { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
+  .cx-step-label { font-size: 15px; font-weight: 900; color: var(--accent); letter-spacing: .08em; }
+  .cx-sub { font-size: 13px; font-weight: 700; color: var(--text-main); margin-top: 2px; }
   .cx-cats { display: flex; flex-wrap: wrap; gap: 8px; }
-  .cx-cat { font-family: 'Noto Sans JP', sans-serif; font-size: 13.5px; font-weight: 700; color: var(--text-sub);
-    background: #fff; border: 1.5px solid var(--border); padding: 10px 16px; cursor: pointer; white-space: nowrap; }
+  .cx-cat { font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-main);
+    background: #fff; border: 1.5px solid var(--border); padding: 11px 18px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+  .cx-n { font-family: 'Roboto Mono', monospace; font-size: 12px; color: var(--text-note); }
+  .cx-cat.active .cx-n { color: #cfe9ea; }
   .cx-cat:hover { border-color: var(--accent); color: var(--accent); }
   .cx-cat.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-  .cx-count { font-size: 13px; font-weight: 700; color: var(--text-sub); }
-  .cx-count strong { font-family: 'Roboto Mono', monospace; font-size: 17px; color: var(--accent); margin: 0 3px; }
+  .cx-count { font-size: 15px; font-weight: 700; color: var(--text-main); }
+  .cx-count strong { font-family: 'Roboto Mono', monospace; font-size: 19px; color: var(--accent); margin: 0 3px; }
   .cx-count.is-full strong { color: var(--price-color); }
 
   .cx-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
@@ -35,19 +38,19 @@
   .cx-item .th { width: 42px; height: 42px; flex: none; display: flex; align-items: center; justify-content: center; }
   .cx-item .th img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .cx-item .tx { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-  .cx-item .nm { font-size: 12.5px; font-weight: 700; line-height: 1.3; }
-  .cx-item .mk { font-size: 10.5px; color: var(--text-note); }
-  .cx-empty { padding: 28px 10px; color: var(--text-note); font-size: 13.5px; }
+  .cx-item .nm { font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--text-main); }
+  .cx-item .mk { font-size: 12px; color: var(--text-sub); }
+  .cx-empty { padding: 28px 10px; color: var(--text-sub); font-size: 15px; }
 
   .cx-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
   .cx-field { display: flex; flex-direction: column; gap: 4px; }
-  .cx-field label { font-size: 12px; font-weight: 700; color: var(--text-sub); }
-  .cx-field input { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid var(--border); padding: 9px 10px; }
+  .cx-field label { font-size: 13.5px; font-weight: 700; color: var(--text-main); }
+  .cx-field input { font-family: 'Noto Sans JP', sans-serif; font-size: 15px; border: 1.5px solid var(--border); padding: 9px 10px; }
   .cx-field input:focus { outline: none; border-color: var(--accent); }
 
-  .cx-preview-label { max-width: 1180px; margin: 22px auto 10px; padding: 0 24px; font-size: 12px; font-weight: 700; color: var(--text-note); letter-spacing: .08em; }
+  .cx-preview-label { max-width: 1180px; margin: 22px auto 10px; padding: 0 24px; font-size: 13.5px; font-weight: 700; color: var(--text-sub); letter-spacing: .08em; }
   .cx-stage { display: flex; justify-content: center; padding: 0 12px; }
-  .cx-placeholder { width: 794px; max-width: 100%; border: 2px dashed var(--border); background: #fff; padding: 70px 24px; text-align: center; color: var(--text-note); font-size: 14px; line-height: 1.9; }
+  .cx-placeholder { width: 794px; max-width: 100%; border: 2px dashed var(--border); background: #fff; padding: 70px 24px; text-align: center; color: var(--text-sub); font-size: 15.5px; line-height: 1.9; }
 
   @media print {
     .tss-toolbar, .cx-panel, .cx-preview-label { display: none !important; }
@@ -77,13 +80,16 @@
     <div class="cx-panel">
       <div class="cx-inner">
         <div class="cx-step">
-          <div class="cx-step-label">① 用途をえらぶ</div>
+          <div class="cx-step-label">① 用途またはメーカーをえらぶ</div>
+          <div class="cx-sub">用途からえらぶ</div>
           <div class="cx-cats" id="cx-cats"></div>
+          <div class="cx-sub">メーカーからえらぶ</div>
+          <div class="cx-cats" id="cx-makers"></div>
         </div>
         <div class="cx-step">
           <div class="cx-step-label">② 商品を4点えらぶ</div>
           <div class="cx-count" id="cx-count">選択中<strong>0</strong>／4点</div>
-          <div class="cx-list" id="cx-list"><div class="cx-empty">上の用途ボタンを押すと、商品が表示されます。</div></div>
+          <div class="cx-list" id="cx-list"><div class="cx-empty">上のボタン（用途またはメーカー）を押すと、商品が表示されます。</div></div>
         </div>
         <div class="cx-step">
           <div class="cx-step-label">③ 見出しを整える（任意）</div>
@@ -142,7 +148,22 @@
   const TOKENS = { photoHeight:200, cardTitleMinHeight:42, cardTitleFontSize:'16', descMinHeight:34, descFontSize:'11.5' };
   const MAX = 4;
 
-  let activeCat = null;
+  // メーカー一覧。大王製紙はブランドで2つに分かれているのでまとめて扱う。
+  const MAKER_GROUPS = [
+    { name: '花王プロフェッショナル', match: m => m === '花王プロフェッショナル' },
+    { name: 'ロケット石鹸',           match: m => m === 'ロケット石鹸' },
+    { name: 'ジャパックス',           match: m => m === 'ジャパックス' },
+    { name: '大王製紙',               match: m => m.indexOf('大王製紙') === 0 },
+    { name: '新橋製紙',               match: m => m === '新橋製紙' },
+    { name: '昭和紙工',               match: m => m === '昭和紙工' },
+    { name: '竹虎',                   match: m => m === '竹虎' },
+  ];
+  const MAKERS = MAKER_GROUPS.map(g => ({
+    name: g.name,
+    items: products.items.filter(it => g.match(it.maker)),
+  })).filter(g => g.items.length);
+
+  let activeSrc = null;       // { kind:'cat'|'maker', cat?, maker? }
   let picked = [];            // 選んだ商品 id（最大4・選んだ順）
   let showCodes = true;
   let askMode = false;
@@ -158,32 +179,52 @@
     }
     return out;
   }
+  function srcItems() {
+    if (!activeSrc) return [];
+    return activeSrc.kind === 'cat' ? catItems(activeSrc.cat) : activeSrc.maker.items;
+  }
+  function srcLabel() {
+    if (!activeSrc) return '業務用 消耗品';
+    return activeSrc.kind === 'cat' ? activeSrc.cat.label : '業務用 ' + activeSrc.maker.name;
+  }
 
-  /* ---------- ① カテゴリ ---------- */
+  /* ---------- ① 用途 / メーカー ---------- */
   document.getElementById('cx-cats').innerHTML = CATS.map((c, i) =>
-    `<button type="button" class="cx-cat" data-i="${i}">${esc(c.name)}</button>`).join('');
+    `<button type="button" class="cx-cat" data-kind="cat" data-i="${i}">${esc(c.name)}</button>`).join('');
+  document.getElementById('cx-makers').innerHTML = MAKERS.map((m, i) =>
+    `<button type="button" class="cx-cat" data-kind="maker" data-i="${i}">${esc(m.name)}<span class="cx-n">${m.items.length}</span></button>`).join('');
 
-  document.getElementById('cx-cats').addEventListener('click', (e) => {
-    const b = e.target.closest('.cx-cat');
-    if (!b) return;
-    activeCat = CATS[Number(b.dataset.i)];
-    document.querySelectorAll('.cx-cat').forEach(x => x.classList.toggle('active', x === b));
-    // 見出しは選んだ用途から自動で入れる（あとから直せる）
-    document.getElementById('cx-title').value = activeCat.name;
+  function chooseSource(b) {
+    if (b.dataset.kind === 'cat') {
+      const c = CATS[Number(b.dataset.i)];
+      activeSrc = { kind: 'cat', cat: c };
+      document.getElementById('cx-title').value = c.name;
+      document.getElementById('cx-lead').value = c.lead;
+    } else {
+      const m = MAKERS[Number(b.dataset.i)];
+      activeSrc = { kind: 'maker', maker: m };
+      document.getElementById('cx-title').value = m.name;
+      document.getElementById('cx-lead').value = m.name + 'の業務用消耗品です。';
+    }
     document.getElementById('cx-subtitle').value = '';
-    document.getElementById('cx-lead').value = activeCat.lead;
+    document.querySelectorAll('.cx-cat').forEach(x => x.classList.toggle('active', x === b));
     renderList();
     renderFlyer();
-  });
+  }
+  ['cx-cats', 'cx-makers'].forEach(id =>
+    document.getElementById(id).addEventListener('click', (e) => {
+      const b = e.target.closest('.cx-cat');
+      if (b) chooseSource(b);
+    }));
 
   /* ---------- ② 商品を4点 ---------- */
   function renderList() {
     const el = document.getElementById('cx-list');
-    if (!activeCat) {
-      el.innerHTML = '<div class="cx-empty">上の用途ボタンを押すと、商品が表示されます。</div>';
+    if (!activeSrc) {
+      el.innerHTML = '<div class="cx-empty">上のボタン（用途またはメーカー）を押すと、商品が表示されます。</div>';
       return;
     }
-    const items = catItems(activeCat);
+    const items = srcItems();
     const full = picked.length >= MAX;
     el.innerHTML = items.map(it => {
       const on = picked.includes(it.id);
@@ -243,14 +284,14 @@
   function renderFlyer() {
     const stage = document.getElementById('cx-stage');
     if (picked.length === 0) {
-      stage.innerHTML = '<div class="cx-placeholder">用途をえらび、商品を4点チェックすると<br>ここにチラシができあがります。</div>';
+      stage.innerHTML = '<div class="cx-placeholder">用途またはメーカーをえらび、商品を4点チェックすると<br>ここにチラシができあがります。</div>';
       return;
     }
     const office = tssLoadOffice();
-    const title = document.getElementById('cx-title').value.trim() || (activeCat ? activeCat.name : '');
+    const title = document.getElementById('cx-title').value.trim();
     const subtitle = document.getElementById('cx-subtitle').value.trim();
     const lead = document.getElementById('cx-lead').value.trim();
-    const label = activeCat ? activeCat.label : '業務用 消耗品';
+    const label = srcLabel();
     const titleHTML = subtitle
       ? `${esc(title)}<br /><span class="tss-subtitle">${esc(subtitle)}</span>`
       : esc(title);
