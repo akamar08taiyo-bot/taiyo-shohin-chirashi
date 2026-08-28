@@ -332,7 +332,10 @@
       syncFields();
       renderList();
       renderFlyer();
-      document.querySelector('.cx-pagewrap.is-current').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // 追加直後の空ページは、商品を1点選ぶまでプレビューDOMを作らない。
+      // その状態で scrollIntoView を呼ぶと例外になるため、要素があるときだけ移動する。
+      const currentPreview = document.querySelector('.cx-pagewrap.is-current');
+      if (currentPreview) currentPreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
     if (e.target.closest('#cx-delpage')) {

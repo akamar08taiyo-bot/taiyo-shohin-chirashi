@@ -175,12 +175,11 @@
     .doc-table thead { display: table-header-group; }
     .doc-header, .doc-total-banner { break-inside: avoid; page-break-inside: avoid; }
 
-    /* メーカーのまとまりが途中で切れないよう、グループ単位で改ページする。
-       1ページに収まらないほど商品が多いグループは、ブラウザ側で分割される（その場合も
-       thead が繰り返されるので見出しは残る）。 */
-    .doc-group { break-inside: avoid; page-break-inside: avoid; }
-    /* メーカー名だけがページ末尾に取り残されないようにする */
-    .doc-group-title { break-after: avoid; page-break-after: avoid; }
+    /* メーカー単位を丸ごと avoid にすると、商品数が多い場合にグループ全体が次ページへ
+       送られ、1ページ目が見出しだけになる。グループは自然に継続させ、商品行単位で守る。 */
+    .doc-group { break-inside: auto; page-break-inside: auto; }
+    /* メーカー名・表見出しだけがページ末尾に取り残されないようにする */
+    .doc-group-title, .doc-table thead { break-after: avoid; page-break-after: avoid; }
     /* 小計と合計欄も分断しない */
     .doc-table tr.group-subtotal { break-before: avoid; page-break-before: avoid; }
     .doc-bottom { break-inside: avoid; page-break-inside: avoid; }
