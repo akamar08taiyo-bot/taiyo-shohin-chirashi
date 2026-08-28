@@ -354,6 +354,32 @@ a:hover { color: var(--accent-hover); }
 
 .tss-page-wrap { display: flex; flex-direction: column; gap: 8px; align-items: center; }
 
+/* A4 は印刷寸法のまま表示する。狭い画面ではページ全体を中央寄せすると
+   左半分が画面外へ押し出されて触れなくなるため、各ページ枠の中だけを横スクロールさせる。 */
+@media screen and (max-width: 860px) {
+  .tss-toolbar { gap: 8px; padding: 8px 12px; }
+  .tss-toolbar h1 { font-size: 14px; }
+  .tss-toolgroup {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    padding: 6px 10px;
+  }
+  .tss-pages-scroll {
+    align-items: stretch;
+    padding: 20px 12px 48px;
+  }
+  .tss-page-wrap {
+    width: 100%;
+    align-items: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .tss-page-bar { min-width: 794px; }
+}
+
 /* ---- 何ページ目かの表示と、印刷するページの選択（画面のみ） ---- */
 .tss-page-bar {
   width: 794px;

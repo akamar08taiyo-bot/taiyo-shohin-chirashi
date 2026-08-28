@@ -82,6 +82,11 @@
   .office-tel { font-size: 8.7px; }
 
   #print-holder { display: none; }
+  @media screen and (max-width: 720px) {
+    .wrap { padding: 16px 12px 36px; }
+    .row { grid-template-columns: 1fr; }
+    .preview-scroll { max-width: 100%; padding: 12px; }
+  }
   @media print {
     body > *:not(#print-holder) { display: none !important; }
     #print-holder { display: block !important; }
