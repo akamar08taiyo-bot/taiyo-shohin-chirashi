@@ -263,6 +263,101 @@
       ]
     },
     {
+      "key": "lion",
+      "name": "ライオンハイジーン",
+      "file": "lion.html",
+      "autoPaginate": true,
+      "tokens": {
+        "photoHeight": 205,
+        "cardTitleMinHeight": 38,
+        "cardTitleFontSize": "15",
+        "descMinHeight": 30,
+        "descFontSize": "10.8"
+      },
+      "pages": [
+        {
+          "pageKey": "台所用",
+          "categoryLabel": "業務用 台所用洗剤",
+          "title": "台所用洗剤",
+          "subtitle": "食器洗い・漂白・洗浄機用",
+          "lead": "厨房の食器洗い、漂白、食器洗浄機の運用に。用途と容量から選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "使用方法・希釈倍率・混用禁止事項は、商品ラベルとメーカー資料をご確認ください。"
+        },
+        {
+          "pageKey": "厨房・客室用",
+          "categoryLabel": "業務用 厨房・客室用洗剤",
+          "title": "厨房・客室の清掃",
+          "subtitle": "床・浴室・トイレ・設備",
+          "lead": "厨房床、浴室、トイレ、客室設備の日常清掃から専門洗浄まで。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "塩素系・酸性タイプなど、商品ごとの注意表示を確認して安全にご使用ください。"
+        },
+        {
+          "pageKey": "衣料用",
+          "categoryLabel": "業務用 衣料用洗剤",
+          "title": "衣料用洗剤",
+          "subtitle": "洗濯・漂白・柔軟仕上げ",
+          "lead": "施設のリネン類に。洗剤、漂白剤、柔軟剤を容量別に掲載しています。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "素材、色柄、洗濯機の容量に合わせて使用量をご確認ください。"
+        },
+        {
+          "pageKey": "ハンドソープ・手指消毒",
+          "categoryLabel": "業務用 ハンドソープ・手指消毒",
+          "title": "手洗い・手指消毒",
+          "subtitle": "衛生管理の基本に",
+          "lead": "ハンドソープと手指消毒剤を、本体・詰替・大容量から選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "医薬部外品・化粧品等の区分と、専用容器の要否を商品ごとにご確認ください。"
+        },
+        {
+          "pageKey": "食品添加物アルコール",
+          "categoryLabel": "業務用 食品添加物アルコール",
+          "title": "食品添加物アルコール",
+          "subtitle": "調理器具・設備の衛生管理",
+          "lead": "厨房や食品取扱現場の除菌・衛生管理に使えるアルコール製剤です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "火気を避け、換気と保管条件を守ってご使用ください。"
+        },
+        {
+          "pageKey": "除菌・洗浄",
+          "categoryLabel": "業務用 除菌・洗浄剤",
+          "title": "除菌・洗浄",
+          "subtitle": "施設内の衛生環境づくり",
+          "lead": "設備や環境表面の除菌・洗浄に。目的に合う製品を選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "対象素材への適合と希釈方法はメーカー資料をご確認ください。"
+        },
+        {
+          "pageKey": "ヘアケア・ボディケア",
+          "categoryLabel": "業務用 ヘアケア・ボディケア",
+          "title": "ヘア・ボディケア",
+          "subtitle": "入浴・清拭ケアに",
+          "lead": "シャンプー、コンディショナー、ボディソープを容量別に掲載しています。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "専用容器への詰替時は、容器の洗浄・乾燥と製品表示をご確認ください。"
+        },
+        {
+          "pageKey": "業務用洗浄剤",
+          "categoryLabel": "業務用 専門洗浄剤",
+          "title": "業務用洗浄剤",
+          "subtitle": "ランドリー設備向け",
+          "lead": "業務用ランドリー設備で使用する洗浄剤・仕上げ剤です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "設備への適合、投入量、使用条件は担当者へお問い合わせください。"
+        }
+      ]
+    },
+    {
       "key": "taketora",
       "name": "竹虎",
       "file": "taketora.html",

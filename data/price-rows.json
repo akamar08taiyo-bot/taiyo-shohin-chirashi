@@ -6,7 +6,9 @@
   "code": "JAN 4901301360489",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 0
+  "id": 0,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -15,7 +17,9 @@
   "code": "JAN 4901301051752",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 1
+  "id": 1,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -24,7 +28,9 @@
   "code": "JAN 4901301511355 ／ 容量 2L",
   "kind": "mL",
   "baseQty": 2000,
-  "id": 4
+  "id": 4,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -33,7 +39,9 @@
   "code": "JAN 4901301505057",
   "kind": "g",
   "baseQty": 3500,
-  "id": 5
+  "id": 5,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -42,7 +50,9 @@
   "code": "JAN 4901301501882",
   "kind": "g",
   "baseQty": 2700,
-  "id": 8
+  "id": 8,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -51,7 +61,9 @@
   "code": "JAN 4901301435767 ／ 容量 1000mL",
   "kind": "mL",
   "baseQty": 1000,
-  "id": 9
+  "id": 9,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -60,7 +72,9 @@
   "code": "JAN 4901301505996",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 12
+  "id": 12,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -69,7 +83,9 @@
   "code": "JAN 4901301021168",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 13
+  "id": 13,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -78,7 +94,9 @@
   "code": "JAN 4901301504302",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 16
+  "id": 16,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -87,7 +105,9 @@
   "code": "JAN 4901301324184",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 17
+  "id": 17,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -96,7 +116,9 @@
   "code": "JAN 4901301504319 ／ 容量 500mL",
   "kind": "mL",
   "baseQty": 500,
-  "id": 20
+  "id": 20,
+  "caseQty": 24,
+  "caseDescription": "24個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -105,7 +127,9 @@
   "code": "JAN 4901301507280",
   "kind": "g",
   "baseQty": 2000,
-  "id": 21
+  "id": 21,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -114,7 +138,9 @@
   "code": "JAN 4901301416810 ／ 容量 250mL",
   "kind": "mL",
   "baseQty": 250,
-  "id": 24
+  "id": 24,
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -123,7 +149,9 @@
   "code": "JAN 4901301507211",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 25
+  "id": 25,
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -132,7 +160,9 @@
   "code": "JAN 4901301333513",
   "kind": "g",
   "baseQty": 2500,
-  "id": 28
+  "id": 28,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -141,7 +171,9 @@
   "code": "JAN 4901301435163",
   "kind": "g",
   "baseQty": 4500,
-  "id": 29
+  "id": 29,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -150,7 +182,9 @@
   "code": "JAN 4901301334664",
   "kind": "g",
   "baseQty": 3500,
-  "id": 32
+  "id": 32,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -159,7 +193,9 @@
   "code": "JAN 4901301509819",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 33
+  "id": 33,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -168,7 +204,9 @@
   "code": "JAN 4901301021205",
   "kind": "mL",
   "baseQty": 4500,
-  "id": 36
+  "id": 36,
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -177,7 +215,9 @@
   "code": "JAN 4901301506184 ／ 容量 1000mL",
   "kind": "mL",
   "baseQty": 1000,
-  "id": 37
+  "id": 37,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -186,7 +226,9 @@
   "code": "JAN 4901301503381",
   "kind": "mL",
   "baseQty": 2000,
-  "id": 40
+  "id": 40,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -195,7 +237,9 @@
   "code": "JAN 4901301344038",
   "kind": "mL",
   "baseQty": 2000,
-  "id": 41
+  "id": 41,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -204,7 +248,9 @@
   "code": "JAN 4901301404152",
   "kind": "mL",
   "baseQty": 2000,
-  "id": 42
+  "id": 42,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -213,7 +259,9 @@
   "code": "JAN 4901301447197",
   "kind": "mL",
   "baseQty": 2000,
-  "id": 43
+  "id": 43,
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "花王プロフェッショナル",
@@ -232,8 +280,8 @@
   "kind": "g",
   "baseQty": 800,
   "id": 6,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 20
+  "caseQty": 15,
+  "caseDescription": "15個"
  },
  {
   "maker": "ロケット石鹸",
@@ -243,8 +291,8 @@
   "kind": "g",
   "baseQty": 1000,
   "id": 15,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 24
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ロケット石鹸",
@@ -254,8 +302,8 @@
   "kind": "g",
   "baseQty": 1000,
   "id": 14,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 26
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ロケット石鹸",
@@ -265,8 +313,8 @@
   "kind": "mL",
   "baseQty": null,
   "id": 38,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 147
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ロケット石鹸",
@@ -276,8 +324,8 @@
   "kind": "mL",
   "baseQty": 200,
   "id": 26,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 274
+  "caseQty": 30,
+  "caseDescription": "30個"
  },
  {
   "maker": "ロケット石鹸",
@@ -287,8 +335,8 @@
   "kind": "mL",
   "baseQty": 1000,
   "id": 27,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 275
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ロケット石鹸",
@@ -298,8 +346,8 @@
   "kind": "g",
   "baseQty": 10000,
   "id": 30,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 374
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ロケット石鹸",
@@ -309,8 +357,8 @@
   "kind": "g",
   "baseQty": null,
   "id": 31,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 375
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ロケット石鹸",
@@ -320,8 +368,8 @@
   "kind": "g",
   "baseQty": null,
   "id": 35,
-  "costSource": "ロケット石鹸価格一覧 20260825",
-  "xlsOrder": 377
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ロケット石鹸",
@@ -331,7 +379,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 2,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ロケット石鹸",
@@ -341,7 +390,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 3,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ロケット石鹸",
@@ -351,7 +401,8 @@
   "kind": "g",
   "baseQty": 840,
   "id": 7,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ロケット石鹸",
@@ -361,7 +412,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 10,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ロケット石鹸",
@@ -371,7 +423,8 @@
   "kind": "mL",
   "baseQty": 600,
   "id": 11,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 24,
+  "caseDescription": "24個"
  },
  {
   "maker": "ロケット石鹸",
@@ -381,7 +434,8 @@
   "kind": "mL",
   "baseQty": 300,
   "id": 18,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ロケット石鹸",
@@ -391,7 +445,8 @@
   "kind": "mL",
   "baseQty": 350,
   "id": 19,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ロケット石鹸",
@@ -401,7 +456,8 @@
   "kind": "g",
   "baseQty": 500,
   "id": 22,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 24,
+  "caseDescription": "24個"
  },
  {
   "maker": "ロケット石鹸",
@@ -411,7 +467,8 @@
   "kind": "g",
   "baseQty": 450,
   "id": 23,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 24,
+  "caseDescription": "24個"
  },
  {
   "maker": "ロケット石鹸",
@@ -421,7 +478,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 34,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ロケット石鹸",
@@ -431,7 +489,8 @@
   "kind": "mL",
   "baseQty": 500,
   "id": 39,
-  "costSource": "ロケット石鹸価格一覧 20260825"
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -441,8 +500,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 126,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 30
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -452,8 +511,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 127,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 31
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -463,8 +522,8 @@
   "kind": "mL",
   "baseQty": 3800,
   "id": 128,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 32
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -474,8 +533,8 @@
   "kind": "mL",
   "baseQty": 3800,
   "id": 129,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 33
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -485,8 +544,8 @@
   "kind": "mL",
   "baseQty": 3800,
   "id": 130,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 34
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -496,8 +555,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 131,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 35
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -507,8 +566,8 @@
   "kind": "mL",
   "baseQty": 600,
   "id": 132,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 36
+  "caseQty": 10,
+  "caseDescription": "10個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -518,8 +577,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 133,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 37
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -529,8 +588,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 134,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 38
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -540,8 +599,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 135,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 39
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -551,8 +610,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 136,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 40
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -562,8 +621,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 137,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 41
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -573,8 +632,8 @@
   "kind": "g",
   "baseQty": 10000,
   "id": 138,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 42
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -584,8 +643,8 @@
   "kind": "mL",
   "baseQty": 520,
   "id": 139,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 43
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -595,8 +654,8 @@
   "kind": "g",
   "baseQty": 1500,
   "id": 140,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 44
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -606,8 +665,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 141,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 45
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -617,8 +676,8 @@
   "kind": "g",
   "baseQty": 1500,
   "id": 142,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 46
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -628,8 +687,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 143,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 47
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -639,8 +698,8 @@
   "kind": "g",
   "baseQty": 18000,
   "id": 144,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 48
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -650,8 +709,8 @@
   "kind": "g",
   "baseQty": 20000,
   "id": 145,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 49
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -661,8 +720,8 @@
   "kind": "g",
   "baseQty": 2000,
   "id": 146,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 50
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -672,8 +731,8 @@
   "kind": "g",
   "baseQty": 15000,
   "id": 147,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 51
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -683,8 +742,8 @@
   "kind": "g",
   "baseQty": 3500,
   "id": 148,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 52
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -694,8 +753,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 149,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 200
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -705,8 +764,8 @@
   "kind": "g",
   "baseQty": 10000,
   "id": 150,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 201
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -716,8 +775,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 151,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 202
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -727,8 +786,8 @@
   "kind": "g",
   "baseQty": 10000,
   "id": 152,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 203
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -738,8 +797,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 153,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 204
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -749,8 +808,8 @@
   "kind": "g",
   "baseQty": 10000,
   "id": 154,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 205
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -760,8 +819,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 155,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 206
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -771,8 +830,8 @@
   "kind": "g",
   "baseQty": 2000,
   "id": 156,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 207
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -782,8 +841,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 157,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 208
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -793,8 +852,8 @@
   "kind": "g",
   "baseQty": 4300,
   "id": 158,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 209
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -804,8 +863,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 159,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 210
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -815,8 +874,8 @@
   "kind": "g",
   "baseQty": 10000,
   "id": 160,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 211
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -826,8 +885,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 161,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 212
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -837,8 +896,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 162,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 213
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -848,8 +907,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 163,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 214
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -859,8 +918,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 164,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 215
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -870,8 +929,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 165,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 216
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -881,8 +940,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 166,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 217
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -892,8 +951,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 167,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 218
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -903,8 +962,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 168,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 219
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -914,8 +973,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 169,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 220
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -925,8 +984,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 170,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 221
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -936,8 +995,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 171,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 222
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -947,8 +1006,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 172,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 223
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -958,8 +1017,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 173,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 224
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -969,8 +1028,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 174,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 225
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -980,8 +1039,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 175,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 226
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -991,8 +1050,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 176,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 227
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1002,8 +1061,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 177,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 228
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1013,8 +1072,8 @@
   "kind": "g",
   "baseQty": 1500,
   "id": 178,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 229
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1024,8 +1083,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 179,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 230
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1035,8 +1094,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 180,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 251
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1046,8 +1105,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 181,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 252
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1057,8 +1116,8 @@
   "kind": "mL",
   "baseQty": 500,
   "id": 182,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 253
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1068,8 +1127,8 @@
   "kind": "mL",
   "baseQty": 4800,
   "id": 183,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 254
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1079,8 +1138,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 184,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 255
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1090,8 +1149,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 185,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 256
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1101,8 +1160,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 186,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 257
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1112,8 +1171,8 @@
   "kind": "g",
   "baseQty": 100,
   "id": 187,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 258
+  "caseQty": 120,
+  "caseDescription": "120個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1123,8 +1182,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 188,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 259
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1134,8 +1193,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 189,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 260
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1145,8 +1204,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 190,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 261
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1156,8 +1215,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 191,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 262
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1167,8 +1226,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 192,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 263
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1178,8 +1237,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 193,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 264
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1189,8 +1248,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 194,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 265
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1200,8 +1259,8 @@
   "kind": "mL",
   "baseQty": 18000,
   "id": 195,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 266
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1211,8 +1270,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 196,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 267
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1222,8 +1281,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 197,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 268
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1233,8 +1292,8 @@
   "kind": "mL",
   "baseQty": 500,
   "id": 198,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 269
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1244,8 +1303,8 @@
   "kind": "mL",
   "baseQty": 4500,
   "id": 199,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 270
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1255,8 +1314,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 200,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 271
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1266,8 +1325,8 @@
   "kind": "mL",
   "baseQty": 3000,
   "id": 201,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 272
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1277,8 +1336,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 202,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 286
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1288,8 +1347,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 203,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 287
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1299,8 +1358,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 204,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 288
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1310,8 +1369,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 205,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 289
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1321,8 +1380,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 206,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 290
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1332,8 +1391,8 @@
   "kind": "mL",
   "baseQty": 550,
   "id": 207,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 291
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1343,8 +1402,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 208,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 292
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1354,8 +1413,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 209,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 293
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1365,8 +1424,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 210,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 294
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1376,8 +1435,8 @@
   "kind": "mL",
   "baseQty": 550,
   "id": 211,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 295
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1387,8 +1446,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 212,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 296
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1398,8 +1457,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 213,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 297
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1409,8 +1468,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 214,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 298
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1420,8 +1479,8 @@
   "kind": "mL",
   "baseQty": 550,
   "id": 215,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 299
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1431,8 +1490,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 216,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 300
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1442,8 +1501,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 217,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 301
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1453,8 +1512,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 218,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 302
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1464,8 +1523,8 @@
   "kind": "mL",
   "baseQty": 550,
   "id": 219,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 303
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1475,8 +1534,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 220,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 304
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1486,8 +1545,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 221,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 305
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1497,8 +1556,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 222,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 306
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1508,8 +1567,8 @@
   "kind": "mL",
   "baseQty": 500,
   "id": 223,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 307
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1519,8 +1578,8 @@
   "kind": "mL",
   "baseQty": 550,
   "id": 224,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 308
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1530,8 +1589,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 225,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 309
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1541,8 +1600,8 @@
   "kind": "mL",
   "baseQty": 750,
   "id": 226,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 310
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1552,8 +1611,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 227,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 311
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1563,8 +1622,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 228,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 312
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1574,8 +1633,8 @@
   "kind": "mL",
   "baseQty": 300,
   "id": 229,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 313
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1585,8 +1644,8 @@
   "kind": "mL",
   "baseQty": 1000,
   "id": 230,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 328
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1596,8 +1655,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 231,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 329
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1607,8 +1666,8 @@
   "kind": "mL",
   "baseQty": 1000,
   "id": 232,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 330
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1618,8 +1677,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 233,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 331
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1629,8 +1688,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 234,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 332
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1640,8 +1699,8 @@
   "kind": "mL",
   "baseQty": 20000,
   "id": 235,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 333
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1651,8 +1710,8 @@
   "kind": "mL",
   "baseQty": 300,
   "id": 236,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 334
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1662,8 +1721,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 237,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 335
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1673,8 +1732,8 @@
   "kind": "g",
   "baseQty": 2000,
   "id": 238,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 336
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1684,8 +1743,8 @@
   "kind": "g",
   "baseQty": 3800,
   "id": 239,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 337
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1695,8 +1754,8 @@
   "kind": "mL",
   "baseQty": 520,
   "id": 240,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 338
+  "caseQty": 8,
+  "caseDescription": "8個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1706,8 +1765,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 241,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 339
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1717,8 +1776,8 @@
   "kind": "mL",
   "baseQty": 700,
   "id": 242,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 340
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1728,8 +1787,8 @@
   "kind": "枚",
   "baseQty": 80,
   "id": 243,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 341
+  "caseQty": 12,
+  "caseDescription": "12個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1739,8 +1798,8 @@
   "kind": "枚",
   "baseQty": 80,
   "id": 244,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 342
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1750,8 +1809,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 245,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 343
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1761,8 +1820,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 246,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 345
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1772,8 +1831,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 247,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 346
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1783,8 +1842,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 248,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 347
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1794,8 +1853,8 @@
   "kind": "g",
   "baseQty": 20000,
   "id": 249,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 348
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1805,8 +1864,8 @@
   "kind": "g",
   "baseQty": 5000,
   "id": 250,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 349
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1816,8 +1875,8 @@
   "kind": "g",
   "baseQty": 20000,
   "id": 251,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 350
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1827,8 +1886,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 252,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 351
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1838,8 +1897,8 @@
   "kind": "g",
   "baseQty": 4000,
   "id": 253,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 352
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1849,8 +1908,8 @@
   "kind": "g",
   "baseQty": 500,
   "id": 254,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 353
+  "caseQty": 20,
+  "caseDescription": "20個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1860,8 +1919,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 255,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 354
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1871,8 +1930,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 256,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 355
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1882,8 +1941,8 @@
   "kind": "g",
   "baseQty": 2000,
   "id": 257,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 356
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1893,8 +1952,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 258,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 357
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1904,8 +1963,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 259,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 358
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1915,8 +1974,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 260,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 359
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1926,8 +1985,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 261,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 360
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1937,8 +1996,8 @@
   "kind": "mL",
   "baseQty": 5000,
   "id": 262,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 361
+  "caseQty": 2,
+  "caseDescription": "2個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1948,8 +2007,8 @@
   "kind": "mL",
   "baseQty": 4000,
   "id": 263,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 362
+  "caseQty": 3,
+  "caseDescription": "3個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1959,8 +2018,8 @@
   "kind": "mL",
   "baseQty": 420,
   "id": 264,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 363
+  "caseQty": 24,
+  "caseDescription": "24個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1970,8 +2029,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 265,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 364
+  "caseQty": 6,
+  "caseDescription": "6個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1981,8 +2040,8 @@
   "kind": "mL",
   "baseQty": 2000,
   "id": 266,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 365
+  "caseQty": 4,
+  "caseDescription": "4個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -1992,8 +2051,8 @@
   "kind": "mL",
   "baseQty": 10000,
   "id": 267,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 366
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -2003,8 +2062,8 @@
   "kind": "g",
   "baseQty": 13000,
   "id": 268,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 386
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -2014,8 +2073,8 @@
   "kind": "g",
   "baseQty": 17000,
   "id": 269,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 387
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -2025,8 +2084,8 @@
   "kind": "g",
   "baseQty": 18000,
   "id": 270,
-  "costSource": "ライオンハイジーン価格一覧 20260825",
-  "xlsOrder": 388
+  "caseQty": 1,
+  "caseDescription": "1個"
  },
  {
   "maker": "ジャパックス",
@@ -2334,7 +2393,9 @@
   "kind": "ロール",
   "baseQty": 6,
   "metersPerRoll": 170,
-  "id": 77
+  "id": 77,
+  "caseQty": 8,
+  "caseDescription": "6ロール×8パック"
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -2344,7 +2405,9 @@
   "kind": "ロール",
   "baseQty": 1,
   "metersPerRoll": 170,
-  "id": 78
+  "id": 78,
+  "caseQty": 48,
+  "caseDescription": "1ロール×48個"
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -2354,7 +2417,9 @@
   "kind": "ロール",
   "baseQty": 1,
   "metersPerRoll": 100,
-  "id": 79
+  "id": 79,
+  "caseQty": 80,
+  "caseDescription": "1ロール×80個"
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -2363,7 +2428,9 @@
   "code": "JAN 未確認",
   "kind": "枚",
   "baseQty": 200,
-  "id": 85
+  "id": 85,
+  "caseQty": 42,
+  "caseDescription": "200枚×42パック"
  },
  {
   "maker": "大王製紙　エルヴェール",
@@ -2373,7 +2440,9 @@
   "kind": "ロール",
   "baseQty": 6,
   "metersPerRoll": 200,
-  "id": 110
+  "id": 110,
+  "caseQty": 8,
+  "caseDescription": "6ロール×8パック"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2383,7 +2452,9 @@
   "kind": "ロール",
   "baseQty": 12,
   "metersPerRoll": 100,
-  "id": 80
+  "id": 80,
+  "caseQty": 6,
+  "caseDescription": "12ロール×6パック"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2393,7 +2464,9 @@
   "kind": "ロール",
   "baseQty": 12,
   "metersPerRoll": 50,
-  "id": 81
+  "id": 81,
+  "caseQty": 6,
+  "caseDescription": "12ロール×6パック"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2403,7 +2476,9 @@
   "kind": "ロール",
   "baseQty": 12,
   "metersPerRoll": 50,
-  "id": 82
+  "id": 82,
+  "caseQty": 6,
+  "caseDescription": "12ロール×6パック"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2412,7 +2487,9 @@
   "code": "JAN 未確認",
   "kind": "箱",
   "baseQty": 5,
-  "id": 86
+  "id": 86,
+  "caseQty": 12,
+  "caseDescription": "150組×5箱×12パック"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2421,7 +2498,9 @@
   "code": "JAN 未確認",
   "kind": "箱",
   "baseQty": 10,
-  "id": 87
+  "id": 87,
+  "caseQty": 10,
+  "caseDescription": "ソフトパック品×10パック"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2430,7 +2509,9 @@
   "code": "JAN 未確認",
   "kind": "枚",
   "baseQty": 80,
-  "id": 88
+  "id": 88,
+  "caseQty": 12,
+  "caseDescription": "80枚×12個"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2439,7 +2520,9 @@
   "code": "JAN 未確認",
   "kind": "枚",
   "baseQty": 70,
-  "id": 89
+  "id": 89,
+  "caseQty": 24,
+  "caseDescription": "70枚×24袋"
  },
  {
   "maker": "大王製紙　エリエール",
@@ -2448,7 +2531,9 @@
   "code": "JAN 未確認",
   "kind": "枚",
   "baseQty": 70,
-  "id": 90
+  "id": 90,
+  "caseQty": 24,
+  "caseDescription": "80枚×24袋"
  },
  {
   "maker": "新橋製紙",

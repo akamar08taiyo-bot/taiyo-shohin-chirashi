@@ -44,10 +44,29 @@ async function renderFlyer(flyerKey, mountId) {
   const office = tssLoadOffice();
   document.title = document.title.replace(/太陽シルバーサービス\s*\S*営業所$/, '太陽シルバーサービス ' + office.name);
 
-  const flyer = pagesData.flyers.find(f => f.key === flyerKey);
+  let flyer = pagesData.flyers.find(f => f.key === flyerKey);
   if (!flyer) {
     document.getElementById(mountId).textContent = 'チラシデータが見つかりません: ' + flyerKey;
     return;
+  }
+
+  // 商品数が多いメーカーは、分類ごとに4商品ずつA4ページへ自動分割する。
+  // 1ページのカード数を固定することで、印刷時にカード途中で改ページされるのを防ぐ。
+  if (flyer.autoPaginate) {
+    const autoPages = [];
+    for (const template of flyer.pages) {
+      const sourceItems = productsData.items.filter(item => item.flier === flyer.name && item.page === template.pageKey);
+      const pageCount = Math.max(1, Math.ceil(sourceItems.length / 4));
+      for (let i = 0; i < pageCount; i++) {
+        const items = sourceItems.slice(i * 4, (i + 1) * 4);
+        autoPages.push({
+          ...template,
+          pageKey: pageCount > 1 ? `${template.pageKey} ${i + 1}/${pageCount}` : template.pageKey,
+          productIds: items.map(item => item.id),
+        });
+      }
+    }
+    flyer = { ...flyer, pages: autoPages };
   }
 
   // products.json と price-rows.json は id（安定した連番）で対応させる。
@@ -60,11 +79,18 @@ async function renderFlyer(flyerKey, mountId) {
 
   // おすすめ構成（flier+page でグループ化、掲載順を保持）
   const defaultItemsByPage = new Map();
-  for (const item of productsData.items) {
-    if (item.flier !== flyer.name) continue;
-    const arr = defaultItemsByPage.get(item.page) || [];
-    arr.push(item);
-    defaultItemsByPage.set(item.page, arr);
+  for (const page of flyer.pages) {
+    if (Array.isArray(page.productIds)) {
+      defaultItemsByPage.set(page.pageKey, page.productIds.map(id => itemById.get(id)).filter(Boolean));
+    }
+  }
+  if (!flyer.autoPaginate) {
+    for (const item of productsData.items) {
+      if (item.flier !== flyer.name) continue;
+      const arr = defaultItemsByPage.get(item.page) || [];
+      arr.push(item);
+      defaultItemsByPage.set(item.page, arr);
+    }
   }
 
   let showCodes = tssLoadBool(TSS_SHOW_CODES_KEY, true);
@@ -105,11 +131,8 @@ async function renderFlyer(flyerKey, mountId) {
     const priceRow = priceByCode.get(item);
     let priceHTML = '';
     if (showPrice && priceRow) {
-      // 販売金額 = 仕入価格 ／ (1 - 利益率)。金額を直接入力していればそちらを優先（price-calc.html と同じ規約）
-      const cost = tssCostOf(savedPrices, priceRow, item.id);
-      const margin = tssNum(savedMargins[item.id]) ?? TSS_DEFAULT_MARGIN;
-      const sellOverride = tssNum(savedSellPrices[item.id]);
-      const sell = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, margin) : null);
+      // 販売金額 = 仕入価格 × (1 + 利益率)。Excelの販売価格と端末入力を優先する。
+      const sell = tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
       const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
       const kind = savedUnits[item.id] || priceRow.kind;
       const basis = tssNum(savedBases[item.id]) ?? tssDefaultBasis(kind);
@@ -117,7 +140,7 @@ async function renderFlyer(flyerKey, mountId) {
       const perMeterHTML = priceRow.metersPerRoll
         ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
         : '';
-      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '￥　　　　'}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : '￥　　'}</span>${perMeterHTML}</div>`;
+      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '価格未登録'}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : '未登録'}</span>${perMeterHTML}</div>`;
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
     const editBtn = editMode

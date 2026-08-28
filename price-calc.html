@@ -25,11 +25,14 @@
   .filled { display: flex; align-items: baseline; gap: 8px; }
   .filled-label { font-size: 12px; font-weight: 700; color: #41595E; }
   .filled-value { font-family: 'Roboto Mono', monospace; font-size: 26px; font-weight: 700; color: #0f7f86; }
-  .actions { display: flex; gap: 8px; }
+  .actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
   .btn { border: 1.5px solid #0f7f86; background: #fff; color: #0f7f86; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 8px 14px; cursor: pointer; }
   .btn:hover { background: #0f7f86; color: #fff; }
   .btn-danger { border-color: #c3cac7; color: #6f8688; }
   .btn-danger:hover { border-color: #c25a17; color: #c25a17; background: #fff; }
+  .import-status { display: none; border: 1.5px solid #a8c8ca; background: #f7fbfb; color: #294b50; padding: 10px 14px; font-size: 12.5px; line-height: 1.6; }
+  .import-status.show { display: block; }
+  .import-status.warn { border-color: #e0a56e; background: #fff8f0; color: #8b430d; }
   .filterbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .filter-btn { border: 1.5px solid #cfe0e2; background: #fff; color: #41595E; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 7px 15px; cursor: pointer; }
   .filter-btn.active { border-color: #0f7f86; background: #0f7f86; color: #fff; }
@@ -75,6 +78,12 @@
   .note-box-title { font-size: 12px; font-weight: 700; color: #0f7f86; letter-spacing: .06em; }
   .note-box-body { font-size: 12px; line-height: 1.7; color: #41595E; text-wrap: pretty; }
   .footnote { margin: 0; font-size: 11px; color: #6f8688; }
+  @media (max-width: 720px) {
+    .wrap { padding: 20px 14px 48px; }
+    header > div:last-child { width: 100%; align-items: stretch !important; }
+    .actions { justify-content: flex-start; }
+    .btn { flex: 1 1 calc(50% - 8px); }
+  }
 </style>
 </head>
 <body>
@@ -96,11 +105,15 @@
           <span class="filled-value" id="filled-value">0 / 0</span>
         </div>
         <div class="actions">
+          <button type="button" class="btn" id="btn-export">Excel一覧を出力</button>
+          <button type="button" class="btn" id="btn-import">Excel読込（全置換）</button>
+          <input type="file" id="excel-file" accept=".xlsx,.xls,.xlsm" hidden />
           <button type="button" class="btn" id="btn-copy">入力分をコピー</button>
           <button type="button" class="btn btn-danger" id="btn-clear">入力を全消去</button>
         </div>
       </div>
     </header>
+    <div class="import-status" id="import-status" role="status"></div>
 
     <div class="filterbar" id="filterbar">
       <div style="flex:1"></div>
@@ -130,6 +143,7 @@
   </div>
 </div>
 
+<script src="./assets/vendor/xlsx.full.min.js"></script>
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
@@ -143,9 +157,142 @@
   }
 
   const makers = ['すべて', ...Array.from(new Set(priceRowsRaw.map(r => r.maker)))];
+  const priceRowById = new Map(priceRowsRaw.map(r => [r.id, r]));
   let state = { maker: 'すべて', sort: false, ...tssLoadPrices() };
 
   function persist() { tssSavePrices(state.prices, state.qtys, state.margins, state.sellPrices, state.units, state.bases); }
+
+  const positiveNum = value => {
+    const n = Number(String(value == null ? '' : value).replace(/[,￥円%％\s]/g, ''));
+    return Number.isFinite(n) && n > 0 ? n : null;
+  };
+  const normalizeText = value => String(value == null ? '' : value).normalize('NFKC').toLowerCase().replace(/[\s　・･\/／()（）【】\[\]ー_-]/g, '');
+  const codeTokens = value => {
+    const source = String(value == null ? '' : value).normalize('NFKC').toUpperCase();
+    const tokens = new Set();
+    for (const hit of source.matchAll(/\d{8,14}/g)) tokens.add(hit[0]);
+    for (const hit of source.matchAll(/(?:品番|商品コード)\s*([A-Z]{1,8}[A-Z0-9-]{1,20})/g)) tokens.add(hit[1].replace(/-/g, ''));
+    if (!/未確認/.test(source) && /^[A-Z0-9-]{2,20}$/.test(source.trim())) tokens.add(source.replace(/-/g, '').trim());
+    return [...tokens];
+  };
+  const rowsByCode = new Map();
+  for (const row of priceRowsRaw) for (const token of codeTokens(row.code)) {
+    if (!rowsByCode.has(token)) rowsByCode.set(token, []);
+    rowsByCode.get(token).push(row);
+  }
+  const rowsByNameSpec = new Map(priceRowsRaw.map(row => [`${normalizeText(row.maker)}|${normalizeText(row.name)}|${normalizeText(row.spec)}`, row]));
+
+  function showImportStatus(message, warn) {
+    const el = document.getElementById('import-status');
+    el.textContent = message;
+    el.classList.add('show');
+    el.classList.toggle('warn', !!warn);
+  }
+
+  function exportExcel() {
+    if (!window.XLSX) { alert('Excel機能を読み込めませんでした。通信状態を確認して再読み込みしてください。'); return; }
+    const rows = computedRows().map(row => ({
+      '商品ID': row.id,
+      'メーカー': row.maker,
+      '商品名': row.name,
+      '規格': row.spec,
+      'JAN・品番': row.code,
+      '仕入価格': row.costNum == null ? '' : row.costNum,
+      '販売価格(税別)': row.sellNum == null ? '' : Math.round(row.sellNum),
+      '利益率(%)': row.marginNum,
+      '内容量・入数': row.qtyNum == null ? '' : row.qtyNum,
+      '単位': row.kind,
+      '単価基準': row.basisNum,
+      '価格元': row.priceSource || '',
+    }));
+    const sheet = XLSX.utils.json_to_sheet(rows);
+    sheet['!cols'] = [8,18,34,16,26,12,16,12,14,10,12,34].map(wch => ({ wch }));
+    const book = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, sheet, '価格一覧');
+    XLSX.writeFile(book, '消耗品価格一覧.xlsx');
+  }
+
+  function headerIndex(headers, aliases) {
+    return headers.findIndex(header => aliases.includes(String(header || '').replace(/\s/g, '')));
+  }
+  function headerIndices(headers, aliases) {
+    const indexes = [];
+    for (const alias of aliases) headers.forEach((header, index) => { if (String(header || '').replace(/\s/g, '') === alias) indexes.push(index); });
+    return indexes;
+  }
+
+  function readWorkbookEntries(workbook) {
+    const entries = [];
+    for (const sheetName of workbook.SheetNames) {
+      const aoa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: '', raw: true });
+      const headerRow = aoa.findIndex(row => row.some(cell => /商品名/.test(String(cell))) && row.some(cell => /JAN|品番|商品ID/.test(String(cell))));
+      if (headerRow < 0) continue;
+      const headers = aoa[headerRow].map(value => String(value || '').replace(/\s/g, ''));
+      const col = {
+        id: headerIndex(headers, ['商品ID']), maker: headerIndex(headers, ['メーカー']), name: headerIndex(headers, ['商品名']),
+        spec: headerIndex(headers, ['規格', '規格/容量']), code: headerIndex(headers, ['JAN・品番', 'JAN/品番', 'JAN', '品番']),
+        cost: headerIndex(headers, ['仕入価格', '仕切単価']), sell: headerIndices(headers, ['販売価格(税別)', '販売単価(税別)', '推奨販売単価(税別)']),
+        margin: headerIndices(headers, ['利益率(%)', '個別目標粗利率', '適用目標粗利率', '粗利率']), qty: headerIndex(headers, ['内容量・入数', '1販売単位入数(枚)']),
+        unit: headerIndex(headers, ['単位', '販売単位']), basis: headerIndex(headers, ['単価基準']),
+      };
+      for (let i = headerRow + 1; i < aoa.length; i++) {
+        const row = aoa[i];
+        const get = key => Array.isArray(col[key])
+          ? (col[key].map(index => row[index]).find(value => value !== '' && value != null) ?? '')
+          : (col[key] >= 0 ? row[col[key]] : '');
+        if (!get('id') && !get('code') && !get('name')) continue;
+        entries.push({ sheetName, rowNumber: i + 1, id: get('id'), maker: get('maker'), name: get('name'), spec: get('spec'), code: get('code'), cost: get('cost'), sell: get('sell'), margin: get('margin'), qty: get('qty'), unit: get('unit'), basis: get('basis') });
+      }
+    }
+    return entries;
+  }
+
+  function matchImportedEntry(entry) {
+    const id = Number(entry.id);
+    if (Number.isInteger(id) && priceRowById.has(id)) return priceRowById.get(id);
+    for (const token of codeTokens(entry.code)) {
+      const hits = rowsByCode.get(token) || [];
+      if (hits.length === 1) return hits[0];
+    }
+    return rowsByNameSpec.get(`${normalizeText(entry.maker)}|${normalizeText(entry.name)}|${normalizeText(entry.spec)}`) || null;
+  }
+
+  async function importExcel(file) {
+    if (!window.XLSX) { alert('Excel機能を読み込めませんでした。通信状態を確認して再読み込みしてください。'); return; }
+    const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array' });
+    const entries = readWorkbookEntries(workbook);
+    if (!entries.length) throw new Error('商品ID、または商品名とJAN・品番を持つ価格表が見つかりません。');
+    if (!confirm('この端末に保存されている価格データをすべて消去し、選択したExcelの内容へ置き換えます。よろしいですか？')) return;
+
+    const next = { prices: {}, qtys: {}, margins: {}, sellPrices: {}, units: {}, bases: {} };
+    const matchedIds = new Set();
+    let duplicates = 0;
+    for (const entry of entries) {
+      const target = matchImportedEntry(entry);
+      if (!target) continue;
+      if (matchedIds.has(target.id)) { duplicates++; continue; }
+      matchedIds.add(target.id);
+      const cost = positiveNum(entry.cost);
+      const marginRaw = positiveNum(entry.margin);
+      const margin = marginRaw != null && marginRaw <= 1 ? marginRaw * 100 : marginRaw;
+      let sell = positiveNum(entry.sell);
+      if (sell == null && cost != null) sell = Math.ceil(cost * (1 + ((margin ?? TSS_DEFAULT_MARGIN) / 100)));
+      const qty = positiveNum(entry.qty);
+      const basis = positiveNum(entry.basis);
+      if (cost != null) next.prices[target.id] = String(cost);
+      if (sell != null) next.sellPrices[target.id] = String(Math.round(sell));
+      if (margin != null) next.margins[target.id] = String(margin);
+      if (qty != null) next.qtys[target.id] = String(qty);
+      if (entry.unit) next.units[target.id] = String(entry.unit);
+      if (basis != null) next.bases[target.id] = String(basis);
+    }
+    Object.assign(state, next);
+    persist();
+    renderAll();
+    const priced = computedRows().filter(row => row.sellNum != null).length;
+    const missing = priceRowsRaw.length - priced;
+    showImportStatus(`Excelを全置換で読み込みました。照合 ${matchedIds.size}件／Excel ${entries.length}行、価格表示可能 ${priced}件／全${priceRowsRaw.length}件${duplicates ? `、重複 ${duplicates}行を除外` : ''}${missing ? `。未設定 ${missing}件はExcel一覧を出力して金額を入力後、再読込してください。` : '。全商品の価格が揃っています。'}`, missing > 0);
+  }
 
   function computedRows() {
     return priceRowsRaw.map(r => {
@@ -153,8 +300,7 @@
       const qty = state.qtys[r.id] != null ? tssNum(state.qtys[r.id]) : r.baseQty;
       const marginIsDefault = state.margins[r.id] == null;
       const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssNum(state.margins[r.id]) ?? TSS_DEFAULT_MARGIN;
-      const sellOverride = tssNum(state.sellPrices[r.id]);
-      const sellNum = sellOverride != null ? sellOverride : (cost != null ? tssSellFromMargin(cost, marginNum) : null);
+      const sellNum = tssSellOf(state.prices, state.margins, state.sellPrices, r, r.id);
       const kind = state.units[r.id] || r.kind;
       const basisIsDefault = state.bases[r.id] == null;
       const basisNum = basisIsDefault ? tssDefaultBasis(kind) : (tssNum(state.bases[r.id]) ?? tssDefaultBasis(kind));
@@ -266,13 +412,13 @@
           state.sellPrices = { ...state.sellPrices, [id]: sell != null ? String(Math.round(sell)) : '' };
         } else if (field === 'margin') {
           state.margins = { ...state.margins, [id]: inp.value };
-          const cost = tssNum(state.prices[id]);
+          const cost = tssCostOf(state.prices, priceRowById.get(Number(id)), id);
           const margin = tssNum(inp.value);
           const sell = (cost != null && margin != null) ? tssSellFromMargin(cost, margin) : null;
           state.sellPrices = { ...state.sellPrices, [id]: sell != null ? String(Math.round(sell)) : '' };
         } else if (field === 'sell') {
           state.sellPrices = { ...state.sellPrices, [id]: inp.value };
-          const cost = tssNum(state.prices[id]);
+          const cost = tssCostOf(state.prices, priceRowById.get(Number(id)), id);
           const sell = tssNum(inp.value);
           const margin = (cost != null && sell != null) ? tssMarginFromSell(cost, sell) : null;
           if (margin != null) state.margins = { ...state.margins, [id]: String(margin) };
@@ -305,6 +451,22 @@
     btn.addEventListener('click', () => { state.maker = btn.dataset.maker; renderAll(); });
   });
   document.getElementById('sort-toggle').addEventListener('change', (e) => { state.sort = e.target.checked; renderRows(); });
+
+  const excelFile = document.getElementById('excel-file');
+  document.getElementById('btn-export').addEventListener('click', exportExcel);
+  document.getElementById('btn-import').addEventListener('click', () => excelFile.click());
+  excelFile.addEventListener('change', async () => {
+    const file = excelFile.files && excelFile.files[0];
+    if (!file) return;
+    try {
+      await importExcel(file);
+    } catch (error) {
+      console.error(error);
+      showImportStatus('Excelの読込に失敗しました: ' + (error && error.message ? error.message : String(error)), true);
+    } finally {
+      excelFile.value = '';
+    }
+  });
 
   document.getElementById('btn-copy').addEventListener('click', () => {
     const rows0 = computedRows().filter(r => r.costNum != null);

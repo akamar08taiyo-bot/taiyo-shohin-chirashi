@@ -46,16 +46,17 @@ function tssDefaultBasis(kind) {
   return 1;
 }
 
-// 利益率（粗利率） = (販売価格 - 原価) / 販売価格 × 100 （price-calc-logic 規約準拠）
+// 利益率（仕入価格に対する上乗せ率） = (販売価格 - 仕入価格) / 仕入価格 × 100
+// 添付の「メーカー別_仕入販売価格マスター」の計算規約に合わせる。
 function tssMarginFromSell(cost, sell) {
-  if (cost == null || sell == null || sell <= 0) return null;
-  return Math.round(((sell - cost) / sell) * 1000) / 10;
+  if (cost == null || cost <= 0 || sell == null || sell <= 0) return null;
+  return Math.round(((sell - cost) / cost) * 1000) / 10;
 }
 
-// 販売価格 = 原価 / (1 - 目標利益率/100)
+// 販売価格 = 仕入価格 × (1 + 目標利益率/100)
 function tssSellFromMargin(cost, marginPercent) {
-  if (cost == null || marginPercent == null || marginPercent >= 100) return null;
-  return cost / (1 - marginPercent / 100);
+  if (cost == null || marginPercent == null) return null;
+  return cost * (1 + marginPercent / 100);
 }
 
 function tssNum(v) {
@@ -70,6 +71,25 @@ function tssCostOf(savedPrices, priceRow, id) {
   const entered = tssNum(savedPrices ? savedPrices[id] : null);
   if (entered != null) return entered;
   return priceRow ? tssNum(priceRow.cost) : null;
+}
+
+// 販売価格は端末で直接入力した値を最優先する。端末側に仕入価格・利益率の
+// 上書きがなければ、Excelから取り込んだ販売単価をそのまま既定値として使う。
+// 旧版で仕入価格だけ保存済みの端末は、その入力を失わないよう利益率から再計算する。
+function tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, id) {
+  const enteredSell = tssNum(savedSellPrices ? savedSellPrices[id] : null);
+  if (enteredSell != null) return enteredSell;
+
+  const enteredCost = tssNum(savedPrices ? savedPrices[id] : null);
+  const enteredMargin = tssNum(savedMargins ? savedMargins[id] : null);
+  if (enteredCost == null && enteredMargin == null) {
+    const masterSell = priceRow ? tssNum(priceRow.defaultSellPrice) : null;
+    if (masterSell != null) return masterSell;
+  }
+
+  const cost = tssCostOf(savedPrices, priceRow, id);
+  const margin = enteredMargin ?? TSS_DEFAULT_MARGIN;
+  return cost != null ? tssSellFromMargin(cost, margin) : null;
 }
 
 // basis を省略すると既定値（100mL・1000g・1枚等）を使う。
