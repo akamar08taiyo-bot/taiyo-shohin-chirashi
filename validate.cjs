@@ -13,6 +13,10 @@ const pages = JSON.parse(fs.readFileSync(path.join(root, 'data/pages.json'), 'ut
 
 const errors = [];
 const notes = [];
+const sensitivePriceKeys = [
+  'cost', 'defaultSellPrice', 'purchaseCasePrice', 'saleCasePrice',
+  'priceSource', 'priceSourceMethod', 'priceKind', 'defaultSellMethod',
+];
 
 // --- ID の一意性 ---
 const seen = new Set();
@@ -29,6 +33,8 @@ for (const it of products.items) {
 }
 for (const r of priceRows) {
   if (!seen.has(r.id)) errors.push(`price-rows.json: id ${r.id} は products.json に存在しない`);
+  const leakedKeys = sensitivePriceKeys.filter(key => Object.prototype.hasOwnProperty.call(r, key));
+  if (leakedKeys.length) errors.push(`price-rows.json: id ${r.id} に公開禁止フィールドがある (${leakedKeys.join(', ')})`);
 }
 
 // --- 画像ファイルの実在 ---
@@ -37,13 +43,15 @@ for (const it of products.items) {
   if (!fs.existsSync(p)) errors.push(`画像が見つからない: ${it.image} (id ${it.id} ${it.name})`);
 }
 
-// --- 1ページ4商品ちょうど ---
+// --- 固定ページは4商品ちょうど、自動ページ分割はカテゴリ内に1商品以上 ---
 const validPairs = new Set();
 for (const flyer of pages.flyers) {
   for (const pg of flyer.pages) {
     validPairs.add(flyer.name + '||' + pg.pageKey);
     const items = products.items.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
-    if (items.length !== 4) {
+    if (flyer.autoPaginate && items.length === 0) {
+      errors.push(`${flyer.key} / ${pg.pageKey}: 自動ページ分割する商品がありません`);
+    } else if (!flyer.autoPaginate && items.length !== 4) {
       errors.push(`${flyer.key} / ${pg.pageKey}: 掲載商品が ${items.length} 件（4件ちょうどである必要があります）`);
     }
   }

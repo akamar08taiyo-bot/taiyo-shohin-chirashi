@@ -59,8 +59,6 @@
   .price-input { width: 68px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #12242A; }
   .margin-input { width: 46px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 6px; color: #12242A; }
   .margin-input.is-default { border-color: #a8c8ca; }
-  /* 価格表（price-rows.json）の仕切単価をそのまま表示している状態。入力すれば上書きされる。 */
-  .price-input.is-default { border-color: #a8c8ca; background: #f7fbfb; }
   .margin-input:not(:disabled):hover, .margin-input:focus { border-color: #0f7f86; outline: none; }
   .percent-mark { font-size: 11px; font-weight: 700; color: #8aa0a2; }
   .sell-input { width: 74px; box-sizing: border-box; border: 1.5px solid #0f7f86; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #0f7f86; }
@@ -97,7 +95,7 @@
           <div class="office">太陽シルバーサービス㈱　行橋営業所</div>
         </div>
         <h1>価格・単価計算シート</h1>
-        <p class="lead">仕入価格を入れると、利益率20%を基準に販売金額と単価（100mLあたり・1kgあたり・1枚あたり等）を自動計算します。利益率または金額を直接入力すればそちらを優先し、もう片方を逆算します。入力内容はこの端末に保存され、次に開いたときも残ります。</p>
+        <p class="lead">公開ページには価格を保存していません。各自に配布されたExcelを「Excel読込（全置換）」から読み込むと、その端末のブラウザ内だけに価格が保存・反映されます。仕入価格を手入力した場合は、利益率20%を基準に販売金額と単価を自動計算します。</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
         <div class="filled">
@@ -203,10 +201,9 @@
       '内容量・入数': row.qtyNum == null ? '' : row.qtyNum,
       '単位': row.kind,
       '単価基準': row.basisNum,
-      '価格元': row.priceSource || '',
     }));
     const sheet = XLSX.utils.json_to_sheet(rows);
-    sheet['!cols'] = [8,18,34,16,26,12,16,12,14,10,12,34].map(wch => ({ wch }));
+    sheet['!cols'] = [8,18,34,16,26,12,16,12,14,10,12].map(wch => ({ wch }));
     const book = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(book, sheet, '価格一覧');
     XLSX.writeFile(book, '消耗品価格一覧.xlsx');
@@ -349,7 +346,7 @@
         </div>
         <div class="cell-price">
           <span class="yen-mark">￥</span>
-          <input type="text" inputmode="decimal" class="price-input${state.prices[r.id] == null && r.costNum != null ? ' is-default' : ''}" data-field="cost" data-id="${r.id}" value="${state.prices[r.id] != null ? escapeHTML(state.prices[r.id]) : (r.costNum != null ? r.costNum : '')}" placeholder="0" />
+          <input type="text" inputmode="decimal" class="price-input" data-field="cost" data-id="${r.id}" value="${state.prices[r.id] != null ? escapeHTML(state.prices[r.id]) : ''}" placeholder="0" />
         </div>
         <div class="cell-margin">
           <input type="text" inputmode="decimal" class="margin-input${r.marginIsDefault ? ' is-default' : ''}" data-field="margin" data-id="${r.id}" value="${escapeHTML(marginVal)}" ${r.costNum == null ? 'disabled' : ''} />
@@ -470,7 +467,7 @@
 
   document.getElementById('btn-copy').addEventListener('click', () => {
     const rows0 = computedRows().filter(r => r.costNum != null);
-    const lines = rows0.map(r => [r.code, r.name, r.spec, '仕入￥' + r.costNum, '利益率' + r.marginNum + '%', '金額￥' + Math.round(r.sellNum), tssFmtYen(r.unitNum) + '/' + tssUnitLabel(r.kind)].join('\t'));
+    const lines = rows0.map(r => [r.code, r.name, r.spec, '仕入￥' + r.costNum, '利益率' + r.marginNum + '%', '金額￥' + (r.sellNum == null ? '' : Math.round(r.sellNum)), tssFmtYen(r.unitNum) + '/' + tssUnitLabel(r.kind)].join('\t'));
     const text = lines.length ? lines.join('\n') : '（価格の入力がありません）';
     if (navigator.clipboard) navigator.clipboard.writeText(text);
   });

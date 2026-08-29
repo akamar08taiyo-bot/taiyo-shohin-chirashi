@@ -131,16 +131,18 @@ async function renderFlyer(flyerKey, mountId) {
     const priceRow = priceByCode.get(item);
     let priceHTML = '';
     if (showPrice && priceRow) {
-      // 販売金額 = 仕入価格 × (1 + 利益率)。Excelの販売価格と端末入力を優先する。
+      // 価格は、この端末でExcel読込または手入力された場合だけ表示する。
       const sell = tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
-      const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
-      const kind = savedUnits[item.id] || priceRow.kind;
-      const basis = tssNum(savedBases[item.id]) ?? tssDefaultBasis(kind);
-      const unit = tssCalcUnitPrice(sell, qty, kind, basis);
-      const perMeterHTML = priceRow.metersPerRoll
-        ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
-        : '';
-      priceHTML = `<div class="tss-card-price"><span class="amount">${sell != null ? '￥' + Math.round(sell).toLocaleString('ja-JP') : '価格未登録'}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : '未登録'}</span>${perMeterHTML}</div>`;
+      if (sell != null) {
+        const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
+        const kind = savedUnits[item.id] || priceRow.kind;
+        const basis = tssNum(savedBases[item.id]) ?? tssDefaultBasis(kind);
+        const unit = tssCalcUnitPrice(sell, qty, kind, basis);
+        const perMeterHTML = priceRow.metersPerRoll
+          ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
+          : '';
+        priceHTML = `<div class="tss-card-price"><span class="amount">￥${Math.round(sell).toLocaleString('ja-JP')}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : ''}</span>${perMeterHTML}</div>`;
+      }
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
     const editBtn = editMode

@@ -64,30 +64,23 @@ function tssNum(v) {
   return isFinite(n) && n > 0 ? n : null;
 }
 
-// 仕入価格は「画面で入力した値（localStorage）」を最優先し、
-// 未入力なら price-rows.json に登録された仕切単価を使う。
-// これにより、価格表を触っていない端末でも既定の仕入価格から単価を計算できる。
+// 価格は機密情報のため、公開ファイルには保持しない。
+// 仕入価格は、この端末で手入力またはExcel読込した localStorage の値だけを使う。
 function tssCostOf(savedPrices, priceRow, id) {
   const entered = tssNum(savedPrices ? savedPrices[id] : null);
   if (entered != null) return entered;
-  return priceRow ? tssNum(priceRow.cost) : null;
+  return null;
 }
 
-// 販売価格は端末で直接入力した値を最優先する。端末側に仕入価格・利益率の
-// 上書きがなければ、Excelから取り込んだ販売単価をそのまま既定値として使う。
-// 旧版で仕入価格だけ保存済みの端末は、その入力を失わないよう利益率から再計算する。
+// 販売価格も、この端末で読み込んだ値だけを使う。
+// 販売価格がなく、仕入価格だけがある場合は端末内の利益率から計算する。
 function tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, id) {
   const enteredSell = tssNum(savedSellPrices ? savedSellPrices[id] : null);
   if (enteredSell != null) return enteredSell;
 
   const enteredCost = tssNum(savedPrices ? savedPrices[id] : null);
   const enteredMargin = tssNum(savedMargins ? savedMargins[id] : null);
-  if (enteredCost == null && enteredMargin == null) {
-    const masterSell = priceRow ? tssNum(priceRow.defaultSellPrice) : null;
-    if (masterSell != null) return masterSell;
-  }
-
-  const cost = tssCostOf(savedPrices, priceRow, id);
+  const cost = enteredCost;
   const margin = enteredMargin ?? TSS_DEFAULT_MARGIN;
   return cost != null ? tssSellFromMargin(cost, margin) : null;
 }
