@@ -354,7 +354,7 @@
         </div>
         <div class="cell-sell">
           <span class="yen-mark">￥</span>
-          <input type="text" inputmode="decimal" class="sell-input" data-field="sell" data-id="${r.id}" value="${escapeHTML(sellVal)}" placeholder="0" ${r.costNum == null ? 'disabled' : ''} />
+          <input type="text" inputmode="decimal" class="sell-input" data-field="sell" data-id="${r.id}" value="${escapeHTML(sellVal)}" placeholder="0" />
         </div>
         <div class="cell-unit">
           <span class="value" style="color:${r.unitNum == null ? '#c3cac7' : '#c25a17'}">${tssFmtYen(r.unitNum)}</span>
