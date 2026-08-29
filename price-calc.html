@@ -62,15 +62,15 @@
   .margin-input:not(:disabled):hover, .margin-input:focus { border-color: #0f7f86; outline: none; }
   .percent-mark { font-size: 11px; font-weight: 700; color: #8aa0a2; }
   .sell-input { width: 74px; box-sizing: border-box; border: 1.5px solid #0f7f86; background: #fff; font-size: 13px; font-weight: 700; text-align: right; padding: 6px 8px; color: #0f7f86; }
-  .cell-unit { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
-  .cell-unit .value { font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; }
+  .cell-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .cell-unit .value { width: 100%; font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; text-align: center; }
   .cell-unit .value-sub { font-size: 12px; margin-top: 3px; }
   .cell-unit .label { font-size: 10px; font-weight: 500; color: #8aa0a2; }
-  .unit-basis-edit { display: flex; align-items: center; gap: 3px; }
-  .basis-input { width: 40px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 10.5px; text-align: right; padding: 3px 4px; color: #12242A; font-family: 'Roboto Mono', monospace; }
+  .unit-basis-edit { width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; }
+  .basis-input { width: 44px; height: 28px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 10.5px; text-align: right; padding: 3px 4px; color: #12242A; font-family: 'Roboto Mono', monospace; }
   .basis-input.is-default { border-color: #a8c8ca; }
-  .kind-select { border: 1.5px solid #cfe0e2; background: #fff; font-size: 10.5px; padding: 3px 2px; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
-  .unit-suffix { font-size: 10px; font-weight: 500; color: #8aa0a2; }
+  .kind-select { min-width: 58px; height: 28px; border: 1.5px solid #cfe0e2; background: #fff; font-size: 10.5px; padding: 3px 2px; color: #12242A; font-family: 'Noto Sans JP', sans-serif; }
+  .unit-suffix { font-size: 10px; line-height: 28px; font-weight: 500; color: #6f8688; white-space: nowrap; }
   .notes { display: flex; flex-wrap: wrap; gap: 12px; }
   .note-box { flex: 1; min-width: 320px; border: 1.5px solid #cfe0e2; background: #fff; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
   .note-box-title { font-size: 12px; font-weight: 700; color: #0f7f86; letter-spacing: .06em; }
