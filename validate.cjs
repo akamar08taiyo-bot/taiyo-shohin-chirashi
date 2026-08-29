@@ -20,21 +20,44 @@ const sensitivePriceKeys = [
 
 // --- ID の一意性 ---
 const seen = new Set();
+if (products.meta && products.meta.items !== products.items.length) {
+  errors.push(`products.json: meta.items ${products.meta.items} と実商品数 ${products.items.length} が一致しない`);
+}
 for (const it of products.items) {
   if (typeof it.id !== 'number') errors.push(`products.json: id が数値でない (${it.name})`);
   if (seen.has(it.id)) errors.push(`products.json: id ${it.id} が重複している`);
+  if (/容量\s*[^／]+/.test(String(it.code || '')) && /^(大容量|ボトル|スプレー|本体)$/.test(String(it.spec || ''))) {
+    errors.push(`products.json: id ${it.id} (${it.name}) は容量確認済みなのに規格が曖昧`);
+  }
   seen.add(it.id);
 }
 
 // --- products と price-rows の 1:1 対応 ---
 const priceIds = new Set(priceRows.map(r => r.id));
+const productById = new Map(products.items.map(item => [item.id, item]));
 for (const it of products.items) {
   if (!priceIds.has(it.id)) errors.push(`price-rows.json: id ${it.id} (${it.name}) の行がない`);
 }
 for (const r of priceRows) {
   if (!seen.has(r.id)) errors.push(`price-rows.json: id ${r.id} は products.json に存在しない`);
+  const product = productById.get(r.id);
+  if (product) {
+    for (const key of ['maker', 'name', 'spec', 'code']) {
+      if (r[key] !== product[key]) errors.push(`id ${r.id}: ${key} が products.json と price-rows.json で一致しない`);
+    }
+  }
   const leakedKeys = sensitivePriceKeys.filter(key => Object.prototype.hasOwnProperty.call(r, key));
   if (leakedKeys.length) errors.push(`price-rows.json: id ${r.id} に公開禁止フィールドがある (${leakedKeys.join(', ')})`);
+  if (['mL', 'g'].includes(r.kind) && r.baseQty === 1) {
+    errors.push(`price-rows.json: id ${r.id} (${r.name}) の内容量に仮値 1${r.kind} が残っている`);
+  }
+  if (/容量\s*未確認/.test(String(r.code || '')) && r.baseQty != null) {
+    errors.push(`price-rows.json: id ${r.id} (${r.name}) は容量未確認なのに数量が入力されている`);
+  }
+  const explicitPieces = String(r.spec || '').match(/(\d+)\s*枚入(?:\s*[×x]\s*(\d+))?/);
+  if (r.baseQty == null && explicitPieces) {
+    errors.push(`price-rows.json: id ${r.id} (${r.name}) は規格に枚数があるのに内容量が空欄`);
+  }
 }
 
 // --- 画像ファイルの実在 ---

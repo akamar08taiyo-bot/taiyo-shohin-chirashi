@@ -141,7 +141,7 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260829-2').then(r => r.json());
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));

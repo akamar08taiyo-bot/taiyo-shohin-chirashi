@@ -146,8 +146,8 @@
 <script>
 (async function () {
   const [products, priceRowsRaw] = await Promise.all([
-    fetch('./data/products.json').then(r => r.json()),
-    fetch('./data/price-rows.json').then(r => r.json()),
+    fetch('./data/products.json?v=20260829-2').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260829-2').then(r => r.json()),
   ]);
 
   function escapeHTML(s) {
@@ -159,6 +159,21 @@
   let state = { maker: 'すべて', sort: false, ...tssLoadPrices() };
 
   function persist() { tssSavePrices(state.prices, state.qtys, state.margins, state.sellPrices, state.units, state.bases); }
+
+  // 旧Excelで容量未確認の商品に仮入力されていた「1g／1mL」は数量として扱わない。
+  // 商品マスターに確認済み容量がある場合は、その正しい容量へ戻す。
+  let removedLegacyPlaceholderQty = false;
+  for (const row of priceRowsRaw) {
+    const storedQty = tssNum(state.qtys[row.id]);
+    const isLegacyPlaceholder = ['mL', 'g'].includes(row.kind)
+      && storedQty === 1
+      && (row.baseQty == null || Number(row.baseQty) > 1);
+    if (isLegacyPlaceholder) {
+      delete state.qtys[row.id];
+      removedLegacyPlaceholderQty = true;
+    }
+  }
+  if (removedLegacyPlaceholderQty) persist();
 
   const positiveNum = value => {
     const n = Number(String(value == null ? '' : value).replace(/[,￥円%％\s]/g, ''));
@@ -274,7 +289,12 @@
       const margin = marginRaw != null && marginRaw <= 1 ? marginRaw * 100 : marginRaw;
       let sell = positiveNum(entry.sell);
       if (sell == null && cost != null) sell = Math.ceil(cost * (1 + ((margin ?? TSS_DEFAULT_MARGIN) / 100)));
-      const qty = positiveNum(entry.qty);
+      const importedQty = positiveNum(entry.qty);
+      const qty = ['mL', 'g'].includes(target.kind)
+        && importedQty === 1
+        && (target.baseQty == null || Number(target.baseQty) > 1)
+        ? null
+        : importedQty;
       const basis = positiveNum(entry.basis);
       if (cost != null) next.prices[target.id] = String(cost);
       if (sell != null) next.sellPrices[target.id] = String(Math.round(sell));

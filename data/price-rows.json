@@ -112,7 +112,7 @@
  {
   "maker": "花王プロフェッショナル",
   "name": "トイレハイター 密着ジェル",
-  "spec": "本体",
+  "spec": "500mL",
   "code": "JAN 4901301504319 ／ 容量 500mL",
   "kind": "mL",
   "baseQty": 500,
@@ -307,11 +307,11 @@
  },
  {
   "maker": "ロケット石鹸",
-  "name": "Enjoy Awa's バスタブクリーナー",
-  "spec": "スプレー",
-  "code": "JAN 4903367093738 ／ 容量 未確認",
+  "name": "Enjoy Awa's バスタブクリーナー つめかえ用",
+  "spec": "300mL",
+  "code": "JAN 4903367093738",
   "kind": "mL",
-  "baseQty": null,
+  "baseQty": 300,
   "id": 38,
   "caseQty": 20,
   "caseDescription": "20個"
@@ -351,22 +351,22 @@
  },
  {
   "maker": "ロケット石鹸",
-  "name": "液体洗剤 ランドリー 業務用 大容量",
-  "spec": "大容量",
-  "code": "JAN 4903367305343 ／ 容量 未確認",
-  "kind": "g",
-  "baseQty": null,
+  "name": "DEO 衣料用液体洗剤",
+  "spec": "4L",
+  "code": "JAN 4903367305343",
+  "kind": "mL",
+  "baseQty": 4000,
   "id": 31,
   "caseQty": 4,
   "caseDescription": "4個"
  },
  {
   "maker": "ロケット石鹸",
-  "name": "ソフター 柔軟剤 業務用",
-  "spec": "大容量",
-  "code": "JAN 4903367005014 ／ 容量 未確認",
-  "kind": "g",
-  "baseQty": null,
+  "name": "スーパーソフター",
+  "spec": "4L",
+  "code": "JAN 4903367005014",
+  "kind": "mL",
+  "baseQty": 4000,
   "id": 35,
   "caseQty": 4,
   "caseDescription": "4個"
@@ -374,7 +374,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "マイキッチンK 食器用洗剤 業務用",
-  "spec": "大容量",
+  "spec": "4L",
   "code": "JAN 4903367005045 ／ 容量 4L",
   "kind": "mL",
   "baseQty": 4000,
@@ -396,7 +396,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "Enjoy Awa's 食洗機用洗剤 大容量",
-  "spec": "大容量",
+  "spec": "840g",
   "code": "JAN 4903367093615 ／ 容量 840g",
   "kind": "g",
   "baseQty": 840,
@@ -407,7 +407,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "スーパーキッチンブリーチ 業務用",
-  "spec": "大容量",
+  "spec": "5kg",
   "code": "JAN 4903367303905 ／ 容量 5kg",
   "kind": "g",
   "baseQty": 5000,
@@ -418,7 +418,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "キッチンブリーチ 台所用漂白剤",
-  "spec": "ボトル",
+  "spec": "600mL",
   "code": "JAN 4903367000118 ／ 容量 600mL",
   "kind": "mL",
   "baseQty": 600,
@@ -451,7 +451,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "トイレブリーチ",
-  "spec": "ボトル",
+  "spec": "500g",
   "code": "JAN 4903367306661 ／ 容量 500g",
   "kind": "g",
   "baseQty": 500,
@@ -462,7 +462,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "パイプクリーナー 強力液体",
-  "spec": "ボトル",
+  "spec": "450g",
   "code": "JAN 4903367304032 ／ 容量 450g",
   "kind": "g",
   "baseQty": 450,
@@ -473,7 +473,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "スーパーブリーチ 業務用",
-  "spec": "大容量",
+  "spec": "5kg",
   "code": "JAN 4903367303912 ／ 容量 5kg",
   "kind": "g",
   "baseQty": 5000,
@@ -484,7 +484,7 @@
  {
   "maker": "ロケット石鹸",
   "name": "バスクリーナー",
-  "spec": "ボトル",
+  "spec": "500mL",
   "code": "JAN 4903367001771 ／ 容量 500mL",
   "kind": "mL",
   "baseQty": 500,
@@ -2622,7 +2622,7 @@
   "spec": "50枚入",
   "code": "品番 076355",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 99
  },
  {
@@ -2658,7 +2658,7 @@
   "spec": "100枚入（SS〜L）",
   "code": "品番 075961〜075964",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 100,
   "id": 103
  },
  {
@@ -2667,7 +2667,7 @@
   "spec": "9.5×17cm 50枚入",
   "code": "品番 076050",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 104
  },
  {
@@ -2676,7 +2676,7 @@
   "spec": "1枚入×10",
   "code": "品番 076078",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 10,
   "id": 105
  },
  {
@@ -2685,7 +2685,7 @@
   "spec": "100枚入（S〜L）",
   "code": "品番 075972〜075974",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 100,
   "id": 106
  },
  {
@@ -2694,7 +2694,7 @@
   "spec": "200枚入（SS〜L）",
   "code": "品番 075881〜075884",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 200,
   "id": 107
  },
  {
@@ -2703,7 +2703,7 @@
   "spec": "9.5×17.5cm 50枚入",
   "code": "品番 076161",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 108
  },
  {
@@ -2712,7 +2712,7 @@
   "spec": "9.5×17.5cm 50枚入",
   "code": "品番 076261",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 109
  },
  {
@@ -2721,7 +2721,7 @@
   "spec": "9×17cm 50枚入",
   "code": "品番 076105",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 111
  },
  {
@@ -2730,7 +2730,7 @@
   "spec": "9.5×17.5cm 25枚入",
   "code": "品番 076056",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 25,
   "id": 112
  },
  {
@@ -2739,7 +2739,7 @@
   "spec": "9×17cm 1枚入",
   "code": "品番 076010",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 1,
   "id": 113
  },
  {
@@ -2748,7 +2748,7 @@
   "spec": "9×17cm 2枚入",
   "code": "品番 076042",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 2,
   "id": 114
  },
  {
@@ -2757,7 +2757,7 @@
   "spec": "7.5×24.0cm 1枚入",
   "code": "品番 076086",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 1,
   "id": 115
  },
  {
@@ -2766,7 +2766,7 @@
   "spec": "フリー 1枚",
   "code": "品番 076270",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 1,
   "id": 116
  },
  {
@@ -2775,7 +2775,7 @@
   "spec": "フリー 1枚",
   "code": "品番 076380",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 1,
   "id": 117
  },
  {
@@ -2784,7 +2784,7 @@
   "spec": "1枚入×100袋",
   "code": "品番 076420",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 100,
   "id": 118
  },
  {
@@ -2793,7 +2793,7 @@
   "spec": "1枚入×50袋",
   "code": "品番 076430",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 119
  },
  {
@@ -2802,7 +2802,7 @@
   "spec": "1枚入×50袋",
   "code": "品番 076490",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 120
  },
  {
@@ -2811,7 +2811,7 @@
   "spec": "1枚入×50袋",
   "code": "品番 076500",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 121
  },
  {
@@ -2820,7 +2820,7 @@
   "spec": "1枚入×100袋",
   "code": "品番 076412",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 100,
   "id": 122
  },
  {
@@ -2829,7 +2829,7 @@
   "spec": "1枚入×50袋",
   "code": "品番 076300",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 123
  },
  {
@@ -2838,7 +2838,7 @@
   "spec": "1枚入×50袋",
   "code": "品番 076416",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 124
  },
  {
@@ -2847,7 +2847,7 @@
   "spec": "1枚入×50袋",
   "code": "品番 076290",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 50,
   "id": 125
  }
 ]
