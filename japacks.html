@@ -19,6 +19,7 @@
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-codes" />品番・JAN</label>
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-price" />価格（社内用）</label>
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-ask" />お客様チェック欄</label>
+      <label class="tss-toggle"><input type="checkbox" id="tss-toggle-priceedit" />金額を編集</label>
     </div>
     <div class="tss-toolgroup">
       <span class="tss-toolgroup-label">編集</span>
@@ -28,6 +29,12 @@
     <a class="tss-btn" href="./quote.html" id="tss-quote-badge">見積を見る（0）</a>
     <button type="button" class="tss-btn" id="tss-print-all">すべて解除</button>
     <button type="button" class="tss-btn tss-btn-primary" id="tss-print-btn">🖨 印刷 / PDF保存</button>
+  </div>
+  <div class="tss-priceedit-bar" id="tss-priceedit-bar" style="display:none">
+    <span class="tss-priceedit-note">金額の欄をクリックすると直接書き換えられます。「1本あたり」を直すと本体価格も自動で計算し直します。</span>
+    <label class="tss-toggle"><input type="checkbox" id="tss-toggle-savetable" />価格表にも保存する</label>
+    <span class="tss-temp-count" id="tss-temp-count" style="display:none"></span>
+    <button type="button" class="tss-btn" id="tss-temp-reset" style="display:none">変更を取り消す</button>
   </div>
   <nav class="tss-pagejump" id="tss-pagejump"></nav>
   <main class="tss-pages-scroll" id="tss-mount"></main>

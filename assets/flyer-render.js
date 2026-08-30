@@ -98,6 +98,9 @@ async function renderFlyer(flyerKey, mountId) {
   let editMode = false;
   let quoteMode = false;
   let askMode = tssLoadBool(TSS_ASK_KEY, false);
+  let priceEditMode = false;          // チラシ上で金額を直接編集するモード
+  let saveToTable = false;            // 変更を価格表にも保存するか（既定は保存しない）
+  let tempSell = tssLoadTempSell();   // このチラシ限りの金額
   const printPages = {};   // { [pageIndex]: false } 印刷しないページだけ記録する
   let quoteCart = tssLoadQuoteCart();
   let composition = tssLoadComposition();
@@ -132,16 +135,28 @@ async function renderFlyer(flyerKey, mountId) {
     let priceHTML = '';
     if (showPrice && priceRow) {
       // 価格は、この端末でExcel読込または手入力された場合だけ表示する。
-      const sell = tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
+      // 一時価格（このチラシ限り）があればそちらを優先する。
+      const sell = tssSellWithTemp(tempSell, savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
       if (sell != null) {
         const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
         const kind = savedUnits[item.id] || priceRow.kind;
         const basis = tssNum(savedBases[item.id]) ?? tssDefaultBasis(kind);
         const unit = tssCalcUnitPrice(sell, qty, kind, basis);
+        const isTemp = tssNum(tempSell[item.id]) != null;
         const perMeterHTML = priceRow.metersPerRoll
           ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
           : '';
-        priceHTML = `<div class="tss-card-price"><span class="amount">￥${Math.round(sell).toLocaleString('ja-JP')}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : ''}</span>${perMeterHTML}</div>`;
+        if (priceEditMode) {
+          // 金額と「100mLあたり」を直接書き換えられるようにする。
+          // どちらか一方を直せば、もう片方は自動で計算し直す。
+          priceHTML = `<div class="tss-card-price is-editing${isTemp ? ' is-temp' : ''}">
+              <span class="amount">￥<input type="text" inputmode="decimal" class="tss-price-input" data-field="sell" data-id="${item.id}" value="${Math.round(sell)}" /></span>
+              <span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ￥<input type="text" inputmode="decimal" class="tss-price-input tss-unit-input" data-field="unit" data-id="${item.id}" value="${unit != null ? (unit >= 100 ? Math.round(unit) : unit.toFixed(1)) : ''}" /></span>
+              ${perMeterHTML}
+            </div>`;
+        } else {
+          priceHTML = `<div class="tss-card-price${isTemp ? ' is-temp' : ''}"><span class="amount">￥${Math.round(sell).toLocaleString('ja-JP')}</span><span class="unit">${escapeHTML(tssUnitLabel(kind, basis))} ${unit != null ? tssFmtYen(unit) : ''}</span>${perMeterHTML}</div>`;
+        }
       }
     }
     const nameLines = escapeHTML(item.name).replace(/\s*[／･・]\s*$/, '');
@@ -383,6 +398,85 @@ async function renderFlyer(flyerKey, mountId) {
     });
   }
 
+  /* ---- チラシ上での金額編集 ----
+     施設ごとに金額を変えたチラシを渡すための機能。
+     既定では価格表に保存せず、このチラシ限り（タブを閉じると消える）。 */
+  const priceEditToggle = document.getElementById('tss-toggle-priceedit');
+  const saveToggle = document.getElementById('tss-toggle-savetable');
+  function updatePriceEditUI() {
+    const bar = document.getElementById('tss-priceedit-bar');
+    if (bar) bar.style.display = priceEditMode ? '' : 'none';
+    const n = Object.keys(tempSell).filter(k => tssNum(tempSell[k]) != null).length;
+    const badge = document.getElementById('tss-temp-count');
+    if (badge) {
+      badge.textContent = n ? 'このチラシだけ変更中：' + n + '件' : '';
+      badge.style.display = n ? '' : 'none';
+    }
+    const resetBtn = document.getElementById('tss-temp-reset');
+    if (resetBtn) resetBtn.style.display = n ? '' : 'none';
+  }
+  if (priceEditToggle) {
+    priceEditToggle.addEventListener('change', () => {
+      priceEditMode = priceEditToggle.checked;
+      // 金額を編集するには価格表示がONである必要がある
+      if (priceEditMode && !showPrice) {
+        showPrice = true;
+        tssSaveBool(TSS_SHOW_PRICE_KEY, true);
+        const pt = document.getElementById('tss-toggle-price');
+        if (pt) pt.checked = true;
+      }
+      renderAll();
+      updatePriceEditUI();
+    });
+  }
+  if (saveToggle) {
+    saveToggle.addEventListener('change', () => { saveToTable = saveToggle.checked; });
+  }
+  const tempResetBtn = document.getElementById('tss-temp-reset');
+  if (tempResetBtn) {
+    tempResetBtn.addEventListener('click', () => {
+      if (!confirm('このチラシだけの金額変更をすべて取り消し、価格表の金額に戻します。よろしいですか？')) return;
+      tempSell = {};
+      tssSaveTempSell(tempSell);
+      renderAll();
+      updatePriceEditUI();
+    });
+  }
+  // 金額・単価の入力を反映する（片方を直すともう片方を計算し直す）
+  mount.addEventListener('change', (e) => {
+    const inp = e.target.closest('.tss-price-input');
+    if (!inp) return;
+    const id = Number(inp.dataset.id);
+    const item = itemById.get(id);
+    const priceRow = item ? priceByCode.get(item) : null;
+    if (!priceRow) return;
+    const qty = savedQtys[id] != null ? tssNum(savedQtys[id]) : priceRow.baseQty;
+    const kind = savedUnits[id] || priceRow.kind;
+    const basis = tssNum(savedBases[id]) ?? tssDefaultBasis(kind);
+
+    let sell = null;
+    if (inp.dataset.field === 'sell') {
+      sell = tssNum(inp.value);
+    } else {
+      // 「100mLあたり」から本体価格を逆算する
+      sell = tssSellFromUnitPrice(tssNum(inp.value), qty, kind, basis);
+    }
+    if (sell == null) { renderAll(); return; }
+
+    if (saveToTable) {
+      // 価格表（見積・価格表シートと共通）に保存する
+      savedSellPrices[id] = String(Math.round(sell));
+      tssSavePrices(savedPrices, savedQtys, savedMargins, savedSellPrices, savedUnits, savedBases);
+      delete tempSell[id];
+    } else {
+      // このチラシ限り。価格表には触らない
+      tempSell[id] = String(Math.round(sell));
+    }
+    tssSaveTempSell(tempSell);
+    renderAll();
+    updatePriceEditUI();
+  });
+
   const askToggle = document.getElementById('tss-toggle-ask');
   if (askToggle) {
     askToggle.checked = askMode;
@@ -453,6 +547,7 @@ async function renderFlyer(flyerKey, mountId) {
     window.print();
   });
   updatePrintBtn();
+  updatePriceEditUI();
 
   const jumpNav = document.getElementById('tss-pagejump');
   if (jumpNav) {

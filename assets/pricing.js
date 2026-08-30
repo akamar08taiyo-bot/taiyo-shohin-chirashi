@@ -112,3 +112,28 @@ function tssFmtYen(v) {
   if (v >= 10) return '￥' + v.toFixed(1);
   return '￥' + v.toFixed(2);
 }
+
+/* ===== チラシ限りの金額（価格表に保存しない一時価格）=====
+   特定の施設向けに、その場だけ金額を変えたチラシを渡すための仕組み。
+   sessionStorage に置くので、タブを閉じれば消え、価格表には影響しない。 */
+const TSS_TEMP_PRICE_KEY = 'tss_chirashi_tempSell_v1';
+
+function tssLoadTempSell() {
+  try { return JSON.parse(sessionStorage.getItem(TSS_TEMP_PRICE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function tssSaveTempSell(map) {
+  try { sessionStorage.setItem(TSS_TEMP_PRICE_KEY, JSON.stringify(map)); } catch (e) {}
+}
+// 一時価格を最優先。無ければ通常の販売価格（価格表の値）を使う。
+function tssSellWithTemp(tempSell, savedPrices, savedMargins, savedSellPrices, priceRow, id) {
+  const t = tssNum(tempSell ? tempSell[id] : null);
+  if (t != null) return t;
+  return tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, id);
+}
+// 「100mLあたり◯円」から販売価格を逆算する（単価を直接直したいとき用）
+function tssSellFromUnitPrice(unitPrice, qty, kind, basis) {
+  if (unitPrice == null || qty == null) return null;
+  const b = basis != null ? basis : tssDefaultBasis(kind);
+  return unitPrice * (qty / b);
+}
