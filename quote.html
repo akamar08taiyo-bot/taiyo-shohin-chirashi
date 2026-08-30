@@ -382,8 +382,8 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260829-2').then(r => r.json());
-  const priceRowsRaw = await fetch('./data/price-rows.json?v=20260829-2').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260830-1').then(r => r.json());
+  const priceRowsRaw = await fetch('./data/price-rows.json?v=20260830-1').then(r => r.json());
   const itemById = new Map(products.items.map(it => [it.id, it]));
   const priceRowById = new Map(priceRowsRaw.map(r => [r.id, r]));
 

@@ -215,6 +215,8 @@ a:hover { color: var(--accent-hover); }
   border: 1.5px solid var(--border);
   background: var(--card-bg);
   overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 .tss-card-editbtn {

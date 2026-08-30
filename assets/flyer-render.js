@@ -36,9 +36,9 @@ function tssSaveComposition(comp) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260829-2').then(r => r.json()),
-    fetch('./data/products.json?v=20260829-2').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260829-2').then(r => r.json()),
+    fetch('./data/pages.json?v=20260830-1').then(r => r.json()),
+    fetch('./data/products.json?v=20260830-1').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260830-1').then(r => r.json()),
   ]);
 
   const office = tssLoadOffice();

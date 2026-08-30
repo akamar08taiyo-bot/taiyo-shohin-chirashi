@@ -18,14 +18,33 @@ const sensitivePriceKeys = [
   'priceSource', 'priceSourceMethod', 'priceKind', 'defaultSellMethod',
 ];
 
+function isValidJan13(value) {
+  const digits = String(value).split('').map(Number);
+  if (digits.length !== 13 || digits.some(Number.isNaN)) return false;
+  const sum = digits.slice(0, 12).reduce((total, digit, index) => total + digit * (index % 2 ? 3 : 1), 0);
+  return (10 - (sum % 10)) % 10 === digits[12];
+}
+
 // --- ID の一意性 ---
 const seen = new Set();
+const productSignatures = new Map();
 if (products.meta && products.meta.items !== products.items.length) {
   errors.push(`products.json: meta.items ${products.meta.items} と実商品数 ${products.items.length} が一致しない`);
 }
 for (const it of products.items) {
   if (typeof it.id !== 'number') errors.push(`products.json: id が数値でない (${it.name})`);
   if (seen.has(it.id)) errors.push(`products.json: id ${it.id} が重複している`);
+  if (String(it.code || '').includes('未確認')) errors.push(`products.json: id ${it.id} (${it.name}) に未確認情報が残っている`);
+  const signature = [it.maker, it.name, it.spec, it.code].join('||');
+  if (productSignatures.has(signature)) {
+    errors.push(`products.json: id ${it.id} と id ${productSignatures.get(signature)} が同一商品として重複している`);
+  }
+  productSignatures.set(signature, it.id);
+  const janCodes = String(it.code || '').match(/\b\d{13}\b/g) || [];
+  if (janCodes.length === 0) errors.push(`products.json: id ${it.id} (${it.name}) にJANがない`);
+  janCodes.filter(jan => !isValidJan13(jan)).forEach(jan => {
+    errors.push(`products.json: id ${it.id} (${it.name}) のJAN ${jan} はチェックデジットが不正`);
+  });
   if (/容量\s*[^／]+/.test(String(it.code || '')) && /^(大容量|ボトル|スプレー|本体)$/.test(String(it.spec || ''))) {
     errors.push(`products.json: id ${it.id} (${it.name}) は容量確認済みなのに規格が曖昧`);
   }
@@ -53,6 +72,9 @@ for (const r of priceRows) {
   }
   if (/容量\s*未確認/.test(String(r.code || '')) && r.baseQty != null) {
     errors.push(`price-rows.json: id ${r.id} (${r.name}) は容量未確認なのに数量が入力されている`);
+  }
+  if (r.baseQty == null || !Number.isFinite(Number(r.baseQty)) || Number(r.baseQty) <= 0) {
+    errors.push(`price-rows.json: id ${r.id} (${r.name}) の内容量・入数が未設定または不正`);
   }
   const explicitPieces = String(r.spec || '').match(/(\d+)\s*枚入(?:\s*[×x]\s*(\d+))?/);
   if (r.baseQty == null && explicitPieces) {
