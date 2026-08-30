@@ -423,6 +423,15 @@ a:hover { color: var(--accent-hover); }
   }
   /* 1枚のチラシが2ページに分割されないようにする */
   .page { break-inside: avoid; page-break-inside: avoid; }
+
+  /* 画面では A4 を 96dpi 換算の 794×1123px で描いているが、
+     実際の A4 は 793.70×1122.52px（210×297mm）で、px 指定のままだと
+     縦に 0.48px はみ出す。その端数のせいで最下部の社名だけが
+     2枚目に送られてしまうため、印刷時は mm で実寸を指定する。 */
+  .page {
+    width: 210mm;
+    height: 297mm;
+  }
 }
 
 /* ---- 商品差し替えピッカー ---- */

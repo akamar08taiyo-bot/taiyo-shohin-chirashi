@@ -84,6 +84,8 @@
     .cx-pagewrap .page { page-break-after: always; break-after: page; box-shadow: none; }
     .cx-pagewrap:last-child .page { page-break-after: auto; break-after: auto; }
     .page, .page * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* design.css と同じ理由（794×1123px は A4 より 0.48px 高い）で実寸を指定する */
+    .page { width: 210mm; height: 297mm; }
   }
   @media (max-width: 860px) {
     .cx-fields { grid-template-columns: 1fr; }
