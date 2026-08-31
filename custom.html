@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./assets/design.css" />
+<link rel="stylesheet" href="./assets/design.css?v=20260901-1" />
 <style>
   body { background: #eef5f5; }
   .cx-wrap { padding: 0 0 40px; }
@@ -72,6 +72,7 @@
   .cx-preview-label { max-width: 1180px; margin: 22px auto 10px; padding: 0 24px; font-size: 13.5px; font-weight: 700; color: var(--text-sub); letter-spacing: .08em; }
   .cx-stage { display: flex; justify-content: center; padding: 0 12px; }
   .cx-placeholder { width: 794px; max-width: 100%; border: 2px dashed var(--border); background: #fff; padding: 70px 24px; text-align: center; color: var(--text-sub); font-size: 15.5px; line-height: 1.9; }
+  #cx-print:disabled { cursor: not-allowed; opacity: .55; background: #64748b; }
 
   @media print {
     .tss-toolbar, .cx-panel, .cx-preview-label, .cx-pagenum { display: none !important; }
@@ -79,13 +80,32 @@
     .cx-stage { padding: 0; display: block; }
     body { background: #fff; }
     /* 編集中の目印は紙に出さない。1ページずつ改ページする */
-    .cx-pagewrap { gap: 0; }
+    .cx-pagewrap {
+      width: 210mm;
+      height: 297mm;
+      gap: 0;
+      overflow: hidden;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      break-after: page;
+      page-break-after: always;
+    }
     .cx-pagewrap.is-current .page { outline: none; }
-    .cx-pagewrap .page { page-break-after: always; break-after: page; box-shadow: none; }
-    .cx-pagewrap:last-child .page { page-break-after: auto; break-after: auto; }
+    .cx-pagewrap .page { page-break-after: auto; break-after: auto; box-shadow: none; }
+    .cx-pagewrap:last-child { page-break-after: auto; break-after: auto; }
     .page, .page * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     /* design.css と同じ理由（794×1123px は A4 より 0.48px 高い）で実寸を指定する */
-    .page { width: 210mm; height: 297mm; }
+    .page { width: 210mm; height: 297mm; max-width: 210mm; max-height: 297mm; overflow: hidden; }
+    /* 印刷ボタン以外（Ctrl+P・共有メニュー）からでも、4商品未満の帳票は絶対に出さない。 */
+    body.cx-print-blocked .cx-stage { display: none !important; }
+    body.cx-print-blocked::after {
+      content: '印刷できません。各ページの商品を必ず4点そろえてください。';
+      display: block;
+      padding: 20mm;
+      color: #991b1b;
+      font-size: 16pt;
+      font-weight: 700;
+    }
   }
   @media (max-width: 860px) {
     .cx-fields { grid-template-columns: 1fr; }
@@ -311,6 +331,16 @@
     c.innerHTML = (current + 1) + 'ページ目：選択中<strong>' + picked.length + '</strong>／' + MAX + '点'
       + (full ? '　（4点そろいました。「＋ 次のページへ」で続きを作れます）' : '');
     c.classList.toggle('is-full', full);
+    const filled = pages.filter(p => p.ids.length > 0);
+    const printReady = filled.length > 0 && filled.every(p => p.ids.length === MAX);
+    document.body.classList.toggle('cx-print-blocked', !printReady);
+    const printBtn = document.getElementById('cx-print');
+    printBtn.disabled = !printReady;
+    printBtn.setAttribute('aria-disabled', String(!printReady));
+    printBtn.title = printReady
+      ? '4商品・社名・営業所情報を1ページに収めて印刷します'
+      : '各ページの商品を4点そろえると印刷できます';
+    printBtn.textContent = printReady ? '🖨 印刷 / PDF保存' : '4商品そろえると印刷可能';
   }
 
   document.getElementById('cx-list').addEventListener('change', (e) => {
@@ -421,7 +451,7 @@
     const office = tssLoadOffice();
     // 空のページは印刷にもプレビューにも出さない
     stage.innerHTML = pages.map((p, i) => p.ids.length === 0 ? '' : `
-      <div class="cx-pagewrap${i === current ? ' is-current' : ''}">
+      <div class="cx-pagewrap${i === current ? ' is-current' : ''}${p.ids.length === MAX ? '' : ' is-incomplete'}" data-product-count="${p.ids.length}">
         <div class="cx-pagenum">${i + 1}ページ目${i === current ? '（編集中）' : ''}</div>
         ${pageHTML(p, office)}
       </div>`).join('');
@@ -454,8 +484,22 @@
     const filled = pages.filter(p => p.ids.length > 0);
     if (!filled.length) { alert('商品をえらんでください。'); return; }
     const half = filled.filter(p => p.ids.length < MAX);
-    if (half.length && !confirm('商品が4点そろっていないページがあります（'
-        + half.map(p => pages.indexOf(p) + 1).join('・') + 'ページ目）。このまま印刷しますか？')) return;
+    if (half.length) {
+      alert('印刷できません。' + half.map(p => pages.indexOf(p) + 1).join('・')
+        + 'ページ目の商品を必ず4点そろえてください。\n1ページには、4商品と社名・営業所情報をまとめて印刷します。');
+      return;
+    }
+    const renderedPages = Array.from(document.querySelectorAll('.cx-pagewrap .page'));
+    const invalidLayout = renderedPages.some(page =>
+      page.querySelectorAll('.tss-card').length !== MAX ||
+      !page.querySelector('.tss-footer-office') ||
+      page.scrollHeight > page.clientHeight + 1 ||
+      page.scrollWidth > page.clientWidth + 1
+    );
+    if (invalidLayout) {
+      alert('印刷レイアウトを安全に収められませんでした。商品名や説明を短くしてから、もう一度お試しください。');
+      return;
+    }
     window.print();
   });
 
