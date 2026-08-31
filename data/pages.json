@@ -420,6 +420,486 @@
           "note": "入数・サイズ、JANコードはメーカーカタログ照合後に記載します。"
         }
       ]
+    },
+    {
+      "key": "omutsu",
+      "name": "紙おむつ・パッド",
+      "file": "omutsu.html",
+      "autoPaginate": true,
+      "tokens": {
+        "photoHeight": 188,
+        "cardTitleMinHeight": 54,
+        "cardTitleFontSize": "13.5",
+        "descMinHeight": 28,
+        "descFontSize": "10.5"
+      },
+      "pages": [
+        {
+          "pageKey": "UC01 横モレ安心テープ止め",
+          "categoryLabel": "ユニ・チャーム　テープ止め 横モレ安心",
+          "title": "テープ止め 横モレ安心",
+          "subtitle": "S〜LLサイズ",
+          "lead": "寝て過ごす時間が長い方に。横モレを抑えるギャザーで、交換の手間を減らします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC02 のび〜るフィットテープ止め",
+          "categoryLabel": "ユニ・チャーム　テープ止め のび〜るフィット",
+          "title": "テープ止め のび〜るフィット",
+          "subtitle": "S〜Lサイズ",
+          "lead": "テープがのびて体型に沿うタイプ。着け直しがしやすく、介助の負担を軽くします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC03 カバータイプ",
+          "categoryLabel": "ユニ・チャーム　快適さらさらカバータイプ",
+          "title": "快適さらさらカバータイプ",
+          "subtitle": "S-M／Lサイズ",
+          "lead": "パッドと組み合わせて使うカバー。パッド交換だけで済むので、コストを抑えられます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC04 コンフォートナイト",
+          "categoryLabel": "ユニ・チャーム　一晩中安心 コンフォートナイト",
+          "title": "一晩中安心 コンフォートナイト",
+          "subtitle": "エクストラ／ウルトラ／スーパー",
+          "lead": "夜間の連続使用に。吸収量ごとに3タイプそろえ、朝までの安心をつくります。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC05 SkinCondition 夜用",
+          "categoryLabel": "ユニ・チャーム　一晩中安心 SkinCondition",
+          "title": "一晩中安心 SkinCondition",
+          "subtitle": "エクストラ／ウルトラ／スーパー",
+          "lead": "はだのpHに着目したシリーズ。夜間の長時間装着でも肌にやさしく保ちます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC06 一晩中安心さらさらパッド",
+          "categoryLabel": "ユニ・チャーム　一晩中安心さらさらパッド",
+          "title": "一晩中安心さらさらパッド",
+          "subtitle": "エクストラ／ウルトラ／スーパー",
+          "lead": "夜用パッドの標準タイプ。吸収量で選び分けて、夜間交換の回数を減らします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC07 長時間・外モレ安心パッド",
+          "categoryLabel": "ユニ・チャーム　長時間・外モレ安心パッド",
+          "title": "長時間・外モレ安心パッド",
+          "subtitle": "日中の長時間使用に",
+          "lead": "日中の長時間使用向け。プレミアム・SkinCondition・外モレ対策から選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC08 リハビリパンツ レギュラー",
+          "categoryLabel": "ユニ・チャーム　リハビリパンツ レギュラー",
+          "title": "リハビリパンツ レギュラー",
+          "subtitle": "S〜LLサイズ",
+          "lead": "立てる・歩ける方の自立支援に。下着感覚ではけて、日中の活動を妨げません。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC09 うす型快適パンツ",
+          "categoryLabel": "ユニ・チャーム　うす型快適パンツ",
+          "title": "うす型快適パンツ",
+          "subtitle": "S〜Lサイズ",
+          "lead": "うす型でごわつかないパンツタイプ。衣類にひびきにくく、外出時にも向きます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC10 リハビリパンツ スーパー",
+          "categoryLabel": "ユニ・チャーム　リハビリパンツ スーパー",
+          "title": "リハビリパンツ スーパー",
+          "subtitle": "S〜LLサイズ",
+          "lead": "レギュラーより吸収量を上げたタイプ。パッド併用で夜間まで対応できます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC11 長時間安心パンツ",
+          "categoryLabel": "ユニ・チャーム　パッドなしでも長時間安心パンツ",
+          "title": "パッドなしでも長時間安心パンツ",
+          "subtitle": "M／Lサイズ",
+          "lead": "パッドを使わずに長時間対応できるパンツ。備品点数を減らしたい施設に。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "UC12 かんたん装着パッド",
+          "categoryLabel": "ユニ・チャーム　かんたん装着パッド",
+          "title": "かんたん装着パッド",
+          "subtitle": "レギュラー〜夜用ウルトラ",
+          "lead": "装着しやすい形状のパッド。日中用から夜用まで、吸収量で選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW01 男性用・長時間パッド",
+          "categoryLabel": "第一衛材　男性用・長時間パッド",
+          "title": "男性用・長時間パッド",
+          "subtitle": "45枚〜26枚入",
+          "lead": "男性の体型に合わせたポケットパッドと、昼夜の長時間用。入数が多く在庫しやすい構成です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW02 ズレないパンツ用パッド",
+          "categoryLabel": "第一衛材　ズレないパンツ用パッド",
+          "title": "ズレないパンツ用パッド",
+          "subtitle": "昼用／夜用",
+          "lead": "パンツタイプと組み合わせる専用パッド。ズレを抑えてモレの不安を減らします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW03 ワイド・安心パッド",
+          "categoryLabel": "第一衛材　ワイド・安心パッド",
+          "title": "ワイド・安心パッド",
+          "subtitle": "ロング／通常／超吸収",
+          "lead": "幅広形状でモレをカバー。ロング・超吸収まで、必要な吸収量で選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW04 夜用パッド",
+          "categoryLabel": "第一衛材　夜・安心パッド",
+          "title": "夜・安心パッド",
+          "subtitle": "夜用超ビッグ／安心／超吸収",
+          "lead": "夜間の交換回数を減らす大容量タイプ。夜勤帯の負担軽減にお使いいただけます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW05 両面吸収パッド",
+          "categoryLabel": "第一衛材　両面吸収パッド",
+          "title": "両面吸収パッド",
+          "subtitle": "M／Lサイズ",
+          "lead": "裏表を気にせず使える両面吸収。装着ミスを防ぎ、介助時間を短縮します。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW06 昼・安心パッド",
+          "categoryLabel": "第一衛材　昼・安心パッド",
+          "title": "昼・安心パッド",
+          "subtitle": "通常／超吸収",
+          "lead": "日中の定番パッド。57枚・51枚の大入りで、消費量の多い施設に向きます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW07 水様便・背モレ対策",
+          "categoryLabel": "第一衛材　水様便・背モレ対策",
+          "title": "水様便・背モレ対策",
+          "subtitle": "専用形状タイプ",
+          "lead": "水様便対策パッドと背モレ用フラットタイプ。困りごとに合わせた専用形状です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW08 軽快すっきりパンツ",
+          "categoryLabel": "第一衛材　軽快すっきりパンツ",
+          "title": "軽快すっきりパンツ",
+          "subtitle": "S〜LLサイズ",
+          "lead": "うす型で動きやすいパンツタイプ。日中の活動量が多い方に向いています。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW09 軽快長時間パンツ",
+          "categoryLabel": "第一衛材　軽快長時間パンツ",
+          "title": "軽快長時間パンツ",
+          "subtitle": "S〜LLサイズ",
+          "lead": "長時間対応のパンツタイプ。パッド併用で夜間の交換回数を抑えられます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW10 軽快パンツ",
+          "categoryLabel": "第一衛材　軽快パンツ・3Lサイズ",
+          "title": "軽快パンツ・3Lサイズ",
+          "subtitle": "3L／M／Lサイズ",
+          "lead": "大きめ体型向けの3Lと、標準的な軽快パンツ。サイズ欠品時の代替にも。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW11 のびるテープタイプ",
+          "categoryLabel": "第一衛材　ぴったりフィット のびるテープ",
+          "title": "ぴったりフィット のびるテープ",
+          "subtitle": "S〜Lサイズ",
+          "lead": "テープがのびて体型に沿うタイプ。締めつけすぎを防ぎ、装着ミスを減らします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "DW12 クロス止めテープタイプ",
+          "categoryLabel": "第一衛材　簡単クロス止めテープ",
+          "title": "簡単クロス止めテープ",
+          "subtitle": "S〜Lサイズ",
+          "lead": "クロス止めでズレにくいテープタイプ。介助に慣れていない方でも扱えます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS01 パンツ ボクサータイプ",
+          "categoryLabel": "カミ商事　パンツ ボクサータイプ",
+          "title": "パンツ ボクサータイプ",
+          "subtitle": "S〜XLサイズ",
+          "lead": "下着に近い形のボクサータイプ。抵抗感が少なく、はき替えを促しやすい形状です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS02 パンツ ベーシック S〜L",
+          "categoryLabel": "カミ商事　パンツ ベーシック",
+          "title": "パンツ ベーシック",
+          "subtitle": "S／M／Lサイズ",
+          "lead": "定番のパンツタイプ。24枚・22枚・20枚入で、日々の消費量に合わせて選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS03 パンツ ベーシック LL・XL",
+          "categoryLabel": "カミ商事　パンツ ベーシック 大きめ",
+          "title": "パンツ ベーシック 大きめ",
+          "subtitle": "LL／XLサイズ",
+          "lead": "大きめ体型の方向けのベーシックパンツ。同シリーズでサイズをそろえられます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS04 パンツ スーパー S〜L",
+          "categoryLabel": "カミ商事　いちばん パンツ スーパー",
+          "title": "いちばん パンツ スーパー",
+          "subtitle": "S／M／Lサイズ",
+          "lead": "吸収量を上げたスーパータイプ。パッド併用で夜間まで対応できます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS05 パンツ スーパー LL・XL",
+          "categoryLabel": "カミ商事　いちばん パンツ スーパー 大きめ",
+          "title": "いちばん パンツ スーパー 大きめ",
+          "subtitle": "LL／XLサイズ",
+          "lead": "大きめ体型で吸収量も必要な方に。スーパータイプのサイズ展開です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS06 クロステープ止めうす型",
+          "categoryLabel": "カミ商事　クロステープ止め うす型",
+          "title": "クロステープ止め うす型",
+          "subtitle": "S〜Lサイズ",
+          "lead": "うす型でかさばらないテープ止め。保管スペースを取りにくい構成です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS07 幅広簡単テープ止め",
+          "categoryLabel": "カミ商事　幅広簡単テープ止め",
+          "title": "幅広簡単テープ止め",
+          "subtitle": "S／細めM／M／Lサイズ",
+          "lead": "幅広テープで留めやすいタイプ。細めMサイズもあり、体型に合わせて選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS08 伸縮テープ止めスリム",
+          "categoryLabel": "カミ商事　伸縮テープ止め スリムタイプ",
+          "title": "伸縮テープ止め スリムタイプ",
+          "subtitle": "S〜LLサイズ",
+          "lead": "テープが伸縮してフィットするスリム形状。装着後のズレを抑えます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS09 尿とりパッド",
+          "categoryLabel": "カミ商事　尿とりパッド",
+          "title": "尿とりパッド",
+          "subtitle": "プラス／ワイド／通気",
+          "lead": "日中の定番パッド。60枚入の大入りタイプもあり、消費量の多い施設に向きます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS10 ワイド・ビッグパッド",
+          "categoryLabel": "カミ商事　ワイド・ビッグパッド",
+          "title": "ワイド・ビッグパッド",
+          "subtitle": "大容量タイプ",
+          "lead": "幅広・大容量のパッド。夜間や長時間の使用でモレの不安を減らします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS11 Hi-premium",
+          "categoryLabel": "カミ商事　Hi-premium シリーズ",
+          "title": "Hi-premium シリーズ",
+          "subtitle": "900／1100／1500／2000",
+          "lead": "吸収量を数値で選べるシリーズ。必要量に合わせて無駄なく使い分けられます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        },
+        {
+          "pageKey": "KS12 両面吸収・フラット",
+          "categoryLabel": "カミ商事　両面吸収・フラット・吸収シート",
+          "title": "両面吸収・フラット・吸収シート",
+          "subtitle": "多目的タイプ",
+          "lead": "両面吸収・フラットタイプ・吸収シート。組み合わせ使用や汚れ対策に。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "サイズ・吸収量の選定は、体型と排尿量に合わせてご相談ください。入数はメーカー公表値です。"
+        }
+      ]
+    },
+    {
+      "key": "saraya",
+      "name": "サラヤ",
+      "file": "saraya.html",
+      "autoPaginate": true,
+      "tokens": {
+        "photoHeight": 196,
+        "cardTitleMinHeight": 44,
+        "cardTitleFontSize": "14.5",
+        "descMinHeight": 28,
+        "descFontSize": "10.8"
+      },
+      "pages": [
+        {
+          "pageKey": "SR01 手指衛生",
+          "categoryLabel": "サラヤ　手指衛生",
+          "title": "手指衛生",
+          "subtitle": "手指消毒・手洗い・ハンドケア",
+          "lead": "手指消毒剤、手洗い石けん、荒れ対策のローション、ディスペンサーまで一式でご提案します。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR02 ディスペンサー・ペーパー",
+          "categoryLabel": "サラヤ　ディスペンサー・ペーパータオル",
+          "title": "ディスペンサー・ペーパータオル",
+          "subtitle": "スタンド／ホルダー",
+          "lead": "手指消毒スタンドとペーパータオルホルダー。導線に合わせて設置できます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR03 個人防護具",
+          "categoryLabel": "サラヤ　個人防護具（PPE）",
+          "title": "個人防護具（PPE）",
+          "subtitle": "手袋・マスク・ガウン",
+          "lead": "感染対策の基本となる手袋・マスク・ガウン。日常のケアから隔離対応まで。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR04 ボディケア・入浴",
+          "categoryLabel": "サラヤ　ボディケア・入浴",
+          "title": "ボディケア・入浴",
+          "subtitle": "清拭・足浴・シャンプー",
+          "lead": "拭き取り不要の泡ボディソープ、フットワイプ、業務用シャンプーで入浴介助を軽くします。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR05 口腔ケア・うがい",
+          "categoryLabel": "サラヤ　口腔ケア・うがい",
+          "title": "口腔ケア・うがい",
+          "subtitle": "うがい薬／スポンジブラシ",
+          "lead": "毎日の口腔ケアに。誤嚥性肺炎の予防を意識した口腔衛生の備品です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR06 環境除菌・清拭",
+          "categoryLabel": "サラヤ　環境除菌・清拭",
+          "title": "環境除菌・清拭",
+          "subtitle": "クロス／アルコール／不織布",
+          "lead": "居室・共用部の環境清拭に。クロス、アルコール除菌剤、不織布ロールをそろえています。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR07 洗浄・浴室・トイレ",
+          "categoryLabel": "サラヤ　洗浄・浴室・トイレ",
+          "title": "洗浄・浴室・トイレ",
+          "subtitle": "除菌剤／浴室／便座",
+          "lead": "浴室の洗浄・除菌から便座クリーナーまで。水まわりの衛生管理に。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR08 ランドリー・消臭",
+          "categoryLabel": "サラヤ　ランドリー・消臭",
+          "title": "ランドリー・消臭",
+          "subtitle": "洗剤／柔軟剤／漂白剤／消臭",
+          "lead": "リネン類の洗濯まわり一式と、布製品の消臭・除菌剤です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR09 汚物処理",
+          "categoryLabel": "サラヤ　汚物処理",
+          "title": "汚物処理",
+          "subtitle": "ウォッシャー／処理ツール",
+          "lead": "ベッドパンウォッシャーと汚物処理ツールBOX。感染対策と職員の負担軽減に。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        }
+      ]
     }
   ]
 }

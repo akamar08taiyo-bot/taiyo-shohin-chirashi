@@ -13,6 +13,8 @@ const pages = JSON.parse(fs.readFileSync(path.join(root, 'data/pages.json'), 'ut
 
 const errors = [];
 const notes = [];
+const noIdItems = [];
+const noQtyRows = [];
 const sensitivePriceKeys = [
   'cost', 'defaultSellPrice', 'purchaseCasePrice', 'saleCasePrice',
   'priceSource', 'priceSourceMethod', 'priceKind', 'defaultSellMethod',
@@ -41,7 +43,10 @@ for (const it of products.items) {
   }
   productSignatures.set(signature, it.id);
   const janCodes = String(it.code || '').match(/\b\d{13}\b/g) || [];
-  if (janCodes.length === 0) errors.push(`products.json: id ${it.id} (${it.name}) にJANがない`);
+  const hasModel = /品番\s*\S/.test(String(it.code || ''));
+  // JAN・品番のどちらも公表していないメーカーがあるため（ユニ・チャーム等）、
+  // 識別子なしはエラーにせず補足として一覧に出す。誤ったJANを入れる方が危険。
+  if (janCodes.length === 0 && !hasModel) noIdItems.push(it);
   janCodes.filter(jan => !isValidJan13(jan)).forEach(jan => {
     errors.push(`products.json: id ${it.id} (${it.name}) のJAN ${jan} はチェックデジットが不正`);
   });
@@ -73,12 +78,14 @@ for (const r of priceRows) {
   if (/容量\s*未確認/.test(String(r.code || '')) && r.baseQty != null) {
     errors.push(`price-rows.json: id ${r.id} (${r.name}) は容量未確認なのに数量が入力されている`);
   }
-  if (r.baseQty == null || !Number.isFinite(Number(r.baseQty)) || Number(r.baseQty) <= 0) {
-    errors.push(`price-rows.json: id ${r.id} (${r.name}) の内容量・入数が未設定または不正`);
-  }
-  const explicitPieces = String(r.spec || '').match(/(\d+)\s*枚入(?:\s*[×x]\s*(\d+))?/);
-  if (r.baseQty == null && explicitPieces) {
-    errors.push(`price-rows.json: id ${r.id} (${r.name}) は規格に枚数があるのに内容量が空欄`);
+  // 規格から読み取れる数量があるのに未入力なのは取りこぼし＝エラー。
+  // 一方、メーカーが入数を公表していない商品（ライフリー等）や機器類は数量を持たないので補足扱い。
+  const derivableQty = /[\d.]+\s*(枚|本|個|組|セット|mL|ｍｌ|L|g|kg)/i.test(String(r.spec || ''));
+  if (r.baseQty == null) {
+    if (derivableQty) errors.push(`price-rows.json: id ${r.id} (${r.name}) は規格に数量があるのに内容量が空欄`);
+    else noQtyRows.push(r);
+  } else if (!Number.isFinite(Number(r.baseQty)) || Number(r.baseQty) <= 0) {
+    errors.push(`price-rows.json: id ${r.id} (${r.name}) の内容量・入数が不正`);
   }
 }
 
@@ -107,6 +114,20 @@ const spares = products.items.filter(it => !validPairs.has(it.flier + '||' + it.
 if (spares.length) {
   notes.push(`ピッカー専用の予備商品 ${spares.length} 件（チラシには印刷されません）:`);
   spares.forEach(it => notes.push(`    id ${it.id}  ${it.flier} / ${it.page}  ${it.name}`));
+}
+
+// --- 識別子・入数を公表していない商品（誤情報を入れないため空欄のまま）---
+if (noIdItems.length) {
+  const byMaker = {};
+  noIdItems.forEach(it => { byMaker[it.maker] = (byMaker[it.maker] || 0) + 1; });
+  notes.push(`JAN・品番の公表がない商品 ${noIdItems.length} 件（推測で入れずに空欄）: `
+    + Object.entries(byMaker).map(([m, n]) => `${m} ${n}件`).join(' / '));
+}
+if (noQtyRows.length) {
+  const byMaker = {};
+  noQtyRows.forEach(r => { byMaker[r.maker] = (byMaker[r.maker] || 0) + 1; });
+  notes.push(`入数の公表がない商品 ${noQtyRows.length} 件（単価は表示されません）: `
+    + Object.entries(byMaker).map(([m, n]) => `${m} ${n}件`).join(' / '));
 }
 
 // --- 出力 ---
