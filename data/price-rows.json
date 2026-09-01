@@ -2832,37 +2832,37 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 横モレ安心テープ止め Sサイズ",
-  "spec": "Sサイズ",
+  "spec": "Sサイズ・24枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 24,
   "id": 271
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 横モレ安心テープ止め Mサイズ",
-  "spec": "Mサイズ",
+  "spec": "Mサイズ・23枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 23,
   "id": 272
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 横モレ安心テープ止め Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・20枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 20,
   "id": 273
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 横モレ安心テープ止め LLサイズ",
-  "spec": "LLサイズ",
+  "spec": "LLサイズ・20枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 20,
   "id": 274
  },
  {
@@ -2877,19 +2877,19 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー のび～るフィット®テープ止め Mサイズ",
-  "spec": "Mサイズ",
+  "spec": "Mサイズ・25枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 25,
   "id": 276
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー のび～るフィット®テープ止め Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・25枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 25,
   "id": 277
  },
  {
@@ -2958,10 +2958,10 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド SkinCondition スーパー",
-  "spec": "規格はカタログ参照",
+  "spec": "45枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 45,
   "id": 285
  },
  {
@@ -2994,10 +2994,10 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 長時間安心さらさらパッド SkinCondition",
-  "spec": "規格はカタログ参照",
+  "spec": "48枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 48,
   "id": 289
  },
  {
@@ -3030,37 +3030,37 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ レギュラー Sサイズ",
-  "spec": "Sサイズ",
+  "spec": "Sサイズ・28枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 28,
   "id": 293
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ レギュラー Mサイズ",
-  "spec": "Mサイズ",
+  "spec": "Mサイズ・26枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 26,
   "id": 294
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ レギュラー Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・24枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 24,
   "id": 295
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ レギュラー LLサイズ",
-  "spec": "LLサイズ",
+  "spec": "LLサイズ・22枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 22,
   "id": 296
  },
  {
@@ -3093,37 +3093,37 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ スーパー Sサイズ",
-  "spec": "Sサイズ",
+  "spec": "Sサイズ・22枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 22,
   "id": 300
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ スーパー Mサイズ",
-  "spec": "Mサイズ",
+  "spec": "Mサイズ・20枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 20,
   "id": 301
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ スーパー Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・18枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 18,
   "id": 302
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー リハビリパンツ™ スーパー LLサイズ",
-  "spec": "LLサイズ",
+  "spec": "LLサイズ・16枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 16,
   "id": 303
  },
  {
@@ -3147,37 +3147,37 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー かんたん装着パッド レギュラー",
-  "spec": "規格はカタログ参照",
+  "spec": "54枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 54,
   "id": 306
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー かんたん装着パッド スーパー",
-  "spec": "規格はカタログ参照",
+  "spec": "28枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 28,
   "id": 307
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー かんたん装着パッド 夜用スーパー",
-  "spec": "規格はカタログ参照",
+  "spec": "30枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 30,
   "id": 308
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー かんたん装着パッド 夜用ウルトラ",
-  "spec": "規格はカタログ参照",
+  "spec": "20枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 20,
   "id": 309
  },
  {
@@ -3696,37 +3696,37 @@
  {
   "maker": "カミ商事",
   "name": "エルモアいちばん伸縮テープ止めスリムタイプS",
-  "spec": "規格はカタログ参照",
-  "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "spec": "24枚入り",
+  "code": "JAN 4971633715493",
+  "kind": "枚",
+  "baseQty": 24,
   "id": 367
  },
  {
   "maker": "カミ商事",
   "name": "エルモアいちばん伸縮テープ止めスリムタイプM",
-  "spec": "規格はカタログ参照",
-  "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "spec": "22枚入り",
+  "code": "JAN 4971633715516",
+  "kind": "枚",
+  "baseQty": 22,
   "id": 368
  },
  {
   "maker": "カミ商事",
   "name": "エルモアいちばん伸縮テープ止めスリムタイプL",
-  "spec": "規格はカタログ参照",
-  "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "spec": "19枚入り",
+  "code": "JAN 4971633715530",
+  "kind": "枚",
+  "baseQty": 19,
   "id": 369
  },
  {
   "maker": "カミ商事",
   "name": "エルモアいちばん伸縮テープ止めスリムタイプLL",
-  "spec": "規格はカタログ参照",
-  "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "spec": "17枚入り",
+  "code": "JAN 4971633716018",
+  "kind": "枚",
+  "baseQty": 17,
   "id": 370
  },
  {
@@ -3803,56 +3803,56 @@
  },
  {
   "maker": "カミ商事",
-  "name": "エルモアいちばん Hi-premium900",
-  "spec": "規格はカタログ参照",
+  "name": "エルモアいちばん +e Hi-premium900",
+  "spec": "26枚入り",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 26,
   "id": 379
  },
  {
   "maker": "カミ商事",
-  "name": "エルモアいちばん Hi-premium1100",
-  "spec": "規格はカタログ参照",
+  "name": "エルモアいちばん +e Hi-premium1100",
+  "spec": "26枚入り",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 26,
   "id": 380
  },
  {
   "maker": "カミ商事",
-  "name": "エルモアいちばん Hi-premium1500",
-  "spec": "規格はカタログ参照",
+  "name": "エルモアいちばん +e Hi-premium1500",
+  "spec": "22枚入り",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 22,
   "id": 381
  },
  {
   "maker": "カミ商事",
-  "name": "エルモアいちばん Hi-premium2000",
-  "spec": "規格はカタログ参照",
+  "name": "エルモアいちばん +e Hi-premium2000",
+  "spec": "20枚入り",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 20,
   "id": 382
  },
  {
   "maker": "カミ商事",
   "name": "エルモアいちばん両面吸収安心パッド",
-  "spec": "規格はカタログ参照",
+  "spec": "30枚入り",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 30,
   "id": 383
  },
  {
   "maker": "カミ商事",
   "name": "エルモアいちばん両面さらさらマルチパッド",
-  "spec": "規格はカタログ参照",
+  "spec": "26枚入り",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 26,
   "id": 384
  },
  {
@@ -3877,7 +3877,7 @@
   "maker": "サラヤ",
   "name": "ウィル・ステラVH",
   "spec": "5L",
-  "code": "品番 42428",
+  "code": "品番 42430 ／ JAN 4987696424302",
   "kind": "mL",
   "baseQty": 5000,
   "id": 387
@@ -3886,7 +3886,7 @@
   "maker": "サラヤ",
   "name": "ホイップウォッシュ 無香",
   "spec": "5kg",
-  "code": "品番 23453",
+  "code": "品番 23453 ／ JAN 4987696234536",
   "kind": "g",
   "baseQty": 5000,
   "id": 388
@@ -3895,7 +3895,7 @@
   "maker": "サラヤ",
   "name": "プライムバリアローション",
   "spec": "300mL ポンプ付",
-  "code": "品番 52108",
+  "code": "品番 52108 ／ JAN 4987696521087",
   "kind": "mL",
   "baseQty": 300,
   "id": 389
@@ -3911,20 +3911,20 @@
  },
  {
   "maker": "サラヤ",
-  "name": "IS-2020",
-  "spec": "本体 W350×D350×H1,390mm",
-  "code": "品番 IS-2020",
+  "name": "ディスペンサー用スタンド IS-2020",
+  "spec": "W350×D350×H1,390mm",
+  "code": "品番 IS-2020 ／ JAN 4987696418042",
   "kind": "個",
   "baseQty": null,
   "id": 391
  },
  {
   "maker": "サラヤ",
-  "name": "PH-400NRC-W／パルピュア",
-  "spec": "ペーパータオル・ホルダー",
-  "code": "品番 PH-400NRC-W",
+  "name": "サラヤ ペーパーホルダー PH-400N",
+  "spec": "400枚用ホルダー",
+  "code": "品番 PH-400N ／ JAN 4987696518711",
   "kind": "個",
-  "baseQty": null,
+  "baseQty": 1,
   "id": 392
  },
  {
@@ -3984,8 +3984,8 @@
  {
   "maker": "サラヤ",
   "name": "うがい薬コロロ",
-  "spec": "1Lポンプ付",
-  "code": "品番 12208",
+  "spec": "1L ポンプ付",
+  "code": "品番 12224 ／ JAN 4987696122086",
   "kind": "mL",
   "baseQty": 1000,
   "id": 399
@@ -4003,7 +4003,7 @@
   "maker": "サラヤ",
   "name": "サラヤ環境清拭クロス PREMIUM CLEANING",
   "spec": "250枚入容器",
-  "code": "品番 44174",
+  "code": "品番 44174 ／ JAN 4987696441743",
   "kind": "枚",
   "baseQty": 250,
   "id": 401
@@ -4011,8 +4011,8 @@
  {
   "maker": "サラヤ",
   "name": "サポステ",
-  "spec": "5L",
-  "code": "",
+  "spec": "5L（機械器具用）",
+  "code": "品番 41587 ／ JAN 4987696415874",
   "kind": "mL",
   "baseQty": 5000,
   "id": 402
@@ -4038,26 +4038,26 @@
  {
   "maker": "サラヤ",
   "name": "サニパスター",
-  "spec": "5L",
-  "code": "",
-  "kind": "mL",
+  "spec": "5kg",
+  "code": "品番 31784 ／ JAN 4987696317840",
+  "kind": "g",
   "baseQty": 5000,
   "id": 405
  },
  {
   "maker": "サラヤ",
   "name": "バスクリーナー",
-  "spec": "5L",
-  "code": "",
-  "kind": "mL",
+  "spec": "5kg",
+  "code": "品番 31782 ／ JAN 4987696317826",
+  "kind": "g",
   "baseQty": 5000,
   "id": 406
  },
  {
   "maker": "サラヤ",
-  "name": "SC-460R",
-  "spec": "便座クリーナー用ディスペンサー",
-  "code": "品番 SC-460R",
+  "name": "便座クリーナー用ディスペンサー SC-460R",
+  "spec": "便座クリーナー用",
+  "code": "品番 SC-460R ／ JAN 4987696417533",
   "kind": "個",
   "baseQty": null,
   "id": 407
@@ -4066,16 +4066,16 @@
   "maker": "サラヤ",
   "name": "便座きれいくんNV",
   "spec": "5L",
-  "code": "",
+  "code": "品番 50292 ／ JAN 4987696502925",
   "kind": "mL",
   "baseQty": 5000,
   "id": 408
  },
  {
   "maker": "サラヤ",
-  "name": "サラヤ 洗たく用洗剤 超濃縮タイプ",
+  "name": "サラヤ 洗濯用洗剤 超濃縮",
   "spec": "5L",
-  "code": "",
+  "code": "品番 51702 ／ JAN 4987696517028",
   "kind": "mL",
   "baseQty": 5000,
   "id": 409
@@ -4084,7 +4084,7 @@
   "maker": "サラヤ",
   "name": "サラヤ 洗たく用柔軟剤",
   "spec": "5L",
-  "code": "",
+  "code": "品番 51688 ／ JAN 4987696516885",
   "kind": "mL",
   "baseQty": 5000,
   "id": 410
@@ -4102,7 +4102,7 @@
   "maker": "サラヤ",
   "name": "サニピュア 布製品の消臭",
   "spec": "10L",
-  "code": "品番 45058",
+  "code": "品番 45058 ／ JAN 4987696450585",
   "kind": "mL",
   "baseQty": 10000,
   "id": 412
@@ -4120,7 +4120,7 @@
   "maker": "サラヤ",
   "name": "汚物の処理ツールBOX",
   "spec": "1セット",
-  "code": "品番 65129",
+  "code": "品番 65131 ／ JAN 4987696651319",
   "kind": "個",
   "baseQty": 1,
   "id": 414
@@ -4128,37 +4128,37 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー らくらくおしりふきPro やわらか厚手",
-  "spec": "18×20cm",
+  "spec": "18×20cm・72枚入",
   "code": "",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 72,
   "id": 415
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー らくらくおしりふきPro やわらか厚手大判",
-  "spec": "20×25cm",
+  "spec": "20×25cm・60枚入",
   "code": "",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 60,
   "id": 416
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー らくらくおしりふきPro やわらか厚手大超大判",
-  "spec": "40×30cm",
+  "spec": "40×30cm・30枚入",
   "code": "",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 30,
   "id": 417
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー らくらくおしりふきPro やわらか厚手トイレに流せる",
-  "spec": "18×20cm",
+  "spec": "18×20cm・72枚入",
   "code": "",
   "kind": "枚",
-  "baseQty": null,
+  "baseQty": 72,
   "id": 418
  },
  {

@@ -1,2 +1,9 @@
 .DS_Store
 Thumbs.db
+
+# 仕入価格・販売価格を含むファイルは公開リポジトリに入れない。
+# 価格は各端末の localStorage にだけ保存する運用（price-calc.html の Excel読込）。
+*.xlsx
+*.xls
+*.xlsm
+*.csv
