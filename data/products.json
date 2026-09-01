@@ -2,7 +2,7 @@
  "meta": {
   "generated": "2026-09-01",
   "owner": "太陽シルバーサービス㈱ 行橋営業所",
-  "items": 413,
+  "items": 422,
   "note": "メーカー公式商品ページ・公式カタログと照合した商品マスター。unitBasis は単価計算の基準（100mL/1kg/1枚/1ロール/1箱）。確認できない数値は推測で補完しない。"
  },
  "items": [
@@ -5374,6 +5374,123 @@
    "unitBasis": "1セット",
    "image": "./images/saraya/saraya-028.png",
    "id": 414
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR01 おしりふき",
+   "maker": "ユニ・チャーム",
+   "name": "ライフリー らくらくおしりふきPro やわらか厚手",
+   "spec": "18×20cm",
+   "tag": "おしりふき",
+   "desc": "ライフリー Pro／3層構造でやわらかい肌ざわり。ヒアルロン酸配合。",
+   "code": "",
+   "unitBasis": "1枚",
+   "image": "./images/oshirifuki/of-001.jpg",
+   "id": 415
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR01 おしりふき",
+   "maker": "ユニ・チャーム",
+   "name": "ライフリー らくらくおしりふきPro やわらか厚手大判",
+   "spec": "20×25cm",
+   "tag": "おしりふき",
+   "desc": "ライフリー Pro／排便時にも安心して使える大判サイズ。",
+   "code": "",
+   "unitBasis": "1枚",
+   "image": "./images/oshirifuki/of-002.jpg",
+   "id": 416
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR01 おしりふき",
+   "maker": "ユニ・チャーム",
+   "name": "ライフリー らくらくおしりふきPro やわらか厚手大超大判",
+   "spec": "40×30cm",
+   "tag": "おしりふき",
+   "desc": "ライフリー Pro／下拭きタオルの代わりに使える超大判。全身にも。",
+   "code": "",
+   "unitBasis": "1枚",
+   "image": "./images/oshirifuki/of-003.jpg",
+   "id": 417
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR01 おしりふき",
+   "maker": "ユニ・チャーム",
+   "name": "ライフリー らくらくおしりふきPro やわらか厚手トイレに流せる",
+   "spec": "18×20cm",
+   "tag": "おしりふき",
+   "desc": "ライフリー Pro／そのまま流せて後処理が簡単。トイレ介助に。",
+   "code": "",
+   "unitBasis": "1枚",
+   "image": "./images/oshirifuki/of-004.jpg",
+   "id": 418
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR02 とろみ剤",
+   "maker": "アサヒグループ食品",
+   "name": "バランス献立 とろみエール",
+   "spec": "2.5g×30本",
+   "tag": "とろみ剤",
+   "desc": "スティック個包装／1本ずつ使えて衛生的。持ち出しや外食時に。",
+   "code": "",
+   "unitBasis": "1本",
+   "image": "./images/toromi/tr-001.png",
+   "id": 419
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR02 とろみ剤",
+   "maker": "アサヒグループ食品",
+   "name": "バランス献立 とろみエール",
+   "spec": "200g",
+   "tag": "とろみ剤",
+   "desc": "少人数向けの使いきりサイズ。開封後の使い切りやすさ重視。",
+   "code": "",
+   "unitBasis": "100g",
+   "image": "./images/toromi/tr-002.png",
+   "id": 420
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR02 とろみ剤",
+   "maker": "アサヒグループ食品",
+   "name": "バランス献立 とろみエール",
+   "spec": "600g",
+   "tag": "とろみ剤",
+   "desc": "施設の標準サイズ。日々のとろみ付けにまとめてご使用いただけます。",
+   "code": "",
+   "unitBasis": "100g",
+   "image": "./images/toromi/tr-004.png",
+   "id": 421
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR02 とろみ剤",
+   "maker": "アサヒグループ食品",
+   "name": "バランス献立 とろみエール",
+   "spec": "1kg",
+   "tag": "とろみ剤",
+   "desc": "使用量の多い施設向けの大容量。1gあたりのコストを抑えられます。",
+   "code": "",
+   "unitBasis": "1kg",
+   "image": "./images/toromi/tr-005.png",
+   "id": 422
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR03 とろみ剤（予備）",
+   "maker": "アサヒグループ食品",
+   "name": "バランス献立 とろみエール",
+   "spec": "330g",
+   "tag": "とろみ剤",
+   "desc": "200gと600gの中間サイズ。使用量に合わせて選べます。",
+   "code": "",
+   "unitBasis": "100g",
+   "image": "./images/toromi/tr-003.png",
+   "id": 423
   }
  ]
 }

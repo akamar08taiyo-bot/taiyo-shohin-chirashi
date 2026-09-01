@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./assets/design.css?v=20260901-2" />
+<link rel="stylesheet" href="./assets/design.css?v=20260901-3" />
 <style>
   body { background: #eef5f5; }
   .cx-wrap { padding: 0 0 40px; }
@@ -163,7 +163,7 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260901-2').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260901-3').then(r => r.json());
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -209,6 +209,10 @@
              ['紙おむつ・パッド','KS04 パンツ スーパー S〜L'],['紙おむつ・パッド','KS05 パンツ スーパー LL・XL'],['紙おむつ・パッド','KS06 クロステープ止めうす型'],
              ['紙おむつ・パッド','KS07 幅広簡単テープ止め'],['紙おむつ・パッド','KS08 伸縮テープ止めスリム'],['紙おむつ・パッド','KS09 尿とりパッド'],
              ['紙おむつ・パッド','KS10 ワイド・ビッグパッド'],['紙おむつ・パッド','KS11 Hi-premium'],['紙おむつ・パッド','KS12 両面吸収・フラット']] },
+    { name:'おしりふき', label:'施設向け おしりふき', lead:'排泄介助のおしりふき。シートの大きさと「流せる／流せない」で選べます。',
+      pages:[['おしりふき・とろみ剤','CR01 おしりふき']] },
+    { name:'とろみ剤・介護食', label:'施設向け とろみ調整食品', lead:'飲み込みに不安のある方へ。使用量に合わせた規格をそろえています。',
+      pages:[['おしりふき・とろみ剤','CR02 とろみ剤'],['おしりふき・とろみ剤','CR03 とろみ剤（予備）']] },
     { name:'ボディケア・口腔ケア', label:'施設向け ボディケア・口腔ケア', lead:'清拭・足浴・シャンプーと、毎日の口腔ケアに。',
       pages:[['サラヤ','SR04 ボディケア・入浴'],['サラヤ','SR05 口腔ケア・うがい']] },
     { name:'汚物処理', label:'施設向け 汚物処理用品', lead:'ベッドパンウォッシャーと汚物処理ツール。感染対策と職員の負担軽減に。',
@@ -233,6 +237,7 @@
     { name: 'ユニ・チャーム',         match: m => m === 'ユニ・チャーム' },
     { name: '第一衛材',               match: m => m === '第一衛材' },
     { name: 'カミ商事',               match: m => m === 'カミ商事' },
+    { name: 'アサヒグループ食品',     match: m => m === 'アサヒグループ食品' },
   ];
   const MAKERS = MAKER_GROUPS.map(g => ({
     name: g.name,
