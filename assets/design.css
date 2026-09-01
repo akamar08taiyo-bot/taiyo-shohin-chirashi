@@ -35,6 +35,7 @@ a:hover { color: var(--accent-hover); }
   z-index: 10;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
   padding: 10px 20px;
@@ -68,8 +69,10 @@ a:hover { color: var(--accent-hover); }
   font-size: 15px;
   font-weight: 900;
   color: var(--text-main);
-  flex: 1;
-  min-width: 120px;
+  /* flex:1 で見出しを伸ばすと、操作ボタンが画面の右端まで離れて押しにくい。
+     伸ばさずに、ツールバー全体を中央へ寄せる（.tss-toolbar の justify-content）。 */
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .tss-toggle {
@@ -306,7 +309,10 @@ a:hover { color: var(--accent-hover); }
   padding: 8px;
   border-bottom: 1px solid var(--tag-bg);
 }
-.tss-card-photo img { max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; display: block; }
+/* max-width/max-height だけだと、元画像が枠より小さい商品（メーカー公開画像が
+   小さいもの）は拡大されず、同じページ内で商品の大きさが不揃いに見える。
+   width/height を 100% にして、どの商品も枠いっぱいまで拡大・縮小する。 */
+.tss-card-photo img { width: 100%; height: 100%; min-height: 0; object-fit: contain; display: block; }
 
 /* basis を auto（＝中身の高さ）にし shrink を 0 にすることで、
    スペースが足りないときは本文ではなく上の写真枠が縮む。余ったときは本文が伸びて下端を埋める。 */

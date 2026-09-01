@@ -125,6 +125,10 @@
   .totals-row { display: flex; justify-content: space-between; font-size: 13.5px; color: #41595E; }
   .totals-row.grand { font-size: 18px; font-weight: 900; color: #12242A; border-top: 1.5px solid #cfe0e2; padding-top: 8px; margin-top: 4px; }
   .totals-row .val { font-family: 'Roboto Mono', monospace; }
+  .totals-opt { display: flex; align-items: center; gap: 7px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #e3edee;
+    font-size: 13.5px; font-weight: 700; color: #12242A; cursor: pointer; }
+  .totals-opt input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+  .totals-note { font-size: 11.5px; line-height: 1.6; color: #5c7376; }
 
   /* ---- 保存した見積（施設ごと） ---- */
   .saved-panel { background: #fff; border: 1.5px solid #cfe0e2; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
@@ -248,7 +252,10 @@
   .doc-table tr.group-subtotal td { background: #f0f7ff; font-weight: 700; color: #1e3a8a; border-top: 1px solid #bfdbfe; }
 
   .doc-bottom { display: flex; justify-content: space-between; gap: 8mm; margin-top: 2mm; }
+  /* 備考が空のときにこの要素を出すと、左の縦罫線だけが紙に残ってしまう。
+     中身があるときだけ .doc-remarks を描き、無いときは罫線なしの余白を置く。 */
   .doc-remarks { flex: 1; border-left: 2px solid #bfdbfe; padding-left: 4mm; font-size: 8.5pt; color: #4b5563; white-space: pre-wrap; }
+  .doc-remarks-spacer { flex: 1; }
   .doc-sums { width: 65mm; flex: none; }
   .doc-sums-row { display: flex; justify-content: space-between; padding: 1.5mm 0; font-size: 9.5pt; }
   .doc-sums-row.grand { border-top: 1.5px solid #1e3a8a; margin-top: 1.5mm; padding-top: 2.5mm; font-size: 12pt; font-weight: 700; color: #1e3a8a; }
@@ -349,6 +356,8 @@
           <div class="totals-row"><span>小計</span><span class="val" id="sum-subtotal">￥0</span></div>
           <div class="totals-row"><span>消費税（10%）</span><span class="val" id="sum-tax">￥0</span></div>
           <div class="totals-row grand"><span>合計</span><span class="val" id="sum-total">￥0</span></div>
+          <label class="totals-opt"><input type="checkbox" id="opt-show-total" />合計金額を印刷する</label>
+          <span class="totals-note">オフのときは、印刷した見積書に合計・消費税・メーカー小計を載せません（画面上のこの欄は残ります）。</span>
         </div>
       </div>
 
@@ -401,6 +410,8 @@
     validityPeriod: 'お見積日より30日間',
     paymentTerms: '月末締め翌月末払い',
     deliveryInfo: 'ご注文後、通常2〜3営業日',
+    // 合計金額は、明細だけをお渡ししたい場面が多いため既定では印刷しない。
+    showTotal: false,
   };
   function loadMeta() {
     let m = {};
@@ -432,6 +443,7 @@
   document.getElementById('quote-staff').value = meta.staffName || '';
   document.getElementById('quote-mobile').value = meta.staffMobile || '';
   document.getElementById('quote-remarks').value = meta.remarks || '';
+  document.getElementById('opt-show-total').checked = !!meta.showTotal;
 
   /* ================= タブ切替 ================= */
   document.querySelectorAll('.switch-btn').forEach(btn => {
@@ -790,6 +802,7 @@
   document.getElementById('quote-staff').addEventListener('change', (e) => { meta.staffName = e.target.value; saveMeta(meta); });
   document.getElementById('quote-mobile').addEventListener('change', (e) => { meta.staffMobile = e.target.value; saveMeta(meta); });
   document.getElementById('quote-remarks').addEventListener('change', (e) => { meta.remarks = e.target.value; saveMeta(meta); });
+  document.getElementById('opt-show-total').addEventListener('change', (e) => { meta.showTotal = e.target.checked; saveMeta(meta); });
 
   document.getElementById('btn-clear').addEventListener('click', () => {
     if (!confirm('見積の内容をすべて消去します。よろしいですか？')) return;
@@ -808,6 +821,7 @@
     document.getElementById('quote-staff').value = meta.staffName;
     document.getElementById('quote-mobile').value = meta.staffMobile;
     document.getElementById('quote-remarks').value = '';
+    document.getElementById('opt-show-total').checked = !!meta.showTotal;
     renderRows();
     renderPicker();
   });
@@ -825,6 +839,8 @@
     const dateStr = today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
     const customerName = meta.customerName || '';
     const title = meta.title || META_DEFAULTS.title;
+    // 合計金額を紙に出すかどうか。既定はオフ（明細だけをお渡しする使い方が多いため）。
+    const showTotal = !!meta.showTotal;
 
     const groupsHTML = groups.map(g => `
       <div class="doc-group">
@@ -842,10 +858,10 @@
                 <td class="num">${r.amount != null ? '￥' + Math.round(r.amount).toLocaleString('ja-JP') : '—'}</td>
                 <td class="num">${r.per ? `<span class="per-label">${escapeHTML(r.per.label)}</span>${escapeHTML(tssFmtYen(r.per.value))}` : ''}</td>
               </tr>`).join('')}
-            <tr class="group-subtotal">
+            ${showTotal ? `<tr class="group-subtotal">
               <td colspan="5" style="text-align:right">小計</td>
               <td class="num">￥${Math.round(g.subtotal).toLocaleString('ja-JP')}</td>
-            </tr>
+            </tr>` : ''}
           </tbody>
         </table>
       </div>`).join('');
@@ -885,19 +901,19 @@
               </div>
             </div>
           </div>
-          <div class="doc-total-banner">
+          ${showTotal ? `<div class="doc-total-banner">
             <span class="label">御見積金額　合計（税込）</span>
             <span class="value">￥${total.toLocaleString('ja-JP')}<span class="suffix">―</span></span>
-          </div>
+          </div>` : ''}
           ${groupsHTML}
-          <div class="doc-bottom">
-            <div class="doc-remarks">${meta.remarks ? escapeHTML(meta.remarks) : ''}</div>
-            <div class="doc-sums">
+          ${(meta.remarks || showTotal) ? `<div class="doc-bottom">
+            ${meta.remarks ? `<div class="doc-remarks">${escapeHTML(meta.remarks)}</div>` : '<div class="doc-remarks-spacer"></div>'}
+            ${showTotal ? `<div class="doc-sums">
               <div class="doc-sums-row"><span>小計</span><span>￥${Math.round(subtotal).toLocaleString('ja-JP')}</span></div>
               <div class="doc-sums-row"><span>消費税（10%）</span><span>￥${tax.toLocaleString('ja-JP')}</span></div>
               <div class="doc-sums-row grand"><span>合計</span><span>￥${total.toLocaleString('ja-JP')}</span></div>
-            </div>
-          </div>
+            </div>` : ''}
+          </div>` : ''}
         </div>
       </div>`;
     document.getElementById('print-content-holder').innerHTML = html;
@@ -1003,6 +1019,7 @@
       document.getElementById('quote-staff').value = meta.staffName || '';
       document.getElementById('quote-mobile').value = meta.staffMobile || '';
       document.getElementById('quote-remarks').value = meta.remarks || '';
+      document.getElementById('opt-show-total').checked = !!meta.showTotal;
       renderRows();
       renderPicker();
       window.scrollTo({ top: 0, behavior: 'smooth' });
