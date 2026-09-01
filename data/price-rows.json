@@ -2868,10 +2868,10 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー のび～るフィット®テープ止め Sサイズ",
-  "spec": "Sサイズ",
+  "spec": "Sサイズ・25枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 25,
   "id": 275
  },
  {
@@ -2895,64 +2895,64 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 快適さらさらカバータイプ S-Mサイズ",
-  "spec": "S-Mサイズ",
+  "spec": "S-Mサイズ・22枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 22,
   "id": 278
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 快適さらさらカバータイプ Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・22枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 22,
   "id": 279
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド SkinCondition コンフォートナイトエクストラ",
-  "spec": "規格はカタログ参照",
+  "spec": "36枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 36,
   "id": 280
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド SkinCondition コンフォートナイトウルトラ",
-  "spec": "規格はカタログ参照",
+  "spec": "42枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 42,
   "id": 281
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド SkinCondition コンフォートナイトスーパー",
-  "spec": "規格はカタログ参照",
+  "spec": "45枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 45,
   "id": 282
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド SkinCondition エクストラ",
-  "spec": "規格はカタログ参照",
+  "spec": "36枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 36,
   "id": 283
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド SkinCondition ウルトラ",
-  "spec": "規格はカタログ参照",
+  "spec": "42枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 42,
   "id": 284
  },
  {
@@ -2967,28 +2967,28 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド エクストラ",
-  "spec": "規格はカタログ参照",
+  "spec": "39枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 39,
   "id": 286
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド ウルトラ",
-  "spec": "規格はカタログ参照",
+  "spec": "42枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 42,
   "id": 287
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 一晩中安心さらさらパッド スーパー",
-  "spec": "規格はカタログ参照",
+  "spec": "45枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 45,
   "id": 288
  },
  {
@@ -3003,28 +3003,28 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 長時間安心さらさらパッド プレミアム",
-  "spec": "規格はカタログ参照",
+  "spec": "48枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 48,
   "id": 290
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 長時間安心さらさらパッド",
-  "spec": "規格はカタログ参照",
+  "spec": "48枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 48,
   "id": 291
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 外モレ安心さらさらパッド",
-  "spec": "規格はカタログ参照",
+  "spec": "48枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 48,
   "id": 292
  },
  {
@@ -3066,28 +3066,28 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー うす型快適パンツ レギュラー Sサイズ",
-  "spec": "Sサイズ",
+  "spec": "Sサイズ・34枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 34,
   "id": 297
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー うす型快適パンツ レギュラー Mサイズ",
-  "spec": "Mサイズ",
+  "spec": "Mサイズ・28枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 28,
   "id": 298
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー うす型快適パンツ レギュラー Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・26枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 26,
   "id": 299
  },
  {
@@ -3129,19 +3129,19 @@
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 尿とりパッドなしでも長時間安心パンツ Mサイズ",
-  "spec": "Mサイズ",
+  "spec": "Mサイズ・16枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 16,
   "id": 304
  },
  {
   "maker": "ユニ・チャーム",
   "name": "ライフリー 尿とりパッドなしでも長時間安心パンツ Lサイズ",
-  "spec": "Lサイズ",
+  "spec": "Lサイズ・14枚入",
   "code": "",
-  "kind": "個",
-  "baseQty": null,
+  "kind": "枚",
+  "baseQty": 14,
   "id": 305
  },
  {
