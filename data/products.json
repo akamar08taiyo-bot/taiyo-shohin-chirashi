@@ -3423,6 +3423,7 @@
    "code": "JAN 4903301377672",
    "unitBasis": "100mLあたり",
    "image": "./images/lion/4903301377672.jpg",
+   "fixedFlyer": false,
    "id": 264
   },
   {
@@ -4678,8 +4679,8 @@
    "page": "OM23 尿とりパッド（日中用） 7",
    "maker": "カミ商事",
    "name": "エルモアいちばん両面さらさらマルチパッド",
-   "spec": "26枚入り",
-   "tag": "26枚入",
+   "spec": "30枚入り",
+   "tag": "30枚入",
    "desc": "エルモアいちばん／21×49cm／目安吸収量約200cc。",
    "code": "",
    "unitBasis": "1枚",
@@ -5061,6 +5062,7 @@
    "code": "品番 IS-2020 ／ JAN 4987696418042",
    "unitBasis": "1台",
    "image": "./images/saraya/saraya-005.png",
+   "fixedFlyer": false,
    "id": 391
   },
   {
@@ -5178,6 +5180,7 @@
    "code": "品番 SC-460R ／ JAN 4987696417533",
    "unitBasis": "1台",
    "image": "./images/saraya/saraya-021.png",
+   "fixedFlyer": false,
    "id": 407
   },
   {

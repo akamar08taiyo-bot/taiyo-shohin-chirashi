@@ -362,7 +362,7 @@
       "name": "竹虎",
       "file": "taketora.html",
       "tokens": {
-        "photoHeight": 210,
+        "photoHeight": 185,
         "cardTitleMinHeight": 34,
         "cardTitleFontSize": "14.5",
         "descMinHeight": 28,
@@ -732,7 +732,7 @@
       "file": "saraya.html",
       "autoPaginate": true,
       "tokens": {
-        "photoHeight": 196,
+        "photoHeight": 166,
         "cardTitleMinHeight": 44,
         "cardTitleFontSize": "14.5",
         "descMinHeight": 28,
@@ -796,7 +796,7 @@
       "name": "おしりふき・とろみ剤",
       "file": "care.html",
       "tokens": {
-        "photoHeight": 196,
+        "photoHeight": 174,
         "cardTitleMinHeight": 46,
         "cardTitleFontSize": "14.5",
         "descMinHeight": 30,

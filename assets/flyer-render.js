@@ -12,6 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
+const TSS_IMAGE_VERSION = '20260902-8';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -36,9 +37,9 @@ function tssSaveComposition(comp) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260902-7').then(r => r.json()),
-    fetch('./data/products.json?v=20260902-7').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260902-7').then(r => r.json()),
+    fetch('./data/pages.json?v=20260902-8').then(r => r.json()),
+    fetch('./data/products.json?v=20260902-8').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260902-8').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
@@ -51,21 +52,51 @@ async function renderFlyer(flyerKey, mountId) {
     return;
   }
 
-  // 商品数が多いメーカーは、分類ごとに4商品ずつA4ページへ自動分割する。
-  // 1ページのカード数を固定することで、印刷時にカード途中で改ページされるのを防ぐ。
+  // 商品数が多いメーカーは、分類順を保ちながら全商品を通して4商品ずつ分割する。
+  // 分類ごとに分割すると分類末尾に1〜3商品の端数ページが生まれるため、端数は次の分類へ
+  // 繰り越す。4の倍数でなければ表示を中止し、印刷に不完全なページを出さない。
   if (flyer.autoPaginate) {
-    const autoPages = [];
+    const orderedEntries = [];
     for (const template of flyer.pages) {
-      const sourceItems = productsData.items.filter(item => item.flier === flyer.name && item.page === template.pageKey);
-      const pageCount = Math.max(1, Math.ceil(sourceItems.length / 4));
-      for (let i = 0; i < pageCount; i++) {
-        const items = sourceItems.slice(i * 4, (i + 1) * 4);
-        autoPages.push({
-          ...template,
-          pageKey: pageCount > 1 ? `${template.pageKey} ${i + 1}/${pageCount}` : template.pageKey,
-          productIds: items.map(item => item.id),
-        });
-      }
+      const sourceItems = productsData.items.filter(item => (
+        item.flier === flyer.name
+        && item.page === template.pageKey
+        && item.fixedFlyer !== false
+      ));
+      sourceItems.forEach(item => orderedEntries.push({ item, template }));
+    }
+    if (orderedEntries.length === 0 || orderedEntries.length % 4 !== 0) {
+      const message = `${flyer.name}の固定チラシ商品数が${orderedEntries.length}件です。4商品単位になるまで印刷を停止しています。`;
+      console.error(message);
+      document.getElementById(mountId).innerHTML = `<p role="alert">${escapeHTML(message)}</p>`;
+      return;
+    }
+
+    const autoPages = [];
+    for (let offset = 0; offset < orderedEntries.length; offset += 4) {
+      const entries = orderedEntries.slice(offset, offset + 4);
+      const templates = entries.map(entry => entry.template).filter((template, index, all) => (
+        all.findIndex(candidate => candidate.pageKey === template.pageKey) === index
+      ));
+      const first = templates[0];
+      const mixed = templates.length > 1;
+      const pageNumber = offset / 4 + 1;
+      autoPages.push({
+        ...first,
+        pageKey: `${String(pageNumber).padStart(2, '0')} ${templates.map(template => template.pageKey).join('＋')}`,
+        categoryLabel: mixed ? `${flyer.name}　用途別セレクション` : first.categoryLabel,
+        title: first.title,
+        subtitle: mixed ? `＋ ${templates.slice(1).map(template => template.title).join('／')}` : first.subtitle,
+        lead: mixed
+          ? `${templates.map(template => template.title).join('と')}の商品を、4点にまとめて掲載しています。`
+          : first.lead,
+        sizeBoxTitle: mixed ? null : first.sizeBoxTitle,
+        sizeBoxBody: mixed ? null : first.sizeBoxBody,
+        note: mixed
+          ? '使用方法・希釈倍率・注意事項は、各商品ラベルとメーカー公式資料をご確認ください。'
+          : first.note,
+        productIds: entries.map(entry => entry.item.id),
+      });
     }
     flyer = { ...flyer, pages: autoPages };
   }
@@ -175,7 +206,7 @@ async function renderFlyer(flyerKey, mountId) {
         ${quoteChk}
         ${askChk}
         <div class="tss-card-photo" style="height:${tokens.photoHeight}px">
-          <img src="./images/${item.image.replace(/^\.\/images\//, '')}" alt="${escapeHTML(item.name)}" loading="lazy" />
+          <img src="./images/${item.image.replace(/^\.\/images\//, '')}?v=${TSS_IMAGE_VERSION}" alt="${escapeHTML(item.name)}" loading="eager" />
         </div>
         <div class="tss-card-body">
           <div class="tss-card-maker">${escapeHTML(item.maker)}</div>
@@ -300,7 +331,7 @@ async function renderFlyer(flyerKey, mountId) {
     }
     listEl.innerHTML = list.map(it => `
       <button type="button" class="tss-picker-item" data-id="${it.id}">
-        <img src="./images/${it.image.replace(/^\.\/images\//, '')}" alt="" loading="lazy" />
+        <img src="./images/${it.image.replace(/^\.\/images\//, '')}?v=${TSS_IMAGE_VERSION}" alt="" loading="lazy" />
         <span class="tss-picker-item-info">
           <span class="tss-picker-item-name">${escapeHTML(it.name)}</span>
           <span class="tss-picker-item-meta">${escapeHTML(it.maker)} ／ ${escapeHTML(it.spec)} ／ ${escapeHTML(it.page)}</span>
@@ -571,8 +602,48 @@ async function renderFlyer(flyerKey, mountId) {
   }
 
   const printBtn = document.getElementById('tss-print-btn');
-  if (printBtn) printBtn.addEventListener('click', () => {
+  if (printBtn) printBtn.addEventListener('click', async () => {
     if (printCount() === 0) { alert('印刷するページが選ばれていません。'); return; }
+    const originalLabel = printBtn.textContent;
+    printBtn.disabled = true;
+    printBtn.textContent = '画像を準備中…';
+    const images = [...mount.querySelectorAll('.tss-page-wrap:not(.is-noprint) .tss-card-photo img')];
+    const pending = images.filter(img => !img.complete).map(img => new Promise(resolve => {
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    }));
+    await Promise.race([
+      Promise.all(pending),
+      new Promise(resolve => setTimeout(resolve, 12000)),
+    ]);
+    const failed = images.filter(img => !img.complete || img.naturalWidth === 0 || img.naturalHeight === 0);
+    printBtn.disabled = false;
+    printBtn.textContent = originalLabel;
+    if (failed.length) {
+      alert(`商品画像を${failed.length}点読み込めませんでした。通信状態を確認してから、もう一度印刷してください。`);
+      return;
+    }
+    const selectedPages = [...mount.querySelectorAll('.tss-page-wrap:not(.is-noprint) .page')];
+    const invalidLayout = selectedPages.some(page => {
+      const pageRect = page.getBoundingClientRect();
+      const cards = [...page.querySelectorAll('.tss-card')];
+      const footer = page.querySelector('.tss-footer');
+      const clippedCard = cards.some(card => {
+        const body = card.querySelector('.tss-card-body');
+        return !body || body.scrollHeight > body.clientHeight + 1 ||
+          body.getBoundingClientRect().bottom > card.getBoundingClientRect().bottom + 1;
+      });
+      return cards.length !== 4 ||
+        !footer || !page.querySelector('.tss-footer-office') ||
+        footer.getBoundingClientRect().bottom > pageRect.bottom + 1 ||
+        page.scrollHeight > page.clientHeight + 1 ||
+        page.scrollWidth > page.clientWidth + 1 ||
+        clippedCard;
+    });
+    if (invalidLayout) {
+      alert('1ページに4商品と社名を安全に収められないため、印刷を中止しました。商品の差し替えを見直してください。');
+      return;
+    }
     window.print();
   });
   updatePrintBtn();
