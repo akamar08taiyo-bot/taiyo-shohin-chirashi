@@ -41,3 +41,38 @@ function tssLoadOffice() {
 function tssSaveOffice(name) {
   try { localStorage.setItem(TSS_OFFICE_KEY, name); } catch (e) {}
 }
+
+/* ===== 担当者（担当名・携帯番号）=====
+   営業所マスタは全社共通の固定値なので画面からは変えられない。
+   一方、チラシや見積書に載せる担当者は人によって違うため、
+   この端末の設定として保存し、次に開いたときも同じ内容を使う。 */
+const TSS_STAFF_KEY = 'tss_staff_v1';
+
+// 未設定なら null を返す。空文字を保存した場合は「担当者なし」として扱いたいので、
+// 値が空かどうかではなく、キーがあるかどうかで判定する。
+function tssLoadStaff() {
+  try {
+    const raw = localStorage.getItem(TSS_STAFF_KEY);
+    if (raw == null) return null;
+    const v = JSON.parse(raw) || {};
+    return { name: String(v.name || ''), mobile: String(v.mobile || '') };
+  } catch (e) {
+    return null;
+  }
+}
+
+function tssSaveStaff(staff) {
+  try {
+    localStorage.setItem(TSS_STAFF_KEY, JSON.stringify({
+      name: String((staff && staff.name) || '').trim(),
+      mobile: String((staff && staff.mobile) || '').trim(),
+    }));
+  } catch (e) {}
+}
+
+// 担当者を設定していればそちらを優先し、未設定なら営業所マスタの値をそのまま使う。
+function tssOfficeWithStaff(office) {
+  const staff = tssLoadStaff();
+  if (!staff) return office;
+  return Object.assign({}, office, { contactName: staff.name, mobile: staff.mobile });
+}

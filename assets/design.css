@@ -106,6 +106,22 @@ a:hover { color: var(--accent-hover); }
   white-space: nowrap;
 }
 
+/* 担当者名・携帯番号の入力欄。入力するとこの端末に保存され、次回も同じ内容が入る。 */
+.tss-staff-input {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  background: #fff;
+  border: 1.5px solid var(--border);
+  padding: 6px 9px;
+  width: 96px;
+  min-width: 0;
+}
+.tss-staff-input:focus { outline: none; border-color: var(--accent); }
+.tss-staff-input::placeholder { font-weight: 500; color: var(--text-note); }
+#tss-staff-mobile { width: 120px; font-family: 'Roboto Mono', monospace; }
+
 .tss-btn {
   display: inline-block;
   border: 1.5px solid var(--accent);
@@ -422,6 +438,10 @@ a:hover { color: var(--accent-hover); }
     gap: 6px 12px;
     padding: 6px 10px;
   }
+  /* 狭い画面ではツールグループが1行を占めるため、担当者欄は高さを最小限にする。
+     入力欄は幅を分け合って必ず1行に収める。 */
+  .tss-staffgroup { gap: 4px 8px; padding: 3px 8px; }
+  .tss-staff-input { flex: 1 1 0; width: auto; min-width: 88px; padding: 4px 8px; font-size: 12.5px; min-height: 30px; }
   .tss-pages-scroll {
     align-items: stretch;
     padding: 20px 12px 48px;

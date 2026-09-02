@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./assets/design.css?v=20260902-3" />
+<link rel="stylesheet" href="./assets/design.css?v=20260902-4" />
 <style>
   body { background: #eef5f5; }
   .cx-wrap { padding: 0 0 40px; }
@@ -119,6 +119,11 @@
   <div class="tss-toolbar">
     <a class="tss-back" href="./flyers.html">← チラシ一覧</a>
     <h1>自分で選んでチラシを作る</h1>
+    <div class="tss-toolgroup tss-staffgroup">
+      <span class="tss-toolgroup-label">担当</span>
+      <input type="text" class="tss-staff-input" id="tss-staff-name" placeholder="担当者名" />
+      <input type="tel" class="tss-staff-input" id="tss-staff-mobile" placeholder="携帯番号" />
+    </div>
     <div class="tss-toolgroup">
       <span class="tss-toolgroup-label">表示</span>
       <label class="tss-toggle"><input type="checkbox" id="cx-toggle-codes" checked />品番・JAN</label>
@@ -163,7 +168,7 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260902-3').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260902-4').then(r => r.json());
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -475,7 +480,8 @@
       stage.innerHTML = '<div class="cx-placeholder">用途またはメーカーをえらび、商品を4点チェックすると<br>ここにチラシができあがります。</div>';
       return;
     }
-    const office = tssLoadOffice();
+    // 担当者はこの端末の設定を優先する（ツールバーで変更でき、次回も同じ内容を使う）
+    const office = tssOfficeWithStaff(tssLoadOffice());
     // 空のページは印刷にもプレビューにも出さない
     stage.innerHTML = pages.map((p, i) => p.ids.length === 0 ? '' : `
       <div class="cx-pagewrap${i === current ? ' is-current' : ''}${p.ids.length === MAX ? '' : ' is-incomplete'}" data-product-count="${p.ids.length}">
@@ -492,6 +498,20 @@
       p.lead = document.getElementById('cx-lead').value;
       renderFlyer();
     }));
+
+  // 担当者の入力。変更するとこの端末に保存し、チラシの下部へすぐ反映する。
+  (function initStaff() {
+    const nameEl = document.getElementById('tss-staff-name');
+    const mobEl = document.getElementById('tss-staff-mobile');
+    const saved = tssLoadStaff();
+    const base = saved || tssLoadOffice();
+    nameEl.value = saved ? saved.name : (base.contactName || '');
+    mobEl.value = saved ? saved.mobile : (base.mobile || '');
+    [nameEl, mobEl].forEach(el => el.addEventListener('change', () => {
+      tssSaveStaff({ name: nameEl.value, mobile: mobEl.value });
+      renderFlyer();
+    }));
+  })();
 
   document.getElementById('cx-toggle-codes').addEventListener('change', (e) => {
     showCodes = e.target.checked; renderFlyer();

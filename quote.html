@@ -391,8 +391,8 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260902-3').then(r => r.json());
-  const priceRowsRaw = await fetch('./data/price-rows.json?v=20260902-3').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260902-4').then(r => r.json());
+  const priceRowsRaw = await fetch('./data/price-rows.json?v=20260902-4').then(r => r.json());
   const itemById = new Map(products.items.map(it => [it.id, it]));
   const priceRowById = new Map(priceRowsRaw.map(r => [r.id, r]));
 
@@ -426,8 +426,9 @@
   let meta = loadMeta();
   meta.priceOverrides = meta.priceOverrides || {};
 
-  // 担当者名・携帯は、未入力なら選択中の営業所マスタの値を初期値にする
-  const initOffice = tssLoadOffice();
+  // 担当者名・携帯は、未入力ならこの端末に保存された担当者（なければ営業所マスタ）を初期値にする。
+  // チラシ側で入力した担当者がそのまま見積書にも入る。
+  const initOffice = tssOfficeWithStaff(tssLoadOffice());
   if (meta.staffName == null) meta.staffName = initOffice.contactName || '';
   if (meta.staffMobile == null) meta.staffMobile = initOffice.mobile || '';
 
@@ -799,15 +800,23 @@
   document.getElementById('quote-validity').addEventListener('change', (e) => { meta.validityPeriod = e.target.value; saveMeta(meta); });
   document.getElementById('quote-payment').addEventListener('change', (e) => { meta.paymentTerms = e.target.value; saveMeta(meta); });
   document.getElementById('quote-delivery').addEventListener('change', (e) => { meta.deliveryInfo = e.target.value; saveMeta(meta); });
-  document.getElementById('quote-staff').addEventListener('change', (e) => { meta.staffName = e.target.value; saveMeta(meta); });
-  document.getElementById('quote-mobile').addEventListener('change', (e) => { meta.staffMobile = e.target.value; saveMeta(meta); });
+  // 担当者はこの見積だけでなく端末の設定としても覚え、チラシ側と共通で使う
+  document.getElementById('quote-staff').addEventListener('change', (e) => {
+    meta.staffName = e.target.value; saveMeta(meta);
+    tssSaveStaff({ name: meta.staffName, mobile: meta.staffMobile });
+  });
+  document.getElementById('quote-mobile').addEventListener('change', (e) => {
+    meta.staffMobile = e.target.value; saveMeta(meta);
+    tssSaveStaff({ name: meta.staffName, mobile: meta.staffMobile });
+  });
   document.getElementById('quote-remarks').addEventListener('change', (e) => { meta.remarks = e.target.value; saveMeta(meta); });
   document.getElementById('opt-show-total').addEventListener('change', (e) => { meta.showTotal = e.target.checked; saveMeta(meta); });
 
   document.getElementById('btn-clear').addEventListener('click', () => {
     if (!confirm('見積の内容をすべて消去します。よろしいですか？')) return;
     cart = {};
-    const o = tssLoadOffice();
+    // 見積をクリアしても、端末に覚えさせた担当者は消さずに初期値として使う
+    const o = tssOfficeWithStaff(tssLoadOffice());
     meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS,
       { staffName: o.contactName || '', staffMobile: o.mobile || '' });
     tssSaveQuoteCart(cart);

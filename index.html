@@ -31,6 +31,17 @@
   }
   .office-picker select:hover { border-color: #0f7f86; }
   .office-picker select:focus { outline: 3px solid #b8dde0; outline-offset: 1px; border-color: #0f7f86; }
+  /* 担当者名・携帯番号。入力するとこの端末に保存され、チラシ・見積書に反映される */
+  .office-picker input[type="text"], .office-picker input[type="tel"] {
+    width: 100%; box-sizing: border-box;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 16px; font-weight: 700; color: #12242A;
+    border: 2px solid #cfe0e2; background: #fff; padding: 11px 14px;
+  }
+  .office-picker input:focus { outline: 3px solid #b8dde0; outline-offset: 1px; border-color: #0f7f86; }
+  .office-picker input::placeholder { font-weight: 500; color: #a8bcbd; }
+  .office-picker .picker-label + input { margin-bottom: 2px; }
+  .office-picker #staff-name, .office-picker #staff-mobile { margin-bottom: 4px; }
+  .office-picker .picker-label:not(:first-of-type) { margin-top: 14px; }
   .office-detail { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e6f3f3; font-size: 13px; line-height: 1.7; color: #41595E; }
   .office-detail .tel { font-weight: 700; color: #12242A; }
   .office-hint { margin-top: 10px; font-size: 12px; line-height: 1.6; color: #8aa0a2; }
@@ -79,7 +90,11 @@
       <label class="picker-label" for="office-select">発行営業所</label>
       <select id="office-select"></select>
       <div class="office-detail" id="office-detail"></div>
-      <div class="office-hint">ここで選んだ営業所が、チラシと見積書の連絡先として印刷されます。</div>
+      <label class="picker-label" for="staff-name">担当者名</label>
+      <input type="text" id="staff-name" placeholder="例：久保" />
+      <label class="picker-label" for="staff-mobile">担当携帯番号</label>
+      <input type="tel" id="staff-mobile" placeholder="例：080-0000-0000" />
+      <div class="office-hint">ここで選んだ営業所と担当者が、チラシと見積書の連絡先として印刷されます。担当者は入力すると保存され、次回も同じ内容が入ります。</div>
     </div>
   </div>
   <p class="lead">太陽シルバーサービス㈱の業務用消耗品カタログです。チラシの作成、見積書の作成、価格表の管理ができます。</p>
@@ -143,8 +158,24 @@
   select.addEventListener('change', () => {
     tssSaveOffice(select.value);
     renderOffice();
+    renderStaff();
   });
+
+  // 担当者名・携帯番号。入力するとこの端末に保存し、チラシ・見積書で共通に使う。
+  const staffName = document.getElementById('staff-name');
+  const staffMobile = document.getElementById('staff-mobile');
+  function renderStaff() {
+    const saved = tssLoadStaff();
+    const office = tssLoadOffice();
+    staffName.value = saved ? saved.name : (office.contactName || '');
+    staffMobile.value = saved ? saved.mobile : (office.mobile || '');
+  }
+  [staffName, staffMobile].forEach(el => el.addEventListener('change', () => {
+    tssSaveStaff({ name: staffName.value, mobile: staffMobile.value });
+  }));
+
   renderOffice();
+  renderStaff();
 </script>
 </body>
 </html>

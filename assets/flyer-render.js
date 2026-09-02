@@ -36,12 +36,13 @@ function tssSaveComposition(comp) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260902-3').then(r => r.json()),
-    fetch('./data/products.json?v=20260902-3').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260902-3').then(r => r.json()),
+    fetch('./data/pages.json?v=20260902-4').then(r => r.json()),
+    fetch('./data/products.json?v=20260902-4').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260902-4').then(r => r.json()),
   ]);
 
-  const office = tssLoadOffice();
+  // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
+  let office = tssOfficeWithStaff(tssLoadOffice());
   document.title = document.title.replace(/太陽シルバーサービス\s*\S*営業所$/, '太陽シルバーサービス ' + office.name);
 
   let flyer = pagesData.flyers.find(f => f.key === flyerKey);
@@ -367,6 +368,34 @@ async function renderFlyer(flyerKey, mountId) {
   if (location.hash) {
     const target = document.querySelector(location.hash);
     if (target) target.scrollIntoView();
+  }
+
+  // 担当者の入力欄をツールバーへ追加する。
+  // 営業所マスタは全社共通で画面から変えられないため、担当名と携帯だけは
+  // ここで入力し、この端末に保存して次回以降も同じ内容を使えるようにする。
+  const toolbar = document.querySelector('.tss-toolbar');
+  if (toolbar) {
+    const saved = tssLoadStaff();
+    const initial = saved || { name: office.contactName || '', mobile: office.mobile || '' };
+    const group = document.createElement('div');
+    group.className = 'tss-toolgroup tss-staffgroup';
+    group.innerHTML =
+      '<span class="tss-toolgroup-label">担当</span>' +
+      '<input type="text" class="tss-staff-input" id="tss-staff-name" placeholder="担当者名"' +
+      ' value="' + escapeHTML(initial.name) + '" />' +
+      '<input type="tel" class="tss-staff-input" id="tss-staff-mobile" placeholder="携帯番号"' +
+      ' value="' + escapeHTML(initial.mobile) + '" />';
+    const firstGroup = toolbar.querySelector('.tss-toolgroup');
+    if (firstGroup) firstGroup.insertAdjacentElement('beforebegin', group);
+    else toolbar.appendChild(group);
+    group.addEventListener('change', () => {
+      tssSaveStaff({
+        name: document.getElementById('tss-staff-name').value,
+        mobile: document.getElementById('tss-staff-mobile').value,
+      });
+      office = tssOfficeWithStaff(tssLoadOffice());
+      renderAll();
+    });
   }
 
   // ツールバー・ページジャンプの配線
