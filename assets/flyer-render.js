@@ -36,9 +36,9 @@ function tssSaveComposition(comp) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260902-5').then(r => r.json()),
-    fetch('./data/products.json?v=20260902-5').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260902-5').then(r => r.json()),
+    fetch('./data/pages.json?v=20260902-6').then(r => r.json()),
+    fetch('./data/products.json?v=20260902-6').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260902-6').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
