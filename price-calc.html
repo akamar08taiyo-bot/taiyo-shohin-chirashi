@@ -146,8 +146,8 @@
 <script>
 (async function () {
   const [products, priceRowsRaw] = await Promise.all([
-    fetch('./data/products.json?v=20260902-6').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260902-6').then(r => r.json()),
+    fetch('./data/products.json?v=20260902-7').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260902-7').then(r => r.json()),
   ]);
 
   function escapeHTML(s) {
