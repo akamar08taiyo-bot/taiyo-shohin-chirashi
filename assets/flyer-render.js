@@ -35,6 +35,12 @@ function tssSaveComposition(comp) {
   try { localStorage.setItem(TSS_COMPOSITION_KEY, JSON.stringify(comp)); } catch (e) {}
 }
 
+// 見出しは「パンツタイプ・リハビ／リパンツ」のように語の途中で折り返すと読みにくい。
+// 中黒・スラッシュのうしろを優先的な改行位置にする（design.css の word-break: keep-all と対で使う）。
+function tssBreakableTitle(text) {
+  return escapeHTML(text).replace(/([・／\/])/g, '$1<wbr>');
+}
+
 // ページ名から分類名だけを取り出す。
 // 「OM17 尿とりパッド（日中用） 1」→「尿とりパッド（日中用）」
 function tssPageCategory(pageKey) {
@@ -295,8 +301,8 @@ async function renderFlyer(flyerKey, mountId) {
     const items = itemsForPage(page.pageKey);
     const isCustom = !!pageComposition(page.pageKey);
     const titleHTML = page.subtitle
-      ? `${escapeHTML(page.title)}<br /><span class="tss-subtitle">${escapeHTML(page.subtitle)}</span>`
-      : escapeHTML(page.title);
+      ? `${tssBreakableTitle(page.title)}<br /><span class="tss-subtitle">${tssBreakableTitle(page.subtitle)}</span>`
+      : tssBreakableTitle(page.title);
     const sizeBoxHTML = page.sizeBoxTitle
       ? `<div class="tss-sizebox">
            <div class="tss-sizebox-title">${escapeHTML(page.sizeBoxTitle)}</div>

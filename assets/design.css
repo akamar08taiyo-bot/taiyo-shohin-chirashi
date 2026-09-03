@@ -246,7 +246,13 @@ a:hover { color: var(--accent-hover); }
 .tss-band-aud { font-size: 12px; font-weight: 500; color: var(--text-sub); letter-spacing: .06em; white-space: nowrap; }
 
 .tss-title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.tss-title-row h1 { margin: 0; font-size: 46px; line-height: 1.05; font-weight: 900; letter-spacing: -.02em; }
+/* 見出しが「パンツタイプ・リハビ／リパンツ」のように語の途中で折り返さないよう、
+   中黒などの区切りを優先して改行する（区切りが無く収まらないときだけ途中で折る）。 */
+.tss-title-row h1 {
+  margin: 0; font-size: 46px; line-height: 1.05; font-weight: 900; letter-spacing: -.02em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
 .tss-title-row h1 .tss-subtitle { font-size: 30px; color: var(--accent); }
 .tss-lead { margin: 0 0 6px; font-size: 13.5px; line-height: 1.7; font-weight: 500; color: var(--text-sub); max-width: 236px; text-wrap: pretty; }
 
