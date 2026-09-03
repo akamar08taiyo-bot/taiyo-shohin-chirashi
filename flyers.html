@@ -44,10 +44,27 @@
   .card .arrow { font-size: 14px; font-weight: 700; color: var(--c); transition: transform .15s; }
   .card:hover .arrow { transform: translateX(4px); }
 
+  /* 用途から選ぶ：用途ごとに1行にまとめ、その中にメーカー別の入口を並べる */
+  .usecase { border: 2px solid #cfe0e2; border-left: 6px solid #0f7f86; background: #fff; padding: 18px 22px 20px; margin-bottom: 14px; }
+  .usecase-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 13px; }
+  .usecase-head h2 { margin: 0; font-size: 21px; font-weight: 900; }
+  .usecase-note { font-size: 13px; color: #5c7376; }
+  .usecase-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .uc-link {
+    display: inline-flex; align-items: center;
+    border: 1.5px solid #cfe0e2; background: #fff; color: #41595E;
+    font-size: 13.5px; font-weight: 700; text-decoration: none; padding: 9px 15px;
+  }
+  .uc-link:hover { border-color: #0f7f86; color: #0f7f86; background: #e6f3f3; }
+  .uc-link-main { border-color: #0f7f86; background: #0f7f86; color: #fff; }
+  .uc-link-main:hover { background: #0c6a70; border-color: #0c6a70; color: #fff; }
+
   @media (max-width: 720px) {
     .wrap { padding: 24px 20px 64px; }
     h1 { font-size: 32px; }
     .lead { font-size: 15px; }
+    .usecase { padding: 15px 16px 17px; }
+    .usecase-head h2 { font-size: 18px; }
   }
 </style>
 </head>
@@ -59,36 +76,19 @@
   <p class="lead">業務用消耗品のカタログチラシです。使用用途から選ぶか、自分で商品を組み合わせて作れます。A4ページを画面で確認・印刷・PDF保存できます。</p>
 
   <div class="switcher">
-    <button type="button" class="switch-btn active" data-view="usecase">使用用途から探す</button>
+    <button type="button" class="switch-btn active" data-view="maker">メーカーから選ぶ</button>
+    <button type="button" class="switch-btn" data-view="usecase">用途から選ぶ</button>
     <a class="switch-btn" href="./custom.html" style="text-decoration:none;display:inline-flex;align-items:center;border-color:#b45309;color:#b45309;">✎ 自分で選んで作る</a>
   </div>
 
-  <div class="view active" id="view-usecase">
-    <p class="view-hint">お客さまの困りごと・使う場所から、該当するチラシのページへ直接ひらきます。</p>
+  <div class="view active" id="view-maker">
+    <p class="view-hint">メーカーごとのチラシです。同じメーカーの商品がシリーズ・サイズ順に並びます。</p>
     <div class="cards">
-      <a class="card" href="./kao-rocket.html#tss-page-0" style="--c:#0f7f86;">
+      <a class="card" href="./kao-rocket.html" style="--c:#0f7f86;">
         <span class="cat">花王・ロケット石鹸</span>
-        <h2>調理・食器まわり</h2>
-        <p>食器用洗剤・食器洗浄機用洗剤・台所用漂白剤・厨房用洗剤</p>
-        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./kao-rocket.html#tss-page-4" style="--c:#0f7f86;">
-        <span class="cat">花王・ロケット石鹸</span>
-        <h2>お手洗い・浴室</h2>
-        <p>トイレ用洗剤・排水管用洗浄剤・浴室用洗剤・カビ取り剤</p>
-        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./kao-rocket.html#tss-page-7" style="--c:#0f7f86;">
-        <span class="cat">花王・ロケット石鹸</span>
-        <h2>洗濯・衣類</h2>
-        <p>洗濯用洗剤・衣料用漂白剤・柔軟仕上げ剤</p>
-        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./kao-rocket.html#tss-page-6" style="--c:#0f7f86;">
-        <span class="cat">花王・ロケット石鹸</span>
-        <h2>手指衛生・消臭</h2>
-        <p>ハンドソープ・手指消毒剤・衣類用消臭剤・空間用消臭剤</p>
-        <div class="meta"><span class="count"></span><span class="arrow">開く →</span></div>
+        <h2>洗剤・衛生用品</h2>
+        <p>食器用洗剤・厨房用洗剤・トイレ用洗剤・洗濯用洗剤・浴室用洗剤・手指衛生・消臭剤</p>
+        <div class="meta"><span class="count">全11ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./lion.html" style="--c:#0b66a3;">
         <span class="cat">ライオンハイジーン</span>
@@ -120,12 +120,6 @@
         <p>テープ止め・リハビリパンツ・尿とりパッド・夜用パッド・カバータイプ</p>
         <div class="meta"><span class="count">全29ページ</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./omutsu-yoto.html" style="--c:#be185d;">
-        <span class="cat">用途別・メーカー混合</span>
-        <h2>紙おむつ・尿とりパッド（比較用）</h2>
-        <p>同じ用途の商品をメーカーをまたいで並べたチラシ。テープ止め・パンツ・パッドを横並びで比較できます</p>
-        <div class="meta"><span class="count">全29ページ</span><span class="arrow">開く →</span></div>
-      </a>
       <a class="card" href="./care.html" style="--c:#0369a1;">
         <span class="cat">ユニ・チャーム／アサヒグループ食品</span>
         <h2>おしりふき・とろみ剤</h2>
@@ -140,12 +134,165 @@
       </a>
     </div>
   </div>
+
+  <div class="view" id="view-usecase">
+    <p class="view-hint">お客さまの困りごと・使う場所から選びます。用途の中は、複数メーカーを見比べられる並びになっています。</p>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>紙おむつ・尿とりパッド</h2>
+        <span class="usecase-note">3社の同じ用途の商品を交互に並べた、比較用のチラシです</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link uc-link-main" href="./omutsu-yoto.html">用途別チラシを開く（全29ページ）</a>
+        <a class="uc-link" href="./omutsu-yoto.html#tss-page-0">テープ止め</a>
+        <a class="uc-link" href="./omutsu-yoto.html#tss-page-6">パンツ・リハビリパンツ</a>
+        <a class="uc-link" href="./omutsu-yoto.html#tss-page-16">尿とりパッド（日中用）</a>
+        <a class="uc-link" href="./omutsu-yoto.html#tss-page-23">夜用パッド</a>
+        <a class="uc-link" href="./omutsu-yoto.html#tss-page-27">カバー・装着パッド</a>
+        <a class="uc-link" href="./omutsu-yoto.html#tss-page-28">特殊形状パッド</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>手指衛生・手指消毒</h2>
+        <span class="usecase-note">ハンドソープ・手指消毒剤・アルコール製剤</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./saraya.html#tss-page-0">サラヤ 手指消毒</a>
+        <a class="uc-link" href="./saraya.html#tss-page-4">サラヤ 手洗い石けん液</a>
+        <a class="uc-link" href="./saraya.html#tss-page-6">サラヤ 消毒スタンド</a>
+        <a class="uc-link" href="./lion.html#tss-page-19">ライオン ハンドソープ・手指消毒</a>
+        <a class="uc-link" href="./lion.html#tss-page-26">ライオン 食品添加物アルコール</a>
+        <a class="uc-link" href="./kao-rocket.html#tss-page-6">花王・ロケット石鹸 手指衛生</a>
+        <a class="uc-link" href="./paper.html#tss-page-2">紙製品 手指衛生・清拭</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>調理・食器まわり</h2>
+        <span class="usecase-note">食器用洗剤・食器洗浄機用洗剤・台所用漂白剤</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./kao-rocket.html#tss-page-0">花王・ロケット石鹸 食器用洗剤</a>
+        <a class="uc-link" href="./kao-rocket.html#tss-page-1">花王・ロケット石鹸 食器洗浄機用</a>
+        <a class="uc-link" href="./kao-rocket.html#tss-page-2">花王・ロケット石鹸 台所用漂白剤</a>
+        <a class="uc-link" href="./lion.html#tss-page-0">ライオン 台所用</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>厨房・床の油汚れ</h2>
+        <span class="usecase-note">厨房用洗剤・床用洗剤・設備の清掃</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./kao-rocket.html#tss-page-3">花王・ロケット石鹸 厨房の油汚れ・床</a>
+        <a class="uc-link" href="./lion.html#tss-page-6">ライオン 厨房・客室用</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>お手洗い・浴室</h2>
+        <span class="usecase-note">トイレ用洗剤・排水管用洗浄剤・浴室用洗剤・カビ取り剤</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./kao-rocket.html#tss-page-4">花王・ロケット石鹸 トイレ洗剤</a>
+        <a class="uc-link" href="./kao-rocket.html#tss-page-5">花王・ロケット石鹸 排水管（塩素系）</a>
+        <a class="uc-link" href="./kao-rocket.html#tss-page-9">花王・ロケット石鹸 浴室・カビ</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>洗濯・衣類</h2>
+        <span class="usecase-note">洗濯用洗剤・漂白剤・柔軟仕上げ剤・リネンの洗濯</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./kao-rocket.html#tss-page-7">花王・ロケット石鹸 洗濯用洗剤</a>
+        <a class="uc-link" href="./kao-rocket.html#tss-page-8">花王・ロケット石鹸 漂白剤・柔軟剤</a>
+        <a class="uc-link" href="./lion.html#tss-page-11">ライオン 衣料用</a>
+        <a class="uc-link" href="./saraya.html#tss-page-3">サラヤ ランドリー・汚物処理</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>消臭・除菌・環境清拭</h2>
+        <span class="usecase-note">空間・布製品の消臭、環境表面の清拭・除菌</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./kao-rocket.html#tss-page-10">花王・ロケット石鹸 消臭・除菌</a>
+        <a class="uc-link" href="./lion.html#tss-page-28">ライオン 除菌・洗浄</a>
+        <a class="uc-link" href="./saraya.html#tss-page-1">サラヤ 環境清拭・除菌</a>
+        <a class="uc-link" href="./saraya.html#tss-page-5">サラヤ 除菌・漂白</a>
+        <a class="uc-link" href="./saraya.html#tss-page-7">サラヤ 清拭・チェック用品</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>入浴・ボディケア・口腔ケア</h2>
+        <span class="usecase-note">清拭・足浴・ヘアケア・うがい</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./saraya.html#tss-page-2">サラヤ ボディケア・口腔ケア</a>
+        <a class="uc-link" href="./lion.html#tss-page-30">ライオン ヘアケア・ボディケア</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>トイレットペーパー・ペーパータオル</h2>
+        <span class="usecase-note">トイレットペーパー・ペーパータオル・ティシュー</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./paper.html#tss-page-0">紙製品 トイレットペーパー</a>
+        <a class="uc-link" href="./paper.html#tss-page-1">紙製品 ペーパータオル・ティシュー</a>
+        <a class="uc-link" href="./saraya.html#tss-page-8">サラヤ ペーパータオル</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>感染対策・食事介助</h2>
+        <span class="usecase-note">エプロン・ガウン・マスク・手袋</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link uc-link-main" href="./taketora.html">竹虎 チラシを開く（全5ページ）</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>ゴミ処理・ポリ袋</h2>
+        <span class="usecase-note">ゴミ袋・レジ袋・カラーポリ袋</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link uc-link-main" href="./japacks.html">ジャパックス チラシを開く（全8ページ）</a>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-head">
+        <h2>おしりふき・とろみ剤</h2>
+        <span class="usecase-note">排泄介助のおしりふき・とろみ調整食品</span>
+      </div>
+      <div class="usecase-links">
+        <a class="uc-link" href="./care.html#tss-page-0">おしりふき</a>
+        <a class="uc-link" href="./care.html#tss-page-1">とろみ剤</a>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   document.querySelectorAll('button.switch-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('button.switch-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.getElementById('view-usecase').classList.add('active');
+      document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + btn.dataset.view));
     });
   });
 </script>
