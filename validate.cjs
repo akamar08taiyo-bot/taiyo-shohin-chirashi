@@ -95,6 +95,26 @@ for (const it of products.items) {
   if (!fs.existsSync(p)) errors.push(`画像が見つからない: ${it.image} (id ${it.id} ${it.name})`);
 }
 
+// ページ名から分類名だけを取り出す（assets/flyer-render.js の tssPageCategory と同じ規則）
+function pageCategory(pageKey) {
+  let label = String(pageKey || '').split('＋')[0].trim();
+  while (/^(?:[A-Z]{2})?\d+\s+/.test(label)) {
+    label = label.replace(/^(?:[A-Z]{2})?\d+\s+/, '');
+  }
+  return label.replace(/\s+\d+$/, '').trim() || String(pageKey || '');
+}
+
+// 用途別チラシは、別チラシの商品を分類だけで拾い直す（商品は二重登録しない）
+function sourceItems(flyer, pg) {
+  if (!pg.sourceCategory) {
+    return products.items.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
+  }
+  return products.items.filter(it => (
+    it.flier === (flyer.sourceFlier || flyer.name)
+    && pageCategory(it.page) === pg.sourceCategory
+  ));
+}
+
 // --- 固定ページも自動ページ分割も、印刷される全ページが4商品ちょうど ---
 const validPairs = new Set();
 const autoFlyerNames = new Set(pages.flyers.filter(flyer => flyer.autoPaginate).map(flyer => flyer.name));
@@ -102,7 +122,7 @@ for (const flyer of pages.flyers) {
   const autoItems = [];
   for (const pg of flyer.pages) {
     validPairs.add(flyer.name + '||' + pg.pageKey);
-    const items = products.items.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
+    const items = sourceItems(flyer, pg);
     if (flyer.autoPaginate) {
       const printableItems = items.filter(it => it.fixedFlyer !== false);
       if (printableItems.length === 0) {

@@ -35,28 +35,77 @@ function tssSaveComposition(comp) {
   try { localStorage.setItem(TSS_COMPOSITION_KEY, JSON.stringify(comp)); } catch (e) {}
 }
 
+// ページ名から分類名だけを取り出す。
+// 「OM17 尿とりパッド（日中用） 1」→「尿とりパッド（日中用）」
+function tssPageCategory(pageKey) {
+  // 自動ページ分割で2分類にまたがるページ（「台所用＋厨房・客室用」）は先頭の分類を採る
+  let label = String(pageKey || '').split('＋')[0].trim();
+  // 先頭のページ記号を落とす。「06 SR03 手指衛生」のようにページ番号と
+  // 分類記号が重なることがあるので、無くなるまで繰り返す。
+  while (/^(?:[A-Z]{2})?\d+\s+/.test(label)) {
+    label = label.replace(/^(?:[A-Z]{2})?\d+\s+/, '');
+  }
+  // 末尾の連番（… 1／… 10）も落とす
+  return label.replace(/\s+\d+$/, '').trim() || String(pageKey || '');
+}
+
 // ページ送りは、ページ名をそのまま並べると「OM17 尿とりパッド（日中用） 1」のような
 // 長い項目が並んで読みにくい。紙おむつチラシの分類（テープ止め／パンツ／パッド…）のように
 // 同じ分類のページをまとめ、分類名＋ページ番号だけの並びにする。
 function tssPageJumpGroups(pages) {
   const groups = [];
   pages.forEach((page, index) => {
-    const raw = String(page.pageKey || '');
-    // 自動ページ分割で2分類にまたがるページ（「台所用＋厨房・客室用」）は、
-    // 見出しが細切れになるので先頭の分類にまとめる（正確なページ名はリンクのツールチップで出す）。
-    let label = raw.split('＋')[0].trim();
-    // 先頭のページ記号を落とす。「06 SR03 手指衛生」のようにページ番号と
-    // 分類記号が重なることがあるので、無くなるまで繰り返す。
-    while (/^(?:[A-Z]{2})?\d+\s+/.test(label)) {
-      label = label.replace(/^(?:[A-Z]{2})?\d+\s+/, '');
-    }
-    // 末尾の連番（… 1／… 10）も落とす
-    label = label.replace(/\s+\d+$/, '').trim() || raw;
+    const label = tssPageCategory(page.pageKey);
     const last = groups[groups.length - 1];
     if (last && last.label === label) last.items.push({ page, index });
     else groups.push({ label, items: [{ page, index }] });
   });
   return groups;
+}
+
+// 1ページ分の掲載候補を集める。
+// 通常のチラシは flier+page がそのまま一致する商品を使う。
+// 用途別チラシ（sourceFlier 指定）は、別チラシの商品を分類だけで拾い直すので、
+// 同じ商品を products.json に二重登録せずに別の切り口のチラシを作れる。
+function tssSourceItems(allItems, flyer, template) {
+  if (!template.sourceCategory) {
+    return allItems.filter(item => (
+      item.flier === flyer.name
+      && item.page === template.pageKey
+      && item.fixedFlyer !== false
+    ));
+  }
+  const pool = allItems.filter(item => (
+    item.flier === (flyer.sourceFlier || flyer.name)
+    && item.fixedFlyer !== false
+    && tssPageCategory(item.page) === template.sourceCategory
+  ));
+  return flyer.mixMakers ? tssInterleaveByMaker(pool) : pool;
+}
+
+// メーカーを順番に取り出して並べ直す。用途別チラシで、同じ用途の商品を
+// メーカーをまたいで見比べられるようにするために使う。
+// （元の並びはメーカーごとに固まっているため、1ページ4商品が1社で埋まってしまう）
+function tssInterleaveByMaker(items) {
+  const queues = [];
+  const byMaker = new Map();
+  for (const item of items) {
+    if (!byMaker.has(item.maker)) {
+      const queue = [];
+      byMaker.set(item.maker, queue);
+      queues.push(queue);   // 元の登場順にメーカーを並べる
+    }
+    byMaker.get(item.maker).push(item);
+  }
+  const out = [];
+  let picked = true;
+  while (picked) {
+    picked = false;
+    for (const queue of queues) {
+      if (queue.length) { out.push(queue.shift()); picked = true; }
+    }
+  }
+  return out;
 }
 
 async function renderFlyer(flyerKey, mountId) {
@@ -82,11 +131,7 @@ async function renderFlyer(flyerKey, mountId) {
   if (flyer.autoPaginate) {
     const orderedEntries = [];
     for (const template of flyer.pages) {
-      const sourceItems = productsData.items.filter(item => (
-        item.flier === flyer.name
-        && item.page === template.pageKey
-        && item.fixedFlyer !== false
-      ));
+      const sourceItems = tssSourceItems(productsData.items, flyer, template);
       sourceItems.forEach(item => orderedEntries.push({ item, template }));
     }
     if (orderedEntries.length === 0 || orderedEntries.length % 4 !== 0) {
