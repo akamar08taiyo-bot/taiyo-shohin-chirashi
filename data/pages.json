@@ -788,6 +788,56 @@
           "sizeBoxTitle": null,
           "sizeBoxBody": null,
           "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR06 手洗い石けん液",
+          "categoryLabel": "サラヤ　手洗い石けん液",
+          "title": "手洗い石けん液",
+          "subtitle": "シャボネット／SVユ・ム",
+          "lead": "手洗い用の石けん液。ボトルタイプと大容量タイプから選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR07 除菌・漂白",
+          "categoryLabel": "サラヤ　除菌・漂白",
+          "title": "除菌・漂白",
+          "subtitle": "次亜塩素酸系／食洗機リンス剤",
+          "lead": "厨房・食洗機まわりの除菌・漂白と、食器洗浄機用のリンス剤です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR08 手指消毒スタンド",
+          "categoryLabel": "サラヤ　手指消毒スタンド",
+          "title": "手指消毒スタンド",
+          "subtitle": "足踏み式／据置き型",
+          "lead": "手を触れずに使える足踏み式ディスペンサーと、卓上・床置きのスタンドです。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR09 清拭・チェック用品",
+          "categoryLabel": "サラヤ　清拭・チェック用品",
+          "title": "清拭・チェック用品",
+          "subtitle": "手洗いチェッカー／専用容器",
+          "lead": "手洗い指導用のチェッカーローションと、消毒液・洗浄液の専用詰め替え容器です。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
+        },
+        {
+          "pageKey": "SR10 ペーパータオル",
+          "categoryLabel": "サラヤ　ペーパータオル",
+          "title": "ペーパータオル",
+          "subtitle": "ホルダー／リオーレ",
+          "lead": "ペーパータオルとホルダー一式です。設置場所に合わせてサイズを選べます。",
+          "sizeBoxTitle": null,
+          "sizeBoxBody": null,
+          "note": "希釈倍率・使用方法・混用禁止事項は、商品ラベルとサラヤ公式資料をご確認ください。"
         }
       ]
     },
