@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260903-3';
+const TSS_IMAGE_VERSION = '20260903-4';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -37,9 +37,9 @@ function tssSaveComposition(comp) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260903-3').then(r => r.json()),
-    fetch('./data/products.json?v=20260903-3').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260903-3').then(r => r.json()),
+    fetch('./data/pages.json?v=20260903-4').then(r => r.json()),
+    fetch('./data/products.json?v=20260903-4').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260903-4').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
@@ -285,8 +285,30 @@ async function renderFlyer(flyerKey, mountId) {
     </div>`;
   }
 
+  let pageObserver = null;
+  function syncPageObserver() {
+    // renderAll() のたびに mount 内のDOMが作り直されるため、監視対象も毎回取り直す。
+    if (pageObserver) pageObserver.disconnect();
+    const jumpNav = document.getElementById('tss-pagejump');
+    if (!jumpNav) return;
+    const jumpLinks = [...jumpNav.querySelectorAll('a')];
+    const sections = [...mount.querySelectorAll('.page')];
+    if (!jumpLinks.length || !sections.length) return;
+    const setCurrent = (index) => {
+      jumpLinks.forEach((a, i) => a.classList.toggle('is-current', i === index));
+    };
+    pageObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter(e => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setCurrent(sections.indexOf(visible.target));
+    }, { rootMargin: '-40% 0px -40% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+    sections.forEach(section => pageObserver.observe(section));
+    setCurrent(0);
+  }
+
   function renderAll() {
     mount.innerHTML = flyer.pages.map((p, i) => pageHTML(p, flyer.tokens, i)).join('');
+    syncPageObserver();
   }
 
   // ---- 商品差し替えピッカー ----
@@ -653,6 +675,7 @@ async function renderFlyer(flyerKey, mountId) {
   if (jumpNav) {
     jumpNav.innerHTML = flyer.pages.map((p, i) =>
       `<a href="#tss-page-${i}"><span class="tss-jump-num">${i + 1}</span>${escapeHTML(p.pageKey)}</a>`).join('');
+    syncPageObserver();
   }
   const titleEl = document.getElementById('tss-flyer-title');
   if (titleEl) titleEl.textContent = flyer.name + '（全' + flyer.pages.length + 'ページ）';

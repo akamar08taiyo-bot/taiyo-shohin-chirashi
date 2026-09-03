@@ -391,8 +391,8 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260903-3').then(r => r.json());
-  const priceRowsRaw = await fetch('./data/price-rows.json?v=20260903-3').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260903-4').then(r => r.json());
+  const priceRowsRaw = await fetch('./data/price-rows.json?v=20260903-4').then(r => r.json());
   const itemById = new Map(products.items.map(it => [it.id, it]));
   const priceRowById = new Map(priceRowsRaw.map(r => [r.id, r]));
 
@@ -467,7 +467,7 @@
     return `
       <label class="picker-item${isChecked}" data-id="${it.id}">
         <input type="checkbox" class="picker-check" data-id="${it.id}"${checked} />
-        <span class="thumb"><img src="${escapeHTML(it.image)}?v=20260903-3" alt="" loading="lazy" /></span>
+        <span class="thumb"><img src="${escapeHTML(it.image)}?v=20260903-4" alt="" loading="lazy" /></span>
         <span class="picker-item-info">
           <span class="picker-item-name">${escapeHTML(it.name)}</span>
           <span class="picker-item-meta">${escapeHTML(it.spec)}${it.tag ? ' ／ ' + escapeHTML(it.tag) : ''}</span>

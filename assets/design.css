@@ -172,6 +172,33 @@ a:hover { color: var(--accent-hover); }
   background: var(--accent); color: #fff;
   font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 700;
 }
+/* 選択中のページを見分けられるようにする（サイドナビ・横並びナビ共通） */
+.tss-pagejump a.is-current { border-color: var(--accent); background: var(--accent); color: #fff; }
+.tss-pagejump a.is-current .tss-jump-num { background: #fff; color: var(--accent); }
+
+/* 画面に横の空きがある幅では、ページ送りをスクロールしても消えない左サイドナビへ切り替える。
+   ページ数が多いチラシ（ライオン全36ページ等）で「該当ページに飛んだ後、他ページへ移るのに
+   毎回一番上まで戻る」手間をなくすための対応。794px幅のA4ページ＋左右余白が確保できる
+   1360px以上でのみ有効にし、それ未満は従来どおりツールバー直下の横並びに戻す。 */
+@media screen and (min-width: 1360px) {
+  .tss-pagejump {
+    position: fixed;
+    top: 84px;
+    left: 16px;
+    z-index: 9;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 208px;
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+  }
+  .tss-pagejump a { width: 100%; padding: 8px 12px; font-size: 13px; }
+}
 
 .tss-pages-scroll {
   display: flex;
