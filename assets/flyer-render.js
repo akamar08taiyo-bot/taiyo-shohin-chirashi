@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260903-4';
+const TSS_IMAGE_VERSION = '20260904-1';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -35,11 +35,35 @@ function tssSaveComposition(comp) {
   try { localStorage.setItem(TSS_COMPOSITION_KEY, JSON.stringify(comp)); } catch (e) {}
 }
 
+// ページ送りは、ページ名をそのまま並べると「OM17 尿とりパッド（日中用） 1」のような
+// 長い項目が並んで読みにくい。紙おむつチラシの分類（テープ止め／パンツ／パッド…）のように
+// 同じ分類のページをまとめ、分類名＋ページ番号だけの並びにする。
+function tssPageJumpGroups(pages) {
+  const groups = [];
+  pages.forEach((page, index) => {
+    const raw = String(page.pageKey || '');
+    // 自動ページ分割で2分類にまたがるページ（「台所用＋厨房・客室用」）は、
+    // 見出しが細切れになるので先頭の分類にまとめる（正確なページ名はリンクのツールチップで出す）。
+    let label = raw.split('＋')[0].trim();
+    // 先頭のページ記号を落とす。「06 SR03 手指衛生」のようにページ番号と
+    // 分類記号が重なることがあるので、無くなるまで繰り返す。
+    while (/^(?:[A-Z]{2})?\d+\s+/.test(label)) {
+      label = label.replace(/^(?:[A-Z]{2})?\d+\s+/, '');
+    }
+    // 末尾の連番（… 1／… 10）も落とす
+    label = label.replace(/\s+\d+$/, '').trim() || raw;
+    const last = groups[groups.length - 1];
+    if (last && last.label === label) last.items.push({ page, index });
+    else groups.push({ label, items: [{ page, index }] });
+  });
+  return groups;
+}
+
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260903-4').then(r => r.json()),
-    fetch('./data/products.json?v=20260903-4').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260903-4').then(r => r.json()),
+    fetch('./data/pages.json?v=20260904-1').then(r => r.json()),
+    fetch('./data/products.json?v=20260904-1').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260904-1').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
@@ -285,30 +309,45 @@ async function renderFlyer(flyerKey, mountId) {
     </div>`;
   }
 
-  let pageObserver = null;
-  function syncPageObserver() {
-    // renderAll() のたびに mount 内のDOMが作り直されるため、監視対象も毎回取り直す。
-    if (pageObserver) pageObserver.disconnect();
+  // いま画面に出ているページをページ送りで示す。
+  // A4ページ（1123px）は画面より背が高く、IntersectionObserver では扱いにくいので、
+  // 画面上部の基準線をどのページが越えているかで判定する。
+  let jumpScrollBound = false;
+  function updateJumpHighlight() {
     const jumpNav = document.getElementById('tss-pagejump');
     if (!jumpNav) return;
     const jumpLinks = [...jumpNav.querySelectorAll('a')];
     const sections = [...mount.querySelectorAll('.page')];
-    if (!jumpLinks.length || !sections.length) return;
-    const setCurrent = (index) => {
-      jumpLinks.forEach((a, i) => a.classList.toggle('is-current', i === index));
-    };
-    pageObserver = new IntersectionObserver((entries) => {
-      const visible = entries.filter(e => e.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setCurrent(sections.indexOf(visible.target));
-    }, { rootMargin: '-40% 0px -40% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
-    sections.forEach(section => pageObserver.observe(section));
-    setCurrent(0);
+    if (!jumpLinks.length || jumpLinks.length !== sections.length) return;
+    const line = window.innerHeight * 0.4;
+    let current = 0;
+    sections.forEach((section, i) => {
+      if (section.getBoundingClientRect().top <= line) current = i;
+    });
+    jumpLinks.forEach((a, i) => a.classList.toggle('is-current', i === current));
+  }
+  function syncPageHighlight() {
+    updateJumpHighlight();
+    if (jumpScrollBound) return;
+    jumpScrollBound = true;
+    window.addEventListener('scroll', updateJumpHighlight, { passive: true });
+    window.addEventListener('resize', updateJumpHighlight, { passive: true });
+    // ページ送りを押した直後は、スクロールが終わる前でも押した先を選択状態にする
+    const jumpNav = document.getElementById('tss-pagejump');
+    if (jumpNav) {
+      jumpNav.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+        const links = [...jumpNav.querySelectorAll('a')];
+        links.forEach(a => a.classList.toggle('is-current', a === link));
+        setTimeout(updateJumpHighlight, 120);
+      });
+    }
   }
 
   function renderAll() {
     mount.innerHTML = flyer.pages.map((p, i) => pageHTML(p, flyer.tokens, i)).join('');
-    syncPageObserver();
+    syncPageHighlight();
   }
 
   // ---- 商品差し替えピッカー ----
@@ -673,9 +712,16 @@ async function renderFlyer(flyerKey, mountId) {
 
   const jumpNav = document.getElementById('tss-pagejump');
   if (jumpNav) {
-    jumpNav.innerHTML = flyer.pages.map((p, i) =>
-      `<a href="#tss-page-${i}"><span class="tss-jump-num">${i + 1}</span>${escapeHTML(p.pageKey)}</a>`).join('');
-    syncPageObserver();
+    jumpNav.innerHTML = tssPageJumpGroups(flyer.pages).map(group => `
+      <div class="tss-jump-group">
+        <div class="tss-jump-group-title">${escapeHTML(group.label)}</div>
+        <div class="tss-jump-nums">
+          ${group.items.map(entry =>
+            `<a href="#tss-page-${entry.index}" title="${escapeHTML(entry.page.pageKey)}"><span class="tss-jump-num">${entry.index + 1}</span></a>`
+          ).join('')}
+        </div>
+      </div>`).join('');
+    syncPageHighlight();
   }
   const titleEl = document.getElementById('tss-flyer-title');
   if (titleEl) titleEl.textContent = flyer.name + '（全' + flyer.pages.length + 'ページ）';
