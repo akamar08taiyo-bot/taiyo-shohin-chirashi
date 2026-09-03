@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./assets/design.css?v=20260903-2" />
+<link rel="stylesheet" href="./assets/design.css?v=20260903-3" />
 <style>
   body { background: #eef5f5; }
   .cx-wrap { padding: 0 0 40px; }
@@ -50,7 +50,18 @@
   .cx-count strong { font-family: 'Roboto Mono', monospace; font-size: 19px; color: var(--accent); margin: 0 3px; }
   .cx-count.is-full strong { color: var(--price-color); }
 
+  .cx-genres { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; padding: 9px 10px; background: #f4f9f9; border: 1px solid var(--border); }
+  .cx-genres:empty { display: none; }
+  .cx-genres-label { font-size: 12.5px; font-weight: 900; color: var(--text-sub); margin-right: 2px; }
+  .cx-genre-btn { font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--text-sub); background: #fff; border: 1px solid var(--border); padding: 6px 10px; cursor: pointer; }
+  .cx-genre-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .cx-genre-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .cx-genre-btn .cnt { font-family: 'Roboto Mono', monospace; font-size: 11px; opacity: .78; margin-left: 4px; }
+
   .cx-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+  .cx-genre-heading { grid-column: 1 / -1; display: flex; align-items: center; gap: 9px; margin-top: 5px; padding: 7px 9px; color: var(--accent); background: var(--tag-bg); border-left: 4px solid var(--accent); font-size: 13px; font-weight: 900; }
+  .cx-genre-heading:first-child { margin-top: 0; }
+  .cx-genre-heading .cnt { font-family: 'Roboto Mono', monospace; color: var(--text-sub); font-size: 11px; font-weight: 500; }
   .cx-item { display: flex; align-items: center; gap: 10px; border: 1px solid #e3edee; background: #fff; padding: 8px 10px; cursor: pointer; }
   .cx-item:hover { border-color: var(--accent); background: #f6fbfb; }
   .cx-item.is-checked { background: #eaf7f4; border-color: var(--accent); }
@@ -59,6 +70,7 @@
   .cx-item .th { width: 42px; height: 42px; flex: none; display: flex; align-items: center; justify-content: center; }
   .cx-item .th img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .cx-item .tx { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .cx-item .gr { align-self: flex-start; display: inline-flex; max-width: 100%; color: #075f66; background: #e2f2f1; border-radius: 999px; padding: 2px 7px; font-size: 10.5px; font-weight: 900; line-height: 1.4; }
   .cx-item .nm { font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--text-main); }
   .cx-item .mk { font-size: 12px; color: var(--text-sub); }
   .cx-empty { padding: 28px 10px; color: var(--text-sub); font-size: 15px; }
@@ -146,6 +158,7 @@
         <div class="cx-step">
           <div class="cx-step-label">② 商品を4点えらぶ</div>
           <div class="cx-pagebar" id="cx-pagebar"></div>
+          <div class="cx-genres" id="cx-genres" aria-label="商品ジャンルで絞り込む"></div>
           <div class="cx-count" id="cx-count">選択中<strong>0</strong>／4点</div>
           <div class="cx-list" id="cx-list"><div class="cx-empty">上のボタン（用途またはメーカー）を押すと、商品が表示されます。</div></div>
         </div>
@@ -168,7 +181,7 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260903-2').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260903-3').then(r => r.json());
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -202,18 +215,8 @@
     { name:'マスク・手袋', label:'業務用 マスク・手袋', lead:'サージカルマスクと使い捨て手袋。',
       pages:[['竹虎','04 マスク・手袋'],['竹虎','05 マスク'],['竹虎','06 マスク（予備）']] },
     { name:'紙おむつ・尿とりパッド', label:'施設向け 紙おむつ・尿とりパッド', lead:'テープ止め・パンツタイプ・尿とりパッド。体型と排尿量で選べます。',
-      pages:[['紙おむつ・パッド','UC01 横モレ安心テープ止め'],['紙おむつ・パッド','UC02 のび〜るフィットテープ止め'],['紙おむつ・パッド','UC03 カバータイプ'],
-             ['紙おむつ・パッド','UC04 コンフォートナイト'],['紙おむつ・パッド','UC05 SkinCondition 夜用'],['紙おむつ・パッド','UC06 一晩中安心さらさらパッド'],
-             ['紙おむつ・パッド','UC07 長時間・外モレ安心パッド'],['紙おむつ・パッド','UC08 リハビリパンツ レギュラー'],['紙おむつ・パッド','UC09 うす型快適パンツ'],
-             ['紙おむつ・パッド','UC10 リハビリパンツ スーパー'],['紙おむつ・パッド','UC11 長時間安心パンツ'],['紙おむつ・パッド','UC12 かんたん装着パッド'],
-             ['紙おむつ・パッド','DW01 男性用・長時間パッド'],['紙おむつ・パッド','DW02 ズレないパンツ用パッド'],['紙おむつ・パッド','DW03 ワイド・安心パッド'],
-             ['紙おむつ・パッド','DW04 夜用パッド'],['紙おむつ・パッド','DW05 両面吸収パッド'],['紙おむつ・パッド','DW06 昼・安心パッド'],
-             ['紙おむつ・パッド','DW07 水様便・背モレ対策'],['紙おむつ・パッド','DW08 軽快すっきりパンツ'],['紙おむつ・パッド','DW09 軽快長時間パンツ'],
-             ['紙おむつ・パッド','DW10 軽快パンツ'],['紙おむつ・パッド','DW11 のびるテープタイプ'],['紙おむつ・パッド','DW12 クロス止めテープタイプ'],
-             ['紙おむつ・パッド','KS01 パンツ ボクサータイプ'],['紙おむつ・パッド','KS02 パンツ ベーシック S〜L'],['紙おむつ・パッド','KS03 パンツ ベーシック LL・XL'],
-             ['紙おむつ・パッド','KS04 パンツ スーパー S〜L'],['紙おむつ・パッド','KS05 パンツ スーパー LL・XL'],['紙おむつ・パッド','KS06 クロステープ止めうす型'],
-             ['紙おむつ・パッド','KS07 幅広簡単テープ止め'],['紙おむつ・パッド','KS08 伸縮テープ止めスリム'],['紙おむつ・パッド','KS09 尿とりパッド'],
-             ['紙おむつ・パッド','KS10 ワイド・ビッグパッド'],['紙おむつ・パッド','KS11 Hi-premium'],['紙おむつ・パッド','KS12 両面吸収・フラット']] },
+      // ページ名を列挙するとデータ更新時に商品が欠落するため、対象チラシから常に動的取得する。
+      match:item => item.flier === '紙おむつ・パッド' },
     { name:'おしりふき', label:'施設向け おしりふき', lead:'排泄介助のおしりふき。シートの大きさと「流せる／流せない」で選べます。',
       pages:[['おしりふき・とろみ剤','CR01 おしりふき']] },
     { name:'とろみ剤・介護食', label:'施設向け とろみ調整食品', lead:'飲み込みに不安のある方へ。使用量に合わせた規格をそろえています。',
@@ -222,8 +225,8 @@
       pages:[['サラヤ','SR03 ボディケア・口腔ケア']] },
   ];
 
-  // カード見た目のトークン（花王チラシと同じ設定を流用）
-  const TOKENS = { photoHeight:200, cardTitleMinHeight:42, cardTitleFontSize:'16', descMinHeight:34, descFontSize:'11.5' };
+  // メーカーをまたいで長い商品名を選んでも本文が切れないよう、写真枠は統一したまま余白を確保する。
+  const TOKENS = { photoHeight:170, cardTitleMinHeight:42, cardTitleFontSize:'16', descMinHeight:34, descFontSize:'11.5' };
   const MAX = 4;
 
   // メーカー一覧。大王製紙はブランドで2つに分かれているのでまとめて扱う。
@@ -248,6 +251,7 @@
   })).filter(g => g.items.length);
 
   let activeSrc = null;       // { kind:'cat'|'maker', cat?, maker? }
+  let activeGenre = '';
   // ページごとに4商品。見出しもページ単位で持つ。
   const newPage = () => ({ ids: [], title: '消耗品一覧', subtitle: '', lead: '', label: '業務用 消耗品' });
   let pages = [newPage()];
@@ -260,6 +264,7 @@
   const byId = new Map(products.items.map(it => [it.id, it]));
 
   function catItems(cat) {
+    if (typeof cat.match === 'function') return products.items.filter(cat.match);
     const out = [];
     for (const [flier, page] of cat.pages) {
       for (const it of products.items) {
@@ -268,9 +273,41 @@
     }
     return out;
   }
+  function genreLabel(item) {
+    const page = String(item.page || '');
+    if (/テープ止めタイプ/.test(page)) return '紙おむつ（テープ止め）';
+    if (/パンツタイプ|リハビリパンツ/.test(page)) return '紙おむつ（パンツタイプ）';
+    if (/尿とりパッド（日中用）/.test(page)) return '尿とりパッド（日中用）';
+    if (/夜用パッド/.test(page)) return '尿とりパッド（夜用）';
+    if (/カバータイプ・装着パッド/.test(page)) return 'カバータイプ・装着パッド';
+    if (/特殊形状パッド/.test(page)) return '特殊形状パッド';
+    let label = page
+      .replace(/^(?:OM|SR|CR)\d+\s+/, '')
+      .replace(/^\d+\s+/, '')
+      .replace(/\s+\d+$/, '')
+      .replace(/（予備）/g, '')
+      .trim();
+    if (/^トイレット(?:\s+エルヴェール)?$/.test(label)) return 'トイレットペーパー';
+    if (/^フェルラック/.test(label)) return 'エプロン・ガウン';
+    return label || item.tag || 'その他';
+  }
+  function makerGenres() {
+    if (!activeSrc || activeSrc.kind !== 'maker') return [];
+    const groups = new Map();
+    activeSrc.maker.items.forEach(item => {
+      const genre = genreLabel(item);
+      const group = groups.get(genre) || [];
+      group.push(item);
+      groups.set(genre, group);
+    });
+    return [...groups].map(([name, items]) => ({ name, items }));
+  }
   function srcItems() {
     if (!activeSrc) return [];
-    return activeSrc.kind === 'cat' ? catItems(activeSrc.cat) : activeSrc.maker.items;
+    if (activeSrc.kind === 'cat') return catItems(activeSrc.cat);
+    const groups = makerGenres();
+    if (activeGenre) return (groups.find(group => group.name === activeGenre) || { items: [] }).items;
+    return groups.flatMap(group => group.items);
   }
   // 帯とタイトルにはメーカー名を出さない（お客様にお渡しする紙面のため）
   function srcLabel() {
@@ -297,6 +334,7 @@
       p.title = '消耗品一覧';
       p.lead = '業務用消耗品のご案内です。';
     }
+    activeGenre = '';
     p.subtitle = '';
     p.label = srcLabel();
     syncFields();
@@ -333,8 +371,22 @@
     bar.innerHTML = tabs + add + del;
   }
 
+  function renderGenreFilters() {
+    const bar = document.getElementById('cx-genres');
+    const groups = makerGenres();
+    if (!groups.length) {
+      bar.innerHTML = '';
+      return;
+    }
+    const allCount = groups.reduce((sum, group) => sum + group.items.length, 0);
+    bar.innerHTML = `<span class="cx-genres-label">ジャンルで絞る</span>
+      <button type="button" class="cx-genre-btn${activeGenre ? '' : ' active'}" data-genre-index="-1">すべて<span class="cnt">${allCount}</span></button>`
+      + groups.map((group, index) => `<button type="button" class="cx-genre-btn${activeGenre === group.name ? ' active' : ''}" data-genre-index="${index}">${esc(group.name)}<span class="cnt">${group.items.length}</span></button>`).join('');
+  }
+
   function renderList() {
     renderPagebar();
+    renderGenreFilters();
     const el = document.getElementById('cx-list');
     const picked = cur().ids;
     if (!activeSrc) {
@@ -342,14 +394,28 @@
     } else {
       const items = srcItems();
       const full = picked.length >= MAX;
+      const genreCounts = new Map();
+      items.forEach(item => {
+        const genre = genreLabel(item);
+        genreCounts.set(genre, (genreCounts.get(genre) || 0) + 1);
+      });
+      let previousGenre = '';
       el.innerHTML = items.map(it => {
         const on = picked.includes(it.id);
         const dis = !on && full;
+        const genre = genreLabel(it);
+        const groupCount = genreCounts.get(genre);
+        const heading = activeSrc.kind === 'maker' && genre !== previousGenre
+          ? `<div class="cx-genre-heading">${esc(genre)}<span class="cnt">${groupCount}商品</span></div>`
+          : '';
+        previousGenre = genre;
         return `
+          ${heading}
           <label class="cx-item${on ? ' is-checked' : ''}${dis ? ' is-disabled' : ''}">
             <input type="checkbox" data-id="${it.id}" ${on ? 'checked' : ''} ${dis ? 'disabled' : ''} />
-            <span class="th"><img src="${esc(it.image)}" alt="" loading="lazy" /></span>
+            <span class="th"><img src="${esc(it.image)}?v=20260903-3" alt="" loading="lazy" /></span>
             <span class="tx">
+              <span class="gr">${esc(genre)}</span>
               <span class="nm">${esc(it.name)}</span>
               <span class="mk">${esc(it.maker)}　${esc(it.spec)}</span>
             </span>
@@ -372,6 +438,15 @@
       : '各ページの商品を4点そろえると印刷できます';
     printBtn.textContent = printReady ? '🖨 印刷 / PDF保存' : '4商品そろえると印刷可能';
   }
+
+  document.getElementById('cx-genres').addEventListener('click', (e) => {
+    const button = e.target.closest('.cx-genre-btn');
+    if (!button) return;
+    const index = Number(button.dataset.genreIndex);
+    const groups = makerGenres();
+    activeGenre = index < 0 ? '' : (groups[index] ? groups[index].name : '');
+    renderList();
+  });
 
   document.getElementById('cx-list').addEventListener('change', (e) => {
     const cb = e.target.closest('input[type="checkbox"]');
@@ -422,7 +497,7 @@
       <article class="tss-card">
         ${ask}
         <div class="tss-card-photo" style="height:${TOKENS.photoHeight}px">
-          <img src="${esc(item.image)}" alt="${esc(item.name)}" />
+          <img src="${esc(item.image)}?v=20260903-3" alt="${esc(item.name)}" />
         </div>
         <div class="tss-card-body">
           <div class="tss-card-maker">${esc(item.maker)}</div>
@@ -525,7 +600,23 @@
     document.querySelectorAll('.cx-cat').forEach(x => x.classList.remove('active'));
     syncFields(); renderList(); renderFlyer();
   });
-  document.getElementById('cx-print').addEventListener('click', () => {
+  async function printImagesReady(root, timeoutMs = 12000) {
+    const images = Array.from(root.querySelectorAll('img'));
+    const allSettled = Promise.all(images.map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    })).then(() => true);
+    const beforeTimeout = await Promise.race([
+      allSettled,
+      new Promise(resolve => setTimeout(() => resolve(false), timeoutMs)),
+    ]);
+    return beforeTimeout && images.every(img => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0);
+  }
+
+  document.getElementById('cx-print').addEventListener('click', async () => {
     const filled = pages.filter(p => p.ids.length > 0);
     if (!filled.length) { alert('商品をえらんでください。'); return; }
     const half = filled.filter(p => p.ids.length < MAX);
@@ -534,18 +625,41 @@
         + 'ページ目の商品を必ず4点そろえてください。\n1ページには、4商品と社名・営業所情報をまとめて印刷します。');
       return;
     }
+    const stage = document.getElementById('cx-stage');
+    const printButton = document.getElementById('cx-print');
+    printButton.disabled = true;
+    printButton.textContent = '画像とレイアウトを確認中…';
+    const imagesReady = await printImagesReady(stage);
+    if (!imagesReady) {
+      alert('商品画像を読み込めなかったため、安全のため印刷を中止しました。通信状態を確認して、もう一度お試しください。');
+      renderList();
+      return;
+    }
     const renderedPages = Array.from(document.querySelectorAll('.cx-pagewrap .page'));
-    const invalidLayout = renderedPages.some(page =>
-      page.querySelectorAll('.tss-card').length !== MAX ||
-      !page.querySelector('.tss-footer-office') ||
-      page.scrollHeight > page.clientHeight + 1 ||
-      page.scrollWidth > page.clientWidth + 1
-    );
+    const invalidLayout = renderedPages.some(page => {
+      const pageRect = page.getBoundingClientRect();
+      const cards = Array.from(page.querySelectorAll('.tss-card'));
+      const footer = page.querySelector('.tss-footer');
+      const clippedCard = cards.some(card => {
+        const cardRect = card.getBoundingClientRect();
+        const body = card.querySelector('.tss-card-body');
+        const bodyRect = body && body.getBoundingClientRect();
+        return !body || body.scrollHeight > body.clientHeight + 1 || bodyRect.bottom > cardRect.bottom + 1;
+      });
+      return cards.length !== MAX ||
+        !footer || !page.querySelector('.tss-footer-office') ||
+        footer.getBoundingClientRect().bottom > pageRect.bottom + 1 ||
+        page.scrollHeight > page.clientHeight + 1 ||
+        page.scrollWidth > page.clientWidth + 1 ||
+        clippedCard;
+    });
     if (invalidLayout) {
-      alert('印刷レイアウトを安全に収められませんでした。商品名や説明を短くしてから、もう一度お試しください。');
+      alert('1ページに4商品と社名を安全に収められないため、印刷を中止しました。商品名や説明を短くして、もう一度お試しください。');
+      renderList();
       return;
     }
     window.print();
+    renderList();
   });
 
   syncFields();

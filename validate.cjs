@@ -95,22 +95,42 @@ for (const it of products.items) {
   if (!fs.existsSync(p)) errors.push(`画像が見つからない: ${it.image} (id ${it.id} ${it.name})`);
 }
 
-// --- 固定ページは4商品ちょうど、自動ページ分割はカテゴリ内に1商品以上 ---
+// --- 固定ページも自動ページ分割も、印刷される全ページが4商品ちょうど ---
 const validPairs = new Set();
+const autoFlyerNames = new Set(pages.flyers.filter(flyer => flyer.autoPaginate).map(flyer => flyer.name));
 for (const flyer of pages.flyers) {
+  const autoItems = [];
   for (const pg of flyer.pages) {
     validPairs.add(flyer.name + '||' + pg.pageKey);
     const items = products.items.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
-    if (flyer.autoPaginate && items.length === 0) {
-      errors.push(`${flyer.key} / ${pg.pageKey}: 自動ページ分割する商品がありません`);
+    if (flyer.autoPaginate) {
+      const printableItems = items.filter(it => it.fixedFlyer !== false);
+      if (printableItems.length === 0) {
+        errors.push(`${flyer.key} / ${pg.pageKey}: 自動ページ分割する商品がありません`);
+      }
+      autoItems.push(...printableItems);
     } else if (!flyer.autoPaginate && items.length !== 4) {
       errors.push(`${flyer.key} / ${pg.pageKey}: 掲載商品が ${items.length} 件（4件ちょうどである必要があります）`);
+    }
+  }
+  if (flyer.autoPaginate) {
+    if (autoItems.length === 0 || autoItems.length % 4 !== 0) {
+      errors.push(`${flyer.key}: 固定チラシ商品が ${autoItems.length} 件（全ページを4件ちょうどにできません）`);
+    }
+    for (let offset = 0; offset < autoItems.length; offset += 4) {
+      const pageItems = autoItems.slice(offset, offset + 4);
+      if (pageItems.length !== 4) {
+        errors.push(`${flyer.key}: 自動生成ページ ${offset / 4 + 1} が ${pageItems.length} 件（4件ちょうどである必要があります）`);
+      }
     }
   }
 }
 
 // --- ページに載らない商品（ピッカー専用の予備）---
-const spares = products.items.filter(it => !validPairs.has(it.flier + '||' + it.page));
+const spares = products.items.filter(it => (
+  !validPairs.has(it.flier + '||' + it.page)
+  || (autoFlyerNames.has(it.flier) && it.fixedFlyer === false)
+));
 if (spares.length) {
   notes.push(`ピッカー専用の予備商品 ${spares.length} 件（チラシには印刷されません）:`);
   spares.forEach(it => notes.push(`    id ${it.id}  ${it.flier} / ${it.page}  ${it.name}`));

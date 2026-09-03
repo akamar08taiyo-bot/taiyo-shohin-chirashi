@@ -313,10 +313,9 @@ a:hover { color: var(--accent-hover); }
 .tss-reset-btn:hover { background: #b45309; color: #fff; }
 
 /* height はページごとのトークン（pages.json の photoHeight）でインライン指定する。
-   flex-shrink を許可しているため、商品名が長い・価格を表示したなどで下の情報量が増えた場合は
-   写真枠が自動で縮み、テキストが card の overflow:hidden で見えなくなるのを防ぐ。 */
+   全4カードで写真枠の高さを固定し、商品名の長さに左右されない統一レイアウトにする。 */
 .tss-card-photo {
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -328,10 +327,9 @@ a:hover { color: var(--accent-hover); }
 /* max-width/max-height だけだと、元画像が枠より小さい商品（メーカー公開画像が
    小さいもの）は拡大されず、同じページ内で商品の大きさが不揃いに見える。
    width/height を 100% にして、どの商品も枠いっぱいまで拡大・縮小する。 */
-.tss-card-photo img { width: 100%; height: 100%; min-height: 0; object-fit: contain; display: block; }
+.tss-card-photo img { width: 100%; height: 100%; min-height: 0; object-fit: contain; object-position: center center; display: block; }
 
-/* basis を auto（＝中身の高さ）にし shrink を 0 にすることで、
-   スペースが足りないときは本文ではなく上の写真枠が縮む。余ったときは本文が伸びて下端を埋める。 */
+/* 写真枠を縮めず、本文はカード内の残り領域にそろえて配置する。 */
 .tss-card-body { flex: 1 0 auto; padding: 7px 12px 8px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
 .tss-card-maker { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
 .tss-card-name { margin: 0; font-weight: 700; line-height: 1.25; }
