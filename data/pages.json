@@ -125,6 +125,143 @@
    ]
   },
   {
+   "key": "kao-pro",
+   "name": "花王プロフェッショナル",
+   "file": "kao-pro.html",
+   "autoPaginate": true,
+   "excludeIds": [
+    695,
+    696
+   ],
+   "tokens": {
+    "photoHeight": 176,
+    "cardTitleMinHeight": 50,
+    "cardTitleFontSize": "13.5",
+    "descMinHeight": 28,
+    "descFontSize": "10.5"
+   },
+   "pages": [
+    {
+     "pageKey": "KP01 手指衛生",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "手指洗浄剤、手指消毒剤",
+      "手指洗浄剤（病院・介護向け）、手指消毒剤（病院・介護向け）、ハンドケア",
+      "手指衛生",
+      "手指衛生・清拭",
+      "エタノール製剤"
+     ],
+     "categoryLabel": "手指衛生",
+     "title": "手指衛生",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "手洗い石けん・手指消毒剤・アルコール製剤。病院・介護施設向けの製品もそろえています。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    },
+    {
+     "pageKey": "KP02 調理・食器まわり",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "食器用洗剤、除菌洗浄剤",
+      "食器用洗剤",
+      "食器洗浄機用洗浄剤、食器洗浄機用リンス剤、前洗い用浸漬剤、スケール除去剤",
+      "食器洗浄機用洗剤",
+      "台所用漂白剤",
+      "クッキングペーパー"
+     ],
+     "categoryLabel": "調理・食器まわり",
+     "title": "調理・食器まわり",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "食器用洗剤・食器洗浄機用洗浄剤・漂白剤・クッキングペーパーです。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    },
+    {
+     "pageKey": "KP03 厨房・床の清掃",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "厨房設備用洗浄剤、除菌漂白剤",
+      "厨房の油汚れ・床",
+      "ホール・客室清掃用洗浄剤、除菌洗浄剤、フロア用清掃用具",
+      "塩素系洗浄剤、グリーストラップ清掃用品"
+     ],
+     "categoryLabel": "厨房・床の清掃",
+     "title": "厨房・床の清掃",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "厨房設備の洗浄剤と、ホール・客室・床の清掃用洗剤です。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    },
+    {
+     "pageKey": "KP04 お手洗い・浴室",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "トイレ用洗浄剤",
+      "トイレ洗剤",
+      "トイレ・排水管（塩素系）",
+      "浴室・浴場用洗剤",
+      "浴室・カビ"
+     ],
+     "categoryLabel": "お手洗い・浴室",
+     "title": "お手洗い・浴室",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "トイレ用洗浄剤・排水管用・浴室用洗剤とカビ対策です。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    },
+    {
+     "pageKey": "KP05 洗濯・衣類",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "衣料用洗剤、衣料用柔軟剤、衣料用漂白剤、その他業務用洗浄剤",
+      "洗濯用洗剤",
+      "衣料用漂白剤・柔軟剤"
+     ],
+     "categoryLabel": "洗濯・衣類",
+     "title": "洗濯・衣類",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "リネン類の洗濯用洗剤・柔軟仕上げ剤・漂白剤です。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    },
+    {
+     "pageKey": "KP06 消臭・環境整備",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "消臭剤、入浴剤",
+      "消臭・除菌",
+      "環境整備品、汚物処理用品"
+     ],
+     "categoryLabel": "消臭・環境整備",
+     "title": "消臭・環境整備",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "空間・布製品の消臭と、環境整備品・汚物処理用品です。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    },
+    {
+     "pageKey": "KP07 入浴・ボディケア・排泄ケア",
+     "sourceMaker": "花王プロフェッショナル",
+     "sourceCategories": [
+      "シャンプー・ボディウォッシュ、ボディケア、排泄ケア"
+     ],
+     "categoryLabel": "入浴・ボディケア・排泄ケア",
+     "title": "入浴・ボディケア・排泄ケア",
+     "subtitle": "花王プロフェッショナル",
+     "lead": "洗髪・清拭・スキンケアと、排泄ケア用品です。",
+     "sizeBoxTitle": null,
+     "sizeBoxBody": null,
+     "note": "使用方法・希釈倍率・注意事項は、各商品ラベルと花王プロフェッショナル・サービスの公式資料をご確認ください。"
+    }
+   ]
+  },
+  {
    "key": "japacks",
    "name": "ジャパックス",
    "file": "japacks.html",

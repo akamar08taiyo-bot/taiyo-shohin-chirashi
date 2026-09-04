@@ -84,6 +84,23 @@ function tssPageJumpGroups(pages) {
 // 用途別チラシ（sourceFlier 指定）は、別チラシの商品を分類だけで拾い直すので、
 // 同じ商品を products.json に二重登録せずに別の切り口のチラシを作れる。
 function tssSourceItems(allItems, flyer, template) {
+  // このチラシだけ載せない商品（つめかえ容器・ポーチ等の付属品）。
+  // fixedFlyer と違い、他のチラシには影響しない。
+  const excluded = new Set(flyer.excludeIds || []);
+  if (excluded.size) allItems = allItems.filter(item => !excluded.has(item.id));
+
+  // メーカー別に全商品を集めるチラシ（sourceMaker 指定）。
+  // 商品を二重登録せず、メーカー名だけで拾い直す。
+  if (template.sourceMaker) {
+    const pool = allItems.filter(item => (
+      item.maker === template.sourceMaker
+      && item.fixedFlyer !== false
+      && !/予備/.test(String(item.page || ''))
+      && (!template.sourceCategories || template.sourceCategories.includes(tssPageCategory(item.page)))
+    ));
+    return pool;
+  }
+
   // メーカー横断の用途別チラシ。分類（テープ止め／台所用…）を用途にまとめ直して集める。
   // メーカーをまたぐので sourceFlier では絞らない。
   if (Array.isArray(template.sourceCategories)) {

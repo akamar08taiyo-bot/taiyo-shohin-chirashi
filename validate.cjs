@@ -106,18 +106,31 @@ function pageCategory(pageKey) {
 
 // 用途別チラシは、別チラシの商品を分類だけで拾い直す（商品は二重登録しない）
 function sourceItems(flyer, pg) {
+  // このチラシだけ載せない商品（他のチラシには影響しない）
+  const excluded = new Set(flyer.excludeIds || []);
+  const pool = excluded.size ? products.items.filter(it => !excluded.has(it.id)) : products.items;
+
+  // メーカー別に全商品を集めるチラシ
+  if (pg.sourceMaker) {
+    return pool.filter(it => (
+      it.maker === pg.sourceMaker
+      && !/予備/.test(String(it.page || ''))
+      && (!pg.sourceCategories || pg.sourceCategories.includes(pageCategory(it.page)))
+    ));
+  }
+
   // メーカー横断の用途別チラシ（複数分類をまとめて拾う）
   if (Array.isArray(pg.sourceCategories)) {
     const wanted = new Set(pg.sourceCategories);
-    return products.items.filter(it => (
+    return pool.filter(it => (
       !/予備/.test(String(it.page || ''))
       && wanted.has(pageCategory(it.page))
     ));
   }
   if (!pg.sourceCategory) {
-    return products.items.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
+    return pool.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
   }
-  return products.items.filter(it => (
+  return pool.filter(it => (
     it.flier === (flyer.sourceFlier || flyer.name)
     && pageCategory(it.page) === pg.sourceCategory
   ));
