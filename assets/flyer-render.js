@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260904-2';
+const TSS_IMAGE_VERSION = '20260905-2';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -39,6 +39,16 @@ function tssSaveComposition(comp) {
 // 中黒・スラッシュのうしろを優先的な改行位置にする（design.css の word-break: keep-all と対で使う）。
 function tssBreakableTitle(text) {
   return escapeHTML(text).replace(/([・／\/])/g, '$1<wbr>');
+}
+
+// 規格とタグに同じ内容が入っている商品（規格「Sサイズ・28枚入」＋タグ「28枚入」など）が
+// 多いため、内容が重複するタグは出さない。「50枚入・乳白」のように情報が増えるタグは残す。
+function tssIsRedundantTag(spec, tag) {
+  const norm = s => String(s || '').replace(/\s+/g, '').replace(/入り$/, '').replace(/入$/, '');
+  const s = norm(spec);
+  const t = norm(tag);
+  if (!s || !t) return false;
+  return s === t || s.includes(t);
 }
 
 // ページ名から分類名だけを取り出す。
@@ -127,9 +137,9 @@ function tssInterleaveByMaker(items) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260904-2').then(r => r.json()),
-    fetch('./data/products.json?v=20260904-2').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260904-2').then(r => r.json()),
+    fetch('./data/pages.json?v=20260905-2').then(r => r.json()),
+    fetch('./data/products.json?v=20260905-2').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260905-2').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
@@ -178,7 +188,11 @@ async function renderFlyer(flyerKey, mountId) {
             : `${flyer.name}　用途別セレクション`)
           : first.categoryLabel,
         title: first.title,
-        subtitle: mixed ? `＋ ${templates.slice(1).map(template => template.title).join('／')}` : first.subtitle,
+        // 用途別チラシは、そのページに載っているメーカー名を見出しに出す。
+        // 「メーカー横断で比較」と書くより、どの会社の商品が並んでいるか一目で分かる。
+        subtitle: flyer.mixMakers
+          ? [...new Set(entries.map(entry => entry.item.maker))].join('／')
+          : (mixed ? `＋ ${templates.slice(1).map(template => template.title).join('／')}` : first.subtitle),
         lead: mixed
           ? `${templates.map(template => template.title).join('と')}の商品を、4点にまとめて掲載しています。`
           : first.lead,
@@ -305,7 +319,8 @@ async function renderFlyer(flyerKey, mountId) {
           <h2 class="tss-card-name" style="min-height:${tokens.cardTitleMinHeight}px;font-size:${tokens.cardTitleFontSize}px">${nameLines}</h2>
           <div class="tss-card-tags">
             <span class="tss-tag-spec">${escapeHTML(item.spec)}</span>
-            <span class="tss-tag-cat">${escapeHTML(item.tag)}</span>
+            ${(!String(item.tag || '').trim() || tssIsRedundantTag(item.spec, item.tag))
+              ? '' : `<span class="tss-tag-cat">${escapeHTML(item.tag)}</span>`}
           </div>
           <p class="tss-card-desc" style="min-height:${tokens.descMinHeight}px;font-size:${tokens.descFontSize}px">${escapeHTML(item.desc)}</p>
           ${showCodes ? `<div class="tss-card-code">${escapeHTML(item.code)}</div>` : ''}
