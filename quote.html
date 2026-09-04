@@ -14,6 +14,37 @@
   a { color: #0f7f86; }
   .wrap { min-height: 100vh; padding: 24px 24px 60px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
   .inner { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 16px; }
+
+  /* 右の空きスペースに「いま見積に入っている商品」を常に出す。
+     チェックした内容がその場で分かるようにするための一覧。 */
+  .picker-body { display: flex; flex-direction: column; gap: 14px; }
+  .picker-body > .picker-groups { min-width: 0; }
+  .picker-selected { border: 2px solid #0f7f86; background: #fff; display: flex; flex-direction: column; min-height: 0; }
+  .ps-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; background: #0f7f86; color: #fff; padding: 9px 13px; }
+  .ps-title { font-size: 13px; font-weight: 900; letter-spacing: .04em; }
+  .ps-count { font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 700; }
+  .ps-list { display: flex; flex-direction: column; overflow-y: auto; }
+  .ps-item { display: flex; align-items: center; gap: 9px; padding: 8px 11px; border-bottom: 1px solid #eef5f5; }
+  .ps-item:last-child { border-bottom: none; }
+  .ps-item .th { width: 34px; height: 34px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .ps-item .th img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .ps-item .tx { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 1px; }
+  .ps-item .nm { font-size: 12.5px; font-weight: 700; line-height: 1.35; color: #12242A; }
+  .ps-item .mk { font-size: 11px; color: #5c7376; }
+  .ps-del {
+    flex: none; border: 1.5px solid #cfe0e2; background: #fff; color: #6f8688;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
+    width: 26px; height: 26px; line-height: 1; cursor: pointer; padding: 0;
+  }
+  .ps-del:hover { border-color: #c25a17; color: #c25a17; }
+  .ps-empty { padding: 22px 14px; font-size: 12.5px; line-height: 1.7; color: #5c7376; }
+
+  /* 横に余裕がある画面では、商品一覧の右に並べて固定表示する */
+  @media (min-width: 1180px) {
+    .inner { max-width: 1400px; }
+    .picker-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; gap: 18px; }
+    .picker-selected { position: sticky; top: 16px; max-height: calc(100vh - 130px); }
+  }
   .back { font-size: 13px; font-weight: 700; text-decoration: none; }
   header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .badge { background: #0f7f86; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .14em; padding: 5px 12px; }
@@ -289,7 +320,16 @@
         <div class="picker-count"><strong id="picker-count-num">0</strong>件 選択中</div>
       </div>
       <div class="picker-makers" id="picker-makers"></div>
-      <div class="picker-groups" id="picker-groups"></div>
+      <div class="picker-body">
+        <div class="picker-groups" id="picker-groups"></div>
+        <aside class="picker-selected" id="picker-selected">
+          <div class="ps-head">
+            <span class="ps-title">見積に入れた商品</span>
+            <span class="ps-count" id="ps-count">0件</span>
+          </div>
+          <div class="ps-list" id="ps-list"></div>
+        </aside>
+      </div>
     </div>
 
     <div class="view" id="view-quote">
@@ -576,7 +616,55 @@
     document.getElementById('picker-count-num').textContent = n;
     document.getElementById('tab-quote-count').textContent = '(' + n + ')';
     document.getElementById('sb-count').textContent = n;
+    renderSelectedPanel();
   }
+
+  /* ---- 右側「見積に入れた商品」----
+     チェックした商品をその場で確認できるようにする。×で外せる。 */
+  function renderSelectedPanel() {
+    const listEl = document.getElementById('ps-list');
+    const countEl = document.getElementById('ps-count');
+    if (!listEl) return;
+    const ids = Object.keys(cart).map(Number);
+    countEl.textContent = ids.length + '件';
+    if (!ids.length) {
+      listEl.innerHTML = '<div class="ps-empty">左の一覧で商品にチェックを付けると、ここに一覧が出ます。</div>';
+      return;
+    }
+    // 見積書と同じ並び（メーカー順）で見せる
+    const picked = products.items.filter(it => cart[it.id] != null);
+    picked.sort((a, b) => (makerIndex.get(a.maker) ?? 0) - (makerIndex.get(b.maker) ?? 0) || a.id - b.id);
+    listEl.innerHTML = picked.map(it => `
+      <div class="ps-item">
+        <span class="th"><img src="${escapeHTML(it.image)}?v=20260904-1" alt="" loading="lazy" /></span>
+        <span class="tx">
+          <span class="nm">${escapeHTML(it.name)}</span>
+          <span class="mk">${escapeHTML(it.maker)}　${escapeHTML(it.spec)}</span>
+        </span>
+        <button type="button" class="ps-del" data-id="${it.id}" title="見積から外す" aria-label="見積から外す">×</button>
+      </div>`).join('');
+  }
+
+  document.getElementById('ps-list').addEventListener('click', (e) => {
+    const btn = e.target.closest('.ps-del');
+    if (!btn) return;
+    const id = Number(btn.dataset.id);
+    delete cart[id];
+    delete meta.priceOverrides[id];
+    saveMeta(meta);
+    tssSaveQuoteCart(cart);
+    // 左の一覧に出ている行のチェックも外す
+    const cb = pickerGroupsEl.querySelector('.picker-check[data-id="' + id + '"]');
+    if (cb) {
+      cb.checked = false;
+      const row = cb.closest('.picker-item');
+      if (row) row.classList.remove('is-checked');
+    }
+    updatePickerCount();
+    renderMakerChips();
+    renderRows();
+    updateStickyBar();
+  });
 
   /* ---- 画面下部の固定バー ----
      「商品を選ぶ」タブでは見積書タブへ進むボタン、
