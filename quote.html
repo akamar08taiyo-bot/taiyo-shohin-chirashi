@@ -15,7 +15,7 @@
   .wrap { min-height: 100vh; padding: 24px 24px 60px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
   .inner { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 16px; }
 
-  /* 右の空きスペースに「いま見積に入っている商品」を常に出す。
+  /* 左の空きスペースに「いま見積に入っている商品」を常に出す。
      チェックした内容がその場で分かるようにするための一覧。 */
   .picker-body { display: flex; flex-direction: column; gap: 14px; }
   .picker-body > .picker-groups { min-width: 0; }
@@ -39,11 +39,13 @@
   .ps-del:hover { border-color: #c25a17; color: #c25a17; }
   .ps-empty { padding: 22px 14px; font-size: 12.5px; line-height: 1.7; color: #5c7376; }
 
-  /* 横に余裕がある画面では、商品一覧の右に並べて固定表示する */
+  /* 横に余裕がある画面では、商品一覧の左に並べて固定表示する */
   @media (min-width: 1180px) {
     .inner { max-width: 1400px; }
-    .picker-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; gap: 18px; }
-    .picker-selected { position: sticky; top: 16px; max-height: calc(100vh - 130px); }
+    .picker-body { display: grid; grid-template-columns: 320px minmax(0, 1fr); align-items: start; gap: 18px; }
+    /* 画面が狭いときは商品一覧を先に出したいので、HTMLの並びは変えず配置だけ入れ替える */
+    .picker-selected { grid-column: 1; grid-row: 1; position: sticky; top: 16px; max-height: calc(100vh - 130px); }
+    .picker-body > .picker-groups { grid-column: 2; grid-row: 1; }
   }
   .back { font-size: 13px; font-weight: 700; text-decoration: none; }
   header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
