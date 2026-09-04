@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./assets/design.css?v=20260904-1" />
+<link rel="stylesheet" href="./assets/design.css?v=20260904-2" />
 <style>
   body { background: #eef5f5; }
   .cx-wrap { padding: 0 0 40px; }
@@ -181,7 +181,7 @@
 <script src="./assets/pricing.js"></script>
 <script>
 (async function () {
-  const products = await fetch('./data/products.json?v=20260904-1').then(r => r.json());
+  const products = await fetch('./data/products.json?v=20260904-2').then(r => r.json());
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -413,7 +413,7 @@
           ${heading}
           <label class="cx-item${on ? ' is-checked' : ''}${dis ? ' is-disabled' : ''}">
             <input type="checkbox" data-id="${it.id}" ${on ? 'checked' : ''} ${dis ? 'disabled' : ''} />
-            <span class="th"><img src="${esc(it.image)}?v=20260904-1" alt="" loading="lazy" /></span>
+            <span class="th"><img src="${esc(it.image)}?v=20260904-2" alt="" loading="lazy" /></span>
             <span class="tx">
               <span class="gr">${esc(genre)}</span>
               <span class="nm">${esc(it.name)}</span>
@@ -497,7 +497,7 @@
       <article class="tss-card">
         ${ask}
         <div class="tss-card-photo" style="height:${TOKENS.photoHeight}px">
-          <img src="${esc(item.image)}?v=20260904-1" alt="${esc(item.name)}" />
+          <img src="${esc(item.image)}?v=20260904-2" alt="${esc(item.name)}" />
         </div>
         <div class="tss-card-body">
           <div class="tss-card-maker">${esc(item.maker)}</div>

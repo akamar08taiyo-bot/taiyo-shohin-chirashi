@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260904-1';
+const TSS_IMAGE_VERSION = '20260904-2';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -74,6 +74,17 @@ function tssPageJumpGroups(pages) {
 // 用途別チラシ（sourceFlier 指定）は、別チラシの商品を分類だけで拾い直すので、
 // 同じ商品を products.json に二重登録せずに別の切り口のチラシを作れる。
 function tssSourceItems(allItems, flyer, template) {
+  // メーカー横断の用途別チラシ。分類（テープ止め／台所用…）を用途にまとめ直して集める。
+  // メーカーをまたぐので sourceFlier では絞らない。
+  if (Array.isArray(template.sourceCategories)) {
+    const wanted = new Set(template.sourceCategories);
+    const pool = allItems.filter(item => (
+      item.fixedFlyer !== false
+      && !/予備/.test(String(item.page || ''))
+      && wanted.has(tssPageCategory(item.page))
+    ));
+    return flyer.mixMakers ? tssInterleaveByMaker(pool) : pool;
+  }
   if (!template.sourceCategory) {
     return allItems.filter(item => (
       item.flier === flyer.name
@@ -116,9 +127,9 @@ function tssInterleaveByMaker(items) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260904-1').then(r => r.json()),
-    fetch('./data/products.json?v=20260904-1').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260904-1').then(r => r.json()),
+    fetch('./data/pages.json?v=20260904-2').then(r => r.json()),
+    fetch('./data/products.json?v=20260904-2').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260904-2').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
@@ -159,7 +170,13 @@ async function renderFlyer(flyerKey, mountId) {
       autoPages.push({
         ...first,
         pageKey: `${String(pageNumber).padStart(2, '0')} ${templates.map(template => template.pageKey).join('＋')}`,
-        categoryLabel: mixed ? `${flyer.name}　用途別セレクション` : first.categoryLabel,
+        // 分類をまたぐページの帯。用途別チラシはメーカー名を持たないので、
+        // 「◯◯＋△△」と両方の分類名を出したほうが分かりやすい。
+        categoryLabel: mixed
+          ? (flyer.mixMakers
+            ? templates.map(template => template.categoryLabel).join('＋')
+            : `${flyer.name}　用途別セレクション`)
+          : first.categoryLabel,
         title: first.title,
         subtitle: mixed ? `＋ ${templates.slice(1).map(template => template.title).join('／')}` : first.subtitle,
         lead: mixed

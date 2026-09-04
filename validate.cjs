@@ -106,6 +106,14 @@ function pageCategory(pageKey) {
 
 // 用途別チラシは、別チラシの商品を分類だけで拾い直す（商品は二重登録しない）
 function sourceItems(flyer, pg) {
+  // メーカー横断の用途別チラシ（複数分類をまとめて拾う）
+  if (Array.isArray(pg.sourceCategories)) {
+    const wanted = new Set(pg.sourceCategories);
+    return products.items.filter(it => (
+      !/予備/.test(String(it.page || ''))
+      && wanted.has(pageCategory(it.page))
+    ));
+  }
   if (!pg.sourceCategory) {
     return products.items.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
   }
