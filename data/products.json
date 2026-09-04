@@ -2,7 +2,7 @@
  "meta": {
   "generated": "2026-09-01",
   "owner": "太陽シルバーサービス㈱ 行橋営業所",
-  "items": 727,
+  "items": 723,
   "note": "メーカー公式商品ページ・公式カタログと照合した商品マスター。unitBasis は単価計算の基準（100mL/1kg/1枚/1ロール/1箱）。確認できない数値は推測で補完しない。"
  },
  "items": [
@@ -5101,7 +5101,7 @@
    "desc": "ペーパータオル用ホルダー／400枚用。パルピュア等のペーパータオルと組み合わせて使います。",
    "code": "品番 PH-400N ／ JAN 4987696518711",
    "unitBasis": "1台",
-   "image": "./images/saraya/saraya-006.png",
+   "image": "./images/saraya/saraya-006.jpg",
    "id": 392
   },
   {
@@ -5140,7 +5140,7 @@
    "desc": "コロロ／うがい薬",
    "code": "品番 12224 ／ JAN 4987696122086",
    "unitBasis": "100mL",
-   "image": "./images/saraya/saraya-013.png",
+   "image": "./images/saraya/saraya-013.jpg",
    "id": 399
   },
   {
@@ -5179,7 +5179,7 @@
    "desc": "便座クリーナー用ディスペンサー",
    "code": "品番 SC-460R ／ JAN 4987696417533",
    "unitBasis": "1台",
-   "image": "./images/saraya/saraya-021.png",
+   "image": "./images/saraya/saraya-021.jpg",
    "fixedFlyer": false,
    "id": 407
   },
@@ -5578,9 +5578,9 @@
    "page": "SR10 ペーパータオル",
    "maker": "サラヤ",
    "name": "PTリオーレ",
-   "spec": "200枚×42 1cs",
+   "spec": "200枚×42",
    "tag": "",
-   "desc": "PTリオーレ200枚×42 1cs。",
+   "desc": "ペーパータオル リオーレ 200枚×42パック。10ケース以上・50ケース以上のまとめ買いで単価が下がります。",
    "code": "品番 51873 ／ JAN 4987696518735",
    "unitBasis": "1枚",
    "image": "./images/saraya/saraya-51873.jpg",
@@ -5617,9 +5617,9 @@
    "page": "SR10 ペーパータオル",
    "maker": "サラヤ",
    "name": "PTリオーレR",
-   "spec": "200枚×30 1cs",
+   "spec": "200枚×30",
    "tag": "",
-   "desc": "PTリオーレR200枚×30 1cs。",
+   "desc": "ペーパータオル リオーレR 200枚×30パック。10ケース以上・50ケース以上のまとめ買いで単価が下がります。",
    "code": "品番 52096 ／ JAN 4987696520967",
    "unitBasis": "1枚",
    "image": "./images/saraya/saraya-52096.jpg",
@@ -6703,58 +6703,6 @@
    "unitBasis": "1枚",
    "image": "./images/saraya/saraya-placeholder.png",
    "id": 526
-  },
-  {
-   "flier": "サラヤ",
-   "page": "SR99 予備（写真準備中）",
-   "maker": "サラヤ",
-   "name": "PTリオーレ",
-   "spec": "200枚×42 10cs用",
-   "tag": "",
-   "desc": "PTリオーレ200枚×42 10cs用。",
-   "code": "品番 51875 ／ JAN 4987696518735",
-   "unitBasis": "1枚",
-   "image": "./images/saraya/saraya-placeholder.png",
-   "id": 527
-  },
-  {
-   "flier": "サラヤ",
-   "page": "SR99 予備（写真準備中）",
-   "maker": "サラヤ",
-   "name": "PTリオーレ",
-   "spec": "200枚×42 50cs用",
-   "tag": "",
-   "desc": "PTリオーレ200枚×42 50cs用。",
-   "code": "品番 51877 ／ JAN 4987696518735",
-   "unitBasis": "1枚",
-   "image": "./images/saraya/saraya-placeholder.png",
-   "id": 528
-  },
-  {
-   "flier": "サラヤ",
-   "page": "SR99 予備（写真準備中）",
-   "maker": "サラヤ",
-   "name": "PTリオーレR",
-   "spec": "200枚×30 10cs用",
-   "tag": "",
-   "desc": "PTリオーレR200枚×30 10cs用。",
-   "code": "品番 52097 ／ JAN 4987696520967",
-   "unitBasis": "1枚",
-   "image": "./images/saraya/saraya-placeholder.png",
-   "id": 529
-  },
-  {
-   "flier": "サラヤ",
-   "page": "SR99 予備（写真準備中）",
-   "maker": "サラヤ",
-   "name": "PTリオーレR",
-   "spec": "200枚×30 50cs用",
-   "tag": "",
-   "desc": "PTリオーレR200枚×30 50cs用。",
-   "code": "品番 52098 ／ JAN 4987696520967",
-   "unitBasis": "1枚",
-   "image": "./images/saraya/saraya-placeholder.png",
-   "id": 530
   },
   {
    "flier": "サラヤ",
