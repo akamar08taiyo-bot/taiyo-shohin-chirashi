@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260905-3';
+const TSS_IMAGE_VERSION = '20260905-4';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -154,9 +154,9 @@ function tssInterleaveByMaker(items) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260905-3').then(r => r.json()),
-    fetch('./data/products.json?v=20260905-3').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260905-3').then(r => r.json()),
+    fetch('./data/pages.json?v=20260905-4').then(r => r.json()),
+    fetch('./data/products.json?v=20260905-4').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260905-4').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
