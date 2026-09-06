@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260906-2';
+const TSS_IMAGE_VERSION = '20260907-1';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -154,9 +154,9 @@ function tssInterleaveByMaker(items) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260906-2').then(r => r.json()),
-    fetch('./data/products.json?v=20260906-2').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260906-2').then(r => r.json()),
+    fetch('./data/pages.json?v=20260907-1').then(r => r.json()),
+    fetch('./data/products.json?v=20260907-1').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260907-1').then(r => r.json()),
   ]);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
@@ -382,7 +382,7 @@ async function renderFlyer(flyerKey, mountId) {
         <div class="tss-band">
           <div class="tss-band-label">${escapeHTML(page.categoryLabel)}</div>
           <div class="tss-band-rule"></div>
-          <div class="tss-band-aud">施設・病院・事業所さま向け</div>
+          <div class="tss-band-aud">施設・病院さま向け</div>
         </div>
         <div class="tss-title-row">
           <h1>${titleHTML}</h1>
