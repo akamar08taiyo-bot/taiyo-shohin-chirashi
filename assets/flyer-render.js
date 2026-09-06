@@ -763,7 +763,9 @@ async function renderFlyer(flyerKey, mountId) {
   }
 
   const printBtn = document.getElementById('tss-print-btn');
-  if (printBtn) printBtn.addEventListener('click', async () => {
+  // チラシ一覧から「印刷する」で直接開いたときに、確認なしで自動印刷する。
+  // ボタンの手動クリックと処理を共通化するため関数に切り出す。
+  async function runPrintFlow() {
     if (printCount() === 0) { alert('印刷するページが選ばれていません。'); return; }
     const originalLabel = printBtn.textContent;
     printBtn.disabled = true;
@@ -806,9 +808,16 @@ async function renderFlyer(flyerKey, mountId) {
       return;
     }
     window.print();
-  });
+  }
+  if (printBtn) printBtn.addEventListener('click', runPrintFlow);
   updatePrintBtn();
   updatePriceEditUI();
+
+  // チラシ一覧（flyers.html）の「印刷する」ボタンから ?autoprint=1 付きで開かれたときは、
+  // 画像の読み込みを待ってから自動でこの印刷フローを実行する（ページは全件が既定で選択済み）。
+  if (printBtn && new URLSearchParams(location.search).get('autoprint') === '1') {
+    setTimeout(runPrintFlow, 300);
+  }
 
   const jumpNav = document.getElementById('tss-pagejump');
   if (jumpNav) {

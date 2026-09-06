@@ -76,11 +76,25 @@
   .note-box-title { font-size: 12px; font-weight: 700; color: #0f7f86; letter-spacing: .06em; }
   .note-box-body { font-size: 12px; line-height: 1.7; color: #41595E; text-wrap: pretty; }
   .footnote { margin: 0; font-size: 11px; color: #6f8688; }
+  #print-title { display: none; }
   @media (max-width: 720px) {
     .wrap { padding: 20px 14px 48px; }
     header > div:last-child { width: 100%; align-items: stretch !important; }
     .actions { justify-content: flex-start; }
     .btn { flex: 1 1 calc(50% - 8px); }
+  }
+  @media print {
+    @page { size: A4 landscape; margin: 10mm; }
+    body { background: #fff; }
+    .back, .lead, .filled, .actions, .import-status, .filterbar, .notes, .footnote { display: none !important; }
+    .wrap { padding: 0; align-items: stretch; }
+    header { margin-bottom: 4px; }
+    #print-title { display: block; font-size: 13px; font-weight: 700; color: #41595E; margin: 0 0 10px; }
+    .rows-wrap { overflow: visible; }
+    .thead-row, .row { min-width: 0; page-break-inside: avoid; }
+    table.rows { border-color: #a8c8ca; }
+    input, select { border: none !important; background: transparent !important; color: #12242A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .sell-input { color: #0f7f86 !important; }
   }
 </style>
 </head>
@@ -107,6 +121,8 @@
           <button type="button" class="btn" id="btn-import">Excel読込（全置換）</button>
           <input type="file" id="excel-file" accept=".xlsx,.xls,.xlsm" hidden />
           <button type="button" class="btn" id="btn-copy">入力分をコピー</button>
+          <button type="button" class="btn" id="btn-print">🖨 表示中を印刷</button>
+          <button type="button" class="btn" id="btn-print-all">🖨 全メーカー一括印刷</button>
           <button type="button" class="btn btn-danger" id="btn-clear">入力を全消去</button>
         </div>
       </div>
@@ -118,6 +134,7 @@
       <label class="sortlabel"><input type="checkbox" id="sort-toggle" />単価の安い順に並べる</label>
     </div>
 
+    <div id="print-title"></div>
     <div class="rows-wrap">
       <div class="thead-row">
         <div>メーカー</div><div>商品名</div><div>規格</div>
@@ -342,6 +359,8 @@
   function renderRows() {
     const rows0 = computedRows();
     let filtered = state.maker === 'すべて' ? rows0 : rows0.filter(r => r.maker === state.maker);
+    document.getElementById('print-title').textContent =
+      `${state.maker === 'すべて' ? '全メーカー' : state.maker}　価格・単価一覧（社内用／${new Date().toLocaleDateString('ja-JP')}時点）`;
     if (state.sort) {
       filtered = filtered.slice().sort((a, b) => {
         if (a.unitNum == null && b.unitNum == null) return 0;
@@ -496,6 +515,27 @@
     state.prices = {}; state.qtys = {}; state.margins = {}; state.sellPrices = {}; state.units = {}; state.bases = {};
     persist();
     renderAll();
+  });
+
+  // 「表示中を印刷」：現在選んでいるメーカー絞り込み・並び順のまま印刷する（1メーカーだけ印刷したい場合はまず上のボタンで絞り込む）。
+  document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+  // 「全メーカー一括印刷」：一時的に絞り込みを解除して全件を印刷し、印刷ダイアログが閉じたら元の絞り込みに戻す。
+  let printRestoreMaker = null;
+  document.getElementById('btn-print-all').addEventListener('click', () => {
+    if (state.maker !== 'すべて') {
+      printRestoreMaker = state.maker;
+      state.maker = 'すべて';
+      renderAll();
+    }
+    setTimeout(() => window.print(), 0);
+  });
+  window.addEventListener('afterprint', () => {
+    if (printRestoreMaker != null) {
+      state.maker = printRestoreMaker;
+      printRestoreMaker = null;
+      renderAll();
+    }
   });
 
   renderRows();

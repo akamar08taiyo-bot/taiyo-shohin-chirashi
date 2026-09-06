@@ -29,6 +29,7 @@
 
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
   .card {
+    position: relative;
     display: flex; flex-direction: column; text-decoration: none; color: inherit;
     border: 2px solid #cfe0e2; border-left: 6px solid var(--c); background: #fff;
     padding: 24px 24px 20px;
@@ -37,6 +38,23 @@
   .card:hover { border-color: #0f7f86; border-left-color: var(--c); box-shadow: 0 8px 20px rgba(15,40,42,.12); transform: translateY(-2px); }
   .card:focus-visible { outline: 3px solid var(--c); outline-offset: 2px; }
   .card .cat { display: inline-block; align-self: flex-start; font-size: 11.5px; font-weight: 700; color: #fff; background: var(--c); letter-spacing: .08em; padding: 4px 10px; margin-bottom: 12px; }
+  .card-print-btn {
+    position: absolute; top: 16px; right: 16px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 4px;
+    border: 1.5px solid #cfe0e2; background: #fff; color: #41595E;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700;
+    padding: 6px 11px; cursor: pointer;
+  }
+  .card-print-btn:hover { border-color: var(--c); color: var(--c); background: #f2fafa; }
+  .maker-hint { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 0 0 18px; }
+  .maker-hint p { margin: 0; font-size: 13.5px; color: #5c7376; }
+  .printall-btn {
+    display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+    border: 2px solid #0f7f86; background: #fff; color: #0f7f86;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
+    padding: 11px 20px; cursor: pointer;
+  }
+  .printall-btn:hover { background: #0f7f86; color: #fff; }
   .card h2 { margin: 0 0 10px; font-size: 23px; font-weight: 900; }
   .card p { margin: 0 0 16px; font-size: 14px; line-height: 1.7; color: #41595E; }
   .card .meta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -82,57 +100,69 @@
   </div>
 
   <div class="view active" id="view-maker">
-    <p class="view-hint">メーカーごとのチラシです。同じメーカーの商品がシリーズ・サイズ順に並びます。</p>
+    <div class="maker-hint">
+      <p>メーカーごとのチラシです。同じメーカーの商品がシリーズ・サイズ順に並びます。カードの「🖨」で1件だけ、下のボタンで全メーカーをまとめて印刷できます。</p>
+      <button type="button" class="printall-btn" onclick="tssPrintAllMakers()">🖨 すべて印刷（9チラシ）</button>
+    </div>
     <div class="cards">
       <a class="card" href="./kao-pro.html" style="--c:#0f7f86;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './kao-pro.html')">🖨 印刷</button>
         <span class="cat">花王プロフェッショナル</span>
         <h2>洗剤・衛生用品（全商品）</h2>
         <p>手指衛生・食器洗浄・厨房・トイレ/浴室・洗濯・消臭・入浴/排泄ケアまで、花王の業務用220点</p>
         <div class="meta"><span class="count">全55ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./kao-rocket.html" style="--c:#0f7f86;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './kao-rocket.html')">🖨 印刷</button>
         <span class="cat">花王・ロケット石鹸</span>
         <h2>洗剤・衛生用品（おすすめ）</h2>
         <p>用途ごとに定番をしぼった11ページ。花王とロケット石鹸を並べて比較できます</p>
         <div class="meta"><span class="count">全11ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./lion.html" style="--c:#0b66a3;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './lion.html')">🖨 印刷</button>
         <span class="cat">ライオンハイジーン</span>
         <h2>洗浄・衛生・入浴ケア</h2>
         <p>食器用洗剤・洗濯用洗剤・手指衛生用品・アルコール製剤・浴室用洗剤・ヘアケア用品</p>
         <div class="meta"><span class="count">全36ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./japacks.html" style="--c:#2563eb;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './japacks.html')">🖨 印刷</button>
         <span class="cat">ジャパックス</span>
         <h2>ゴミ処理・ポリ袋</h2>
         <p>ゴミ袋・レジ袋・業務用カラーポリ袋・環境配慮ポリ袋</p>
         <div class="meta"><span class="count">全8ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./paper.html" style="--c:#b45309;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './paper.html')">🖨 印刷</button>
         <span class="cat">大王製紙・新橋製紙・昭和紙工</span>
         <h2>トイレットペーパー・ティシュー</h2>
         <p>トイレットペーパー・ペーパータオル・ティシュー・清拭用品</p>
         <div class="meta"><span class="count">全3ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./taketora.html" style="--c:#7c3aed;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './taketora.html')">🖨 印刷</button>
         <span class="cat">竹虎</span>
         <h2>感染対策・食事介助</h2>
         <p>食事用エプロン・ビニールエプロン・ガウン・予防着・マスク・手袋</p>
         <div class="meta"><span class="count">全5ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./omutsu.html" style="--c:#be185d;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omutsu.html')">🖨 印刷</button>
         <span class="cat">ユニ・チャーム／第一衛材／カミ商事</span>
         <h2>紙おむつ・尿とりパッド</h2>
         <p>テープ止め・リハビリパンツ・尿とりパッド・夜用パッド・カバータイプ</p>
         <div class="meta"><span class="count">全29ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./care.html" style="--c:#0369a1;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './care.html')">🖨 印刷</button>
         <span class="cat">ユニ・チャーム／アサヒグループ食品</span>
         <h2>おしりふき・とろみ剤</h2>
         <p>らくらくおしりふきPro（4サイズ）・とろみエール（スティック〜1kg）</p>
         <div class="meta"><span class="count">全2ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./saraya.html" style="--c:#047857;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './saraya.html')">🖨 印刷</button>
         <span class="cat">サラヤ</span>
         <h2>手指衛生・環境衛生</h2>
         <p>手指消毒剤・石けん液・環境清拭・ボディケア/口腔ケア・浴室/トイレ・ランドリー・ペーパータオル</p>
@@ -325,6 +355,27 @@
       document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + btn.dataset.view));
     });
   });
+
+  // カード上の「🖨 印刷」ボタン：カード全体のリンク（メーカーチラシへ遷移）を発火させず、
+  // 別タブでそのチラシを開いて自動印刷させる（?autoprint=1 は各チラシ側の flyer-render.js が処理）。
+  function tssOpenAutoprint(event, url) {
+    event.preventDefault();
+    event.stopPropagation();
+    window.open(url + '?autoprint=1', '_blank');
+  }
+
+  const TSS_ALL_MAKER_FLYERS = [
+    './kao-pro.html', './kao-rocket.html', './lion.html', './japacks.html',
+    './paper.html', './taketora.html', './omutsu.html', './care.html', './saraya.html',
+  ];
+  function tssPrintAllMakers() {
+    const ok = confirm(
+      `メーカー別チラシ${TSS_ALL_MAKER_FLYERS.length}件を新しいタブで開いて、それぞれ自動で印刷画面を開きます。よろしいですか？\n` +
+      `（ブラウザのポップアップ確認が出た場合は「許可」を選んでください）`
+    );
+    if (!ok) return;
+    TSS_ALL_MAKER_FLYERS.forEach(url => window.open(url + '?autoprint=1', '_blank'));
+  }
 </script>
 </body>
 </html>
