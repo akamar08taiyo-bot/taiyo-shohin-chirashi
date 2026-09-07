@@ -232,9 +232,13 @@ async function renderFlyer(flyerKey, mountId) {
         title: first.title,
         // 用途別チラシは、そのページに載っているメーカー名を見出しに出す。
         // 「メーカー横断で比較」と書くより、どの会社の商品が並んでいるか一目で分かる。
-        subtitle: flyer.mixMakers
-          ? [...new Set(entries.map(entry => entry.item.maker))].join('／')
-          : (mixed ? `＋ ${templates.slice(1).map(template => template.title).join('／')}` : first.subtitle),
+        // ただし「ランダムに選ぶ」チラシはメーカーを問わず混ざるため、見出しに社名を
+        // 並べても長くなるだけで意味がない。用途名だけを見せる。
+        subtitle: flyer.randomSample
+          ? null
+          : (flyer.mixMakers
+            ? [...new Set(entries.map(entry => entry.item.maker))].join('／')
+            : (mixed ? `＋ ${templates.slice(1).map(template => template.title).join('／')}` : first.subtitle)),
         lead: mixed
           ? `${templates.map(template => template.title).join('と')}の商品を、4点にまとめて掲載しています。`
           : first.lead,

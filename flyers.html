@@ -96,7 +96,7 @@
   <div class="switcher">
     <button type="button" class="switch-btn active" data-view="maker">メーカーから選ぶ</button>
     <button type="button" class="switch-btn" data-view="usecase">用途から選ぶ</button>
-    <a class="switch-btn" href="./omakase.html" style="text-decoration:none;display:inline-flex;align-items:center;border-color:#7c3aed;color:#7c3aed;">🎲 ランダムに選ぶ</a>
+    <button type="button" class="switch-btn" data-view="random">🎲 ランダムに選ぶ</button>
     <a class="switch-btn" href="./custom.html" style="text-decoration:none;display:inline-flex;align-items:center;border-color:#b45309;color:#b45309;">✎ 自分で選んで作る</a>
   </div>
 
@@ -168,6 +168,50 @@
         <h2>手指衛生・環境衛生</h2>
         <p>手指消毒剤・石けん液・環境清拭・ボディケア/口腔ケア・浴室/トイレ・ランドリー・ペーパータオル</p>
         <div class="meta"><span class="count">全9ページ</span><span class="arrow">開く →</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="view" id="view-random">
+    <div class="maker-hint">
+      <p>12の用途ごとに8商品（2ページ）を自動で選んだチラシです。パターンごとに中身が違い、開き直すたびにも選び直します。同じお客さまに毎回ちがう商品をご提案したいときに。</p>
+      <button type="button" class="printall-btn" style="border-color:#7c3aed;color:#7c3aed;" onclick="tssPrintAllRandom()">🖨 5パターンすべて印刷</button>
+    </div>
+    <div class="cards">
+      <a class="card" href="./omakase.html" style="--c:#7c3aed;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase.html')">🖨 印刷</button>
+        <span class="cat">パターン1</span>
+        <h2>花王・ロケット石鹸 中心</h2>
+        <p>洗剤・消毒まわりは花王プロフェッショナルとロケット石鹸から優先して選びます</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase2.html" style="--c:#7c3aed;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase2.html')">🖨 印刷</button>
+        <span class="cat">パターン2</span>
+        <h2>メーカー不問</h2>
+        <p>全メーカーから分けへだてなく選びます。ライオンやサラヤの商品も入ります</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase3.html" style="--c:#7c3aed;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase3.html')">🖨 印刷</button>
+        <span class="cat">パターン3</span>
+        <h2>メーカー不問</h2>
+        <p>パターン2とは別の組み合わせになります</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase4.html" style="--c:#7c3aed;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase4.html')">🖨 印刷</button>
+        <span class="cat">パターン4</span>
+        <h2>メーカー不問</h2>
+        <p>パターン2・3とは別の組み合わせになります</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase5.html" style="--c:#7c3aed;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase5.html')">🖨 印刷</button>
+        <span class="cat">パターン5</span>
+        <h2>メーカー不問</h2>
+        <p>パターン2〜4とは別の組み合わせになります</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
       </a>
     </div>
   </div>
@@ -369,6 +413,18 @@
     './kao-pro.html', './kao-rocket.html', './lion.html', './japacks.html',
     './paper.html', './taketora.html', './omutsu.html', './care.html', './saraya.html',
   ];
+  const TSS_ALL_RANDOM_FLYERS = [
+    './omakase.html', './omakase2.html', './omakase3.html', './omakase4.html', './omakase5.html',
+  ];
+  function tssPrintAllRandom() {
+    const ok = confirm(
+      `ランダムチラシ5パターン（合計120ページ）を新しいタブで開いて、それぞれ自動で印刷画面を開きます。よろしいですか？\n` +
+      `（ブラウザのポップアップ確認が出た場合は「許可」を選んでください）`
+    );
+    if (!ok) return;
+    TSS_ALL_RANDOM_FLYERS.forEach(url => window.open(url + '?autoprint=1', '_blank'));
+  }
+
   function tssPrintAllMakers() {
     const ok = confirm(
       `メーカー別チラシ${TSS_ALL_MAKER_FLYERS.length}件を新しいタブで開いて、それぞれ自動で印刷画面を開きます。よろしいですか？\n` +
