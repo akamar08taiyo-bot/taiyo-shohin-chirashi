@@ -13,6 +13,11 @@
   body{margin:0;background:#e8eeee;font-family:'Noto Sans JP',sans-serif;color:#12242A}
   a{color:#0f7f86}
   a:hover{color:#c25a17}
+  .tabbar{display:flex;gap:8px;padding:14px 16px 0;background:#e8eeee}
+  .tab{border:1.5px solid #cfe0e2;background:#fff;color:#41595E;text-decoration:none;font-family:inherit;font-size:13.5px;font-weight:700;padding:9px 20px;cursor:pointer}
+  .tab:hover{border-color:#0a8a3c;color:#0a8a3c}
+  .tab.active{background:#0a8a3c;border-color:#0a8a3c;color:#fff}
+  @media print{.tabbar{display:none!important}}
   .bar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #cfe0e2;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .bar h1{margin:0;font-size:15px;font-weight:700;letter-spacing:.02em}
   .bar label{font-size:12px;font-weight:700;color:#41595E;display:flex;align-items:center;gap:6px}
@@ -41,8 +46,12 @@
 </head>
 <body>
 
+<div class="tabbar">
+  <a class="tab" href="./cover.html">見積もりカバー</a>
+  <span class="tab active">表紙をつくる</span>
+</div>
+
 <div class="bar">
-  <a href="./cover.html" style="font-size:12.5px;font-weight:700;text-decoration:none">← 表紙をつくる</a>
   <h1>表紙チラシ</h1>
   <label>デザイン
     <select id="pick">
@@ -76,7 +85,7 @@
         <div style="flex:1;height:1px;background:rgba(255,255,255,.45)"></div>
         <div style="font-size:12px;font-weight:500;letter-spacing:.06em;opacity:.9">業務用消耗品のご提案</div>
       </div>
-      <h1 style="margin:0;font-size:56px;line-height:1.16;font-weight:700;letter-spacing:-.035em">消耗品の費用を、<br /><span style="font-size:38px;opacity:.93">いっしょに見直しませんか。</span></h1>
+      <h1 style="margin:0;font-size:56px;line-height:1.16;font-weight:700;letter-spacing:-.035em">消耗品の費用について、<br /><span style="font-size:38px;opacity:.93">ご提案がございます。</span></h1>
       <p style="margin:0;font-size:15px;line-height:1.75;font-weight:500;max-width:610px;text-wrap:pretty;opacity:.95">洗剤・紙製品・ゴミ袋は、毎月かならず出ていく費用です。使用量の多い品目を単価で見比べるだけでも、下げられる余地が見つかることがあります。現在お使いの商品をお知らせいただければ、同等品質の商品で比較表をお作りします。切り替えのご判断は、それをご覧になってからで構いません。</p>
     </div>
     <div style="flex:none;padding:20px 38px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:13px">
@@ -123,7 +132,7 @@
       <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
     </div>
     <div style="flex:none;display:flex;flex-direction:column;gap:10px">
-      <h1 style="margin:0;font-size:50px;line-height:1.1;font-weight:700;letter-spacing:-.035em">その消耗品、<br /><span style="font-size:33px;color:#0f7f86">単価でくらべたことはありますか。</span></h1>
+      <h1 style="margin:0;font-size:50px;line-height:1.1;font-weight:700;letter-spacing:-.035em">消耗品の単価を、<br /><span style="font-size:33px;color:#0f7f86">一覧でご確認いただけます。</span></h1>
       <p style="margin:0;font-size:14px;line-height:1.75;font-weight:500;color:#41595E;max-width:640px;text-wrap:pretty">容量も入数も違う商品を、本体価格だけで比べるのは難しいものです。100mLあたり・1枚あたり・1ロールあたりに直すと、どれが割高かがはっきりします。</p>
     </div>
     <div style="flex:none;border:1.5px solid #cfe0e2;background:#fff">
@@ -245,7 +254,7 @@
       <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
     </div>
     <div style="flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:22px">
-      <h1 style="margin:0;font-size:46px;line-height:1.1;font-weight:700;letter-spacing:-.035em">消耗品のことで、<br /><span style="font-size:31px;color:#0f7f86">お困りではありませんか。</span></h1>
+      <h1 style="margin:0;font-size:46px;line-height:1.1;font-weight:700;letter-spacing:-.035em">消耗品のことで、<br /><span style="font-size:31px;color:#0f7f86">ご相談を承っております。</span></h1>
       <div style="flex:none;width:162px;height:100px;border:1.5px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
     </div>
     <p style="margin:0;flex:none;font-size:14px;line-height:1.75;font-weight:500;color:#41595E;text-wrap:pretty">下記のうち一つでも当てはまるものがあれば、お声がけください。現在の品目と数量をうかがい、切り替え案と単価比較表をお作りします。</p>
@@ -309,7 +318,7 @@
     <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:minmax(0,1fr)">
       <div style="background:#0f7f86;color:#fff;padding:36px 30px 32px 38px;display:flex;flex-direction:column;gap:22px;min-height:0;overflow:hidden">
         <div style="background:#fff;color:#0f7f86;font-size:12px;font-weight:700;letter-spacing:.14em;padding:5px 12px;align-self:flex-start">介護施設・病院のご担当者さまへ</div>
-        <h1 style="margin:0;font-size:45px;line-height:1.38;font-weight:700;letter-spacing:-.035em">使い方は変えずに、<br />費用のほうを<br />見直せます。</h1>
+        <h1 style="margin:0;font-size:45px;line-height:1.38;font-weight:700;letter-spacing:-.035em">使い方は変えずに、<br />費用のほうを<br />ご提案いたします。</h1>
         <p style="margin:0;font-size:14px;line-height:1.85;font-weight:500;opacity:.95;text-wrap:pretty">洗い方も掃除の手順も変えずに、使う商品を同等品質のものへ替えるだけで、月々の消耗品費は下げられます。まずは使用量の多い品目からご相談ください。</p>
         <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;gap:16px">
           <div style="border-left:3px solid rgba(255,255,255,.6);padding-left:13px"><div style="font-size:14px;font-weight:900">現場の手順は変えません</div><div style="font-size:12px;line-height:1.6;opacity:.9;text-wrap:pretty">使い方が変わらない商品を選ぶので、職員への周知も最小限です。</div></div>
@@ -352,7 +361,7 @@
     </div>
     <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center">
       <div style="display:flex;flex-direction:column;gap:15px">
-        <h1 style="margin:0;font-size:50px;line-height:1.12;font-weight:700;letter-spacing:-.035em">その1本、<br /><span style="color:#0f7f86">いくらで使えていますか。</span></h1>
+        <h1 style="margin:0;font-size:50px;line-height:1.12;font-weight:700;letter-spacing:-.035em">その1本の単価を、<br /><span style="color:#0f7f86">ご確認いただけます。</span></h1>
         <p style="margin:0;font-size:14.5px;line-height:1.85;font-weight:500;color:#41595E;text-wrap:pretty">4.5Lの業務用洗剤も、2Lのつめかえも、100mLあたりに直すと本当のコストが見えます。うすめて使う商品なら、希釈後の1回あたりでもご計算します。</p>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">容量の大きい商品ほど差が出ます</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">使用量の多い品目を大容量に替えるだけで、単価は下がります。</div></div>
@@ -386,7 +395,7 @@
       <div style="flex:1;height:2px;background:#0f7f86"></div>
       <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">よくいただくご質問</div>
     </div>
-    <h1 style="margin:0;flex:none;font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-.035em">切り替えの前に、<br /><span style="font-size:31px;color:#0f7f86">気になることはありませんか。</span></h1>
+    <h1 style="margin:0;flex:none;font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-.035em">切り替えにあたり、<br /><span style="font-size:31px;color:#0f7f86">よくいただくご質問です。</span></h1>
     <div style="flex:1;min-height:0;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:13px">
       <div style="border:1.5px solid #cfe0e2;background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:9px;justify-content:center">
         <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;background:#0f7f86;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">Q</div><div style="font-size:16px;font-weight:900;line-height:1.4;text-wrap:pretty">本当に品質は変わらないのですか</div></div>
@@ -509,7 +518,7 @@
       <div style="flex:1;height:2px;background:#0f7f86"></div>
       <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
     </div>
-    <h1 style="margin:0;flex:none;font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-.035em">いまの手間は、<br /><span style="font-size:31px;color:#0f7f86">仕入れ先を変えるだけで減ります。</span></h1>
+    <h1 style="margin:0;flex:none;font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-.035em">現在のお取引を伺い、<br /><span style="font-size:31px;color:#0f7f86">最適な形をご提案します。</span></h1>
     <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div style="border:1.5px solid #cfe0e2;background:#F6FBFB;display:flex;flex-direction:column">
         <div style="flex:none;background:#8aa0a2;color:#fff;padding:9px 16px;font-size:13px;font-weight:700;letter-spacing:.06em">よくある現状</div>
@@ -590,7 +599,7 @@
 
   <section class="page" id="tss-page-11" data-pattern="12" data-screen-label="12 白地ミニマル" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A;padding:44px 46px 30px;gap:0">
     <div style="flex:none;width:58px;height:5px;background:#0f7f86;margin-bottom:26px"></div>
-    <h1 style="margin:0;flex:none;font-size:58px;line-height:1.18;font-weight:700;letter-spacing:-.035em">毎月の消耗品費、<br />一度いっしょに<br /><span style="color:#0f7f86">見直してみませんか。</span></h1>
+    <h1 style="margin:0;flex:none;font-size:58px;line-height:1.18;font-weight:700;letter-spacing:-.035em">毎月の消耗品費について、<br />ご提案が<br /><span style="color:#0f7f86">ございます。</span></h1>
     <p style="margin:26px 0 0;flex:none;font-size:15px;line-height:1.95;font-weight:500;color:#41595E;max-width:520px;text-wrap:pretty">洗剤、トイレットペーパー、ゴミ袋。どれも毎月かならず出ていく費用です。使用量の多い品目を同等品質の商品に替えるだけで、年間では見過ごせない差になります。</p>
     <div style="flex:none;margin:32px 0 0;padding-left:22px;border-left:2px solid #DCEDED;display:flex;flex-direction:column;gap:13px;max-width:530px">
       <div style="font-size:13.5px;line-height:1.75;color:#12242A">現在お使いの商品名と月間の使用量をお知らせいただければ、100mL・1kg・1枚・1ロールあたりの単価に直した比較表をお作りします。</div>
@@ -626,7 +635,7 @@
       <div style="font-size:12px;font-weight:500;letter-spacing:.06em;opacity:.85">業務用消耗品のご提案</div>
     </div>
     <div style="flex:none;display:flex;flex-direction:column;gap:12px">
-      <h1 style="margin:0;font-size:52px;line-height:1.16;font-weight:700;letter-spacing:-.035em">割高な品目は、<br /><span style="font-size:35px;opacity:.9">一覧にすると見えてきます。</span></h1>
+      <h1 style="margin:0;font-size:52px;line-height:1.16;font-weight:700;letter-spacing:-.035em">品目ごとの単価を、<br /><span style="font-size:35px;opacity:.9">一覧でご確認いただけます。</span></h1>
       <p style="margin:0;font-size:14.5px;line-height:1.8;font-weight:500;max-width:620px;opacity:.92;text-wrap:pretty">お使いの商品を単価の安い順に並べると、見直すべき品目が自然に浮かび上がります。まずは一覧をお作りするところからお手伝いします。</p>
     </div>
     <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:12px">
@@ -724,7 +733,7 @@
 
     </div>
     <div style="flex:none;display:flex;flex-direction:column;gap:16px">
-      <h1 style="margin:0;font-size:33px;line-height:1.5;font-weight:700;letter-spacing:-.02em">日々お使いの消耗品について、<br />一度ご相談をいただけませんか。</h1>
+      <h1 style="margin:0;font-size:33px;line-height:1.5;font-weight:700;letter-spacing:-.02em">日頃お使いの消耗品について、<br />ご相談を承っております。</h1>
       <div style="font-size:13.5px;line-height:2.05;color:#12242A;max-width:640px;text-wrap:pretty">
         <p style="margin:0 0 14px">平素は格別のご高配を賜り、厚く御礼申し上げます。</p>
         <p style="margin:0 0 14px">当社では、介護施設や病院でお使いいただく洗剤、紙製品、ゴミ袋などの消耗品をお取り扱いしております。品目ごとに発注先が分かれていたり、価格の妥当性が分かりにくいというお声を多くいただいております。</p>
