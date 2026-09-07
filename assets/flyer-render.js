@@ -105,11 +105,12 @@ function tssSourceItems(allItems, flyer, template) {
   // メーカーをまたぐので sourceFlier では絞らない。
   if (Array.isArray(template.sourceCategories)) {
     const wanted = new Set(template.sourceCategories);
-    const pool = allItems.filter(item => (
+    let pool = allItems.filter(item => (
       item.fixedFlyer !== false
       && !/予備/.test(String(item.page || ''))
       && wanted.has(tssPageCategory(item.page))
     ));
+    if (flyer.randomSample) pool = tssPickRandom(pool, flyer.randomSample);
     return flyer.mixMakers ? tssInterleaveByMaker(pool) : pool;
   }
   if (!template.sourceCategory) {
@@ -125,6 +126,30 @@ function tssSourceItems(allItems, flyer, template) {
     && tssPageCategory(item.page) === template.sourceCategory
   ));
   return flyer.mixMakers ? tssInterleaveByMaker(pool) : pool;
+}
+
+// 「ランダムに選ぶ」チラシ用: 用途ごとの候補から指定件数だけランダムに選ぶ。
+// preferMakers（花王プロフェッショナル／ロケット石鹸）に該当する商品を優先的に候補へ残し、
+// 足りない分だけ他メーカーで埋める。件数は必ず4の倍数（0/4/max）にして、
+// 印刷時に1ページ4商品ちょうどの制約を崩さないようにする。
+function tssPickRandom(pool, opts) {
+  const max = (opts && opts.max) || 8;
+  const n = pool.length >= max ? max : (pool.length >= 4 ? Math.floor(pool.length / 4) * 4 : 0);
+  if (n === 0) return [];
+  const preferSet = new Set((opts && opts.preferMakers) || []);
+  const preferred = [];
+  const rest = [];
+  for (const item of pool) (preferSet.has(item.maker) ? preferred : rest).push(item);
+  tssShuffleInPlace(preferred);
+  tssShuffleInPlace(rest);
+  return tssShuffleInPlace(preferred.concat(rest).slice(0, n));
+}
+function tssShuffleInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 // メーカーを順番に取り出して並べ直す。用途別チラシで、同じ用途の商品を

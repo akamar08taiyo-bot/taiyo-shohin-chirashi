@@ -136,6 +136,17 @@ function sourceItems(flyer, pg) {
   ));
 }
 
+// randomSample 指定のチラシ（ランダムに選ぶ）は、実行時に候補から4の倍数(0/4/max)だけ
+// ランダムに選び直すため、候補の生の件数は4の倍数でなくてよい。ここでは「安全に確保できる
+// 最大件数」を同じ式で先読みし、その件数で4件ちょうどの検証をする（どの商品が選ばれるかは
+// 検証対象にしない＝実行時のランダム性はそのまま）。
+function randomSampleSafeCount(poolLength, opts) {
+  const max = (opts && opts.max) || 8;
+  if (poolLength >= max) return max;
+  if (poolLength >= 4) return Math.floor(poolLength / 4) * 4;
+  return 0;
+}
+
 // --- 固定ページも自動ページ分割も、印刷される全ページが4商品ちょうど ---
 const validPairs = new Set();
 const autoFlyerNames = new Set(pages.flyers.filter(flyer => flyer.autoPaginate).map(flyer => flyer.name));
@@ -145,8 +156,17 @@ for (const flyer of pages.flyers) {
     validPairs.add(flyer.name + '||' + pg.pageKey);
     const items = sourceItems(flyer, pg);
     if (flyer.autoPaginate) {
-      const printableItems = items.filter(it => it.fixedFlyer !== false);
-      if (printableItems.length === 0) {
+      let printableItems = items.filter(it => it.fixedFlyer !== false);
+      if (flyer.randomSample) {
+        const originalCount = printableItems.length;
+        const safeCount = randomSampleSafeCount(originalCount, flyer.randomSample);
+        if (originalCount === 0) {
+          errors.push(`${flyer.key} / ${pg.pageKey}: 自動ページ分割する商品がありません`);
+        } else if (safeCount === 0) {
+          notes.push(`${flyer.key} / ${pg.pageKey}: 候補が${originalCount}件のみのため、ランダム選定では1ページも作られません`);
+        }
+        printableItems = printableItems.slice(0, safeCount);
+      } else if (printableItems.length === 0) {
         errors.push(`${flyer.key} / ${pg.pageKey}: 自動ページ分割する商品がありません`);
       }
       autoItems.push(...printableItems);
