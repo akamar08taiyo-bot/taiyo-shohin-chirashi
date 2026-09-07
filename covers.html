@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>表紙チラシ（15パターン） | 太陽シルバーサービス</title>
+<meta name="description" content="介護施設・病院のご担当者さまへ 業務用消耗品 表紙チラシ 15デザイン。営業所を切り替えてA4で印刷・PDF保存できます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#e8eeee;font-family:'Noto Sans JP',sans-serif;color:#12242A}
+  a{color:#0f7f86}
+  a:hover{color:#c25a17}
+  .bar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #cfe0e2;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .bar h1{margin:0;font-size:15px;font-weight:700;letter-spacing:.02em}
+  .bar label{font-size:12px;font-weight:700;color:#41595E;display:flex;align-items:center;gap:6px}
+  .bar select,.bar input{font-family:inherit;font-size:12.5px;padding:5px 8px;border:1px solid #cfe0e2;background:#fff;color:#12242A}
+  .bar .sp{flex:1}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;padding:7px 15px;border:0;background:#0f7f86;color:#fff;cursor:pointer}
+  .btn:hover{background:#0b5f65}
+  .btn.ghost{background:#fff;color:#0f7f86;border:1.5px solid #0f7f86}
+  .btn.ghost:hover{background:#f0f8f8}
+  #editor input{font-family:inherit;font-size:12.5px;padding:5px 8px;border:1px solid #cfe0e2;margin-left:5px}
+  #editor label{display:flex;align-items:center}
+  @media print{#editor{display:none!important}}
+  .stack{padding:22px 0 40px;display:flex;flex-direction:column;align-items:center;gap:22px}
+  .page{width:794px;height:1123px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.14);position:relative}
+  .tag{position:absolute;top:0;left:0;z-index:5;background:#12242A;color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 10px}
+  .page.hide{display:none}
+  @media print{
+    body{background:#fff}
+    .bar,.tag{display:none!important}
+    .stack{padding:0;gap:0;display:block}
+    .page{width:210mm;height:297mm;box-shadow:none;break-after:page;page-break-after:always}
+    .page:last-of-type{break-after:auto;page-break-after:auto}
+  }
+  @page{size:A4 portrait;margin:0}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a href="./flyers.html" style="font-size:12.5px;font-weight:700;text-decoration:none">← チラシ一覧</a>
+  <h1>表紙チラシ</h1>
+  <label>デザイン
+    <select id="pick">
+      <option value="all">全15パターンを表示</option>
+      <option value="0">01　帯大見出し</option><option value="1">02　単価比較表</option><option value="2">03　写真モザイク</option><option value="3">04　課題チェックリスト</option><option value="4">05　左右2分割</option><option value="5">06　大写真1点</option><option value="6">07　Q&A</option><option value="7">08　3ステップ</option><option value="8">09　カテゴリタイル</option><option value="9">10　現状とご提案</option><option value="10">11　縦帯サイド</option><option value="11">12　白地ミニマル</option><option value="12">13　濃色フルベタ</option><option value="13">14　用途別一覧</option><option value="14">15　ご挨拶文</option>
+    </select>
+  </label>
+  <label>営業所
+    <select id="officeSel"></select>
+  </label>
+  <span class="sp"></span>
+  <button class="btn ghost" id="editBtn">連絡先を手入力</button>
+  <button class="btn" id="printBtn">🖨 印刷 / PDF保存</button>
+</div>
+
+<div id="editor" style="display:none;background:#fff;border-bottom:1px solid #cfe0e2;padding:12px 16px;flex-wrap:wrap;gap:10px;align-items:center;font-size:12px;font-weight:700;color:#41595E">
+  <label>会社名 <input data-in="company" size="18"></label>
+  <label>営業所 <input data-in="office" size="12"></label>
+  <label>住所 <input data-in="address" size="26"></label>
+  <label>TEL <input data-in="tel" size="14"></label>
+  <label>FAX <input data-in="fax" size="14"></label>
+  <label>担当 <input data-in="staff" size="8"></label>
+  <label>携帯 <input data-in="mobile" size="14"></label>
+</div>
+
+<div class="stack" id="stack">
+<section class="page" id="tss-page-0" data-pattern="1" data-screen-label="01 帯大見出し" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#F6FBFB;color:#12242A">
+    <div style="flex:none;background:#0f7f86;color:#fff;padding:32px 38px 28px;display:flex;flex-direction:column;gap:15px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="background:#fff;color:#0f7f86;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:5px 13px">介護施設・病院のご担当者さまへ</div>
+        <div style="flex:1;height:1px;background:rgba(255,255,255,.45)"></div>
+        <div style="font-size:12px;font-weight:500;letter-spacing:.06em;opacity:.9">業務用消耗品のご提案</div>
+      </div>
+      <h1 style="margin:0;font-size:56px;line-height:1.16;font-weight:700;letter-spacing:-.035em">消耗品の費用を、<br /><span style="font-size:38px;opacity:.93">いっしょに見直しませんか。</span></h1>
+      <p style="margin:0;font-size:15px;line-height:1.75;font-weight:500;max-width:610px;text-wrap:pretty;opacity:.95">洗剤・紙製品・ゴミ袋は、毎月かならず出ていく費用です。使用量の多い品目を単価で見比べるだけでも、下げられる余地が見つかることがあります。現在お使いの商品をお知らせいただければ、同等品質の商品で比較表をお作りします。切り替えのご判断は、それをご覧になってからで構いません。</p>
+    </div>
+    <div style="flex:none;padding:20px 38px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:13px">
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-size:12.5px;font-weight:900;color:#0f7f86;letter-spacing:.04em">単価で比較</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">100mL・1kg・1枚・1ロール・1袋あたりで並べ替えて比較できます。</div></div>
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-size:12.5px;font-weight:900;color:#0f7f86;letter-spacing:.04em">洗剤・紙・袋</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">日常お使いの消耗品を、分けて発注せずまとめてご用意します。</div></div>
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-size:12.5px;font-weight:900;color:#0f7f86;letter-spacing:.04em">用途別に厳選</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">現場に必要な代表商品だけを絞ってお見せします。</div></div>
+    </div>
+    <div style="flex:1;min-height:0;padding:18px 38px;display:flex;flex-direction:column;gap:10px">
+      <div style="flex:none;font-size:13.5px;font-weight:700;color:#0f7f86;letter-spacing:.06em">主な取扱カテゴリ</div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:11px">
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">食器用洗剤</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/23_4901301501882.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">漂白・除菌</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">トイレ洗剤</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">手指衛生</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/38_4901301021205.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">浴室・カビ</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/27_4901301333513.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">洗濯用洗剤</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">紙製品</div></div>
+        <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">ゴミ袋・ポリ袋</div></div>
+      </div>
+    </div>
+    <div style="flex:none;padding:0 38px 26px">
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+    </div>
+  </section>
+
+  <section class="page" id="tss-page-1" data-pattern="2" data-screen-label="02 単価比較表" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#F6FBFB;color:#12242A;padding:30px 38px 26px;gap:15px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
+    </div>
+    <div style="flex:none;display:flex;flex-direction:column;gap:10px">
+      <h1 style="margin:0;font-size:50px;line-height:1.1;font-weight:700;letter-spacing:-.035em">その消耗品、<br /><span style="font-size:33px;color:#0f7f86">単価でくらべたことはありますか。</span></h1>
+      <p style="margin:0;font-size:14px;line-height:1.75;font-weight:500;color:#41595E;max-width:640px;text-wrap:pretty">容量も入数も違う商品を、本体価格だけで比べるのは難しいものです。100mLあたり・1枚あたり・1ロールあたりに直すと、どれが割高かがはっきりします。</p>
+    </div>
+    <div style="flex:none;border:1.5px solid #cfe0e2;background:#fff">
+      <div style="background:#0f7f86;color:#fff;padding:9px 16px;font-size:12.5px;font-weight:700;letter-spacing:.05em">単価でくらべると、違いがはっきりします（100mL・1kg・1枚・1ロール・1袋あたり）</div>
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr">
+        <div style="padding:8px 16px;font-size:11.5px;font-weight:700;color:#41595E;border-bottom:1px solid #e6f3f3">商品</div>
+        <div style="padding:8px 12px;font-size:11.5px;font-weight:700;color:#41595E;border-bottom:1px solid #e6f3f3;text-align:right">現在のご購入価格</div>
+        <div style="padding:8px 12px;font-size:11.5px;font-weight:700;color:#41595E;border-bottom:1px solid #e6f3f3;text-align:right">弊社ご提案価格</div>
+        <div style="padding:8px 16px 8px 12px;font-size:11.5px;font-weight:700;color:#0f7f86;border-bottom:1px solid #e6f3f3;text-align:right">単価の差</div>
+        <div style="padding:9px 16px;font-size:12.5px;font-weight:700;border-bottom:1px solid #e6f3f3">食器用洗剤 4.5L<span style="font-size:10.5px;font-weight:500;color:#8aa0a2;padding-left:7px">100mLあたり</span></div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 16px 9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#c25a17">－￥　　</div>
+        <div style="padding:9px 16px;font-size:12.5px;font-weight:700;border-bottom:1px solid #e6f3f3">トイレ洗剤 4.5L<span style="font-size:10.5px;font-weight:500;color:#8aa0a2;padding-left:7px">100mLあたり</span></div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 16px 9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#c25a17">－￥　　</div>
+        <div style="padding:9px 16px;font-size:12.5px;font-weight:700;border-bottom:1px solid #e6f3f3">除菌漂白剤 2.7kg<span style="font-size:10.5px;font-weight:500;color:#8aa0a2;padding-left:7px">1kgあたり</span></div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 16px 9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#c25a17">－￥　　</div>
+        <div style="padding:9px 16px;font-size:12.5px;font-weight:700;border-bottom:1px solid #e6f3f3">ゴミ袋 45L 10枚入<span style="font-size:10.5px;font-weight:500;color:#8aa0a2;padding-left:7px">1枚・1袋あたり</span></div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 16px 9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#c25a17">－￥　　</div>
+        <div style="padding:9px 16px;font-size:12.5px;font-weight:700;border-bottom:1px solid #e6f3f3">トイレット 芯なし170m<span style="font-size:10.5px;font-weight:500;color:#8aa0a2;padding-left:7px">1ロールあたり</span></div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 16px 9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#c25a17">－￥　　</div>
+        <div style="padding:9px 16px;font-size:12.5px;font-weight:700;border-bottom:1px solid #e6f3f3">ペーパータオル 200枚<span style="font-size:10.5px;font-weight:500;color:#8aa0a2;padding-left:7px">1枚あたり</span></div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#8aa0a2">￥　　</div>
+        <div style="padding:9px 16px 9px 12px;border-bottom:1px solid #e6f3f3;text-align:right;font-family:'Roboto Mono',monospace;font-size:13px;color:#c25a17">－￥　　</div>
+      </div>
+      <div style="padding:9px 16px;font-size:11px;line-height:1.5;color:#6f8688">現在お使いの商品と数量をお知らせいただければ、同等品・代替品で単価比較表をお作りします。上表は記入用の空欄です。</div>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-size:12.5px;font-weight:900;color:#0f7f86;letter-spacing:.04em">容量が違っても比べられる</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">4.5Lと2Lのように容量が異なる商品も、単価に直せば同じ基準で判断できます。</div></div>
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-size:12.5px;font-weight:900;color:#0f7f86;letter-spacing:.04em">割高な品目が見つかる</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">単価の安い順に並べると、見直すべき品目が自然に浮かび上がります。</div></div>
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-size:12.5px;font-weight:900;color:#0f7f86;letter-spacing:.04em">切り替えの判断がしやすい</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">差額を数字でお示しするので、社内のご説明にもそのままお使いいただけます。</div></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-2" data-pattern="3" data-screen-label="03 写真モザイク" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A">
+    <div style="flex:none;position:relative;background:#F6FBFB">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(3,122px)">
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/23_4901301501882.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/38_4901301021205.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/27_4901301333513.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/13_4901301505996.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/daio/12_alcohol_towel_body.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/35_4901301503381.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/japacks/JTW10.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/22_4901301510440.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/14_4901301505057.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/daio/04_elvere_papertowel_eco.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/43_4901301507280.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/japacks/P-41.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:9px;border-right:1px solid #e6f3f3;border-bottom:1px solid #e6f3f3"><img src="./images/kao/41_4901301506177.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:150px;background:linear-gradient(to top,rgba(11,95,101,.98) 0%,rgba(11,95,101,.95) 68%,rgba(11,95,101,0) 100%);padding:26px 38px 20px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;gap:8px">
+        <div style="background:#fff;color:#0f7f86;font-size:12px;font-weight:700;letter-spacing:.14em;padding:5px 12px;align-self:flex-start">介護施設・病院のご担当者さまへ</div>
+        <h1 style="margin:0;font-size:44px;line-height:1.1;font-weight:700;letter-spacing:-.035em">洗剤も、紙も、袋も。</h1>
+      </div>
+    </div>
+    <div style="flex:1;min-height:0;padding:20px 38px 0;display:flex;flex-direction:column;gap:14px">
+      <div style="flex:none;font-size:26px;font-weight:900;line-height:1.3;letter-spacing:-.02em;color:#0f7f86">発注をひとつにまとめませんか。</div>
+      <p style="margin:0;flex:none;font-size:14px;line-height:1.8;font-weight:500;color:#41595E;text-wrap:pretty">品目ごとに発注先が分かれていると、注文・検品・請求のすべてが増えていきます。洗剤から紙製品・ゴミ袋まで一本化すれば、事務の手間と在庫の管理がまとめて軽くなります。</p>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:12px;align-content:start">
+        <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">発注の手間を減らす</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">複数の発注先に分けて注文する必要がなくなり、月末の事務処理も軽くなります。</div></div>
+        <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">在庫を切らさない</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">使用ペースをうかがい、数量と納品周期をあわせてご提案します。</div></div>
+        <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">商品選びもお任せいただけます</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">用途ごとに代表商品を絞ってご提示するので、比べる手間もかかりません。</div></div>
+        <div style="border-left:4px solid #c25a17;background:#fdf6ee;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">まずは現在の品目一覧から</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">今お使いの商品をお知らせいただければ、まとめた場合のご提案をお作りします。</div></div>
+      </div>
+    </div>
+    <div style="flex:none;padding:16px 38px 26px">
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+    </div>
+  </section>
+
+  <section class="page" id="tss-page-3" data-pattern="4" data-screen-label="04 課題チェックリスト" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#F6FBFB;color:#12242A;padding:30px 38px 26px;gap:14px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
+    </div>
+    <div style="flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:22px">
+      <h1 style="margin:0;font-size:46px;line-height:1.1;font-weight:700;letter-spacing:-.035em">消耗品のことで、<br /><span style="font-size:31px;color:#0f7f86">お困りではありませんか。</span></h1>
+      <div style="flex:none;width:162px;height:100px;border:1.5px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;" /></div>
+    </div>
+    <p style="margin:0;flex:none;font-size:14px;line-height:1.75;font-weight:500;color:#41595E;text-wrap:pretty">下記のうち一つでも当てはまるものがあれば、お声がけください。現在の品目と数量をうかがい、切り替え案と単価比較表をお作りします。</p>
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:8px">
+      <div style="flex:none;font-size:13.5px;font-weight:700;color:#0f7f86;letter-spacing:.06em">こんなお悩みはありませんか</div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-rows:repeat(6,minmax(0,1fr));gap:8px">
+        <div style="border:1.5px solid #cfe0e2;background:#fff;display:grid;grid-template-columns:24px 1fr 1.15fr;align-items:center;gap:12px;padding:0 14px">
+          <div style="width:19px;height:19px;border:2px solid #0f7f86;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#0f7f86"></div></div>
+          <div style="font-size:13px;font-weight:700;line-height:1.35;text-wrap:pretty">毎月の消耗品費が下がらない</div>
+          <div style="font-size:11.5px;line-height:1.5;color:#41595E;border-left:1px solid #e6f3f3;padding-left:12px;text-wrap:pretty">使用量の多い品目から同等品質の商品へ切り替えます</div>
+        </div>
+        <div style="border:1.5px solid #cfe0e2;background:#fff;display:grid;grid-template-columns:24px 1fr 1.15fr;align-items:center;gap:12px;padding:0 14px">
+          <div style="width:19px;height:19px;border:2px solid #0f7f86;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#0f7f86"></div></div>
+          <div style="font-size:13px;font-weight:700;line-height:1.35;text-wrap:pretty">どの商品が割高か分からない</div>
+          <div style="font-size:11.5px;line-height:1.5;color:#41595E;border-left:1px solid #e6f3f3;padding-left:12px;text-wrap:pretty">100mL・1枚・1ロールあたりの単価表でご提示します</div>
+        </div>
+        <div style="border:1.5px solid #cfe0e2;background:#fff;display:grid;grid-template-columns:24px 1fr 1.15fr;align-items:center;gap:12px;padding:0 14px">
+          <div style="width:19px;height:19px;border:2px solid #0f7f86;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#0f7f86"></div></div>
+          <div style="font-size:13px;font-weight:700;line-height:1.35;text-wrap:pretty">注文先が分かれて手間がかかる</div>
+          <div style="font-size:11.5px;line-height:1.5;color:#41595E;border-left:1px solid #e6f3f3;padding-left:12px;text-wrap:pretty">洗剤・紙・袋をまとめて1つの窓口で承ります</div>
+        </div>
+        <div style="border:1.5px solid #cfe0e2;background:#fff;display:grid;grid-template-columns:24px 1fr 1.15fr;align-items:center;gap:12px;padding:0 14px">
+          <div style="width:19px;height:19px;border:2px solid #0f7f86;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#0f7f86"></div></div>
+          <div style="font-size:13px;font-weight:700;line-height:1.35;text-wrap:pretty">在庫切れ・過剰在庫が起きる</div>
+          <div style="font-size:11.5px;line-height:1.5;color:#41595E;border-left:1px solid #e6f3f3;padding-left:12px;text-wrap:pretty">使用ペースに合わせた数量と納品周期をご提案します</div>
+        </div>
+        <div style="border:1.5px solid #cfe0e2;background:#fff;display:grid;grid-template-columns:24px 1fr 1.15fr;align-items:center;gap:12px;padding:0 14px">
+          <div style="width:19px;height:19px;border:2px solid #0f7f86;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#0f7f86"></div></div>
+          <div style="font-size:13px;font-weight:700;line-height:1.35;text-wrap:pretty">商品が多すぎて選べない</div>
+          <div style="font-size:11.5px;line-height:1.5;color:#41595E;border-left:1px solid #e6f3f3;padding-left:12px;text-wrap:pretty">用途ごとの代表商品だけを絞ってお見せします</div>
+        </div>
+        <div style="border:1.5px solid #cfe0e2;background:#fff;display:grid;grid-template-columns:24px 1fr 1.15fr;align-items:center;gap:12px;padding:0 14px">
+          <div style="width:19px;height:19px;border:2px solid #0f7f86;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#0f7f86"></div></div>
+          <div style="font-size:13px;font-weight:700;line-height:1.35;text-wrap:pretty">試してから決めたい</div>
+          <div style="font-size:11.5px;line-height:1.5;color:#41595E;border-left:1px solid #e6f3f3;padding-left:12px;text-wrap:pretty">ご相談のうえサンプルをお持ちします</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:none;background:#0f7f86;color:#fff;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+      <div style="font-size:17px;font-weight:700;letter-spacing:-.01em">単価の比較だけでも、お作りします</div>
+      <div style="font-size:12px;font-weight:500;opacity:.92;text-align:right;line-height:1.55">現在お使いの商品名と月間の使用量をお知らせください<br />切り替えのご判断はそのあとで構いません</div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-4" data-pattern="5" data-screen-label="05 左右2分割" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A">
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:minmax(0,1fr)">
+      <div style="background:#0f7f86;color:#fff;padding:36px 30px 32px 38px;display:flex;flex-direction:column;gap:22px;min-height:0;overflow:hidden">
+        <div style="background:#fff;color:#0f7f86;font-size:12px;font-weight:700;letter-spacing:.14em;padding:5px 12px;align-self:flex-start">介護施設・病院のご担当者さまへ</div>
+        <h1 style="margin:0;font-size:45px;line-height:1.38;font-weight:700;letter-spacing:-.035em">使い方は変えずに、<br />費用のほうを<br />見直せます。</h1>
+        <p style="margin:0;font-size:14px;line-height:1.85;font-weight:500;opacity:.95;text-wrap:pretty">洗い方も掃除の手順も変えずに、使う商品を同等品質のものへ替えるだけで、月々の消耗品費は下げられます。まずは使用量の多い品目からご相談ください。</p>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;gap:16px">
+          <div style="border-left:3px solid rgba(255,255,255,.6);padding-left:13px"><div style="font-size:14px;font-weight:900">現場の手順は変えません</div><div style="font-size:12px;line-height:1.6;opacity:.9;text-wrap:pretty">使い方が変わらない商品を選ぶので、職員への周知も最小限です。</div></div>
+          <div style="border-left:3px solid rgba(255,255,255,.6);padding-left:13px"><div style="font-size:14px;font-weight:900">単価で判断できます</div><div style="font-size:12px;line-height:1.6;opacity:.9;text-wrap:pretty">100mL・1枚・1ロールあたりに直した比較表をお出しします。</div></div>
+          <div style="border-left:3px solid rgba(255,255,255,.6);padding-left:13px"><div style="font-size:14px;font-weight:900">段階的に切り替えられます</div><div style="font-size:12px;line-height:1.6;opacity:.9;text-wrap:pretty">一度にすべて替える必要はありません。1品目からで構いません。</div></div>
+          <div style="border-left:3px solid rgba(255,255,255,.6);padding-left:13px"><div style="font-size:14.5px;font-weight:700">ご相談だけでも承ります</div><div style="font-size:12.5px;line-height:1.7;opacity:.9;margin-top:3px;text-wrap:pretty">現状の単価を知っておくだけでも、今後の判断材料になります。</div></div>
+        </div>
+      </div>
+      <div style="background:#F6FBFB;display:grid;grid-template-rows:repeat(4,minmax(0,1fr));border-left:1px solid #e6f3f3;min-height:0;overflow:hidden">
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:16px;border-bottom:1px solid #e6f3f3"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:16px;border-bottom:1px solid #e6f3f3"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:16px;border-bottom:1px solid #e6f3f3"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block;background:#EAF4F4;padding:10px;box-sizing:border-box" /></div>
+        <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;padding:16px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      </div>
+    </div>
+    <div style="flex:none;padding:18px 38px 26px">
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+    </div>
+  </section>
+
+  <section class="page" id="tss-page-5" data-pattern="6" data-screen-label="06 大写真1点" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A;padding:30px 38px 26px;gap:16px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:15px">
+        <h1 style="margin:0;font-size:50px;line-height:1.12;font-weight:700;letter-spacing:-.035em">その1本、<br /><span style="color:#0f7f86">いくらで使えていますか。</span></h1>
+        <p style="margin:0;font-size:14.5px;line-height:1.85;font-weight:500;color:#41595E;text-wrap:pretty">4.5Lの業務用洗剤も、2Lのつめかえも、100mLあたりに直すと本当のコストが見えます。うすめて使う商品なら、希釈後の1回あたりでもご計算します。</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">容量の大きい商品ほど差が出ます</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">使用量の多い品目を大容量に替えるだけで、単価は下がります。</div></div>
+          <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">希釈率まで含めて比較します</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">原液価格ではなく、実際に使う濃度での1回あたりでご提示します。</div></div>
+          <div style="border-left:4px solid #0f7f86;background:#F6FBFB;padding:12px 15px;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="font-size:14px;font-weight:900;letter-spacing:-.01em">つめかえの活用でさらに</div><div style="font-size:12px;line-height:1.6;color:#41595E;text-wrap:pretty">本体を繰り返し使い、以降つめかえで補充する運用をご案内します。</div></div>
+        </div>
+      </div>
+      <div style="min-height:0;height:100%;background:#F6FBFB;border:1.5px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:30px"><img src="./images/kao/13_4901301505996.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+    </div>
+    <div style="flex:none;background:#F6FBFB;border-left:4px solid #0f7f86;padding:12px 16px;font-size:12.5px;line-height:1.6;color:#41595E;text-wrap:pretty">現在お使いの商品名・容量・月間の使用量をお知らせいただければ、同等品質の商品で単価比較表をお作りします。サンプルのご用意もできます。</div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-6" data-pattern="7" data-screen-label="07 Q&A" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#F6FBFB;color:#12242A;padding:30px 38px 26px;gap:15px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">よくいただくご質問</div>
+    </div>
+    <h1 style="margin:0;flex:none;font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-.035em">切り替えの前に、<br /><span style="font-size:31px;color:#0f7f86">気になることはありませんか。</span></h1>
+    <div style="flex:1;min-height:0;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:13px">
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:9px;justify-content:center">
+        <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;background:#0f7f86;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">Q</div><div style="font-size:16px;font-weight:900;line-height:1.4;text-wrap:pretty">本当に品質は変わらないのですか</div></div>
+        <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;border:2px solid #0f7f86;color:#0f7f86;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">A</div><div style="font-size:12.5px;line-height:1.75;color:#41595E;text-wrap:pretty">メーカー正規品の中から、同等の性能を持つ商品をお選びします。ご不安な場合はサンプルで現場でお試しいただいてから決めていただけます。</div></div>
+      </div>
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:9px;justify-content:center">
+        <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;background:#0f7f86;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">Q</div><div style="font-size:16px;font-weight:900;line-height:1.4;text-wrap:pretty">どのくらい下がるのですか</div></div>
+        <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;border:2px solid #0f7f86;color:#0f7f86;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">A</div><div style="font-size:12.5px;line-height:1.75;color:#41595E;text-wrap:pretty">品目と使用量によります。まず単価比較表をお作りし、差額を数字でお示ししたうえでご判断いただきます。</div></div>
+      </div>
+      <div style="border:1.5px solid #cfe0e2;background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:9px;justify-content:center">
+        <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;background:#0f7f86;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">Q</div><div style="font-size:16px;font-weight:900;line-height:1.4;text-wrap:pretty">全部まとめて替える必要がありますか</div></div>
+        <div style="display:flex;gap:11px;align-items:flex-start"><div style="flex:none;width:24px;height:24px;border:2px solid #0f7f86;color:#0f7f86;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">A</div><div style="font-size:12.5px;line-height:1.75;color:#41595E;text-wrap:pretty">1品目からで構いません。使用量の多いものから順に、段階的に切り替えていただけます。</div></div>
+      </div>
+    </div>
+    <div style="flex:none;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;height:96px">
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/23_4901301501882.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-7" data-pattern="8" data-screen-label="08 3ステップ" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A;padding:30px 38px 26px;gap:16px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">ご相談からのながれ</div>
+    </div>
+    <div style="flex:none;display:flex;flex-direction:column;gap:10px">
+      <h1 style="margin:0;font-size:48px;line-height:1.12;font-weight:700;letter-spacing:-.035em">まずは比較表から。<br /><span style="font-size:31px;color:#0f7f86">3つのステップで進みます。</span></h1>
+      <p style="margin:0;font-size:14px;line-height:1.75;font-weight:500;color:#41595E;max-width:640px;text-wrap:pretty">はじめから全部を決めていただく必要はありません。現在の状況をうかがうところから、順にお手伝いします。</p>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:14px">
+      <div style="display:grid;grid-template-columns:96px 1fr 150px;gap:18px;align-items:center;border-top:2px solid #0f7f86;padding-top:13px">
+        <div style="display:flex;flex-direction:column;gap:2px"><div style="font-size:11px;font-weight:700;color:#0f7f86;letter-spacing:.12em">STEP 1</div><div style="font-size:44px;font-weight:900;line-height:1;color:#0f7f86;letter-spacing:-.03em">1</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:18px;font-weight:900;line-height:1.35;text-wrap:pretty">現在お使いの商品をお知らせください</div><div style="font-size:12.5px;line-height:1.7;color:#41595E;text-wrap:pretty">請求書や納品書の品名・容量・月間の使用量が分かれば十分です。お電話・FAXでも承ります。</div></div>
+        <div style="height:100%;max-height:118px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      </div>
+      <div style="display:grid;grid-template-columns:96px 1fr 150px;gap:18px;align-items:center;border-top:2px solid #0f7f86;padding-top:13px">
+        <div style="display:flex;flex-direction:column;gap:2px"><div style="font-size:11px;font-weight:700;color:#0f7f86;letter-spacing:.12em">STEP 2</div><div style="font-size:44px;font-weight:900;line-height:1;color:#0f7f86;letter-spacing:-.03em">2</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:18px;font-weight:900;line-height:1.35;text-wrap:pretty">単価比較表をお作りします</div><div style="font-size:12.5px;line-height:1.7;color:#41595E;text-wrap:pretty">同等品質の商品で、100mL・1枚・1ロールあたりに直した比較表をお持ちします。</div></div>
+        <div style="height:100%;max-height:118px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/27_4901301333513.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      </div>
+      <div style="display:grid;grid-template-columns:96px 1fr 150px;gap:18px;align-items:center;border-top:2px solid #0f7f86;padding-top:13px">
+        <div style="display:flex;flex-direction:column;gap:2px"><div style="font-size:11px;font-weight:700;color:#0f7f86;letter-spacing:.12em">STEP 3</div><div style="font-size:44px;font-weight:900;line-height:1;color:#0f7f86;letter-spacing:-.03em">3</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:18px;font-weight:900;line-height:1.35;text-wrap:pretty">1品目からお試しください</div><div style="font-size:12.5px;line-height:1.7;color:#41595E;text-wrap:pretty">サンプルで現場でご確認いただき、納得いただいたものだけ切り替えていただけます。</div></div>
+        <div style="height:100%;max-height:118px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/daio/12_alcohol_towel_body.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      </div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-8" data-pattern="9" data-screen-label="09 カテゴリタイル" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#F6FBFB;color:#12242A;padding:30px 38px 26px;gap:14px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">取扱カテゴリのご案内</div>
+    </div>
+    <div style="flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+      <h1 style="margin:0;font-size:44px;line-height:1.12;font-weight:700;letter-spacing:-.035em">必要な分類だけ、<br /><span style="font-size:30px;color:#0f7f86">まとめてお持ちします。</span></h1>
+      <p style="margin:0;font-size:13px;line-height:1.7;font-weight:500;color:#41595E;max-width:280px;text-wrap:pretty">カテゴリごとにチラシをご用意しています。ご興味のある分類をお伝えいただければ、その分だけお渡しします。</p>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,minmax(0,1fr));gap:12px">
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">食器用洗剤</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/13_4901301505996.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">厨房の油汚れ</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/23_4901301501882.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">台所用漂白剤</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">トイレ洗剤</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/38_4901301021205.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">浴室・カビ</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/27_4901301333513.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">洗濯・漂白剤</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">手指衛生</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">トイレット・紙</div></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">ゴミ袋・ポリ袋</div></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-9" data-pattern="10" data-screen-label="10 現状とご提案" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A;padding:30px 38px 26px;gap:15px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">業務用消耗品のご提案</div>
+    </div>
+    <h1 style="margin:0;flex:none;font-size:46px;line-height:1.12;font-weight:700;letter-spacing:-.035em">いまの手間は、<br /><span style="font-size:31px;color:#0f7f86">仕入れ先を変えるだけで減ります。</span></h1>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1.5px solid #cfe0e2;background:#F6FBFB;display:flex;flex-direction:column">
+        <div style="flex:none;background:#8aa0a2;color:#fff;padding:9px 16px;font-size:13px;font-weight:700;letter-spacing:.06em">よくある現状</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-rows:repeat(4,minmax(0,1fr))">
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13px;line-height:1.55;color:#41595E;display:flex;align-items:center;text-wrap:pretty">発注先が3社に分かれている</div>
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13px;line-height:1.55;color:#41595E;display:flex;align-items:center;text-wrap:pretty">容量ごとの価格しか分からない</div>
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13px;line-height:1.55;color:#41595E;display:flex;align-items:center;text-wrap:pretty">在庫を切らして買い足している</div>
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13px;line-height:1.55;color:#41595E;display:flex;align-items:center;text-wrap:pretty">どれを選ぶか毎回迷う</div>
+        </div>
+      </div>
+      <div style="border:1.5px solid #0f7f86;background:#fff;display:flex;flex-direction:column">
+        <div style="flex:none;background:#0f7f86;color:#fff;padding:9px 16px;font-size:13px;font-weight:700;letter-spacing:.06em">弊社のご提案</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-rows:repeat(4,minmax(0,1fr))">
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13.5px;font-weight:700;line-height:1.55;display:flex;align-items:center;text-wrap:pretty">1つの窓口にまとまります</div>
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13.5px;font-weight:700;line-height:1.55;display:flex;align-items:center;text-wrap:pretty">100mL・1枚・1ロールあたりで比較できます</div>
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13.5px;font-weight:700;line-height:1.55;display:flex;align-items:center;text-wrap:pretty">使用ペースに合わせて納品します</div>
+          <div style="padding:13px 16px;border-bottom:1px solid #e6f3f3;font-size:13.5px;font-weight:700;line-height:1.55;display:flex;align-items:center;text-wrap:pretty">用途別の代表商品だけをご提示します</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:none;display:grid;grid-template-columns:repeat(6,1fr);gap:9px;height:88px">
+      <div style="border:1px solid #cfe0e2;background:#F6FBFB;display:flex;align-items:center;justify-content:center;padding:7px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#F6FBFB;display:flex;align-items:center;justify-content:center;padding:7px"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#F6FBFB;display:flex;align-items:center;justify-content:center;padding:7px"><img src="./images/kao/38_4901301021205.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#F6FBFB;display:flex;align-items:center;justify-content:center;padding:7px"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#F6FBFB;display:flex;align-items:center;justify-content:center;padding:7px"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="border:1px solid #cfe0e2;background:#F6FBFB;display:flex;align-items:center;justify-content:center;padding:7px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-10" data-pattern="11" data-screen-label="11 縦帯サイド" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A">
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:78px 1fr">
+      <div style="background:#0f7f86;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 0">
+        <div style="writing-mode:vertical-rl;font-size:13.5px;font-weight:700;letter-spacing:.26em">介護施設・病院のご担当者さまへ</div>
+        <div style="writing-mode:vertical-rl;font-size:12px;font-weight:500;letter-spacing:.3em;opacity:.85">業務用消耗品のご提案</div>
+      </div>
+      <div style="padding:32px 38px 20px;display:flex;flex-direction:column;gap:16px;min-height:0">
+        <h1 style="margin:0;flex:none;font-size:50px;line-height:1.12;font-weight:700;letter-spacing:-.035em">汚れの種類ごとに、<br /><span style="font-size:33px;color:#0f7f86">適した洗剤があります。</span></h1>
+        <p style="margin:0;flex:none;font-size:14px;line-height:1.8;font-weight:500;color:#41595E;text-wrap:pretty">厨房の油汚れ、トイレの尿石、浴室の黒カビ。同じ洗剤でこすり続けるより、汚れに合った商品へ替えたほうが早く落ち、清掃の負担も軽くなります。</p>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:11px">
+          <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/13_4901301505996.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">厨房の油汚れ</div></div>
+          <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/14_4901301505057.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">器具のつけおき</div></div>
+          <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/20_4901301324184.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">トイレの尿石</div></div>
+          <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/41_4901301506177.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">浴室の黒カビ</div></div>
+          <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/31_4901301451262.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">衣類のにおい</div></div>
+          <div style="border:1px solid #cfe0e2;background:#fff;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:8px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:11.5px;font-weight:700;text-align:center;padding:5px;border-top:1px solid #e6f3f3">手指の消毒</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:none;padding:0 38px 26px 116px">
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+    </div>
+  </section>
+
+  <section class="page" id="tss-page-11" data-pattern="12" data-screen-label="12 白地ミニマル" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A;padding:44px 46px 30px;gap:0">
+    <div style="flex:none;width:58px;height:5px;background:#0f7f86;margin-bottom:26px"></div>
+    <h1 style="margin:0;flex:none;font-size:58px;line-height:1.18;font-weight:700;letter-spacing:-.035em">毎月の消耗品費、<br />一度いっしょに<br /><span style="color:#0f7f86">見直してみませんか。</span></h1>
+    <p style="margin:26px 0 0;flex:none;font-size:15px;line-height:1.95;font-weight:500;color:#41595E;max-width:520px;text-wrap:pretty">洗剤、トイレットペーパー、ゴミ袋。どれも毎月かならず出ていく費用です。使用量の多い品目を同等品質の商品に替えるだけで、年間では見過ごせない差になります。</p>
+    <div style="flex:none;margin:32px 0 0;padding-left:22px;border-left:2px solid #DCEDED;display:flex;flex-direction:column;gap:13px;max-width:530px">
+      <div style="font-size:13.5px;line-height:1.75;color:#12242A">現在お使いの商品名と月間の使用量をお知らせいただければ、100mL・1kg・1枚・1ロールあたりの単価に直した比較表をお作りします。</div>
+      <div style="font-size:13.5px;line-height:1.75;color:#41595E">切り替えのご判断は、それをご覧になってからで構いません。</div>
+    </div>
+    <div style="flex:1;min-height:20px"></div>
+    <div style="flex:none;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:minmax(0,1fr);gap:20px;height:206px;margin-bottom:24px;min-height:0;overflow:hidden">
+      <div style="border-top:2px solid #0f7f86;padding-top:14px;display:flex;flex-direction:column;gap:11px;min-height:0;overflow:hidden"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:12.5px;font-weight:700;text-align:center">洗剤</div></div>
+      <div style="border-top:2px solid #0f7f86;padding-top:14px;display:flex;flex-direction:column;gap:11px;min-height:0;overflow:hidden"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:12.5px;font-weight:700;text-align:center">紙製品</div></div>
+      <div style="border-top:2px solid #0f7f86;padding-top:14px;display:flex;flex-direction:column;gap:11px;min-height:0;overflow:hidden"><div style="flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div><div style="flex:none;font-size:12.5px;font-weight:700;text-align:center">ゴミ袋</div></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-12" data-pattern="13" data-screen-label="13 濃色フルベタ" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#0b5f65;color:#fff;padding:34px 38px 26px;gap:16px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#fff;color:#0b5f65;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.4)"></div>
+      <div style="font-size:12px;font-weight:500;letter-spacing:.06em;opacity:.85">業務用消耗品のご提案</div>
+    </div>
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px">
+      <h1 style="margin:0;font-size:52px;line-height:1.16;font-weight:700;letter-spacing:-.035em">割高な品目は、<br /><span style="font-size:35px;opacity:.9">一覧にすると見えてきます。</span></h1>
+      <p style="margin:0;font-size:14.5px;line-height:1.8;font-weight:500;max-width:620px;opacity:.92;text-wrap:pretty">お使いの商品を単価の安い順に並べると、見直すべき品目が自然に浮かび上がります。まずは一覧をお作りするところからお手伝いします。</p>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:12px">
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/23_4901301501882.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/38_4901301021205.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/27_4901301333513.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="background:#fff;display:flex;align-items:center;justify-content:center;padding:10px"><img src="./images/kao/06_4901301507198.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+    </div>
+    <div style="flex:none;background:rgba(255,255,255,.12);border-left:4px solid #fff;padding:13px 16px;font-size:13px;line-height:1.65;text-wrap:pretty">現在お使いの商品名と月間の使用量をお知らせください。100mL・1kg・1枚・1ロール・1袋あたりに直した単価表をお作りします。</div>
+    <footer style="flex:none;border-top:3px solid rgba(255,255,255,.5);padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#fff">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85)"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:rgba(255,255,255,.85)">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:rgba(255,255,255,.85)">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#fff;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.5;color:rgba(255,255,255,.85)">お電話・FAXにて承ります</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-13" data-pattern="14" data-screen-label="14 用途別一覧" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#F6FBFB;color:#12242A;padding:30px 38px 26px;gap:15px">
+    <div style="flex:none;display:flex;align-items:center;gap:12px">
+      <div style="background:#0f7f86;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.14em;padding:6px 14px">介護施設・病院のご担当者さまへ</div>
+      <div style="flex:1;height:2px;background:#0f7f86"></div>
+      <div style="font-size:12px;font-weight:500;color:#41595E;letter-spacing:.06em">用途別のお取扱い</div>
+    </div>
+    <div style="flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+      <h1 style="margin:0;font-size:44px;line-height:1.12;font-weight:700;letter-spacing:-.035em">現場ごとに、<br /><span style="font-size:30px;color:#0f7f86">必要なものだけをまとめて。</span></h1>
+      <p style="margin:0;font-size:13px;line-height:1.7;font-weight:500;color:#41595E;max-width:270px;text-wrap:pretty">それぞれの用途で単価の基準が変わります。比較のしかたも含めてご説明します。</p>
+    </div>
+    <div style="flex:none;border:1.5px solid #cfe0e2;background:#fff">
+      <div style="display:grid;grid-template-columns:120px 1fr 190px">
+        <div style="background:#0f7f86;color:#fff;padding:9px 16px;font-size:12px;font-weight:700;letter-spacing:.06em">現場</div>
+        <div style="background:#0f7f86;color:#fff;padding:9px 12px;font-size:12px;font-weight:700;letter-spacing:.06em">主な取扱商品</div>
+        <div style="background:#0f7f86;color:#fff;padding:9px 16px;font-size:12px;font-weight:700;letter-spacing:.06em">単価の基準</div>
+        <div style="padding:11px 16px;font-size:13.5px;font-weight:900;border-bottom:1px solid #e6f3f3">厨房</div>
+        <div style="padding:11px 12px;font-size:12.5px;color:#41595E;border-bottom:1px solid #e6f3f3">食器用洗剤・食洗機用・油汚れ用</div>
+        <div style="padding:11px 16px;font-family:'Roboto Mono',monospace;font-size:11.5px;color:#0f7f86;border-bottom:1px solid #e6f3f3">100mLあたり</div>
+        <div style="padding:11px 16px;font-size:13.5px;font-weight:900;border-bottom:1px solid #e6f3f3">トイレ</div>
+        <div style="padding:11px 12px;font-size:12.5px;color:#41595E;border-bottom:1px solid #e6f3f3">便器洗浄・尿石・消臭</div>
+        <div style="padding:11px 16px;font-family:'Roboto Mono',monospace;font-size:11.5px;color:#0f7f86;border-bottom:1px solid #e6f3f3">100mLあたり</div>
+        <div style="padding:11px 16px;font-size:13.5px;font-weight:900;border-bottom:1px solid #e6f3f3">浴室</div>
+        <div style="padding:11px 12px;font-size:12.5px;color:#41595E;border-bottom:1px solid #e6f3f3">浴室用洗剤・カビ取り</div>
+        <div style="padding:11px 16px;font-family:'Roboto Mono',monospace;font-size:11.5px;color:#0f7f86;border-bottom:1px solid #e6f3f3">100mLあたり</div>
+        <div style="padding:11px 16px;font-size:13.5px;font-weight:900;border-bottom:1px solid #e6f3f3">洗濯</div>
+        <div style="padding:11px 12px;font-size:12.5px;color:#41595E;border-bottom:1px solid #e6f3f3">洗たく洗剤・漂白剤・消臭</div>
+        <div style="padding:11px 16px;font-family:'Roboto Mono',monospace;font-size:11.5px;color:#0f7f86;border-bottom:1px solid #e6f3f3">1kgあたり</div>
+        <div style="padding:11px 16px;font-size:13.5px;font-weight:900;border-bottom:1px solid #e6f3f3">紙製品</div>
+        <div style="padding:11px 12px;font-size:12.5px;color:#41595E;border-bottom:1px solid #e6f3f3">トイレット・ペーパータオル</div>
+        <div style="padding:11px 16px;font-family:'Roboto Mono',monospace;font-size:11.5px;color:#0f7f86;border-bottom:1px solid #e6f3f3">1ロール・1枚あたり</div>
+        <div style="padding:11px 16px;font-size:13.5px;font-weight:900;border-bottom:1px solid #e6f3f3">袋類</div>
+        <div style="padding:11px 12px;font-size:12.5px;color:#41595E;border-bottom:1px solid #e6f3f3">ゴミ袋・ポリ袋・レジ袋</div>
+        <div style="padding:11px 16px;font-family:'Roboto Mono',monospace;font-size:11.5px;color:#0f7f86;border-bottom:1px solid #e6f3f3">1枚・1袋あたり</div>
+      </div>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(6,1fr);gap:10px">
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:9px"><img src="./images/kao/13_4901301505996.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:9px"><img src="./images/kao/20_4901301324184.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:9px"><img src="./images/kao/40_4901301511706.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:9px"><img src="./images/kao/33_4901301334664.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:9px"><img src="./images/daio/04_elvere_papertowel_eco.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="border:1px solid #cfe0e2;background:#fff;display:flex;align-items:center;justify-content:center;padding:9px"><img src="./images/japacks/P-41.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="page" id="tss-page-14" data-pattern="15" data-screen-label="15 ご挨拶文" style="box-sizing:border-box;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;background:#fff;color:#12242A;padding:40px 46px 28px;gap:20px">
+    <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:2px solid #0f7f86;padding-bottom:13px">
+      <div style="font-size:15px;font-weight:900;letter-spacing:.06em;color:#0f7f86">消耗品のお取扱いについてのご案内</div>
+      <div style="font-size:12px;font-weight:500;color:#41595E">介護施設・病院のご担当者さまへ</div>
+
+    </div>
+    <div style="flex:none;display:flex;flex-direction:column;gap:16px">
+      <h1 style="margin:0;font-size:33px;line-height:1.5;font-weight:700;letter-spacing:-.02em">日々お使いの消耗品について、<br />一度ご相談をいただけませんか。</h1>
+      <div style="font-size:13.5px;line-height:2.05;color:#12242A;max-width:640px;text-wrap:pretty">
+        <p style="margin:0 0 14px">平素は格別のご高配を賜り、厚く御礼申し上げます。</p>
+        <p style="margin:0 0 14px">当社では、介護施設や病院でお使いいただく洗剤、紙製品、ゴミ袋などの消耗品をお取り扱いしております。品目ごとに発注先が分かれていたり、価格の妥当性が分かりにくいというお声を多くいただいております。</p>
+        <p style="margin:0 0 14px">現在お使いの商品名と月間の使用量をお知らせいただければ、同等品質の商品で 100mL・1kg・1枚・1ロール・1袋あたりに直した単価比較表をお作りいたします。ご不要な場合はその旨お伝えいただければ結構です。</p>
+        <p style="margin:0">まずはお電話・FAXにてお気軽にお申し付けくださいますよう、お願い申し上げます。</p>
+      </div>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:center">
+      <div style="height:100%;max-height:150px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:11px"><img src="./images/kao/11_4901301360489.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="height:100%;max-height:150px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:11px"><img src="./images/kao/19_4901301504302.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="height:100%;max-height:150px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:11px"><img src="./images/kao/27_4901301333513.jpg" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="height:100%;max-height:150px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:11px"><img src="./images/daio/03_elvere170.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+      <div style="height:100%;max-height:150px;background:#F6FBFB;border:1px solid #cfe0e2;display:flex;align-items:center;justify-content:center;padding:11px"><img src="./images/japacks/JNH42.png" alt="" style="max-width:100%;max-height:100%;min-height:0;object-fit:contain;display:block" /></div>
+    </div>
+    <footer style="flex:none;border-top:1.5px solid #0f7f86;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#12242A">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:19px;font-weight:900;letter-spacing:.01em"><span data-office="company"></span>　<span data-office="office"></span></div>
+        <div style="font-size:12.5px;font-weight:500;color:#41595E"><span data-office="address"></span></div>
+        <div style="display:flex;gap:18px;font-size:14.5px;font-weight:700"><span>TEL <span data-office="tel"></span></span><span>FAX <span data-office="fax"></span></span></div>
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">担当</span><span style="font-size:14.5px;font-weight:700"><span data-office="staff"></span></span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:12.5px;font-weight:700;color:#41595E">携帯</span><span style="font-size:15.5px;font-weight:900"><span data-office="mobile"></span></span></div>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:3px">
+        <div style="font-size:11.5px;font-weight:700;color:#0f7f86;letter-spacing:.08em">お見積り・サンプルのご相談</div>
+        <div style="font-size:11.5px;line-height:1.55;color:#41595E">見直しのご相談だけでも承ります<br />お電話・FAXにてお気軽にどうぞ</div>
+      </div>
+    </footer>
+  </section>
+</div>
+
+<script src="./assets/offices.js?v=20260907-1"></script>
+<script>
+(function(){
+  var COMPANY = "太陽シルバーサービス㈱";
+
+  // 営業所は既存アプリのマスタ（assets/offices.js の全19営業所）をそのまま使う。
+  // このファイルに連絡先を書き写すと二重管理になり、異動のたびに直し漏れが出るため。
+  function officeFromMaster(o){
+    return {
+      company: COMPANY,
+      office: o.name,
+      address: (o.zip ? "〒" + o.zip + "　" : "") + o.address,
+      tel: o.tel || "",
+      fax: o.fax || "",
+      staff: o.contactName || o.manager || "",
+      mobile: o.mobile || ""
+    };
+  }
+  var OFFICES = (typeof TSS_OFFICE_MASTER !== "undefined" ? TSS_OFFICE_MASTER : []).map(officeFromMaster);
+  if (!OFFICES.length) {
+    OFFICES = [{ company:COMPANY, office:"行橋営業所", address:"福岡県行橋市大字流末1327番地",
+      tel:"0930-26-9640", fax:"0930-26-9641", staff:"久保", mobile:"080-9151-0294" }];
+  }
+
+  // 他のチラシと同じ営業所設定（tss_office_v1／担当者は tss_staff_v1）を読む。
+  function fromApp(){
+    try{
+      if (typeof tssLoadOffice !== "function") return null;
+      var o = tssLoadOffice();
+      if (!o) return null;
+      if (typeof tssOfficeWithStaff === "function") o = tssOfficeWithStaff(o);
+      return officeFromMaster(o);
+    }catch(e){}
+    return null;
+  }
+
+  // 「連絡先を手入力」で書き換えた内容だけをこのファイル専用に保存する。
+  // 手入力していないときは常にアプリ側の営業所設定に追従させる。
+  var MANUAL_KEY = "tss_cover_manual_v1";
+  var manual = null;
+  try { manual = JSON.parse(localStorage.getItem(MANUAL_KEY) || "null"); } catch(e) {}
+  var cur = manual || fromApp() || OFFICES[0];
+
+  var sel = document.getElementById("officeSel");
+  function buildSel(){
+    sel.innerHTML = "";
+    var found = false;
+    OFFICES.forEach(function(o, i){
+      var op = document.createElement("option");
+      op.value = String(i); op.textContent = o.office;
+      if (o.office === cur.office) { op.selected = true; found = true; }
+      sel.appendChild(op);
+    });
+    var op2 = document.createElement("option");
+    op2.value = "manual"; op2.textContent = "手入力した内容";
+    if (!found) op2.selected = true;
+    sel.appendChild(op2);
+  }
+
+  function paint(){
+    ["company","office","address","tel","fax","staff","mobile"].forEach(function(f){
+      var v = cur[f] || "";
+      var nodes = document.querySelectorAll('[data-office="' + f + '"]');
+      for (var i=0;i<nodes.length;i++) nodes[i].textContent = v;
+      var inp = document.querySelector('[data-in="' + f + '"]');
+      if (inp && inp !== document.activeElement) inp.value = v;
+    });
+  }
+
+  sel.addEventListener("change", function(){
+    if (sel.value === "manual") return;
+    cur = OFFICES[+sel.value];
+    // 営業所を選び直したら手入力の内容は破棄し、アプリ全体の営業所設定も合わせる。
+    try { localStorage.removeItem(MANUAL_KEY); } catch(e) {}
+    if (typeof tssSaveOffice === "function") tssSaveOffice(cur.office);
+    paint();
+  });
+
+  var inputs = document.querySelectorAll("[data-in]");
+  for (var i=0;i<inputs.length;i++){
+    inputs[i].addEventListener("input", function(e){
+      cur = Object.assign({}, cur);
+      cur[e.target.getAttribute("data-in")] = e.target.value;
+      sel.value = "manual";
+      try { localStorage.setItem(MANUAL_KEY, JSON.stringify(cur)); } catch(e2) {}
+      paint();
+    });
+  }
+
+  var ed = document.getElementById("editor");
+  document.getElementById("editBtn").addEventListener("click", function(){
+    ed.style.display = (ed.style.display === "flex") ? "none" : "flex";
+  });
+
+  document.getElementById("printBtn").addEventListener("click", function(){ window.print(); });
+
+  var pages = document.querySelectorAll(".page");
+  for (var j=0;j<pages.length;j++){
+    var t = document.createElement("div");
+    t.className = "tag";
+    t.textContent = "パターン " + pages[j].getAttribute("data-pattern");
+    pages[j].appendChild(t);
+  }
+
+  var pick = document.getElementById("pick");
+  function applyPick(){
+    var v = pick.value;
+    for (var k=0;k<pages.length;k++){
+      pages[k].classList.toggle("hide", v !== "all" && String(k) !== v);
+    }
+    try { localStorage.setItem("tss-cover-pick", v); } catch(e) {}
+  }
+  var pv = null; try { pv = localStorage.getItem("tss-cover-pick"); } catch(e) {}
+  if (pv !== null) pick.value = pv;
+  pick.addEventListener("change", applyPick);
+
+  buildSel(); paint(); applyPick();
+})();
+</script>
+</body>
+</html>
