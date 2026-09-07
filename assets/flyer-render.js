@@ -284,6 +284,14 @@ async function renderFlyer(flyerKey, mountId) {
   const printPages = {};   // { [pageIndex]: false } 印刷しないページだけ記録する
   let quoteCart = tssLoadQuoteCart();
   let composition = tssLoadComposition();
+  // 「ランダムに選ぶ」チラシは開くたびに商品を選び直す。前回の差し替え内容を持ち越すと、
+  // そのページだけ固定されて再抽選が効かなくなるうえ、ページ番号（01・02…）でひも付くため
+  // 見出しの用途と中身の商品がずれてしまう（例: 見出し「手指衛生」に食器用洗剤が並ぶ）。
+  // 差し替えはその場では使えるが、次に開いたときは持ち越さない。
+  if (flyer.randomSample && composition[flyer.key]) {
+    delete composition[flyer.key];
+    tssSaveComposition(composition);
+  }
   let pickerTarget = null; // { pageKey, slotIndex } while picker is open
 
   const mount = document.getElementById(mountId);

@@ -134,7 +134,7 @@
     696
    ],
    "tokens": {
-    "photoHeight": 176,
+    "photoHeight": 164,
     "cardTitleMinHeight": 50,
     "cardTitleFontSize": "13.5",
     "descMinHeight": 28,
@@ -871,7 +871,7 @@
    "sourceFlier": "紙おむつ・パッド",
    "mixMakers": true,
    "tokens": {
-    "photoHeight": 188,
+    "photoHeight": 155,
     "cardTitleMinHeight": 54,
     "cardTitleFontSize": "13.5",
     "descMinHeight": 28,
