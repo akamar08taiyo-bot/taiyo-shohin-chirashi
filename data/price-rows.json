@@ -341,10 +341,10 @@
  {
   "maker": "ロケット石鹸",
   "name": "業務用粉末洗剤 ホワイト",
-  "spec": "5kg×2",
+  "spec": "5kg",
   "code": "JAN 4903367306418",
   "kind": "g",
-  "baseQty": 10000,
+  "baseQty": 5000,
   "id": 30,
   "caseQty": 2,
   "caseDescription": "2個"
@@ -386,8 +386,8 @@
   "maker": "ロケット石鹸",
   "name": "マイキッチンK 食器用洗剤 業務用",
   "spec": "バッグインボックス",
-  "code": "JAN 4903367306562 ／ 容量 18L",
-  "kind": "mL",
+  "code": "JAN 4903367306562 ／ 容量 18kg",
+  "kind": "g",
   "baseQty": 18000,
   "id": 3,
   "caseQty": 1,
@@ -1085,28 +1085,6 @@
   "id": 179,
   "caseQty": 3,
   "caseDescription": "3個"
- },
- {
-  "maker": "ライオンハイジーン",
-  "name": "キレイキレイ せいけつボディソープ",
-  "spec": "4L",
-  "code": "JAN 4903301222057",
-  "kind": "mL",
-  "baseQty": 4000,
-  "id": 180,
-  "caseQty": 3,
-  "caseDescription": "3個"
- },
- {
-  "maker": "ライオンハイジーン",
-  "name": "キレイキレイ せいけつボディソープ",
-  "spec": "10L",
-  "code": "JAN 4903301250395",
-  "kind": "mL",
-  "baseQty": 10000,
-  "id": 181,
-  "caseQty": 1,
-  "caseDescription": "1個"
  },
  {
   "maker": "ライオンハイジーン",
@@ -7750,17 +7728,6 @@
   "id": 835,
   "caseQty": 20,
   "caseDescription": "20個"
- },
- {
-  "maker": "ロケット石鹸",
-  "name": "詰替用 オリエンタルムスク消臭スプレー",
-  "spec": "800mL",
-  "code": "JAN 4903367093684",
-  "kind": "mL",
-  "baseQty": 800,
-  "id": 836,
-  "caseQty": 12,
-  "caseDescription": "12個"
  },
  {
   "maker": "ロケット石鹸",
