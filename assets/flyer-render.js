@@ -12,7 +12,7 @@ const TSS_SHOW_CODES_KEY = 'tss_chirashi_showCodes_v1';
 const TSS_SHOW_PRICE_KEY = 'tss_chirashi_showPrice_v1';
 const TSS_ASK_KEY = 'tss_chirashi_askCheck_v1';
 const TSS_COMPOSITION_KEY = 'tss_chirashi_composition_v1';
-const TSS_IMAGE_VERSION = '20260907-1';
+const TSS_IMAGE_VERSION = '20260908-1';
 
 function tssLoadBool(key, fallback) {
   const v = localStorage.getItem(key);
@@ -128,21 +128,36 @@ function tssSourceItems(allItems, flyer, template) {
   return flyer.mixMakers ? tssInterleaveByMaker(pool) : pool;
 }
 
+// 直近の売上実績がある商品ID（data/sales-priority.json）。売れている順に並んでいる。
+// renderFlyer が読み込んでここに入れる。読めなかった場合は空のままで、
+// 従来どおりメーカー優先だけで抽選する（チラシは必ず出せるようにしておく）。
+let TSS_SALES_RANK = new Map();
+function tssSetSalesPriority(ids) {
+  TSS_SALES_RANK = new Map((ids || []).map((id, i) => [id, i]));
+}
+
 // 「ランダムに選ぶ」チラシ用: 用途ごとの候補から指定件数だけランダムに選ぶ。
-// preferMakers（花王プロフェッショナル／ロケット石鹸）に該当する商品を優先的に候補へ残し、
-// 足りない分だけ他メーカーで埋める。件数は必ず4の倍数（0/4/max）にして、
-// 印刷時に1ページ4商品ちょうどの制約を崩さないようにする。
+// 優先順位は次のとおり。
+//   1. 直近で売れている商品（実績のある商品を続けて使いたいため）
+//   2. preferMakers（パターン1の花王プロフェッショナル／ロケット石鹸）
+//   3. それ以外（メーカー不問。1・2で8点に足りない用途をここで埋める）
+// 件数は必ず4の倍数（0/4/max）にして、1ページ4商品ちょうどの制約を崩さない。
 function tssPickRandom(pool, opts) {
   const max = (opts && opts.max) || 8;
   const n = pool.length >= max ? max : (pool.length >= 4 ? Math.floor(pool.length / 4) * 4 : 0);
   if (n === 0) return [];
   const preferSet = new Set((opts && opts.preferMakers) || []);
-  const preferred = [];
-  const rest = [];
-  for (const item of pool) (preferSet.has(item.maker) ? preferred : rest).push(item);
+  const sold = [], preferred = [], rest = [];
+  for (const item of pool) {
+    if (TSS_SALES_RANK.has(item.id)) sold.push(item);
+    else if (preferSet.has(item.maker)) preferred.push(item);
+    else rest.push(item);
+  }
+  // 実績のある商品は「売れている順」を保ちつつ、毎回同じ並びにならないよう軽く混ぜる
+  sold.sort((a, b) => TSS_SALES_RANK.get(a.id) - TSS_SALES_RANK.get(b.id));
   tssShuffleInPlace(preferred);
   tssShuffleInPlace(rest);
-  return tssShuffleInPlace(preferred.concat(rest).slice(0, n));
+  return tssShuffleInPlace(sold.concat(preferred, rest).slice(0, n));
 }
 function tssShuffleInPlace(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -150,6 +165,37 @@ function tssShuffleInPlace(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+// カードの本文（説明文）の下には、商品によって余白ができる。
+// その余っている高さのぶんだけ、写真枠を広げて商品を大きく見せる。
+// 広げる量はページ単位で「4枚のうち一番余白が少ないカード」に合わせるので、
+// 同じページの4枚は必ず同じ写真サイズのまま揃う。
+// 文字は動かさない（幅が変わらないので折り返しも変わらない）。
+const TSS_PHOTO_SAFE_GAP = 12;   // 本文と品番行の間に必ず残す余白
+function tssFitPhotos(mount) {
+  const pages = [...mount.querySelectorAll('.page')];
+  for (const page of pages) {
+    const cards = [...page.querySelectorAll('.tss-card')];
+    if (!cards.length) continue;
+    let minGap = Infinity;
+    for (const card of cards) {
+      const desc = card.querySelector('.tss-card-desc');
+      const code = card.querySelector('.tss-card-code');
+      const photo = card.querySelector('.tss-card-photo');
+      if (!desc || !code || !photo) { minGap = 0; break; }
+      minGap = Math.min(minGap, code.getBoundingClientRect().top - desc.getBoundingClientRect().bottom);
+    }
+    const grow = Math.floor(Math.min(minGap, 9999) - TSS_PHOTO_SAFE_GAP);
+    if (!isFinite(grow) || grow <= 0) continue;
+    for (const card of cards) {
+      const photo = card.querySelector('.tss-card-photo');
+      if (!photo) continue;
+      const base = parseFloat(photo.dataset.baseHeight || photo.style.height) || photo.getBoundingClientRect().height;
+      photo.dataset.baseHeight = String(base);
+      photo.style.height = (base + grow) + 'px';
+    }
+  }
 }
 
 // メーカーを順番に取り出して並べ直す。用途別チラシで、同じ用途の商品を
@@ -178,11 +224,14 @@ function tssInterleaveByMaker(items) {
 }
 
 async function renderFlyer(flyerKey, mountId) {
-  const [pagesData, productsData, priceRows] = await Promise.all([
-    fetch('./data/pages.json?v=20260907-1').then(r => r.json()),
-    fetch('./data/products.json?v=20260907-1').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260907-1').then(r => r.json()),
+  const [pagesData, productsData, priceRows, salesPriority] = await Promise.all([
+    fetch('./data/pages.json?v=20260908-1').then(r => r.json()),
+    fetch('./data/products.json?v=20260908-1').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20260908-1').then(r => r.json()),
+    // 売れている商品の優先順位。無くてもチラシは出せるようにしておく。
+    fetch('./data/sales-priority.json?v=20260908-1').then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
+  tssSetSalesPriority(salesPriority && salesPriority.ids);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
   let office = tssOfficeWithStaff(tssLoadOffice());
@@ -485,6 +534,7 @@ async function renderFlyer(flyerKey, mountId) {
   function renderAll() {
     mount.innerHTML = flyer.pages.map((p, i) => pageHTML(p, flyer.tokens, i)).join('');
     syncPageHighlight();
+    tssFitPhotos(mount);
   }
 
   // ---- 商品差し替えピッカー ----
