@@ -9615,7 +9615,7 @@
    "desc": "台所のつけおき漂白に使う標準サイズ。泡で密着し、時短で洗浄できます。",
    "code": "JAN 4903367306470",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/222_4903367306470.png",
+   "image": "./images/rocket/222_4903367306470.jpg",
    "id": 766
   },
   {
@@ -9628,7 +9628,7 @@
    "desc": "台所のつけおき漂白に使う標準サイズ。泡で密着し、時短で洗浄できます。",
    "code": "JAN 4903367093707",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/223_4903367093707.png",
+   "image": "./images/rocket/223_4903367093707.jpg",
    "id": 767
   },
   {
@@ -9641,7 +9641,7 @@
    "desc": "台所のつけおき漂白に使う標準サイズ。泡で密着し、時短で洗浄できます。",
    "code": "JAN 4903367301482",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/224_4903367301482.png",
+   "image": "./images/rocket/224_4903367301482.jpg",
    "id": 768
   },
   {
@@ -9927,7 +9927,7 @@
    "desc": "トイレの日常清掃に。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4903367094179",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/255_4903367094179.png",
+   "image": "./images/rocket/255_4903367094179.jpg",
    "id": 799
   },
   {
@@ -10044,7 +10044,7 @@
    "desc": "施設洗濯に使う標準サイズ。",
    "code": "JAN 4903367303394",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/264_4903367303394.png",
+   "image": "./images/rocket/264_4903367303394.jpg",
    "id": 808
   },
   {
@@ -10057,7 +10057,7 @@
    "desc": "施設洗濯に使う標準サイズ。",
    "code": "JAN 4903367306548",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/265_4903367306548.png",
+   "image": "./images/rocket/265_4903367306548.jpg",
    "id": 809
   },
   {
@@ -10070,7 +10070,7 @@
    "desc": "施設洗濯に使う標準サイズ。",
    "code": "JAN 4903367303974",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/266_4903367303974.png",
+   "image": "./images/rocket/266_4903367303974.jpg",
    "id": 810
   },
   {
@@ -10148,7 +10148,7 @@
    "desc": "衣類の漂白・仕上げに。本体の容器をそのまま使えるつめかえ大容量タイプ。",
    "code": "JAN 4903367092588",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/274_4903367092588.png",
+   "image": "./images/rocket/274_4903367092588.jpg",
    "id": 818
   },
   {
@@ -10161,7 +10161,7 @@
    "desc": "衣類の漂白・仕上げに。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4903367093929",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/275_4903367093929.png",
+   "image": "./images/rocket/275_4903367093929.jpg",
    "id": 819
   },
   {
@@ -10174,7 +10174,7 @@
    "desc": "衣類の漂白・仕上げに。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4903367094094",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/276_4903367094094.png",
+   "image": "./images/rocket/276_4903367094094.jpg",
    "id": 820
   },
   {
@@ -10356,7 +10356,7 @@
    "desc": "衣類の漂白・仕上げに使う標準サイズ。",
    "code": "JAN 4903367304568",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/290_4903367304568.png",
+   "image": "./images/rocket/290_4903367304568.jpg",
    "id": 834
   },
   {
@@ -10369,7 +10369,7 @@
    "desc": "衣類の漂白・仕上げに使う標準サイズ。",
    "code": "JAN 4903367093264",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/291_4903367093264.png",
+   "image": "./images/rocket/291_4903367093264.jpg",
    "id": 835
   },
   {
@@ -10525,7 +10525,7 @@
    "desc": "入浴介助・洗身に。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4571113802288",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/306_4571113802288.png",
+   "image": "./images/rocket/306_4571113802288.jpg",
    "id": 850
   },
   {
@@ -10642,7 +10642,7 @@
    "desc": "入浴介助・洗身に。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4571113802318",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/315_4571113802318.png",
+   "image": "./images/rocket/315_4571113802318.jpg",
    "id": 859
   },
   {
@@ -10707,7 +10707,7 @@
    "desc": "手洗いに使う標準サイズ。",
    "code": "JAN 4571113806125",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/320_4571113806125.png",
+   "image": "./images/rocket/320_4571113806125.jpg",
    "id": 864
   },
   {
@@ -10720,7 +10720,7 @@
    "desc": "手洗いに使う標準サイズ。泡で密着し、時短で洗浄できます。",
    "code": "JAN 4571113806477",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/323_4571113806477.png",
+   "image": "./images/rocket/323_4571113806477.jpg",
    "id": 867
   },
   {
@@ -10759,7 +10759,7 @@
    "desc": "手洗いに。本体の容器をそのまま使えるつめかえ大容量タイプ。",
    "code": "JAN 4571113800659",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/326_4571113800659.png",
+   "image": "./images/rocket/326_4571113800659.jpg",
    "id": 870
   },
   {
@@ -10772,7 +10772,7 @@
    "desc": "手洗いに。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4571113801168",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/327_4571113801168.png",
+   "image": "./images/rocket/327_4571113801168.jpg",
    "id": 871
   },
   {
@@ -10785,7 +10785,7 @@
    "desc": "手洗いに。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4571113801175",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/328_4571113801175.png",
+   "image": "./images/rocket/328_4571113801175.jpg",
    "id": 872
   },
   {
@@ -10798,7 +10798,7 @@
    "desc": "手洗いに使う標準サイズ。",
    "code": "JAN 4571113806941",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/329_4571113806941.png",
+   "image": "./images/rocket/329_4571113806941.jpg",
    "id": 873
   },
   {
@@ -10811,7 +10811,7 @@
    "desc": "手洗いに。本体の容器をそのまま使えるつめかえタイプ。",
    "code": "JAN 4571113800499",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/330_4571113800499.png",
+   "image": "./images/rocket/330_4571113800499.jpg",
    "id": 874
   },
   {
@@ -10876,7 +10876,7 @@
    "desc": "スキンケア・オーラルケアに使う標準サイズ。",
    "code": "JAN 4571113806965",
    "unitBasis": "1kgあたり",
-   "image": "./images/rocket/335_4571113806965.png",
+   "image": "./images/rocket/335_4571113806965.jpg",
    "id": 879
   },
   {
@@ -10902,7 +10902,7 @@
    "desc": "スキンケア・オーラルケアに使う標準サイズ。",
    "code": "JAN 4571113808457",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/337_4571113808457.png",
+   "image": "./images/rocket/337_4571113808457.jpg",
    "id": 881
   },
   {
@@ -10967,7 +10967,7 @@
    "desc": "スキンケア・オーラルケアに使う標準サイズ。",
    "code": "JAN 4571113807887",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/342_4571113807887.png",
+   "image": "./images/rocket/342_4571113807887.jpg",
    "id": 886
   },
   {
@@ -10980,7 +10980,7 @@
    "desc": "スキンケア・オーラルケアに使う標準サイズ。",
    "code": "JAN 4571113807894",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/343_4571113807894.png",
+   "image": "./images/rocket/343_4571113807894.jpg",
    "id": 887
   },
   {
@@ -10993,7 +10993,7 @@
    "desc": "スキンケア・オーラルケアに使う標準サイズ。",
    "code": "JAN 4571113808303",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/344_4571113808303.png",
+   "image": "./images/rocket/344_4571113808303.jpg",
    "id": 888
   },
   {
@@ -11006,7 +11006,7 @@
    "desc": "スキンケア・オーラルケアに使う標準サイズ。",
    "code": "JAN 4571113808310",
    "unitBasis": "100mLあたり",
-   "image": "./images/rocket/345_4571113808310.png",
+   "image": "./images/rocket/345_4571113808310.jpg",
    "id": 889
   }
  ]

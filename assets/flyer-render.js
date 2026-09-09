@@ -150,10 +150,13 @@ function tssPickRandom(pool, opts) {
   if (n === 0) return [];
   const preferSet = new Set((opts && opts.preferMakers) || []);
   const wantStock = !!(opts && opts.preferStock);
+  // 「メーカー不問」のパターンは、売上実績で寄せずに純粋にランダムで選ぶ
+  // （実績重視のパターンと同じ顔ぶれにならないようにするため）
+  const useSales = !(opts && opts.ignoreSales);
   const stock = [], sold = [], preferred = [], rest = [];
   for (const item of pool) {
     if (wantStock && TSS_STOCK_IDS.has(item.id)) stock.push(item);
-    else if (TSS_SALES_RANK.has(item.id)) sold.push(item);
+    else if (useSales && TSS_SALES_RANK.has(item.id)) sold.push(item);
     else if (preferSet.has(item.maker)) preferred.push(item);
     else rest.push(item);
   }

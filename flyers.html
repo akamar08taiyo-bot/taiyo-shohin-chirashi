@@ -174,57 +174,71 @@
 
   <div class="view" id="view-random">
     <div class="maker-hint">
-      <p>12の用途ごとに8商品（2ページ）を自動で選んだチラシです。パターンごとに中身が違い、開き直すたびにも選び直します。同じお客さまに毎回ちがう商品をご提案したいときに。</p>
-      <button type="button" class="printall-btn" style="border-color:#7c3aed;color:#7c3aed;" onclick="tssPrintAllRandom()">🖨 7パターンすべて印刷</button>
+      <p>12の用途ごとに商品を自動で選んだチラシです。開き直すたびに選び直します。「取引実績あり」は納品実績のある商品を、「在庫商品 中心」は自社在庫を優先します。</p>
+      <button type="button" class="printall-btn" style="border-color:#7c3aed;color:#7c3aed;" onclick="tssPrintAllRandom()">🖨 9パターンすべて印刷</button>
     </div>
     <div class="cards">
-      <a class="card" href="./omakase.html" style="--c:#7c3aed;">
+      <a class="card" href="./omakase.html" style="--c:#0f7f86;">
         <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase.html')">🖨 印刷</button>
-        <span class="cat">パターン1</span>
-        <h2>花王・ロケット石鹸 中心</h2>
+        <span class="cat">花王・ロケット石鹸 中心</span>
+        <h2>8商品・2ページ</h2>
         <p>洗剤・消毒まわりは花王プロフェッショナルとロケット石鹸から優先して選びます</p>
         <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./omakase6.html" style="--c:#0f7f86;">
+      <a class="card" href="./omakase8.html" style="--c:#0f7f86;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase8.html')">🖨 印刷</button>
+        <span class="cat">花王・ロケット石鹸 中心</span>
+        <h2>16商品・4ページ</h2>
+        <p>同じ選び方で、1用途あたり16商品まで載せる大ボリューム版です</p>
+        <div class="meta"><span class="count">12用途・全48ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase6.html" style="--c:#0b66a3;">
         <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase6.html')">🖨 印刷</button>
-        <span class="cat">既存売上商品 中心</span>
-        <h2>お取引実績のある商品から</h2>
-        <p>これまでに納品実績のある商品を優先して選びます。継続してお使いいただいている商品が中心です</p>
+        <span class="cat">取引実績あり ①</span>
+        <h2>8商品・2ページ</h2>
+        <p>これまでに納品実績のある商品を優先。継続してお使いいただいている商品が中心です</p>
         <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
       </a>
-      <a class="card" href="./omakase7.html" style="--c:#0f7f86;">
+      <a class="card" href="./omakase9.html" style="--c:#0b66a3;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase9.html')">🖨 印刷</button>
+        <span class="cat">取引実績あり ②</span>
+        <h2>8商品・2ページ</h2>
+        <p>①とは別の組み合わせになります</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase10.html" style="--c:#0b66a3;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase10.html')">🖨 印刷</button>
+        <span class="cat">取引実績あり ③</span>
+        <h2>8商品・2ページ</h2>
+        <p>①②とは別の組み合わせになります</p>
+        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase11.html" style="--c:#0b66a3;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase11.html')">🖨 印刷</button>
+        <span class="cat">取引実績あり</span>
+        <h2>16商品・4ページ</h2>
+        <p>納品実績のある商品を優先しつつ、1用途あたり16商品まで載せます</p>
+        <div class="meta"><span class="count">12用途・全48ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase7.html" style="--c:#047857;">
         <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase7.html')">🖨 印刷</button>
         <span class="cat">在庫商品 中心</span>
-        <h2>在庫のある商品から</h2>
-        <p>自社在庫のある商品を最優先し、次に納品実績のある商品を選びます。すぐお届けできる商品が中心です</p>
+        <h2>8商品・2ページ</h2>
+        <p>自社在庫のある商品を最優先し、次に納品実績のある商品を選びます</p>
         <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./omakase2.html" style="--c:#7c3aed;">
         <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase2.html')">🖨 印刷</button>
-        <span class="cat">パターン2</span>
-        <h2>メーカー不問</h2>
-        <p>全メーカーから分けへだてなく選びます。ライオンやサラヤの商品も入ります</p>
+        <span class="cat">メーカー不問 ①</span>
+        <h2>8商品・2ページ</h2>
+        <p>全メーカーから分けへだてなく選びます</p>
         <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./omakase3.html" style="--c:#7c3aed;">
         <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase3.html')">🖨 印刷</button>
-        <span class="cat">パターン3</span>
-        <h2>メーカー不問</h2>
-        <p>パターン2とは別の組み合わせになります</p>
-        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./omakase4.html" style="--c:#7c3aed;">
-        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase4.html')">🖨 印刷</button>
-        <span class="cat">パターン4</span>
-        <h2>メーカー不問</h2>
-        <p>パターン2・3とは別の組み合わせになります</p>
-        <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
-      </a>
-      <a class="card" href="./omakase5.html" style="--c:#7c3aed;">
-        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase5.html')">🖨 印刷</button>
-        <span class="cat">パターン5</span>
-        <h2>メーカー不問</h2>
-        <p>パターン2〜4とは別の組み合わせになります</p>
+        <span class="cat">メーカー不問 ②</span>
+        <h2>8商品・2ページ</h2>
+        <p>①とは別の組み合わせになります</p>
         <div class="meta"><span class="count">12用途・全24ページ</span><span class="arrow">開く →</span></div>
       </a>
     </div>
@@ -428,11 +442,19 @@
     './paper.html', './taketora.html', './omutsu.html', './care.html', './saraya.html',
   ];
   const TSS_ALL_RANDOM_FLYERS = [
-    './omakase.html', './omakase6.html', './omakase7.html', './omakase2.html', './omakase3.html', './omakase4.html', './omakase5.html',
+    './omakase.html',
+    './omakase8.html',
+    './omakase6.html',
+    './omakase9.html',
+    './omakase10.html',
+    './omakase11.html',
+    './omakase7.html',
+    './omakase2.html',
+    './omakase3.html',
   ];
   function tssPrintAllRandom() {
     const ok = confirm(
-      `ランダムチラシ7パターン（合計168ページ）を新しいタブで開いて、それぞれ自動で印刷画面を開きます。よろしいですか？\n` +
+      `ランダムチラシ9パターン（合計264ページ）を新しいタブで開いて、それぞれ自動で印刷画面を開きます。よろしいですか？\n` +
       `（ブラウザのポップアップ確認が出た場合は「許可」を選んでください）`
     );
     if (!ok) return;
