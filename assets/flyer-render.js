@@ -132,8 +132,10 @@ function tssSourceItems(allItems, flyer, template) {
 // renderFlyer が読み込んでここに入れる。読めなかった場合は空のままで、
 // 従来どおりメーカー優先だけで抽選する（チラシは必ず出せるようにしておく）。
 let TSS_SALES_RANK = new Map();
-function tssSetSalesPriority(ids) {
+let TSS_STOCK_IDS = new Set();
+function tssSetSalesPriority(ids, stockIds) {
   TSS_SALES_RANK = new Map((ids || []).map((id, i) => [id, i]));
+  TSS_STOCK_IDS = new Set(stockIds || []);
 }
 
 // 「ランダムに選ぶ」チラシ用: 用途ごとの候補から指定件数だけランダムに選ぶ。
@@ -147,17 +149,20 @@ function tssPickRandom(pool, opts) {
   const n = pool.length >= max ? max : (pool.length >= 4 ? Math.floor(pool.length / 4) * 4 : 0);
   if (n === 0) return [];
   const preferSet = new Set((opts && opts.preferMakers) || []);
-  const sold = [], preferred = [], rest = [];
+  const wantStock = !!(opts && opts.preferStock);
+  const stock = [], sold = [], preferred = [], rest = [];
   for (const item of pool) {
-    if (TSS_SALES_RANK.has(item.id)) sold.push(item);
+    if (wantStock && TSS_STOCK_IDS.has(item.id)) stock.push(item);
+    else if (TSS_SALES_RANK.has(item.id)) sold.push(item);
     else if (preferSet.has(item.maker)) preferred.push(item);
     else rest.push(item);
   }
   // 実績のある商品は「売れている順」を保ちつつ、毎回同じ並びにならないよう軽く混ぜる
   sold.sort((a, b) => TSS_SALES_RANK.get(a.id) - TSS_SALES_RANK.get(b.id));
+  tssShuffleInPlace(stock);
   tssShuffleInPlace(preferred);
   tssShuffleInPlace(rest);
-  return tssShuffleInPlace(sold.concat(preferred, rest).slice(0, n));
+  return tssShuffleInPlace(stock.concat(sold, preferred, rest).slice(0, n));
 }
 function tssShuffleInPlace(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -175,6 +180,13 @@ function tssShuffleInPlace(arr) {
 const TSS_PHOTO_SAFE_GAP = 12;   // 本文と品番行の間に必ず残す余白
 function tssFitPhotos(mount) {
   const pages = [...mount.querySelectorAll('.page')];
+  // 一度もとの高さに戻してから測り直す。
+  // Webフォントの読み込み後など、文字の高さが変わったときに再実行しても
+  // 前回広げた分を二重に足さないようにするため。
+  for (const photo of mount.querySelectorAll('.tss-card-photo')) {
+    if (photo.dataset.baseHeight) photo.style.height = photo.dataset.baseHeight + 'px';
+    else photo.dataset.baseHeight = String(parseFloat(photo.style.height) || photo.getBoundingClientRect().height);
+  }
   for (const page of pages) {
     const cards = [...page.querySelectorAll('.tss-card')];
     if (!cards.length) continue;
@@ -182,18 +194,19 @@ function tssFitPhotos(mount) {
     for (const card of cards) {
       const desc = card.querySelector('.tss-card-desc');
       const code = card.querySelector('.tss-card-code');
-      const photo = card.querySelector('.tss-card-photo');
-      if (!desc || !code || !photo) { minGap = 0; break; }
-      minGap = Math.min(minGap, code.getBoundingClientRect().top - desc.getBoundingClientRect().bottom);
+      const body = card.querySelector('.tss-card-body');
+      if (!desc || !code || !body) { minGap = 0; break; }
+      // 本文が入りきらないカードは、はみ出している分だけ余白を負として扱う
+      const spill = body.getBoundingClientRect().bottom - card.getBoundingClientRect().bottom;
+      const gap = code.getBoundingClientRect().top - desc.getBoundingClientRect().bottom;
+      minGap = Math.min(minGap, gap - Math.max(0, spill));
     }
-    const grow = Math.floor(Math.min(minGap, 9999) - TSS_PHOTO_SAFE_GAP);
+    const grow = Math.floor(minGap - TSS_PHOTO_SAFE_GAP);
     if (!isFinite(grow) || grow <= 0) continue;
     for (const card of cards) {
       const photo = card.querySelector('.tss-card-photo');
       if (!photo) continue;
-      const base = parseFloat(photo.dataset.baseHeight || photo.style.height) || photo.getBoundingClientRect().height;
-      photo.dataset.baseHeight = String(base);
-      photo.style.height = (base + grow) + 'px';
+      photo.style.height = (parseFloat(photo.dataset.baseHeight) + grow) + 'px';
     }
   }
 }
@@ -231,7 +244,7 @@ async function renderFlyer(flyerKey, mountId) {
     // 売れている商品の優先順位。無くてもチラシは出せるようにしておく。
     fetch('./data/sales-priority.json?v=20260908-1').then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
-  tssSetSalesPriority(salesPriority && salesPriority.ids);
+  tssSetSalesPriority(salesPriority && salesPriority.ids, salesPriority && salesPriority.stockIds);
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
   let office = tssOfficeWithStaff(tssLoadOffice());
@@ -535,6 +548,11 @@ async function renderFlyer(flyerKey, mountId) {
     mount.innerHTML = flyer.pages.map((p, i) => pageHTML(p, flyer.tokens, i)).join('');
     syncPageHighlight();
     tssFitPhotos(mount);
+    // Webフォントが後から読み込まれると文字の高さが変わるので、そのあと測り直す。
+    // （読み込み前の寸法で写真を広げると、本文がカードからはみ出して印刷が止まる）
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => tssFitPhotos(mount));
+    }
   }
 
   // ---- 商品差し替えピッカー ----
