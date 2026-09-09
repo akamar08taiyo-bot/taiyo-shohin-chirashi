@@ -128,10 +128,16 @@ function sourceItems(flyer, pg) {
     ));
   }
   if (!pg.sourceCategory) {
-    return pool.filter(it => it.flier === flyer.name && it.page === pg.pageKey);
+    // fixedFlyer:false は差し替えピッカー専用でチラシには出ない。
+    // assets/flyer-render.js の tssSourceItems と同じ条件にしないと、
+    // 実際は4商品でも検証だけが5商品と数えてしまう。
+    return pool.filter(it => (
+      it.flier === flyer.name && it.page === pg.pageKey && it.fixedFlyer !== false
+    ));
   }
   return pool.filter(it => (
     it.flier === (flyer.sourceFlier || flyer.name)
+    && it.fixedFlyer !== false
     && pageCategory(it.page) === pg.sourceCategory
   ));
 }
