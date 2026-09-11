@@ -81,6 +81,23 @@
   .cx-field input { font-family: 'Noto Sans JP', sans-serif; font-size: 15px; border: 1.5px solid var(--border); padding: 9px 10px; }
   .cx-field input:focus { outline: none; border-color: var(--accent); }
 
+  /* ---- ④ 保存・共有 ---- */
+  .cx-savepanel { background: #f9fcfc; border: 1.5px solid var(--border); padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .cx-savehead { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+  .cx-savenote { font-size: 12px; line-height: 1.7; color: var(--text-note); }
+  .cx-savetitle { font-size: 14px; font-weight: 900; color: var(--text-main); }
+  .cx-savetitle .n { font-family: 'Roboto Mono', monospace; color: var(--accent); margin-left: 6px; }
+  .cx-savedlist { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; }
+  .cx-saveditem { display: flex; align-items: center; gap: 12px; border: 1px solid #e3edee; background: #fff; padding: 9px 12px; }
+  .cx-saveditem:hover { border-color: var(--accent); background: #f6fbfb; }
+  .cx-saveditem .name { font-size: 14px; font-weight: 700; flex: 1; min-width: 0; }
+  .cx-saveditem .meta { font-size: 11.5px; color: var(--text-note); white-space: nowrap; }
+  .cx-saveditem .acts { display: flex; gap: 6px; }
+  .cx-saveditem button { font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 700; padding: 6px 12px; cursor: pointer; border: 1.5px solid var(--border); background: #fff; color: var(--text-sub); }
+  .cx-saveditem .load-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .cx-saveditem .del-btn:hover { border-color: var(--price-color); color: var(--price-color); }
+  .cx-saveempty { font-size: 13px; color: var(--text-note); padding: 12px 2px; }
+
   .cx-preview-label { max-width: 1180px; margin: 22px auto 10px; padding: 0 24px; font-size: 13.5px; font-weight: 700; color: var(--text-sub); letter-spacing: .08em; }
   .cx-stage { display: flex; justify-content: center; padding: 0 12px; }
   .cx-placeholder { width: 794px; max-width: 100%; border: 2px dashed var(--border); background: #fff; padding: 70px 24px; text-align: center; color: var(--text-sub); font-size: 15.5px; line-height: 1.9; }
@@ -133,6 +150,7 @@
     <h1>自分で選んでチラシを作る</h1>
     <div class="tss-toolgroup tss-staffgroup">
       <span class="tss-toolgroup-label">担当</span>
+      <select class="tss-staff-select" id="tss-staff-select"></select>
       <input type="text" class="tss-staff-input" id="tss-staff-name" placeholder="担当者名" />
       <input type="tel" class="tss-staff-input" id="tss-staff-mobile" placeholder="携帯番号" />
     </div>
@@ -168,6 +186,22 @@
             <div class="cx-field"><label for="cx-title">タイトル</label><input type="text" id="cx-title" /></div>
             <div class="cx-field"><label for="cx-subtitle">サブタイトル</label><input type="text" id="cx-subtitle" /></div>
             <div class="cx-field"><label for="cx-lead">リード文</label><input type="text" id="cx-lead" /></div>
+          </div>
+        </div>
+        <div class="cx-step">
+          <div class="cx-step-label">④ 保存・共有（任意）</div>
+          <div class="cx-savepanel">
+            <div class="cx-savehead">
+              <div class="cx-field" style="flex:1;min-width:240px">
+                <label for="cx-save-name">名前を付けて保存</label>
+                <input type="text" id="cx-save-name" placeholder="例：〇〇苑向け 消耗品チラシ" />
+              </div>
+              <button type="button" class="tss-btn tss-btn-primary" id="cx-save-btn">このチラシを保存</button>
+              <button type="button" class="tss-btn" id="cx-share-btn">📧 メールで共有</button>
+            </div>
+            <div class="cx-savenote">保存すると、次回このページを開いたときに「呼び出す」で続きから作れます。「メールで共有」は、このチラシをそのまま開けるリンクをメールの下書きに入れて送れます（宛先は届いた人が入力します）。</div>
+            <div class="cx-savetitle">保存したチラシ<span class="n" id="cx-saved-count">0</span>件</div>
+            <div class="cx-savedlist" id="cx-saved-list"></div>
           </div>
         </div>
       </div>
@@ -264,9 +298,56 @@
   let showCodes = true;
   let askMode = false;
 
+  /* ---------- チラシの共有用エンコード（メールでリンクとして送る） ----------
+     商品ID・見出しだけの軽いJSONをBase64url化してURLの?f=へ入れる。
+     日本語の見出しは%エンコードよりBase64のほうが短くなるため、UTF-8バイト列をBase64にする。 */
+  function encodeFlyerShare(name, pagesToShare) {
+    const payload = {
+      n: name || '',
+      p: pagesToShare.map(p => ({ i: p.ids, t: p.title, s: p.subtitle, l: p.lead, b: p.label })),
+    };
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function decodeFlyerShare(encoded) {
+    try {
+      const b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+      const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
+      const payload = JSON.parse(decodeURIComponent(escape(atob(padded))));
+      const arr = payload && Array.isArray(payload.p) ? payload.p : null;
+      if (!arr) return null;
+      const decodedPages = arr.map(p => ({
+        ids: Array.isArray(p.i) ? p.i.filter(x => Number.isFinite(x) && byId.has(x)) : [],
+        title: String(p.t || '消耗品一覧'),
+        subtitle: String(p.s || ''),
+        lead: String(p.l || ''),
+        label: String(p.b || '業務用 消耗品'),
+      })).filter(p => p.ids.length);
+      if (!decodedPages.length) return null;
+      return { name: String((payload && payload.n) || ''), pages: decodedPages };
+    } catch (e) {
+      return null;
+    }
+  }
+
   const cur = () => pages[current];
 
   const byId = new Map(products.items.map(it => [it.id, it]));
+
+  // URLに共有用のチラシデータ（?f=...）が付いていれば、それを最初の状態として読み込む。
+  // メールで送られたリンクを開いたときに、送信者が作ったチラシがそのまま表示される。
+  (function loadSharedFlyer() {
+    const encoded = new URLSearchParams(location.search).get('f');
+    if (!encoded) return;
+    const decoded = decodeFlyerShare(encoded);
+    if (!decoded) {
+      alert('共有されたチラシの読み込みに失敗しました。リンクが正しいかご確認ください。');
+      return;
+    }
+    pages = decoded.pages;
+    current = 0;
+    document.getElementById('cx-save-name').value = decoded.name || '';
+  })();
 
   function catItems(cat) {
     if (typeof cat.match === 'function') return products.items.filter(cat.match);
@@ -578,17 +659,16 @@
     }));
 
   // 担当者の入力。変更するとこの端末に保存し、チラシの下部へすぐ反映する。
+  // 複数人ぶん保存され、次回以降は「保存済みの担当者」セレクトから選べる。
   (function initStaff() {
     const nameEl = document.getElementById('tss-staff-name');
     const mobEl = document.getElementById('tss-staff-mobile');
+    const selectEl = document.getElementById('tss-staff-select');
     const saved = tssLoadStaff();
     const base = saved || tssLoadOffice();
     nameEl.value = saved ? saved.name : (base.contactName || '');
     mobEl.value = saved ? saved.mobile : (base.mobile || '');
-    [nameEl, mobEl].forEach(el => el.addEventListener('change', () => {
-      tssSaveStaff({ name: nameEl.value, mobile: mobEl.value });
-      renderFlyer();
-    }));
+    tssWireStaffPicker({ selectEl, nameEl, mobileEl: mobEl, onChange: renderFlyer });
   })();
 
   document.getElementById('cx-toggle-codes').addEventListener('change', (e) => {
@@ -602,6 +682,7 @@
     pages = [newPage()];
     current = 0;
     activeSrc = null;
+    document.getElementById('cx-save-name').value = '';
     document.querySelectorAll('.cx-cat').forEach(x => x.classList.remove('active'));
     syncFields(); renderList(); renderFlyer();
   });
@@ -667,9 +748,117 @@
     renderList();
   });
 
+  /* ================= 保存したチラシ（名前を付けて何度でも呼び出せる） =================
+     1件 = { id, name, savedAt, pages }。名前をキーに上書き保存する。 */
+  const CUSTOM_SAVED_KEY = 'tss_custom_saved_v1';
+  function loadSavedFlyers() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_SAVED_KEY)) || []; } catch (e) { return []; }
+  }
+  function writeSavedFlyers(list) {
+    try { localStorage.setItem(CUSTOM_SAVED_KEY, JSON.stringify(list)); return true; }
+    catch (e) { alert('保存できませんでした。ブラウザの保存容量が上限に達している可能性があります。'); return false; }
+  }
+  function fmtSavedDate(iso) {
+    const d = new Date(iso);
+    return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function renderSavedFlyers() {
+    const list = loadSavedFlyers().sort((a, b) => (a.savedAt < b.savedAt ? 1 : -1));
+    document.getElementById('cx-saved-count').textContent = list.length;
+    const el = document.getElementById('cx-saved-list');
+    if (!list.length) {
+      el.innerHTML = '<div class="cx-saveempty">まだ保存されたチラシはありません。名前を入れて「このチラシを保存」を押すと、ここに残ります。</div>';
+      return;
+    }
+    el.innerHTML = list.map(s => `
+      <div class="cx-saveditem" data-id="${esc(s.id)}">
+        <span class="name">${esc(s.name)}</span>
+        <span class="meta">${(s.pages || []).length}ページ ／ ${esc(fmtSavedDate(s.savedAt))}</span>
+        <span class="acts">
+          <button type="button" class="load-btn">呼び出す</button>
+          <button type="button" class="del-btn">削除</button>
+        </span>
+      </div>`).join('');
+  }
+
+  document.getElementById('cx-save-btn').addEventListener('click', () => {
+    const input = document.getElementById('cx-save-name');
+    const name = input.value.trim();
+    if (!name) { alert('チラシの名前を入力してください。'); input.focus(); return; }
+    const filled = pages.filter(p => p.ids.length > 0);
+    if (!filled.length) { alert('商品が選ばれていません。'); return; }
+
+    const list = loadSavedFlyers();
+    const existing = list.find(s => s.name === name);
+    if (existing && !confirm('「' + name + '」はすでに保存されています。上書きしますか？')) return;
+
+    const entry = {
+      id: existing ? existing.id : 'cf' + Date.now(),
+      name,
+      savedAt: new Date().toISOString(),
+      pages: JSON.parse(JSON.stringify(pages)),
+    };
+    const next = existing ? list.map(s => (s.id === existing.id ? entry : s)) : list.concat([entry]);
+    if (!writeSavedFlyers(next)) return;
+    renderSavedFlyers();
+  });
+
+  document.getElementById('cx-saved-list').addEventListener('click', (e) => {
+    const row = e.target.closest('.cx-saveditem');
+    if (!row) return;
+    const id = row.dataset.id;
+    const list = loadSavedFlyers();
+    const entry = list.find(s => s.id === id);
+    if (!entry) return;
+
+    if (e.target.closest('.del-btn')) {
+      if (!confirm('「' + entry.name + '」の保存を削除します。よろしいですか？')) return;
+      writeSavedFlyers(list.filter(s => s.id !== id));
+      renderSavedFlyers();
+      return;
+    }
+    if (e.target.closest('.load-btn')) {
+      const hasContent = pages.some(p => p.ids.length > 0);
+      if (hasContent && !confirm('いま作成中のチラシを破棄して「' + entry.name + '」を呼び出します。よろしいですか？')) return;
+      pages = JSON.parse(JSON.stringify(entry.pages));
+      current = 0;
+      activeSrc = null;
+      document.getElementById('cx-save-name').value = entry.name;
+      document.querySelectorAll('.cx-cat').forEach(x => x.classList.remove('active'));
+      syncFields(); renderList(); renderFlyer();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  // メールで共有：いま作っているチラシを開けるリンクを、メールの下書きに入れる。
+  document.getElementById('cx-share-btn').addEventListener('click', () => {
+    const filled = pages.filter(p => p.ids.length > 0);
+    if (!filled.length) { alert('商品が選ばれていません。商品を選んでから共有してください。'); return; }
+    if (filled.some(p => p.ids.length !== MAX) &&
+        !confirm('4点そろっていないページがあります。そのまま共有しますか？')) return;
+
+    const name = document.getElementById('cx-save-name').value.trim();
+    const encoded = encodeFlyerShare(name, filled);
+    const url = new URL(location.href);
+    url.search = '';
+    url.hash = '';
+    url.searchParams.set('f', encoded);
+    const link = url.toString();
+    if (link.length > 6000) {
+      alert('チラシの内容が多いため、共有リンクが長くなりすぎます。ページ数や文章を減らすか、先に保存してから一部だけ共有してください。');
+      return;
+    }
+    const subject = '【消耗品チラシ】' + (name || 'ご案内');
+    const body = '消耗品チラシを作成しました。下記のリンクを開くとご覧いただけます。\n\n' + link +
+      '\n\n※リンクを開くと、ブラウザ上でチラシの確認・印刷ができます。';
+    location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  });
+
   syncFields();
   renderList();
   renderFlyer();
+  renderSavedFlyers();
 })();
 </script>
 </body>

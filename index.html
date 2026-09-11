@@ -33,7 +33,8 @@
   .office-picker select:focus { outline: 3px solid #b8dde0; outline-offset: 1px; border-color: #0f7f86; }
   /* 担当者名・携帯番号。入力するとこの端末に保存され、チラシ・見積書に反映される。
      2つを横に並べて、設定欄の高さを抑える。 */
-  .staff-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 9px; }
+  .staff-select-field { margin-top: 9px; }
+  .staff-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
   .staff-field { min-width: 0; }
   .office-picker input[type="text"], .office-picker input[type="tel"] {
     width: 100%; box-sizing: border-box;
@@ -42,9 +43,17 @@
   }
   .office-picker input:focus { outline: 3px solid #b8dde0; outline-offset: 1px; border-color: #0f7f86; }
   .office-picker input::placeholder { font-weight: 500; font-size: 13px; color: #a8bcbd; }
+  .office-picker select#staff-select { font-size: 13px; padding: 8px 30px 8px 11px; }
   .office-detail { margin-top: 9px; padding-top: 9px; border-top: 1px solid #e6f3f3; font-size: 12.5px; line-height: 1.6; color: #41595E; }
   .office-detail .tel { font-weight: 700; color: #12242A; }
   .office-hint { margin-top: 8px; font-size: 11.5px; line-height: 1.5; color: #8aa0a2; }
+  .staff-delete-btn {
+    display: block; margin-top: 6px; padding: 0; border: none; background: none;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 11.5px; font-weight: 700;
+    color: #b85214; text-decoration: underline; cursor: pointer;
+  }
+  .staff-delete-btn:hover { color: #8a3d0e; }
+  .staff-delete-btn[hidden] { display: none; }
 
   /* ---- メインの3アクション ---- */
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
@@ -90,6 +99,10 @@
       <label class="picker-label" for="office-select">発行営業所</label>
       <select id="office-select"></select>
       <div class="office-detail" id="office-detail"></div>
+      <div class="staff-field staff-select-field">
+        <label class="picker-label" for="staff-select">保存済みの担当者</label>
+        <select id="staff-select"></select>
+      </div>
       <div class="staff-row">
         <div class="staff-field">
           <label class="picker-label" for="staff-name">担当者名</label>
@@ -100,7 +113,10 @@
           <input type="tel" id="staff-mobile" placeholder="080-0000-0000" />
         </div>
       </div>
-      <div class="office-hint">チラシ・見積書の連絡先として印刷されます。担当者は入力すると保存されます。</div>
+      <div class="office-hint">
+        チラシ・見積書の連絡先として印刷されます。担当者は入力すると保存され、次回から「保存済みの担当者」で選べます。複数人ぶん保存できます。
+        <button type="button" id="staff-delete" class="staff-delete-btn" hidden>この担当者をリストから削除</button>
+      </div>
     </div>
   </div>
   <p class="lead">太陽シルバーサービス㈱の業務用消耗品カタログです。チラシの作成、見積書の作成、価格表の管理ができます。</p>
@@ -165,23 +181,47 @@
     tssSaveOffice(select.value);
     renderOffice();
     renderStaff();
+    tssPopulateStaffSelect(staffSelect, { name: staffName.value, mobile: staffMobile.value });
+    updateStaffDeleteBtn();
   });
 
   // 担当者名・携帯番号。入力するとこの端末に保存し、チラシ・見積書で共通に使う。
+  // 複数人ぶん保存され、次回以降は「保存済みの担当者」セレクトから選べる。
   const staffName = document.getElementById('staff-name');
   const staffMobile = document.getElementById('staff-mobile');
+  const staffSelect = document.getElementById('staff-select');
+  const staffDelete = document.getElementById('staff-delete');
   function renderStaff() {
     const saved = tssLoadStaff();
     const office = tssLoadOffice();
     staffName.value = saved ? saved.name : (office.contactName || '');
     staffMobile.value = saved ? saved.mobile : (office.mobile || '');
   }
-  [staffName, staffMobile].forEach(el => el.addEventListener('change', () => {
-    tssSaveStaff({ name: staffName.value, mobile: staffMobile.value });
-  }));
+  function updateStaffDeleteBtn() {
+    const name = staffName.value.trim();
+    const mobile = staffMobile.value.trim();
+    const inList = tssLoadStaffList().some(s => s.name === name && s.mobile === mobile);
+    staffDelete.hidden = !inList;
+  }
+  tssWireStaffPicker({
+    selectEl: staffSelect,
+    nameEl: staffName,
+    mobileEl: staffMobile,
+    onChange: updateStaffDeleteBtn,
+  });
+  staffDelete.addEventListener('click', () => {
+    const name = staffName.value.trim();
+    const mobile = staffMobile.value.trim();
+    if (!confirm('「' + (name || mobile) + '」をリストから削除します。よろしいですか？')) return;
+    tssRemoveStaffFromList(name, mobile);
+    tssPopulateStaffSelect(staffSelect, { name: staffName.value, mobile: staffMobile.value });
+    updateStaffDeleteBtn();
+  });
 
   renderOffice();
   renderStaff();
+  tssPopulateStaffSelect(staffSelect, { name: staffName.value, mobile: staffMobile.value });
+  updateStaffDeleteBtn();
 </script>
 </body>
 </html>

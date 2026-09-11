@@ -122,6 +122,24 @@ a:hover { color: var(--accent-hover); }
 .tss-staff-input::placeholder { font-weight: 500; color: var(--text-note); }
 #tss-staff-mobile { width: 120px; font-family: 'Roboto Mono', monospace; }
 
+/* 保存済みの担当者（複数人）から選ぶセレクト。2回目以降は入力し直さなくて済む。 */
+.tss-staff-select {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  background: #fff;
+  border: 1.5px solid var(--border);
+  padding: 6px 24px 6px 8px;
+  max-width: 150px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230f7f86' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+}
+.tss-staff-select:focus { outline: none; border-color: var(--accent); }
+
 .tss-btn {
   display: inline-block;
   border: 1.5px solid var(--accent);

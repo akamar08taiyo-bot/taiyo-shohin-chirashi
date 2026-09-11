@@ -695,6 +695,7 @@ async function renderFlyer(flyerKey, mountId) {
     group.className = 'tss-toolgroup tss-staffgroup';
     group.innerHTML =
       '<span class="tss-toolgroup-label">担当</span>' +
+      '<select class="tss-staff-select" id="tss-staff-select"></select>' +
       '<input type="text" class="tss-staff-input" id="tss-staff-name" placeholder="担当者名"' +
       ' value="' + escapeHTML(initial.name) + '" />' +
       '<input type="tel" class="tss-staff-input" id="tss-staff-mobile" placeholder="携帯番号"' +
@@ -702,13 +703,14 @@ async function renderFlyer(flyerKey, mountId) {
     const firstGroup = toolbar.querySelector('.tss-toolgroup');
     if (firstGroup) firstGroup.insertAdjacentElement('beforebegin', group);
     else toolbar.appendChild(group);
-    group.addEventListener('change', () => {
-      tssSaveStaff({
-        name: document.getElementById('tss-staff-name').value,
-        mobile: document.getElementById('tss-staff-mobile').value,
-      });
-      office = tssOfficeWithStaff(tssLoadOffice());
-      renderAll();
+    tssWireStaffPicker({
+      selectEl: document.getElementById('tss-staff-select'),
+      nameEl: document.getElementById('tss-staff-name'),
+      mobileEl: document.getElementById('tss-staff-mobile'),
+      onChange: () => {
+        office = tssOfficeWithStaff(tssLoadOffice());
+        renderAll();
+      },
     });
   }
 

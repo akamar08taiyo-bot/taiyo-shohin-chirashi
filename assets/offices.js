@@ -61,7 +61,8 @@ function tssLoadStaff() {
   }
 }
 
-function tssSaveStaff(staff) {
+// 「いまの担当者」だけを更新する（保存済みリストへは追加しない）。
+function tssSaveCurrentStaff(staff) {
   try {
     localStorage.setItem(TSS_STAFF_KEY, JSON.stringify({
       name: String((staff && staff.name) || '').trim(),
@@ -70,9 +71,122 @@ function tssSaveStaff(staff) {
   } catch (e) {}
 }
 
+function tssSaveStaff(staff) {
+  tssSaveCurrentStaff(staff);
+  tssRememberStaff(staff);
+}
+
 // 担当者を設定していればそちらを優先し、未設定なら営業所マスタの値をそのまま使う。
 function tssOfficeWithStaff(office) {
   const staff = tssLoadStaff();
   if (!staff) return office;
   return Object.assign({}, office, { contactName: staff.name, mobile: staff.mobile });
+}
+
+/* ===== 担当者リスト（複数人ぶんを保存し、2回目以降はリストから選べるようにする）=====
+   「いまの担当者」（TSS_STAFF_KEY・1人分）とは別に、この端末で一度でも入力した
+   担当者を名前＋携帯番号の組み合わせで蓄積しておく。チラシ・見積書のどの画面で
+   入力しても同じリストに合流するので、営業所をまたいでも使い回せる。 */
+const TSS_STAFF_LIST_KEY = 'tss_staff_list_v1';
+const TSS_STAFF_LIST_MAX = 30;
+
+function tssLoadStaffList() {
+  try {
+    const raw = localStorage.getItem(TSS_STAFF_LIST_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(arr)) return [];
+    return arr
+      .map(v => ({ name: String((v && v.name) || '').trim(), mobile: String((v && v.mobile) || '').trim() }))
+      .filter(v => v.name || v.mobile);
+  } catch (e) {
+    return [];
+  }
+}
+
+function tssSaveStaffList(list) {
+  try { localStorage.setItem(TSS_STAFF_LIST_KEY, JSON.stringify(list)); } catch (e) {}
+}
+
+// 担当者をリストの先頭へ記録する。同じ名前・携帯番号の組み合わせは1件にまとめる。
+function tssRememberStaff(staff) {
+  const name = String((staff && staff.name) || '').trim();
+  const mobile = String((staff && staff.mobile) || '').trim();
+  if (!name && !mobile) return;
+  const list = tssLoadStaffList().filter(v => !(v.name === name && v.mobile === mobile));
+  list.unshift({ name, mobile });
+  tssSaveStaffList(list.slice(0, TSS_STAFF_LIST_MAX));
+}
+
+function tssRemoveStaffFromList(name, mobile) {
+  tssSaveStaffList(tssLoadStaffList().filter(v => !(v.name === name && v.mobile === mobile)));
+}
+
+// 担当者セレクトの中身を保存済みリストで作り直す。現在の入力内容と一致する行を選択状態にする。
+function tssPopulateStaffSelect(selectEl, current) {
+  if (!selectEl) return;
+  const list = tssLoadStaffList();
+  const curName = (current && current.name) || '';
+  const curMobile = (current && current.mobile) || '';
+  selectEl.innerHTML = '';
+  const blank = document.createElement('option');
+  blank.value = '';
+  blank.textContent = list.length ? '保存済みの担当者から選ぶ（' + list.length + '件）' : '保存済みの担当者はまだありません';
+  selectEl.appendChild(blank);
+  list.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = String(i);
+    opt.textContent = s.name + (s.mobile ? '（' + s.mobile + '）' : '');
+    if (s.name === curName && s.mobile === curMobile) opt.selected = true;
+    selectEl.appendChild(opt);
+  });
+}
+
+// 担当者セレクト＋名前・携帯の入力欄をまとめて配線する共通処理。
+// マークアップはページごとに違うため、要素自体は呼び出し側で用意してもらう。
+//
+// 「いまの担当者」（チラシ・見積書にすぐ反映される値）は、名前・携帯どちらかを
+// 変更するたびに更新する。一方、保存済みリストへの追加は、名前欄→携帯欄と
+// 入力し終えてこの担当者欄グループの外へフォーカスが移ったときだけ行う。
+// 毎回のフィールド変更ごとに記録すると、タブ移動の途中で
+// 「新しい名前＋まだ書き換えていない携帯番号」のような半端な組み合わせが
+// リストに残ってしまうため。
+function tssWireStaffPicker(opts) {
+  const selectEl = opts.selectEl, nameEl = opts.nameEl, mobileEl = opts.mobileEl, onChange = opts.onChange;
+  const groupEls = [selectEl, nameEl, mobileEl].filter(Boolean);
+  function currentStaff() {
+    return { name: nameEl.value, mobile: mobileEl.value };
+  }
+  function refreshSelect() {
+    tssPopulateStaffSelect(selectEl, currentStaff());
+  }
+  function applyCurrent() {
+    tssSaveCurrentStaff(currentStaff());
+    refreshSelect();
+    if (onChange) onChange();
+  }
+  function leaveGroup(e) {
+    const next = e && e.relatedTarget;
+    if (next && groupEls.indexOf(next) !== -1) return;
+    tssRememberStaff(currentStaff());
+    refreshSelect();
+  }
+  if (selectEl) {
+    selectEl.addEventListener('change', () => {
+      const list = tssLoadStaffList();
+      const picked = selectEl.value === '' ? null : list[Number(selectEl.value)];
+      if (picked) {
+        nameEl.value = picked.name;
+        mobileEl.value = picked.mobile;
+        tssSaveStaff(picked); // セレクトでの選択はそれ自体が確定操作なので、その場でリストにも記録する
+        refreshSelect();
+        if (onChange) onChange();
+      }
+    });
+  }
+  [nameEl, mobileEl].forEach(el => {
+    el.addEventListener('change', applyCurrent);
+    el.addEventListener('focusout', leaveGroup);
+  });
+  refreshSelect();
+  return { refresh: refreshSelect };
 }

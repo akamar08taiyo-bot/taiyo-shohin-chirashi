@@ -122,8 +122,9 @@
   .meta-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .field { display: flex; flex-direction: column; gap: 4px; }
   .field label { font-size: 12px; font-weight: 700; color: #41595E; }
-  .field input, .field textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 9px 10px; }
+  .field input, .field textarea, .field select { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 9px 10px; }
   .field textarea { resize: vertical; min-height: 54px; }
+  .field select { cursor: pointer; }
 
   .empty { border: 1.5px dashed #cfe0e2; background: #fff; padding: 48px 24px; text-align: center; color: #8aa0a2; font-size: 14px; }
 
@@ -364,6 +365,12 @@
         </div>
       </div>
       <div class="meta-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label for="quote-staff-select">保存済みの担当者から選ぶ</label>
+          <select id="quote-staff-select"></select>
+        </div>
+      </div>
+      <div class="meta-grid">
         <div class="field">
           <label for="quote-staff">担当者名</label>
           <input type="text" id="quote-staff" placeholder="例：久保" />
@@ -487,6 +494,19 @@
   document.getElementById('quote-mobile').value = meta.staffMobile || '';
   document.getElementById('quote-remarks').value = meta.remarks || '';
   document.getElementById('opt-show-total').checked = !!meta.showTotal;
+
+  // 担当者はこの見積だけでなく端末の設定としても覚え、チラシ側と共通で使う。
+  // 複数人ぶん保存され、次回以降は「保存済みの担当者から選ぶ」で選べる。
+  tssWireStaffPicker({
+    selectEl: document.getElementById('quote-staff-select'),
+    nameEl: document.getElementById('quote-staff'),
+    mobileEl: document.getElementById('quote-mobile'),
+    onChange: () => {
+      meta.staffName = document.getElementById('quote-staff').value;
+      meta.staffMobile = document.getElementById('quote-mobile').value;
+      saveMeta(meta);
+    },
+  });
 
   /* ================= タブ切替 ================= */
   document.querySelectorAll('.switch-btn').forEach(btn => {
@@ -890,15 +910,7 @@
   document.getElementById('quote-validity').addEventListener('change', (e) => { meta.validityPeriod = e.target.value; saveMeta(meta); });
   document.getElementById('quote-payment').addEventListener('change', (e) => { meta.paymentTerms = e.target.value; saveMeta(meta); });
   document.getElementById('quote-delivery').addEventListener('change', (e) => { meta.deliveryInfo = e.target.value; saveMeta(meta); });
-  // 担当者はこの見積だけでなく端末の設定としても覚え、チラシ側と共通で使う
-  document.getElementById('quote-staff').addEventListener('change', (e) => {
-    meta.staffName = e.target.value; saveMeta(meta);
-    tssSaveStaff({ name: meta.staffName, mobile: meta.staffMobile });
-  });
-  document.getElementById('quote-mobile').addEventListener('change', (e) => {
-    meta.staffMobile = e.target.value; saveMeta(meta);
-    tssSaveStaff({ name: meta.staffName, mobile: meta.staffMobile });
-  });
+  // 担当者名・携帯番号は tssWireStaffPicker（上）で配線済み。
   document.getElementById('quote-remarks').addEventListener('change', (e) => { meta.remarks = e.target.value; saveMeta(meta); });
   document.getElementById('opt-show-total').addEventListener('change', (e) => { meta.showTotal = e.target.checked; saveMeta(meta); });
 
@@ -921,6 +933,7 @@
     document.getElementById('quote-mobile').value = meta.staffMobile;
     document.getElementById('quote-remarks').value = '';
     document.getElementById('opt-show-total').checked = !!meta.showTotal;
+    tssPopulateStaffSelect(document.getElementById('quote-staff-select'), { name: meta.staffName, mobile: meta.staffMobile });
     renderRows();
     renderPicker();
   });
@@ -1119,6 +1132,7 @@
       document.getElementById('quote-mobile').value = meta.staffMobile || '';
       document.getElementById('quote-remarks').value = meta.remarks || '';
       document.getElementById('opt-show-total').checked = !!meta.showTotal;
+      tssPopulateStaffSelect(document.getElementById('quote-staff-select'), { name: meta.staffName || '', mobile: meta.staffMobile || '' });
       renderRows();
       renderPicker();
       window.scrollTo({ top: 0, behavior: 'smooth' });
