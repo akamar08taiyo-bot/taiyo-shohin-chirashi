@@ -13,7 +13,8 @@
   body{margin:0;background:#e8eeee;font-family:'Noto Sans JP',sans-serif;color:#12242A}
   a{color:#0f7f86}
   a:hover{color:#c25a17}
-  .tabbar{display:flex;gap:12px;padding:16px 16px 0;background:#e8eeee}
+  /* 画面が広いとタブが横いっぱいに伸びて不格好なので、幅に上限を設ける */
+  .tabbar{display:flex;gap:12px;padding:16px 16px 0;background:#e8eeee;max-width:760px;margin:0 auto}
   .tab{flex:1;text-align:center;border:2px solid #cfe0e2;background:#fff;color:#41595E;text-decoration:none;font-family:inherit;font-size:18px;font-weight:900;padding:18px 20px;cursor:pointer}
   .tab:hover{border-color:#0a8a3c;color:#0a8a3c}
   .tab.active{background:#0a8a3c;border-color:#0a8a3c;color:#fff;box-shadow:0 3px 10px rgba(10,138,60,.25)}

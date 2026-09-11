@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>在庫商品 中心 チラシ | 太陽シルバーサービス 行橋営業所</title>
-<meta name="description" content="施設・病院さま向け 在庫商品 中心。用途ごとに8点を選んだチラシです。" />
+<title>花王・ロケット石鹸 中心 ② チラシ | 太陽シルバーサービス 行橋営業所</title>
+<meta name="description" content="施設・病院さま向け 花王・ロケット石鹸 中心 ②。用途ごとに8点を選んだチラシです。" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -26,7 +26,7 @@
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-edit" />商品を差し替え</label>
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-quote" />見積に追加</label>
     </div>
-    <button type="button" class="tss-btn" id="tss-reshuffle-btn" title="商品の組み合わせを選び直します">🔀 選び直す</button>
+    <button type="button" class="tss-btn" id="tss-reshuffle-btn" title="別のおすすめの組み合わせに切り替えます">🔀 別の組み合わせ</button>
     <a class="tss-btn" href="./quote.html" id="tss-quote-badge">見積を見る（0）</a>
     <button type="button" class="tss-btn" id="tss-print-all">すべて解除</button>
     <button type="button" class="tss-btn tss-btn-primary" id="tss-print-btn">🖨 印刷 / PDF保存</button>
@@ -44,8 +44,8 @@
   <script src="./assets/pricing.js"></script>
   <script src="./assets/flyer-render.js?v=20260908-1"></script>
   <script>
-    renderFlyer('omakase7', 'tss-mount');
-    // 「選び直す」は再読み込みで済ませる（ランダム選定は renderFlyer 実行のたびに行われるため）。
+    renderFlyer('omakase12', 'tss-mount');
+    // 「別の組み合わせ」は再読み込みで済ませる（組み合わせは renderFlyer 実行のたびに組み直されるため）。
     document.getElementById('tss-reshuffle-btn').addEventListener('click', () => location.reload());
   </script>
 </body>

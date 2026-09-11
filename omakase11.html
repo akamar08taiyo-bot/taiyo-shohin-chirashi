@@ -26,7 +26,7 @@
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-edit" />商品を差し替え</label>
       <label class="tss-toggle"><input type="checkbox" id="tss-toggle-quote" />見積に追加</label>
     </div>
-    <button type="button" class="tss-btn" id="tss-reshuffle-btn" title="商品の組み合わせを選び直します">🔀 選び直す</button>
+    <button type="button" class="tss-btn" id="tss-reshuffle-btn" title="別のおすすめの組み合わせに切り替えます">🔀 別の組み合わせ</button>
     <a class="tss-btn" href="./quote.html" id="tss-quote-badge">見積を見る（0）</a>
     <button type="button" class="tss-btn" id="tss-print-all">すべて解除</button>
     <button type="button" class="tss-btn tss-btn-primary" id="tss-print-btn">🖨 印刷 / PDF保存</button>
@@ -45,7 +45,7 @@
   <script src="./assets/flyer-render.js?v=20260908-1"></script>
   <script>
     renderFlyer('omakase11', 'tss-mount');
-    // 「選び直す」は再読み込みで済ませる（ランダム選定は renderFlyer 実行のたびに行われるため）。
+    // 「別の組み合わせ」は再読み込みで済ませる（組み合わせは renderFlyer 実行のたびに組み直されるため）。
     document.getElementById('tss-reshuffle-btn').addEventListener('click', () => location.reload());
   </script>
 </body>

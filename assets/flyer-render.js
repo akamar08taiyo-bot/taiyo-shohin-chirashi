@@ -138,7 +138,7 @@ function tssSetSalesPriority(ids, stockIds) {
   TSS_STOCK_IDS = new Set(stockIds || []);
 }
 
-// 「ランダムに選ぶ」チラシ用: 用途ごとの候補から指定件数だけランダムに選ぶ。
+// 「おすすめの組み合わせ」チラシ用: 用途ごとの候補から指定件数を選んで組み合わせる。
 // 優先順位は次のとおり。
 //   1. 直近で売れている商品（実績のある商品を続けて使いたいため）
 //   2. preferMakers（パターン1の花王プロフェッショナル／ロケット石鹸）
@@ -150,22 +150,25 @@ function tssPickRandom(pool, opts) {
   if (n === 0) return [];
   const preferSet = new Set((opts && opts.preferMakers) || []);
   const wantStock = !!(opts && opts.preferStock);
-  // 「メーカー不問」のパターンは、売上実績で寄せずに純粋にランダムで選ぶ
-  // （実績重視のパターンと同じ顔ぶれにならないようにするため）
   const useSales = !(opts && opts.ignoreSales);
-  const stock = [], sold = [], preferred = [], rest = [];
+  // 毎回かならず載せたい定番商品（プラスチック手袋・とろみ剤など）。
+  // その用途の候補に入っていれば、抽選より先に枠を確保する。
+  const must = new Set((opts && opts.alwaysInclude) || []);
+  const pinned = [], stock = [], sold = [], preferred = [], rest = [];
   for (const item of pool) {
-    if (wantStock && TSS_STOCK_IDS.has(item.id)) stock.push(item);
+    if (must.has(item.id)) pinned.push(item);
+    else if (wantStock && TSS_STOCK_IDS.has(item.id)) stock.push(item);
     else if (useSales && TSS_SALES_RANK.has(item.id)) sold.push(item);
     else if (preferSet.has(item.maker)) preferred.push(item);
     else rest.push(item);
   }
   // 実績のある商品は「売れている順」を保ちつつ、毎回同じ並びにならないよう軽く混ぜる
   sold.sort((a, b) => TSS_SALES_RANK.get(a.id) - TSS_SALES_RANK.get(b.id));
+  tssShuffleInPlace(pinned);
   tssShuffleInPlace(stock);
   tssShuffleInPlace(preferred);
   tssShuffleInPlace(rest);
-  return tssShuffleInPlace(stock.concat(sold, preferred, rest).slice(0, n));
+  return tssShuffleInPlace(pinned.concat(stock, sold, preferred, rest).slice(0, n));
 }
 function tssShuffleInPlace(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -297,7 +300,7 @@ async function renderFlyer(flyerKey, mountId) {
         title: first.title,
         // 用途別チラシは、そのページに載っているメーカー名を見出しに出す。
         // 「メーカー横断で比較」と書くより、どの会社の商品が並んでいるか一目で分かる。
-        // ただし「ランダムに選ぶ」チラシはメーカーを問わず混ざるため、見出しに社名を
+        // ただし「おすすめの組み合わせ」チラシはメーカーを問わず混ざるため、見出しに社名を
         // 並べても長くなるだけで意味がない。用途名だけを見せる。
         subtitle: flyer.randomSample
           ? null
@@ -353,7 +356,7 @@ async function renderFlyer(flyerKey, mountId) {
   const printPages = {};   // { [pageIndex]: false } 印刷しないページだけ記録する
   let quoteCart = tssLoadQuoteCart();
   let composition = tssLoadComposition();
-  // 「ランダムに選ぶ」チラシは開くたびに商品を選び直す。前回の差し替え内容を持ち越すと、
+  // 「おすすめの組み合わせ」チラシは開くたびに組み合わせ直す。前回の差し替え内容を持ち越すと、
   // そのページだけ固定されて再抽選が効かなくなるうえ、ページ番号（01・02…）でひも付くため
   // 見出しの用途と中身の商品がずれてしまう（例: 見出し「手指衛生」に食器用洗剤が並ぶ）。
   // 差し替えはその場では使えるが、次に開いたときは持ち越さない。
@@ -528,12 +531,23 @@ async function renderFlyer(flyerKey, mountId) {
     });
     jumpLinks.forEach((a, i) => a.classList.toggle('is-current', i === current));
   }
+  // 左サイドのページ送りは、ツールバーの下から始める必要がある。
+  // ツールバーは画面幅によって段数が変わるので、高さを測ってCSSへ渡す。
+  function syncToolbarHeight() {
+    const bar = document.querySelector('.tss-toolbar');
+    if (!bar) return;
+    document.documentElement.style.setProperty('--tss-toolbar-h', Math.ceil(bar.getBoundingClientRect().height) + 'px');
+  }
+
   function syncPageHighlight() {
+    syncToolbarHeight();
     updateJumpHighlight();
     if (jumpScrollBound) return;
     jumpScrollBound = true;
     window.addEventListener('scroll', updateJumpHighlight, { passive: true });
     window.addEventListener('resize', updateJumpHighlight, { passive: true });
+    window.addEventListener('resize', syncToolbarHeight, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncToolbarHeight);
     // ページ送りを押した直後は、スクロールが終わる前でも押した先を選択状態にする
     const jumpNav = document.getElementById('tss-pagejump');
     if (jumpNav) {
