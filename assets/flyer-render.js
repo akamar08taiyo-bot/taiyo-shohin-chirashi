@@ -482,10 +482,18 @@ async function renderFlyer(flyerKey, mountId) {
               ? '' : `<span class="tss-tag-cat">${escapeHTML(item.tag)}</span>`}
           </div>
           <p class="tss-card-desc" style="min-height:${tokens.descMinHeight}px;font-size:${tokens.descFontSize}px">${escapeHTML(item.desc)}</p>
-          ${showCodes ? `<div class="tss-card-code">${escapeHTML(item.code)}</div>` : ''}
+          ${showCodes ? `<div class="tss-card-code">${escapeHTML([item.code, tssCaseLabel(item)].filter(Boolean).join("　"))}</div>` : ''}
           ${priceHTML}
         </div>
       </article>`;
+  }
+
+  // 品番・JANの行の後ろにケース入数を添える。発注単位が分かるようにするため。
+  // 入数が分かっていない商品には何も出さない（推測値は書かない）。
+  function tssCaseLabel(item) {
+    const row = priceRowById.get(item.id);
+    if (!row || !row.caseQty) return '';
+    return `ケース${row.caseDescription || row.caseQty + '個'}入`;
   }
 
   function pageHTML(page, tokens, pageIndex) {
