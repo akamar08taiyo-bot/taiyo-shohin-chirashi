@@ -51,6 +51,7 @@
   .cell-name .name { font-size: 13px; font-weight: 700; line-height: 1.35; }
   .cell-name .code { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #8aa0a2; }
   .cell-spec { font-size: 12px; color: #41595E; }
+  .cell-spec .case-note { display: block; margin-top: 2px; font-size: 10px; color: #8aa0a2; }
   .cell-qty, .cell-price, .cell-margin, .cell-sell { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
   .qty-input { width: 58px; box-sizing: border-box; border: 1.5px solid #cfe0e2; background: #fff; font-size: 12.5px; text-align: right; padding: 6px 7px; color: #12242A; }
   .qty-input.unknown { border-color: #e8c9a8; background: #fdf6ee; }
@@ -233,9 +234,11 @@
       '内容量・入数': row.qtyNum == null ? '' : row.qtyNum,
       '単位': row.kind,
       '単価基準': row.basisNum,
+      'ケース入数': row.caseQty == null ? '' : row.caseQty,
+      '1個あたり(税別)': row.perPieceSell == null ? '' : Math.round(row.perPieceSell),
     }));
     const sheet = XLSX.utils.json_to_sheet(rows);
-    sheet['!cols'] = [8,18,34,16,26,12,16,12,14,10,12].map(wch => ({ wch }));
+    sheet['!cols'] = [8,18,34,16,26,12,16,12,14,10,12,12,16].map(wch => ({ wch }));
     const book = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(book, sheet, '価格一覧');
     XLSX.writeFile(book, '消耗品価格一覧.xlsx');
@@ -336,11 +339,17 @@
       const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssNum(state.margins[r.id]) ?? TSS_DEFAULT_MARGIN;
       const sellNum = tssSellOf(state.prices, state.margins, state.sellPrices, r, r.id);
       const kind = state.units[r.id] || r.kind;
+      // メーカー直送などケース単位でしか仕入れられない商品は、入力された金額を
+      // 1ケース分として扱う。単価は「ケース内の総枚数」で割り、1個あたりも出す。
+      const caseUnitQty = r.priceUnit === 'case' && r.caseQty ? Number(r.caseQty) : null;
       const basisIsDefault = state.bases[r.id] == null;
       const basisNum = basisIsDefault ? tssDefaultBasis(kind) : (tssNum(state.bases[r.id]) ?? tssDefaultBasis(kind));
       return {
         ...r, costNum: cost, qtyNum: qty, marginNum, marginIsDefault, sellNum, kind, basisNum, basisIsDefault,
-        unitNum: tssCalcUnitPrice(sellNum, qty, kind, basisNum),
+        caseUnitQty,
+        perPieceSell: caseUnitQty && sellNum != null ? sellNum / caseUnitQty : null,
+        perPieceCost: caseUnitQty && cost != null ? cost / caseUnitQty : null,
+        unitNum: tssCalcUnitPrice(sellNum, caseUnitQty && qty != null ? qty * caseUnitQty : qty, kind, basisNum),
         perMeterNum: r.metersPerRoll ? tssCalcPerMeterPrice(sellNum, qty, r.metersPerRoll) : null,
       };
     });
@@ -378,7 +387,7 @@
       return `<div class="row">
         <div class="cell-maker">${escapeHTML(r.maker)}</div>
         <div class="cell-name"><span class="name">${escapeHTML(r.name)}</span><span class="code">${escapeHTML(r.code)}</span></div>
-        <div class="cell-spec">${escapeHTML(r.spec)}</div>
+        <div class="cell-spec">${escapeHTML(r.spec)}${r.caseQty ? `<span class="case-note">ケース${escapeHTML(r.caseDescription || r.caseQty + '個')}入${r.priceUnit === 'case' ? '／金額はケース単価' : ''}</span>` : ''}</div>
         <div class="cell-qty">
           <input type="text" inputmode="decimal" class="qty-input${unknown ? ' unknown' : ''}" data-id="${r.id}" value="${escapeHTML(qtyVal)}" placeholder="${r.baseQty == null ? '未確認' : ''}" />
           <span class="qty-unit">${escapeHTML(r.kind)}</span>
@@ -404,6 +413,7 @@
             </select>
             <span class="unit-suffix">あたり</span>
           </div>
+          ${r.perPieceSell != null ? `<span class="value value-sub" style="color:#0f7f86">${tssFmtYen(r.perPieceSell)}</span><span class="label">1個あたり</span>` : ''}
           ${r.metersPerRoll ? `<span class="value value-sub" style="color:${r.perMeterNum == null ? '#c3cac7' : '#0f7f86'}">${tssFmtYen(r.perMeterNum)}</span><span class="label">1mあたり</span>` : ''}
         </div>
       </div>`;

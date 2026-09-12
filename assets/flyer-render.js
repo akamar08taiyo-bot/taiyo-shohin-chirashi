@@ -138,6 +138,29 @@ function tssSetSalesPriority(ids, stockIds) {
   TSS_STOCK_IDS = new Set(stockIds || []);
 }
 
+// 仕入価格・販売価格がこの端末に入っている商品のID。
+// 「おすすめの組み合わせ」チラシは、そのまま見積・提案に出せる商品だけで組みたいので、
+// 価格の入っていない商品は抽選の対象から外す（pages.json の randomSample.pricedOnly）。
+// 価格は各端末の localStorage にしか無い（公開ファイルには持たない）ため、
+// 1件も価格が入っていない端末では絞り込みを行わない。チラシが空になるのを防ぐためで、
+// そのときは renderFlyer が画面に案内を出す。
+let TSS_PRICED_IDS = null;
+function tssSetPricedIds() {
+  let saved = null;
+  try { saved = tssLoadPrices(); } catch (e) { saved = null; }
+  if (!saved) { TSS_PRICED_IDS = null; return; }
+  const ids = new Set();
+  const collect = map => {
+    for (const id in (map || {})) if (tssNum(map[id]) != null) ids.add(Number(id));
+  };
+  collect(saved.prices);      // 仕入価格
+  collect(saved.sellPrices);  // 販売価格（仕入を入れず売価だけ入れている場合）
+  TSS_PRICED_IDS = ids.size ? ids : null;
+}
+function tssPricedOnlyUnavailable(flyer) {
+  return !!(flyer.randomSample && flyer.randomSample.pricedOnly) && !TSS_PRICED_IDS;
+}
+
 // 「おすすめの組み合わせ」チラシ用: 用途ごとの候補から指定件数を選んで組み合わせる。
 // 優先順位は次のとおり。
 //   1. 直近で売れている商品（実績のある商品を続けて使いたいため）
@@ -145,6 +168,9 @@ function tssSetSalesPriority(ids, stockIds) {
 //   3. それ以外（メーカー不問。1・2で8点に足りない用途をここで埋める）
 // 件数は必ず4の倍数（0/4/max）にして、1ページ4商品ちょうどの制約を崩さない。
 function tssPickRandom(pool, opts) {
+  // 価格の入っている商品だけで組む指定があれば、抽選の前に候補をしぼる。
+  // 4の倍数の判定もしぼったあとの件数で行う（1ページ4商品の制約を守るため）。
+  if (opts && opts.pricedOnly && TSS_PRICED_IDS) pool = pool.filter(item => TSS_PRICED_IDS.has(item.id));
   const max = (opts && opts.max) || 8;
   const n = pool.length >= max ? max : (pool.length >= 4 ? Math.floor(pool.length / 4) * 4 : 0);
   if (n === 0) return [];
@@ -251,6 +277,7 @@ async function renderFlyer(flyerKey, mountId) {
     fetch('./data/sales-priority.json?v=20260908-1').then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
   tssSetSalesPriority(salesPriority && salesPriority.ids, salesPriority && salesPriority.stockIds);
+  tssSetPricedIds();
 
   // 担当者はこの端末の設定を優先する（ツールバーから変更でき、次回も同じ内容を使う）。
   let office = tssOfficeWithStaff(tssLoadOffice());
@@ -367,6 +394,16 @@ async function renderFlyer(flyerKey, mountId) {
   let pickerTarget = null; // { pageKey, slotIndex } while picker is open
 
   const mount = document.getElementById(mountId);
+
+  // 価格ありの商品だけで組む指定なのに、この端末に価格が1件も入っていない場合。
+  // 絞り込みをやめて従来どおり全商品から組むが、そのことを画面に出しておく。
+  if (tssPricedOnlyUnavailable(flyer)) {
+    const notice = document.createElement("p");
+    notice.className = "tss-notice";
+    notice.setAttribute("role", "status");
+    notice.innerHTML = 'このチラシは<strong>価格の入っている商品だけ</strong>で組む設定ですが、この端末には価格が保存されていません。すべての商品から組み合わせています。<a href="./price-calc.html">価格・単価計算シート</a>でExcelを読み込むと、価格のある商品だけになります。';
+    mount.parentNode.insertBefore(notice, mount);
+  }
 
   function pageComposition(pageKey) {
     composition[flyer.key] = composition[flyer.key] || {};

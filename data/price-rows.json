@@ -2508,7 +2508,10 @@
   "code": "JAN 4957434009139",
   "kind": "枚",
   "baseQty": 72,
-  "id": 91
+  "id": 91,
+  "caseQty": 30,
+  "caseDescription": "30個",
+  "priceUnit": "case"
  },
  {
   "maker": "竹虎",
@@ -4046,7 +4049,7 @@
   "maker": "アサヒグループ食品",
   "name": "バランス献立 とろみエール",
   "spec": "2.5g×30本",
-  "code": "",
+  "code": "品番 HB7 ／ JAN 4987244163905",
   "kind": "本",
   "baseQty": 30,
   "id": 419
@@ -4055,7 +4058,7 @@
   "maker": "アサヒグループ食品",
   "name": "バランス献立 とろみエール",
   "spec": "200g",
-  "code": "",
+  "code": "品番 HB8 ／ JAN 4987244163912",
   "kind": "g",
   "baseQty": 200,
   "id": 420
@@ -4064,7 +4067,7 @@
   "maker": "アサヒグループ食品",
   "name": "バランス献立 とろみエール",
   "spec": "600g",
-  "code": "",
+  "code": "品番 19343 ／ JAN 4987244193438",
   "kind": "g",
   "baseQty": 600,
   "id": 421
@@ -4073,7 +4076,7 @@
   "maker": "アサヒグループ食品",
   "name": "バランス献立 とろみエール",
   "spec": "1kg",
-  "code": "",
+  "code": "品番 HB9 ／ JAN 4987244165947",
   "kind": "g",
   "baseQty": 1000,
   "id": 422
@@ -4082,7 +4085,7 @@
   "maker": "アサヒグループ食品",
   "name": "バランス献立 とろみエール",
   "spec": "330g",
-  "code": "",
+  "code": "品番 19342 ／ JAN 4987244193421",
   "kind": "g",
   "baseQty": 330,
   "id": 423
@@ -8260,5 +8263,41 @@
   "id": 889,
   "caseQty": 12,
   "caseDescription": "12個"
+ },
+ {
+  "maker": "昭和紙工",
+  "name": "SaSaYell 流せるウェットタオル 厚手",
+  "spec": "70枚",
+  "code": "品番 009856 ／ JAN 4957434009856",
+  "kind": "枚",
+  "baseQty": 70,
+  "id": 890,
+  "caseQty": 30,
+  "caseDescription": "30個",
+  "priceUnit": "case"
+ },
+ {
+  "maker": "昭和紙工",
+  "name": "SaSaYell 大人のぬれタオル",
+  "spec": "70枚",
+  "code": "JAN 4957434009146",
+  "kind": "枚",
+  "baseQty": 70,
+  "id": 891,
+  "caseQty": 30,
+  "caseDescription": "30個",
+  "priceUnit": "case"
+ },
+ {
+  "maker": "昭和紙工",
+  "name": "SaSaYell 大人のぬれタオル 超大判",
+  "spec": "20枚",
+  "code": "JAN 4957434008941",
+  "kind": "枚",
+  "baseQty": 20,
+  "id": 892,
+  "caseQty": 30,
+  "caseDescription": "30個",
+  "priceUnit": "case"
  }
 ]

@@ -2,7 +2,7 @@
  "meta": {
   "generated": "2026-09-01",
   "owner": "太陽シルバーサービス㈱ 行橋営業所",
-  "items": 845,
+  "items": 848,
   "note": "メーカー公式商品ページ・公式カタログと照合した商品マスター。unitBasis は単価計算の基準（100mL/1kg/1枚/1ロール/1箱）。確認できない数値は推測で補完しない。"
  },
  "items": [
@@ -1186,7 +1186,7 @@
    "desc": "からだふき・おしりふき・手足の汚れふきに。トイレに流せます。",
    "code": "JAN 4957434009139",
    "unitBasis": "1枚あたり",
-   "image": "./images/showa/15_sasayell_nuretowel.jpg",
+   "image": "./images/showa/sasayell-4957434009139.jpg",
    "id": 91
   },
   {
@@ -5273,7 +5273,7 @@
    "spec": "2.5g×30本",
    "tag": "とろみ剤",
    "desc": "スティック個包装／1本ずつ使えて衛生的。持ち出しや外食時に。",
-   "code": "",
+   "code": "品番 HB7 ／ JAN 4987244163905",
    "unitBasis": "1本",
    "image": "./images/toromi/tr-001.png",
    "id": 419
@@ -5286,7 +5286,7 @@
    "spec": "200g",
    "tag": "とろみ剤",
    "desc": "少人数向けの使いきりサイズ。開封後の使い切りやすさ重視。",
-   "code": "",
+   "code": "品番 HB8 ／ JAN 4987244163912",
    "unitBasis": "100g",
    "image": "./images/toromi/tr-002.png",
    "id": 420
@@ -5299,7 +5299,7 @@
    "spec": "600g",
    "tag": "とろみ剤",
    "desc": "施設の標準サイズ。日々のとろみ付けにまとめてご使用いただけます。",
-   "code": "",
+   "code": "品番 19343 ／ JAN 4987244193438",
    "unitBasis": "100g",
    "image": "./images/toromi/tr-004.png",
    "id": 421
@@ -5312,7 +5312,7 @@
    "spec": "1kg",
    "tag": "とろみ剤",
    "desc": "使用量の多い施設向けの大容量。1gあたりのコストを抑えられます。",
-   "code": "",
+   "code": "品番 HB9 ／ JAN 4987244165947",
    "unitBasis": "1kg",
    "image": "./images/toromi/tr-005.png",
    "id": 422
@@ -5325,7 +5325,7 @@
    "spec": "330g",
    "tag": "とろみ剤",
    "desc": "200gと600gの中間サイズ。使用量に合わせて選べます。",
-   "code": "",
+   "code": "品番 19342 ／ JAN 4987244193421",
    "unitBasis": "100g",
    "image": "./images/toromi/tr-003.png",
    "id": 423
@@ -10997,6 +10997,45 @@
    "unitBasis": "100mLあたり",
    "image": "./images/rocket/345_4571113808310.jpg",
    "id": 889
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR04 からだふき・ウェットタオル",
+   "maker": "昭和紙工",
+   "name": "SaSaYell 流せるウェットタオル 厚手",
+   "spec": "70枚",
+   "tag": "トイレに流せる",
+   "desc": "厚手でトイレに流せるシート。約140×200mm。",
+   "code": "品番 009856 ／ JAN 4957434009856",
+   "unitBasis": "1枚あたり",
+   "image": "./images/showa/sasayell-4957434009856.jpg",
+   "id": 890
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR04 からだふき・ウェットタオル",
+   "maker": "昭和紙工",
+   "name": "SaSaYell 大人のぬれタオル",
+   "spec": "70枚",
+   "tag": "厚手",
+   "desc": "からだふき・おしりふきに。約190×220mm。",
+   "code": "JAN 4957434009146",
+   "unitBasis": "1枚あたり",
+   "image": "./images/showa/sasayell-4957434009146.jpg",
+   "id": 891
+  },
+  {
+   "flier": "おしりふき・とろみ剤",
+   "page": "CR04 からだふき・ウェットタオル",
+   "maker": "昭和紙工",
+   "name": "SaSaYell 大人のぬれタオル 超大判",
+   "spec": "20枚",
+   "tag": "超大判・厚手",
+   "desc": "約300×400mmの超大判。からだ全体をふけます。",
+   "code": "JAN 4957434008941",
+   "unitBasis": "1枚あたり",
+   "image": "./images/showa/sasayell-4957434008941.jpg",
+   "id": 892
   }
  ]
 }

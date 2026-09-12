@@ -417,6 +417,19 @@ a:hover { color: var(--accent-hover); }
 .tss-footer-contact-mobile { font-size: 15.5px; font-weight: 900; }
 
 /* ---- チラシ上での金額編集（施設ごとの金額違いに対応）---- */
+/* 画面用のお知らせ帯（印刷には出さない） */
+.tss-notice {
+  margin: 0;
+  padding: 11px 20px;
+  background: #fdf4e8;
+  border-bottom: 1.5px solid #e6c9a0;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #8a5a1a;
+}
+.tss-notice a { color: #8a5a1a; }
+
 .tss-priceedit-bar {
   display: flex;
   align-items: center;
@@ -518,7 +531,7 @@ a:hover { color: var(--accent-hover); }
 
 @media print {
   html, body { width: 210mm; margin: 0 !important; padding: 0 !important; background: #fff; }
-  .tss-toolbar, .tss-pagejump, .tss-page-editbar, .tss-page-bar, .tss-priceedit-bar,
+  .tss-toolbar, .tss-pagejump, .tss-page-editbar, .tss-page-bar, .tss-priceedit-bar, .tss-notice,
   .tss-card-editbtn, .tss-card-quotechk { display: none !important; }
   /* 金額の入力欄は、紙では普通の文字として出す（枠線や色地は出さない） */
   .tss-price-input {
