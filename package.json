@@ -1,0 +1,12 @@
+{
+  "name": "taiyo-shohin-chirashi",
+  "private": true,
+  "description": "消耗品チラシ作成（太陽シルバーサービス㈱）データ検証・画像監査ツール",
+  "scripts": {
+    "validate": "node validate.cjs",
+    "audit-images": "node audit-images.cjs --compact"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  }
+}
