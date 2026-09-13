@@ -1,6 +1,7 @@
 .DS_Store
 Thumbs.db
 tmp/
+node_modules/
 # 商品登録の作業用フォルダ（カタログPDFから抽出した素材置き場）。公開物ではない。
 _work/
 

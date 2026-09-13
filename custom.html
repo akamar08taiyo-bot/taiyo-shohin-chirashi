@@ -182,6 +182,15 @@
 <script>
 (async function () {
   const products = await fetch('./data/products.json?v=20260908-1').then(r => r.json());
+  const priceRows = await fetch('./data/price-rows.json?v=20260908-1').then(r => r.json());
+  const priceRowById = new Map(priceRows.map(r => [r.id, r]));
+  // 品番・JANの行の後ろにケース入数を添える（flyer-render.js の tssCaseLabel と同じ規則）。
+  // 入数が分かっていない商品には何も出さない（推測値は書かない）。
+  function caseLabel(item) {
+    const row = priceRowById.get(item.id);
+    if (!row || !row.caseQty) return '';
+    return `ケース${row.caseDescription || row.caseQty + '個'}入`;
+  }
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -512,7 +521,7 @@
             <span class="tss-tag-cat">${esc(item.tag)}</span>
           </div>
           <p class="tss-card-desc" style="min-height:${TOKENS.descMinHeight}px;font-size:${TOKENS.descFontSize}px">${esc(item.desc)}</p>
-          ${showCodes ? `<div class="tss-card-code">${esc(item.code)}</div>` : ''}
+          ${showCodes ? `<div class="tss-card-code">${esc([item.code, caseLabel(item)].filter(Boolean).join("　"))}</div>` : ''}
         </div>
       </article>`;
   }

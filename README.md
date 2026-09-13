@@ -40,6 +40,7 @@ images/
 
 ```bash
 node validate.cjs
+npm install   # audit-images.cjs が使う sharp を初回だけ取得する
 node audit-images.cjs --compact
 ```
 

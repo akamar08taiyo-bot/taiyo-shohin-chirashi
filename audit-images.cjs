@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const sharp = require('C:/Users/akama/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp = require('sharp');
 
 const root = __dirname;
 const products = JSON.parse(fs.readFileSync(path.join(root, 'data/products.json'), 'utf8')).items;
