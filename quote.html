@@ -727,6 +727,8 @@
     return { label: tssUnitLabel(kind, basis), value: v };
   }
 
+  const yenOrNull = v => (v == null ? null : Math.round(v));
+
   function computedRows() {
     const master = Object.keys(cart).map(idStr => {
       const id = Number(idStr);
@@ -735,7 +737,8 @@
       const priceRow = priceRowById.get(id);
       const qty = cart[id] || 1;
       const suggested = suggestedUnitPrice(item, priceRow);
-      const unitPrice = meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested;
+      // 見積書は円単位。表示する単価（四捨五入）と金額（単価×数量）が食い違わないよう、先に単価を丸める。
+      const unitPrice = yenOrNull(meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested);
       const amount = unitPrice != null ? unitPrice * qty : null;
       return {
         key: String(id), id, manual: false, item, priceRow, qty,
@@ -750,7 +753,7 @@
     // 手入力で足した商品（商品マスターに無いもの）
     const manual = (meta.manual || []).map(m => {
       const qty = tssNum(m.qty) ?? 1;
-      const unitPrice = tssNum(m.price);
+      const unitPrice = yenOrNull(tssNum(m.price));
       return {
         key: m.key, id: null, manual: true, item: null, priceRow: null, qty,
         name: m.name || '', sub: m.spec || '', saleUnit: m.unit || '個',

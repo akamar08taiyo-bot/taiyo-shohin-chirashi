@@ -64,6 +64,14 @@ function tssNum(v) {
   return isFinite(n) && n > 0 ? n : null;
 }
 
+// 利益率は 0%（仕入価格どおりで販売）も有効な値として扱う。空欄だけを「未入力」とみなす。
+function tssMarginNum(v) {
+  const s = String(v == null ? '' : v).replace(/[,%％\s]/g, '');
+  if (s === '') return null;
+  const n = parseFloat(s.replace(/[^0-9.]/g, ''));
+  return isFinite(n) && n >= 0 ? n : null;
+}
+
 // 価格は機密情報のため、公開ファイルには保持しない。
 // 仕入価格は、この端末で手入力またはExcel読込した localStorage の値だけを使う。
 function tssCostOf(savedPrices, priceRow, id) {
@@ -79,7 +87,7 @@ function tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, id) {
   if (enteredSell != null) return enteredSell;
 
   const enteredCost = tssNum(savedPrices ? savedPrices[id] : null);
-  const enteredMargin = tssNum(savedMargins ? savedMargins[id] : null);
+  const enteredMargin = tssMarginNum(savedMargins ? savedMargins[id] : null);
   const cost = enteredCost;
   const margin = enteredMargin ?? TSS_DEFAULT_MARGIN;
   return cost != null ? tssSellFromMargin(cost, margin) : null;
