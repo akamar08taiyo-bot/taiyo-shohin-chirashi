@@ -35,6 +35,12 @@
   .page{width:794px;height:1123px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.14);position:relative}
   .tag{position:absolute;top:0;left:0;z-index:5;background:#12242A;color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 10px}
   .page.hide{display:none}
+  /* スマホなど画面がA4の幅（794px）より狭いとき、ページ全体が横にずれて
+     見出しやタブまで画面の外へ出てしまう。他のチラシ画面と同じように、
+     ページの並びの中だけで横スクロールさせる。 */
+  @media (max-width:860px){
+    .stack{align-items:flex-start;overflow-x:auto;overscroll-behavior-x:contain;padding-left:12px;padding-right:12px}
+  }
   @media print{
     body{background:#fff}
     .bar,.tag{display:none!important}
