@@ -438,7 +438,7 @@ async function renderFlyer(flyerKey, mountId) {
         const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
         const kind = savedUnits[item.id] || priceRow.kind;
         const basis = tssNum(savedBases[item.id]) ?? tssDefaultBasis(kind);
-        const unit = tssCalcUnitPrice(sell, qty, kind, basis);
+        const unit = tssCalcUnitPrice(sell, tssContentQty(priceRow, qty), kind, basis);
         const isTemp = tssNum(tempSell[item.id]) != null;
         const perMeterHTML = priceRow.metersPerRoll
           ? `<span class="unit-sub">1mあたり ${tssFmtYen(tssCalcPerMeterPrice(sell, qty, priceRow.metersPerRoll))}</span>`
@@ -846,8 +846,8 @@ async function renderFlyer(flyerKey, mountId) {
     if (inp.dataset.field === 'sell') {
       sell = tssNum(inp.value);
     } else {
-      // 「100mLあたり」から本体価格を逆算する
-      sell = tssSellFromUnitPrice(tssNum(inp.value), qty, kind, basis);
+      // 「100mLあたり」から本体価格を逆算する（ケース仕入れならケースの総量で戻す）
+      sell = tssSellFromUnitPrice(tssNum(inp.value), tssContentQty(priceRow, qty), kind, basis);
     }
     if (sell == null) { renderAll(); return; }
 

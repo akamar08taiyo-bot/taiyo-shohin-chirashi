@@ -341,7 +341,7 @@
       const kind = state.units[r.id] || r.kind;
       // メーカー直送などケース単位でしか仕入れられない商品は、入力された金額を
       // 1ケース分として扱う。単価は「ケース内の総枚数」で割り、1個あたりも出す。
-      const caseUnitQty = r.priceUnit === 'case' && r.caseQty ? Number(r.caseQty) : null;
+      const caseUnitQty = tssCaseUnitQty(r);
       const basisIsDefault = state.bases[r.id] == null;
       const basisNum = basisIsDefault ? tssDefaultBasis(kind) : (tssNum(state.bases[r.id]) ?? tssDefaultBasis(kind));
       return {
@@ -349,7 +349,7 @@
         caseUnitQty,
         perPieceSell: caseUnitQty && sellNum != null ? sellNum / caseUnitQty : null,
         perPieceCost: caseUnitQty && cost != null ? cost / caseUnitQty : null,
-        unitNum: tssCalcUnitPrice(sellNum, caseUnitQty && qty != null ? qty * caseUnitQty : qty, kind, basisNum),
+        unitNum: tssCalcUnitPrice(sellNum, tssContentQty(r, qty), kind, basisNum),
         perMeterNum: r.metersPerRoll ? tssCalcPerMeterPrice(sellNum, qty, r.metersPerRoll) : null,
       };
     });
@@ -409,7 +409,7 @@
           <div class="unit-basis-edit">
             <input type="text" inputmode="numeric" class="basis-input${r.basisIsDefault ? ' is-default' : ''}" data-field="basis" data-id="${r.id}" value="${r.basisNum}" />
             <select class="kind-select" data-field="kind" data-id="${r.id}">
-              ${['mL','g','枚','ロール','箱'].map(k => `<option value="${k}" ${r.kind === k ? 'selected' : ''}>${k}</option>`).join('')}
+              ${TSS_UNIT_KINDS.map(k => `<option value="${k}" ${r.kind === k ? 'selected' : ''}>${k}</option>`).join('')}
             </select>
             <span class="unit-suffix">あたり</span>
           </div>

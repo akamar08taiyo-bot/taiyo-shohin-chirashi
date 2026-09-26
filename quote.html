@@ -722,7 +722,8 @@
     const kind = savedUnits[id] || priceRow.kind;
     const basis = tssNum(savedBases ? savedBases[id] : null) ?? tssDefaultBasis(kind);
     const qty = savedQtys && savedQtys[id] != null ? tssNum(savedQtys[id]) : priceRow.baseQty;
-    const v = tssCalcUnitPrice(unitPrice, qty, kind, basis);
+    // ケース単位で仕入れる商品は、単価もケースの総量で割る（価格表と同じ計算にする）
+    const v = tssCalcUnitPrice(unitPrice, tssContentQty(priceRow, qty), kind, basis);
     if (v == null) return null;
     return { label: tssUnitLabel(kind, basis), value: v };
   }
