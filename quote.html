@@ -817,7 +817,7 @@
     body.querySelectorAll('.qty-input').forEach(inp => {
       inp.addEventListener('change', () => {
         const key = inp.dataset.key;
-        const n = parseInt(inp.value.replace(/[^0-9]/g, ''), 10);
+        const n = parseInt(inp.value.normalize('NFKC').replace(/[^0-9]/g, ''), 10);
         const v = isFinite(n) && n > 0 ? n : 1;
         if (isManual(key)) { const m = manualOf(key); if (m) m.qty = v; saveMeta(meta); }
         else { cart[Number(key)] = v; tssSaveQuoteCart(cart); }

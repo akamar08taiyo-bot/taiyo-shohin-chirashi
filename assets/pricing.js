@@ -59,14 +59,15 @@ function tssSellFromMargin(cost, marginPercent) {
   return cost * (1 + marginPercent / 100);
 }
 
+// 全角数字（１，２００ 等）も読めるよう、NFKC で半角にそろえてから数字だけを取り出す。
 function tssNum(v) {
-  const n = parseFloat(String(v == null ? '' : v).replace(/[^0-9.]/g, ''));
+  const n = parseFloat(String(v == null ? '' : v).normalize('NFKC').replace(/[^0-9.]/g, ''));
   return isFinite(n) && n > 0 ? n : null;
 }
 
 // 利益率は 0%（仕入価格どおりで販売）も有効な値として扱う。空欄だけを「未入力」とみなす。
 function tssMarginNum(v) {
-  const s = String(v == null ? '' : v).replace(/[,%％\s]/g, '');
+  const s = String(v == null ? '' : v).normalize('NFKC').replace(/[,%\s]/g, '');
   if (s === '') return null;
   const n = parseFloat(s.replace(/[^0-9.]/g, ''));
   return isFinite(n) && n >= 0 ? n : null;
