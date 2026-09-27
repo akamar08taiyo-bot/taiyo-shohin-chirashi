@@ -1067,11 +1067,13 @@
     if (inputs.length) inputs[inputs.length - 1].focus();
   });
 
+  // 見積に行があるか（商品マスターから選んだ商品に加え、手入力の行も数える）
+  const hasQuoteRows = () => Object.keys(cart).length > 0 || (meta.manual || []).length > 0;
   document.getElementById('btn-save').addEventListener('click', () => {
     const input = document.getElementById('save-facility');
     const facility = (input.value.trim() || (meta.customerName || '').trim());
     if (!facility) { alert('施設名（またはお客様名）を入力してください。'); input.focus(); return; }
-    if (!Object.keys(cart).length) { alert('見積に商品が追加されていません。'); return; }
+    if (!hasQuoteRows()) { alert('見積に商品が追加されていません。'); return; }
 
     const list = loadSaved();
     const existing = list.find(s => s.facility === facility);
@@ -1105,7 +1107,7 @@
       return;
     }
     if (e.target.closest('.load-btn')) {
-      if (Object.keys(cart).length &&
+      if (hasQuoteRows() &&
           !confirm('いま作成中の見積を破棄して「' + entry.facility + '」を呼び出します。よろしいですか？')) return;
       cart = JSON.parse(JSON.stringify(entry.cart || {}));
       meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS, entry.meta || {});
