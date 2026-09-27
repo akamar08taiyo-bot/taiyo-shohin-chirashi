@@ -120,6 +120,11 @@
   /* ---- 見積書を確認・印刷（画面） ---- */
   .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .meta-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  /* 狭い画面で4列・2列のままだと入力欄が画面の外へはみ出し、ページ全体が横にスクロール（スマホでは縮小表示）になる */
+  .meta-grid > .field, .meta-grid-4 > .field { min-width: 0; }
+  .field input { min-width: 0; width: 100%; box-sizing: border-box; }
+  @media (max-width: 960px) { .meta-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .meta-grid, .meta-grid-4 { grid-template-columns: minmax(0, 1fr); } }
   .field { display: flex; flex-direction: column; gap: 4px; }
   .field label { font-size: 12px; font-weight: 700; color: #41595E; }
   .field input, .field textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 9px 10px; }
