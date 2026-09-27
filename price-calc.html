@@ -264,7 +264,8 @@
         id: headerIndex(headers, ['商品ID']), maker: headerIndex(headers, ['メーカー']), name: headerIndex(headers, ['商品名']),
         spec: headerIndex(headers, ['規格', '規格/容量']), code: headerIndex(headers, ['JAN・品番', 'JAN/品番', 'JAN', '品番']),
         cost: headerIndex(headers, ['仕入価格', '仕切単価']), sell: headerIndices(headers, ['販売価格(税別)', '販売単価(税別)', '推奨販売単価(税別)']),
-        margin: headerIndices(headers, ['利益率(%)', '個別目標粗利率', '適用目標粗利率', '粗利率']), qty: headerIndex(headers, ['内容量・入数', '1販売単位入数(枚)']),
+        // 「利益率(%)」（この画面の出力）は%の値そのもの。他の粗利率列は 0.2＝20% の小数表記もありうる
+        marginPct: headerIndex(headers, ['利益率(%)']), margin: headerIndices(headers, ['個別目標粗利率', '適用目標粗利率', '粗利率']), qty: headerIndex(headers, ['内容量・入数', '1販売単位入数(枚)']),
         unit: headerIndex(headers, ['単位', '販売単位']), basis: headerIndex(headers, ['単価基準']),
       };
       for (let i = headerRow + 1; i < aoa.length; i++) {
@@ -273,7 +274,7 @@
           ? (col[key].map(index => row[index]).find(value => value !== '' && value != null) ?? '')
           : (col[key] >= 0 ? row[col[key]] : '');
         if (!get('id') && !get('code') && !get('name')) continue;
-        entries.push({ sheetName, rowNumber: i + 1, id: get('id'), maker: get('maker'), name: get('name'), spec: get('spec'), code: get('code'), cost: get('cost'), sell: get('sell'), margin: get('margin'), qty: get('qty'), unit: get('unit'), basis: get('basis') });
+        entries.push({ sheetName, rowNumber: i + 1, id: get('id'), maker: get('maker'), name: get('name'), spec: get('spec'), code: get('code'), cost: get('cost'), sell: get('sell'), marginPct: get('marginPct'), margin: get('margin'), qty: get('qty'), unit: get('unit'), basis: get('basis') });
       }
     }
     return entries;
@@ -305,8 +306,10 @@
       if (matchedIds.has(target.id)) { duplicates++; continue; }
       matchedIds.add(target.id);
       const cost = positiveNum(entry.cost);
+      const marginPct = tssMarginNum(entry.marginPct);
       const marginRaw = tssMarginNum(entry.margin);
-      const margin = marginRaw != null && marginRaw <= 1 ? marginRaw * 100 : marginRaw;
+      const margin = marginPct != null ? marginPct
+        : (marginRaw != null && marginRaw <= 1 ? Math.round(marginRaw * 1000) / 10 : marginRaw);
       let sell = positiveNum(entry.sell);
       if (sell == null && cost != null) sell = Math.ceil(cost * (1 + ((margin ?? TSS_DEFAULT_MARGIN) / 100)));
       const importedQty = positiveNum(entry.qty);
