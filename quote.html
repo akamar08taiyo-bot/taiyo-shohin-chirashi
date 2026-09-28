@@ -700,9 +700,11 @@
   document.getElementById('sb-clear').addEventListener('click', () => document.getElementById('btn-clear').click());
 
   /* ================= 見積書（画面・編集） ================= */
+  // チラシ側で「このチラシ限りの金額（一時価格）」を入れた商品は、見積書も同じ金額にする。
+  // 一時価格はチラシと同じ sessionStorage から毎回読み直すので、チラシで直した金額とずれない。
   function suggestedUnitPrice(item, priceRow) {
     if (!priceRow) return null;
-    return tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
+    return tssSellWithTemp(tssLoadTempSell(), savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
   }
 
   // 販売単位（袋・箱・本など）の選択肢。単価は「1○○あたりいくら」の○○にあたる。
@@ -1138,6 +1140,8 @@
   renderPicker();
   renderRows();
   renderSaved();
+  // 「戻る」でキャッシュから表示されたときも、チラシ側で直した一時価格を反映し直す
+  window.addEventListener('pageshow', (e) => { if (e.persisted) renderRows(); });
 })();
 </script>
 </body>
