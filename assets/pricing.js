@@ -96,11 +96,27 @@ function tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, id) {
 
 // basis を省略すると既定値（100mL・1000g・1枚等）を使う。
 // mL/g は「{basis}{kind}あたり」、それ以外は「{basis}{kind}あたり」（basis=1なら「1枚あたり」等）。
+// 単位は price-rows.json の kind をそのまま使う。
+// 以前はロール・箱以外をすべて「枚」と表示していたため、
+// L・kg・個・本・錠・セットの商品が「1枚あたり」と出ていた。
 function tssUnitLabel(kind, basis) {
   const b = basis != null ? basis : tssDefaultBasis(kind);
   if (kind === 'mL' || kind === 'g') return b + kind + 'あたり';
-  const unitName = kind === 'ロール' ? 'ロール' : kind === '箱' ? '箱' : '枚';
-  return b + unitName + 'あたり';
+  return b + (kind || '個') + 'あたり';
+}
+
+// 単価の単位として選べる kind。price-rows.json で実際に使っている単位にそろえる。
+const TSS_UNIT_KINDS = ['mL', 'L', 'g', 'kg', '枚', 'ロール', '箱', '個', '本', '錠', 'セット'];
+
+// メーカー直送などケース単位でしか仕入れられない商品（priceUnit:'case'）は、
+// 入力された金額が1ケース分。単価はケースに入っている総量で割る必要がある。
+function tssCaseUnitQty(priceRow) {
+  return priceRow && priceRow.priceUnit === 'case' && priceRow.caseQty ? Number(priceRow.caseQty) : null;
+}
+// 単価計算に使う「1回の仕入れで手に入る総量」。ケース仕入れなら 内容量 × ケース入数。
+function tssContentQty(priceRow, qty) {
+  const caseQty = tssCaseUnitQty(priceRow);
+  return caseQty && qty != null ? qty * caseQty : qty;
 }
 
 function tssCalcUnitPrice(price, qty, kind, basis) {

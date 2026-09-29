@@ -8299,5 +8299,17 @@
   "caseQty": 30,
   "caseDescription": "30個",
   "priceUnit": "case"
+ },
+ {
+  "maker": "昭和紙工",
+  "name": "SaSaYell 大人のぬれタオル 大判",
+  "spec": "60枚",
+  "code": "JAN 4957434008958",
+  "kind": "枚",
+  "baseQty": 60,
+  "id": 893,
+  "caseQty": 30,
+  "caseDescription": "30個",
+  "priceUnit": "case"
  }
 ]
