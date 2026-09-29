@@ -433,7 +433,9 @@ async function renderFlyer(flyerKey, mountId) {
     if (showPrice && priceRow) {
       // 価格は、この端末でExcel読込または手入力された場合だけ表示する。
       // 一時価格（このチラシ限り）があればそちらを優先する。
-      const sell = tssSellWithTemp(tempSell, savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
+      // 金額は円単位で表示するので、「100mLあたり」等の単価も表示と同じ丸めた金額から計算する。
+      const sellRaw = tssSellWithTemp(tempSell, savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
+      const sell = sellRaw != null ? Math.round(sellRaw) : null;
       if (sell != null) {
         const qty = savedQtys[item.id] != null ? tssNum(savedQtys[item.id]) : priceRow.baseQty;
         const kind = savedUnits[item.id] || priceRow.kind;

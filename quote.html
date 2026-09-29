@@ -120,6 +120,11 @@
   /* ---- 見積書を確認・印刷（画面） ---- */
   .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .meta-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  /* 狭い画面で4列・2列のままだと入力欄が画面の外へはみ出し、ページ全体が横にスクロール（スマホでは縮小表示）になる */
+  .meta-grid > .field, .meta-grid-4 > .field { min-width: 0; }
+  .field input { min-width: 0; width: 100%; box-sizing: border-box; }
+  @media (max-width: 960px) { .meta-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .meta-grid, .meta-grid-4 { grid-template-columns: minmax(0, 1fr); } }
   .field { display: flex; flex-direction: column; gap: 4px; }
   .field label { font-size: 12px; font-weight: 700; color: #41595E; }
   .field input, .field textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; border: 1.5px solid #cfe0e2; background: #fff; padding: 9px 10px; }
@@ -695,9 +700,11 @@
   document.getElementById('sb-clear').addEventListener('click', () => document.getElementById('btn-clear').click());
 
   /* ================= 見積書（画面・編集） ================= */
+  // チラシ側で「このチラシ限りの金額（一時価格）」を入れた商品は、見積書も同じ金額にする。
+  // 一時価格はチラシと同じ sessionStorage から毎回読み直すので、チラシで直した金額とずれない。
   function suggestedUnitPrice(item, priceRow) {
     if (!priceRow) return null;
-    return tssSellOf(savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
+    return tssSellWithTemp(tssLoadTempSell(), savedPrices, savedMargins, savedSellPrices, priceRow, item.id);
   }
 
   // 販売単位（袋・箱・本など）の選択肢。単価は「1○○あたりいくら」の○○にあたる。
@@ -728,6 +735,8 @@
     return { label: tssUnitLabel(kind, basis), value: v };
   }
 
+  const yenOrNull = v => (v == null ? null : Math.round(v));
+
   function computedRows() {
     const master = Object.keys(cart).map(idStr => {
       const id = Number(idStr);
@@ -736,7 +745,8 @@
       const priceRow = priceRowById.get(id);
       const qty = cart[id] || 1;
       const suggested = suggestedUnitPrice(item, priceRow);
-      const unitPrice = meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested;
+      // 見積書は円単位。表示する単価（四捨五入）と金額（単価×数量）が食い違わないよう、先に単価を丸める。
+      const unitPrice = yenOrNull(meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested);
       const amount = unitPrice != null ? unitPrice * qty : null;
       return {
         key: String(id), id, manual: false, item, priceRow, qty,
@@ -751,7 +761,7 @@
     // 手入力で足した商品（商品マスターに無いもの）
     const manual = (meta.manual || []).map(m => {
       const qty = tssNum(m.qty) ?? 1;
-      const unitPrice = tssNum(m.price);
+      const unitPrice = yenOrNull(tssNum(m.price));
       return {
         key: m.key, id: null, manual: true, item: null, priceRow: null, qty,
         name: m.name || '', sub: m.spec || '', saleUnit: m.unit || '個',
@@ -815,7 +825,7 @@
     body.querySelectorAll('.qty-input').forEach(inp => {
       inp.addEventListener('change', () => {
         const key = inp.dataset.key;
-        const n = parseInt(inp.value.replace(/[^0-9]/g, ''), 10);
+        const n = parseInt(inp.value.normalize('NFKC').replace(/[^0-9]/g, ''), 10);
         const v = isFinite(n) && n > 0 ? n : 1;
         if (isManual(key)) { const m = manualOf(key); if (m) m.qty = v; saveMeta(meta); }
         else { cart[Number(key)] = v; tssSaveQuoteCart(cart); }
@@ -1065,11 +1075,13 @@
     if (inputs.length) inputs[inputs.length - 1].focus();
   });
 
+  // 見積に行があるか（商品マスターから選んだ商品に加え、手入力の行も数える）
+  const hasQuoteRows = () => Object.keys(cart).length > 0 || (meta.manual || []).length > 0;
   document.getElementById('btn-save').addEventListener('click', () => {
     const input = document.getElementById('save-facility');
     const facility = (input.value.trim() || (meta.customerName || '').trim());
     if (!facility) { alert('施設名（またはお客様名）を入力してください。'); input.focus(); return; }
-    if (!Object.keys(cart).length) { alert('見積に商品が追加されていません。'); return; }
+    if (!hasQuoteRows()) { alert('見積に商品が追加されていません。'); return; }
 
     const list = loadSaved();
     const existing = list.find(s => s.facility === facility);
@@ -1103,7 +1115,7 @@
       return;
     }
     if (e.target.closest('.load-btn')) {
-      if (Object.keys(cart).length &&
+      if (hasQuoteRows() &&
           !confirm('いま作成中の見積を破棄して「' + entry.facility + '」を呼び出します。よろしいですか？')) return;
       cart = JSON.parse(JSON.stringify(entry.cart || {}));
       meta = Object.assign({ priceOverrides: {} }, META_DEFAULTS, entry.meta || {});
@@ -1129,6 +1141,8 @@
   renderPicker();
   renderRows();
   renderSaved();
+  // 「戻る」でキャッシュから表示されたときも、チラシ側で直した一時価格を反映し直す
+  window.addEventListener('pageshow', (e) => { if (e.persisted) renderRows(); });
 })();
 </script>
 </body>

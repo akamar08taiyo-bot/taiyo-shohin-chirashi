@@ -264,7 +264,8 @@
         id: headerIndex(headers, ['商品ID']), maker: headerIndex(headers, ['メーカー']), name: headerIndex(headers, ['商品名']),
         spec: headerIndex(headers, ['規格', '規格/容量']), code: headerIndex(headers, ['JAN・品番', 'JAN/品番', 'JAN', '品番']),
         cost: headerIndex(headers, ['仕入価格', '仕切単価']), sell: headerIndices(headers, ['販売価格(税別)', '販売単価(税別)', '推奨販売単価(税別)']),
-        margin: headerIndices(headers, ['利益率(%)', '個別目標粗利率', '適用目標粗利率', '粗利率']), qty: headerIndex(headers, ['内容量・入数', '1販売単位入数(枚)']),
+        // 「利益率(%)」（この画面の出力）は%の値そのもの。他の粗利率列は 0.2＝20% の小数表記もありうる
+        marginPct: headerIndex(headers, ['利益率(%)']), margin: headerIndices(headers, ['個別目標粗利率', '適用目標粗利率', '粗利率']), qty: headerIndex(headers, ['内容量・入数', '1販売単位入数(枚)']),
         unit: headerIndex(headers, ['単位', '販売単位']), basis: headerIndex(headers, ['単価基準']),
       };
       for (let i = headerRow + 1; i < aoa.length; i++) {
@@ -273,7 +274,7 @@
           ? (col[key].map(index => row[index]).find(value => value !== '' && value != null) ?? '')
           : (col[key] >= 0 ? row[col[key]] : '');
         if (!get('id') && !get('code') && !get('name')) continue;
-        entries.push({ sheetName, rowNumber: i + 1, id: get('id'), maker: get('maker'), name: get('name'), spec: get('spec'), code: get('code'), cost: get('cost'), sell: get('sell'), margin: get('margin'), qty: get('qty'), unit: get('unit'), basis: get('basis') });
+        entries.push({ sheetName, rowNumber: i + 1, id: get('id'), maker: get('maker'), name: get('name'), spec: get('spec'), code: get('code'), cost: get('cost'), sell: get('sell'), marginPct: get('marginPct'), margin: get('margin'), qty: get('qty'), unit: get('unit'), basis: get('basis') });
       }
     }
     return entries;
@@ -305,8 +306,10 @@
       if (matchedIds.has(target.id)) { duplicates++; continue; }
       matchedIds.add(target.id);
       const cost = positiveNum(entry.cost);
-      const marginRaw = positiveNum(entry.margin);
-      const margin = marginRaw != null && marginRaw <= 1 ? marginRaw * 100 : marginRaw;
+      const marginPct = tssMarginNum(entry.marginPct);
+      const marginRaw = tssMarginNum(entry.margin);
+      const margin = marginPct != null ? marginPct
+        : (marginRaw != null && marginRaw <= 1 ? Math.round(marginRaw * 1000) / 10 : marginRaw);
       let sell = positiveNum(entry.sell);
       if (sell == null && cost != null) sell = Math.ceil(cost * (1 + ((margin ?? TSS_DEFAULT_MARGIN) / 100)));
       const importedQty = positiveNum(entry.qty);
@@ -336,7 +339,7 @@
       const cost = tssCostOf(state.prices, r, r.id);
       const qty = state.qtys[r.id] != null ? tssNum(state.qtys[r.id]) : r.baseQty;
       const marginIsDefault = state.margins[r.id] == null;
-      const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssNum(state.margins[r.id]) ?? TSS_DEFAULT_MARGIN;
+      const marginNum = marginIsDefault ? TSS_DEFAULT_MARGIN : tssMarginNum(state.margins[r.id]) ?? TSS_DEFAULT_MARGIN;
       const sellNum = tssSellOf(state.prices, state.margins, state.sellPrices, r, r.id);
       const kind = state.units[r.id] || r.kind;
       // メーカー直送などケース単位でしか仕入れられない商品は、入力された金額を
@@ -453,13 +456,13 @@
         if (field === 'cost') {
           state.prices = { ...state.prices, [id]: inp.value };
           const cost = tssNum(inp.value);
-          const margin = tssNum(state.margins[id]) ?? TSS_DEFAULT_MARGIN;
+          const margin = tssMarginNum(state.margins[id]) ?? TSS_DEFAULT_MARGIN;
           const sell = cost != null ? tssSellFromMargin(cost, margin) : null;
           state.sellPrices = { ...state.sellPrices, [id]: sell != null ? String(Math.round(sell)) : '' };
         } else if (field === 'margin') {
           state.margins = { ...state.margins, [id]: inp.value };
           const cost = tssCostOf(state.prices, priceRowById.get(Number(id)), id);
-          const margin = tssNum(inp.value);
+          const margin = tssMarginNum(inp.value);
           const sell = (cost != null && margin != null) ? tssSellFromMargin(cost, margin) : null;
           state.sellPrices = { ...state.sellPrices, [id]: sell != null ? String(Math.round(sell)) : '' };
         } else if (field === 'sell') {
