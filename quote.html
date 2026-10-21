@@ -52,7 +52,7 @@
   .badge { background: #0f7f86; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .14em; padding: 5px 12px; }
   h1 { margin: 8px 0 0; font-size: 30px; line-height: 1.2; font-weight: 900; letter-spacing: -.01em; }
   .lead { margin: 6px 0 0; font-size: 13px; line-height: 1.7; color: #41595E; max-width: 620px; }
-  .actions { display: flex; gap: 8px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; } /* スマホでボタンが4つ並ぶと文字が細切れになるので折り返す */
   .btn { border: 1.5px solid #0f7f86; background: #fff; color: #0f7f86; font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; font-weight: 700; padding: 9px 16px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
   .btn:hover { background: #0f7f86; color: #fff; }
   .btn-primary { background: #0f7f86; color: #fff; }
@@ -307,6 +307,7 @@
       <div class="actions">
         <a class="btn" href="./cover.html">📘 表紙をつくる</a>
         <button type="button" class="btn btn-primary" id="btn-print">印刷 / PDF保存</button>
+        <button type="button" class="btn" id="btn-excel">📗 Excelで保存</button>
         <button type="button" class="btn btn-danger" id="btn-clear">見積をクリア</button>
       </div>
     </header>
@@ -431,6 +432,7 @@
 
 <script src="./assets/offices.js"></script>
 <script src="./assets/pricing.js"></script>
+<script src="./assets/xlsx.js"></script>
 <script>
 (async function () {
   const products = await fetch('./data/products.json?v=20260908-1').then(r => r.json());
@@ -723,9 +725,11 @@
     const basis = tssNum(savedBases ? savedBases[id] : null) ?? tssDefaultBasis(kind);
     const qty = savedQtys && savedQtys[id] != null ? tssNum(savedQtys[id]) : priceRow.baseQty;
     // ケース単位で仕入れる商品は、単価もケースの総量で割る（価格表と同じ計算にする）
-    const v = tssCalcUnitPrice(unitPrice, tssContentQty(priceRow, qty), kind, basis);
+    const content = tssContentQty(priceRow, qty);
+    const v = tssCalcUnitPrice(unitPrice, content, kind, basis);
     if (v == null) return null;
-    return { label: tssUnitLabel(kind, basis), value: v };
+    // content・basis は Excel の式（単価 ÷ (内容量 ÷ 基準量)）に使う
+    return { label: tssUnitLabel(kind, basis), value: v, content, basis };
   }
 
   function computedRows() {
@@ -927,20 +931,29 @@
   });
 
   /* ================= 印刷（御見積書） ================= */
-  document.getElementById('btn-print').addEventListener('click', () => {
+  // 御見積書の中身。印刷と Excel で同じものを使う（片方だけ直して食い違わないように）
+  function quoteDoc() {
     const groups = computedGroups();
-    if (!groups.length) { alert('見積に商品が追加されていません。「商品を選ぶ」タブでチェックを付けてください。'); return; }
-    const office = tssLoadOffice();
+    if (!groups.length) { alert('見積に商品が追加されていません。「商品を選ぶ」タブでチェックを付けてください。'); return null; }
     const rows = computedRows();
     const subtotal = rows.reduce((s, r) => s + (r.amount || 0), 0);
     const tax = Math.round(subtotal * 0.1);
-    const total = subtotal + tax;
     const today = new Date();
-    const dateStr = today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
-    const customerName = meta.customerName || '';
-    const title = meta.title || META_DEFAULTS.title;
-    // 合計金額を紙に出すかどうか。既定はオフ（明細だけをお渡しする使い方が多いため）。
-    const showTotal = !!meta.showTotal;
+    return {
+      groups, subtotal, tax, total: subtotal + tax, today,
+      office: tssLoadOffice(),
+      dateStr: today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日',
+      customerName: meta.customerName || '',
+      title: meta.title || META_DEFAULTS.title,
+      // 合計金額を紙に出すかどうか。既定はオフ（明細だけをお渡しする使い方が多いため）。
+      showTotal: !!meta.showTotal,
+    };
+  }
+
+  document.getElementById('btn-print').addEventListener('click', () => {
+    const d = quoteDoc();
+    if (!d) return;
+    const { groups, subtotal, tax, total, office, dateStr, customerName, title, showTotal } = d;
 
     const groupsHTML = groups.map(g => `
       <div class="doc-group">
@@ -1018,6 +1031,235 @@
       </div>`;
     document.getElementById('print-content-holder').innerHTML = html;
     window.print();
+  });
+
+  /* ================= Excel（御見積書） =================
+     印刷と同じ内容・同じ形の .xlsx を、この端末の中で作って保存する（assets/xlsx.js）。
+     金額・小計・消費税・合計・単価の内訳は Excel の計算式なので、Excel で数量や単価を直しても計算し直される。
+     頭の部分・御見積金額の帯・備考と合計は印刷と同じ位置（横は mm・縦は pt）に枠を置き、
+     その境目と表の列の境目をあわせた行・列を作って、1つの枠は必要なセルをつなげて（結合して）作る。 */
+  function buildQuoteXlsx(d) {
+    const X = TssXlsx, PT = X.PT_MM;
+    const W = 182, RX = W - 70, LW = RX - 8; // 本文の幅（.doc-page）、右の列（幅 70mm）の左端、左の列の幅（間 8mm）
+    const C = {
+      navy: '1E3A8A', navy2: '1E40AF', blue: '2563EB', blue3: '3B82F6', blue4: '93C5FD', line: 'BFDBFE', line3: 'DBEAFE',
+      tint: 'F0F7FF', tint2: 'EFF6FF', zebra: 'F8FBFF', head: 'DBEAFE', ink: '1F2937', ink2: '111827', sub: '4B5563', sub2: '374151', gray: '6B7280',
+    };
+    const F = (sz, o) => Object.assign({ name: X.MINCHO, sz, color: C.ink }, o);
+    const B = (col) => 'thin:' + col;
+    const mmOf = (t, pt, bold) => X.textEm(t) * pt / PT * (bold ? 1.06 : 1); // 文字列の幅(mm)
+    const YEN = '"￥"#,##0';
+    const PER = '[>=100]"￥"#,##0;[>=10]"￥"0.0;"￥"0.00'; // tssFmtYen と同じ桁の出し方
+    const blocks = { head: [], banner: [], bottom: [] };
+    // 値が関数の枠は、表を並べてセルの番地が決まってから式を作る（refs＝小計・消費税・合計のセル）
+    const put = (blk, x1, x2, y1, y2, v, s, key) => blocks[blk].push({ x1, x2: Math.min(x2, W), y1, y2, v, s, key });
+
+    // --- 頭・左：題名（太字・字間 0.5em・下線は左の列いっぱい）、宛名、ごあいさつ、条件の表 ---
+    let ly = 22 * 1.6 + 3 * PT;
+    put('head', 0, LW, 0, ly, X.letterSpace(d.title, 0.5), { font: F(22, { b: true, color: C.navy }), border: { b: 'medium:' + C.blue3 }, align: { v: 'center', shrink: true } });
+    ly += 1.1 + 4 * PT;
+    const to = d.customerName || 'お客様';
+    const toLines = Math.max(1, Math.ceil((mmOf(to + ' ', 15, true) + mmOf('御中', 10.5)) / (LW * 0.93)));
+    put('head', 0, LW, ly, ly + toLines * 24, { rich: [{ t: to + ' ', font: F(15, { b: true }) }, { t: '御中', font: F(10.5, { color: C.blue }) }] },
+      { font: F(15, { b: true }), align: { v: 'center', wrap: toLines > 1 } });
+    ly += toLines * 24 + 4 * PT;
+    ['下記の通り、お見積り申し上げます。', 'ご検討のほど、よろしくお願い申し上げます。'].forEach(t => {
+      put('head', 0, LW, ly, ly + 8.5 * 1.7, t, { font: F(8.5, { color: C.sub }), align: { v: 'center' } });
+      ly += 8.5 * 1.7;
+    });
+    ly += 6 * PT;
+    const terms = [['見積有効期限', meta.validityPeriod || '—'], ['お支払条件', meta.paymentTerms || '—'], ['納期', meta.deliveryInfo || '—']];
+    terms.forEach(([lb, v], i) => {
+      const n = X.lineCount(v, 100 - 24, 7.5), h = n * 12 + 4.5;
+      const t = i === 0 ? B(C.line) : undefined, b = i === terms.length - 1 ? B(C.line) : B(C.line3);
+      put('head', 0, 24, ly, ly + h, lb, { font: F(7, { b: true, color: C.blue }), fill: C.tint, border: { l: B(C.line), t, b }, align: { h: 'left', v: 'center', indent: 1 } });
+      put('head', 24, 100, ly, ly + h, v, { font: F(7.5, { color: C.sub2 }), border: { r: B(C.line), t, b }, align: { h: 'left', v: 'center', wrap: n > 1, indent: 1 } });
+      ly += h;
+    });
+
+    // --- 頭・右：見積番号・発行日、発行元の枠、所長印・担当印 ---
+    let ry = 0;
+    [['見積番号', meta.quoteNumber || '—'], ['発行日', d.dateStr]].forEach(([lb, v], i) => {
+      const b = i === 0 ? B(C.line3) : undefined;
+      put('head', RX, RX + 22, ry, ry + 16.6, lb, { font: F(8, { b: true, color: C.blue }), border: { b }, align: { h: 'left', v: 'center', indent: 1 } });
+      put('head', RX + 22, W, ry, ry + 16.6, v, { font: F(8.5, { b: true, color: C.ink2 }), border: { b }, align: { h: 'right', v: 'center', indent: 1, shrink: true } });
+      ry += 16.6;
+    });
+    ry += 3;
+    const IB = B(C.line), side = { l: IB, r: IB }, fill = C.tint;
+    // 枠の中のあき（塗りと左右の罫線だけ）と、1行ずつの文字。top＝上の罫線（担当者の上の点線）
+    const gap = (h, o = {}) => { put('head', RX, W, ry, ry + h, null, { fill, border: Object.assign({ t: o.t, b: o.b }, side) }); ry += h; };
+    const line = (v, font, h, o = {}) => {
+      put('head', RX, W, ry, ry + h, v, { font, fill, border: Object.assign({ t: o.top }, side), align: { h: 'left', v: o.v || 'center', wrap: !!o.wrap, indent: 1 } });
+      ry += h;
+    };
+    const staff = (lb, name) => ({ rich: [{ t: lb + '　', font: F(8.5) }, { t: name, font: F(8.5, { b: true, color: C.ink2 }) }] });
+    gap(3.75 + 0.75, { t: IB });
+    line('太陽シルバーサービス㈱', F(10.5, { b: true, color: C.navy }), 16.8);
+    gap(1.5 * PT);
+    line(d.office.name, F(9, { b: true, color: C.navy2 }), 14.4);
+    gap(1.5);
+    line('〒' + d.office.zip, F(8, { color: C.sub }), 11.2);
+    const an = X.lineCount(d.office.address, 70 - 4.2 + 4, 8);
+    line(d.office.address, F(8, { color: C.sub }), an * 11.2, { wrap: an > 1 });
+    line('TEL ' + d.office.tel + '　FAX ' + d.office.fax, F(8, { color: C.sub }), 11.2);
+    gap(0.75);
+    line('登録番号　T1290001044462', F(7.5, { b: true, color: C.blue }), 10.5);
+    gap(2.25);
+    line(staff('所長', d.office.manager), F(8.5), 2.25 + 13.6, { top: 'dashed:' + C.line, v: 'bottom' });
+    if (meta.staffName) {
+      gap(2.25);
+      line(staff('担当', meta.staffName), F(8.5), 2.25 + 13.6, { top: 'dashed:' + C.line, v: 'bottom' });
+      if (meta.staffMobile) line('携帯　' + meta.staffMobile, F(8), 13.6);
+    }
+    gap(3.75 + 0.75, { b: IB });
+    // 所長印・担当印（14mm 角の枠を右に寄せて 4mm あけて並べる）
+    ry += 6;
+    const SB = B(C.blue4), sq = 14 * PT;
+    [['所長印', W - 32], ['担当印', W - 14]].forEach(([lb, x]) => {
+      put('head', x, x + 14, ry, ry + 11.2, lb, { font: F(7, { b: true, color: C.blue3 }), align: { h: 'center', v: 'center' } });
+      put('head', x, x + 14, ry + 12.7, ry + 12.7 + sq, null, { fill: 'FFFFFF', border: { l: SB, r: SB, t: SB, b: SB } });
+    });
+    ry += 12.7 + sq;
+    const headH = Math.max(ly, ry);
+
+    // --- 御見積金額　合計（税込）の帯（合計を印刷するときだけ）。見出しは左、金額と「―」は右に寄せる ---
+    if (d.showTotal) {
+      const BT = 'medium:' + C.blue3, fb = C.tint2;
+      const label = X.letterSpace('御見積金額　合計（税込）', 0.3);
+      const x1 = 4 + mmOf(label, 10, true) + 2, x2 = W - (1 + mmOf('―', 10) + 4.5);
+      const top = 1.1 + 3 * PT, mid = 22.5, h = 17 * 1.6 + 2 * 3 * PT + 2.2;
+      put('banner', 0, W, 0, top, null, { fill: fb, border: { l: BT, r: BT, t: BT } });
+      put('banner', 0, x1, top, top + mid, label, { font: F(10, { b: true, color: C.navy }), fill: fb, border: { l: BT }, align: { h: 'left', v: 'bottom', indent: 1 } });
+      put('banner', x1, x2, top, top + mid, (refs) => ({ f: refs.total, v: d.total }), { font: F(17, { b: true, color: C.navy }), fill: fb, fmt: YEN, align: { h: 'right', v: 'bottom', shrink: true } });
+      put('banner', x2, W, top, top + mid, '―', { font: F(10, { color: C.blue4 }), fill: fb, border: { r: BT }, align: { h: 'left', v: 'bottom' } });
+      put('banner', 0, W, top + mid, h, null, { fill: fb, border: { l: BT, r: BT, b: BT } });
+    }
+
+    // --- 下：備考（左。左に太い罫線）と、小計・消費税・合計（右 65mm） ---
+    const remarks = String(meta.remarks || '');
+    let by = 0, sy = 0;
+    if (remarks) {
+      remarks.split('\n').forEach(t => {
+        const n = X.lineCount(t, W - 65 - 8 - 4 + 4, 8.5);
+        put('bottom', 0, W - 65 - 8, by, by + n * 13.6, t, { font: F(8.5, { color: C.sub }), border: { l: 'medium:' + C.line }, align: { h: 'left', v: 'center', wrap: n > 1, indent: 1 } });
+        by += n * 13.6;
+      });
+    }
+    if (d.showTotal) {
+      const sx = W - 65, vx = W - 38;
+      const srow = (lb, v, font, h, key, top) => {
+        put('bottom', sx, vx, sy, sy + h, lb, { font, border: { t: top }, align: { h: 'left', v: 'center' } });
+        put('bottom', vx, W, sy, sy + h, v, { font, fmt: YEN, border: { t: top }, align: { h: 'right', v: 'center', shrink: true } }, key);
+        sy += h;
+      };
+      srow('小計', (refs) => ({ f: refs.subF, v: d.subtotal }), F(9.5), 15.2 + 3 * PT, 'sub');
+      srow('消費税（10%）', (refs) => ({ f: `ROUND(${refs.sub}*0.1,0)`, v: d.tax }), F(9.5), 15.2 + 3 * PT, 'tax');
+      sy += 1.5 * PT;
+      srow('合計', (refs) => ({ f: `${refs.sub}+${refs.tax}`, v: d.total }), F(12, { b: true, color: C.navy }), 2.5 * PT + 19.2 + 1.5 * PT, 'total', 'medium:' + C.navy);
+    }
+    // 印刷では備考の左の罫線が合計の欄の下まで伸びる（横並びの高さにそろう）
+    if (remarks && sy > by) put('bottom', 0, W - 65 - 8, by, sy, null, { border: { l: 'medium:' + C.line } });
+
+    // --- 列：表の列（印刷の colgroup と同じ割合）を優先し、枠の境目を足す（2mm より近い境目はまとめる） ---
+    const tx = [0];
+    [34, 7, 8, 15, 18, 18].forEach(p => tx.push(tx[tx.length - 1] + W * p / 100));
+    const xs = tx.slice();
+    Object.values(blocks).forEach(list => list.forEach(e => [e.x1, e.x2].forEach(v => { if (!xs.some(u => Math.abs(u - v) < 2)) xs.push(v); })));
+    xs.sort((a, b) => a - b);
+    const nearest = (list, v) => list.reduce((best, u, i) => (Math.abs(u - v) < Math.abs(list[best] - v) ? i : best), 0);
+    const span = (x1, x2) => { const c1 = nearest(xs, x1); return [c1, Math.max(c1, nearest(xs, x2) - 1)]; };
+    const last = xs.length - 2;
+
+    const book = X.createBook();
+    const ws = book.addSheet(d.title, { margins: { l: 14, r: 14, t: 11, b: 11, h: 5, f: 5 }, fitWidth: 1, fitHeight: 0 });
+    ws.setCols(xs.slice(1).map((v, i) => v - xs[i]));
+    let r = 0;
+    // 枠を並べたブロックを、縦の境目で行に分けて置く（計算の端数でできるごく低い行は作らない。枠はどれも 0.3pt より高い）
+    const placed = [], refs = {};
+    const layBlock = (list, height) => {
+      const ys = [0, height];
+      list.forEach(e => [e.y1, e.y2].forEach(v => { if (!ys.some(u => Math.abs(u - v) < 0.3)) ys.push(v); }));
+      ys.sort((a, b) => a - b);
+      ys.slice(1).forEach((v, i) => ws.height(r + i, v - ys[i]));
+      list.forEach(e => {
+        const [c1, c2] = span(e.x1, e.x2);
+        const r1 = r + nearest(ys, e.y1), r2 = Math.max(r1, r + nearest(ys, e.y2) - 1);
+        placed.push({ e, r1, c1, r2, c2 });
+        if (e.key) refs[e.key] = X.ref(r1, c1);
+      });
+      r += ys.length - 1;
+    };
+    const space = (pt) => { ws.height(r, pt); r++; };
+    layBlock(blocks.head, headH);
+    space(4 * PT);
+    if (d.showTotal) { layBlock(blocks.banner, 17 * 1.6 + 2 * 3 * PT + 2.2); space(4 * PT); }
+
+    // --- メーカーごとの表 ---
+    const cell = (r1, r2, k, v, s) => { const [c1, c2] = span(tx[k], tx[k + 1]); ws.box(r1, c1, r2, c2, v, s); };
+    const amtRanges = [];
+    d.groups.forEach(g => {
+      ws.box(r, 0, r, last, g.maker, { font: F(10.5, { b: true, color: C.navy }), fill: C.tint2, border: { l: B(C.line), r: B(C.line), t: B(C.line) }, align: { h: 'left', v: 'center', indent: 1 } });
+      space(10.5 * 1.6 + 7.5 + 0.75);
+      ['品名', '数量', '単位', '単価', '金額', '単価の内訳'].forEach((h, k) => cell(r, r, k, h, {
+        font: F(8.5, { b: true, color: C.navy }), fill: C.head,
+        border: { l: k === 0 ? B(C.line) : undefined, r: k === 5 ? B(C.line) : undefined, b: B(C.blue4) },
+        align: { h: k === 0 ? 'left' : 'right', v: 'center', indent: 1 },
+      }));
+      space(8.5 * 1.6 + 2 * 2.2 * PT + 0.75);
+      const first = r;
+      g.items.forEach((it, i) => {
+        // 1つの商品は2行：単価の内訳だけ「100mLあたり」（上）と金額（下）に分け、ほかのセルは2行をつなげる
+        const fill = i % 2 === 1 ? C.zebra : undefined;
+        const bot = i === g.items.length - 1 && !d.showTotal ? B(C.line) : B(C.line3);
+        const st = (k, o) => Object.assign({ fill, border: { l: k === 0 ? B(C.line) : undefined, r: k === 5 ? B(C.line) : undefined, b: bot } }, o);
+        const numSt = (k, o) => st(k, Object.assign({ font: F(9), align: { h: 'right', v: 'center', indent: 1, shrink: true } }, o));
+        const nameW = tx[1] - tx[0];
+        const lines = X.lineCount(it.name, nameW, 9.5) + (it.sub ? X.lineCount(it.sub, nameW, 8) : 0);
+        const h = Math.max(lines * 15.2, it.per ? 12 + 14.4 : 0) + 2 * 2 * PT + 0.4;
+        cell(r, r + 1, 0, it.sub ? { rich: [{ t: String(it.name || ''), font: F(9.5) }, { t: '\n' + it.sub, font: F(8, { color: C.gray }) }] } : String(it.name || ''),
+          st(0, { font: F(9.5), align: { h: 'left', v: 'center', wrap: true, indent: 1 } }));
+        const qRef = X.ref(r, span(tx[1], tx[2])[0]), pRef = X.ref(r, span(tx[3], tx[4])[0]);
+        cell(r, r + 1, 1, Number(it.qty), numSt(1));
+        cell(r, r + 1, 2, String(it.saleUnit || ''), numSt(2));
+        cell(r, r + 1, 3, it.unitPrice != null ? it.unitPrice : '—', numSt(3, { fmt: YEN }));
+        cell(r, r + 1, 4, { f: `IF(ISNUMBER(${pRef}),${qRef}*${pRef},"—")`, v: it.amount != null ? it.amount : '—' }, numSt(4, { fmt: YEN }));
+        if (it.per) {
+          cell(r, r, 5, it.per.label, st(5, { font: F(7.5, { color: C.gray }), border: { r: B(C.line) }, align: { h: 'right', v: 'bottom', indent: 1, shrink: true } }));
+          cell(r + 1, r + 1, 5, { f: `IF(ISNUMBER(${pRef}),${pRef}/(${it.per.content}/${it.per.basis}),"")`, v: it.per.value },
+            numSt(5, { fmt: PER, align: { h: 'right', v: 'top', indent: 1, shrink: true } }));
+        } else cell(r, r + 1, 5, null, st(5));
+        ws.height(r, h / 2); ws.height(r + 1, h / 2);
+        r += 2;
+      });
+      const aCol = span(tx[4], tx[5])[0];
+      amtRanges.push(X.range(first, aCol, r - 1, aCol));
+      if (d.showTotal) {
+        const sub = { font: F(9.5, { b: true, color: C.navy }), fill: C.tint, align: { h: 'right', v: 'center', indent: 1, shrink: true } };
+        const [, c4] = span(tx[0], tx[5]);
+        ws.box(r, 0, r, c4, '小計', Object.assign({}, sub, { border: { l: B(C.line), t: B(C.line), b: B(C.line) } }));
+        cell(r, r, 5, { f: `SUM(${X.range(first, aCol, r - 1, aCol)})`, v: g.subtotal }, Object.assign({}, sub, { font: F(9, { b: true, color: C.navy }), fmt: YEN, border: { r: B(C.line), t: B(C.line), b: B(C.line) } }));
+        space(15.2 + 2 * 2 * PT + 0.75);
+      }
+      space(2 * PT);
+    });
+    refs.subF = `SUM(${amtRanges.join(',')})`;
+    if (remarks || d.showTotal) {
+      const bl = blocks.bottom;
+      layBlock(bl, bl.reduce((m, e) => Math.max(m, e.y2), 0));
+    }
+    placed.forEach(({ e, r1, c1, r2, c2 }) => ws.box(r1, c1, r2, c2, typeof e.v === 'function' ? e.v(refs) : e.v, e.s));
+    ws.page.printArea = [0, 0, r - 1, last];
+    return book.toBytes({ title: d.title });
+  }
+
+  document.getElementById('btn-excel').addEventListener('click', () => {
+    const d = quoteDoc();
+    if (!d) return;
+    const t = d.today;
+    const ymd = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+    const safe = (s) => String(s || '').replace(/[\\/:*?"<>|\r\n]/g, '_').trim();
+    TssXlsx.download(buildQuoteXlsx(d), safe(d.title) + (safe(d.customerName) ? '_' + safe(d.customerName) : '') + '_' + ymd + '.xlsx');
   });
 
   /* ================= 保存した見積（施設ごと） =================
