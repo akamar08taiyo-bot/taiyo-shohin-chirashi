@@ -732,6 +732,10 @@
     return { label: tssUnitLabel(kind, basis), value: v, content, basis };
   }
 
+  // 金額は円単位（四捨五入）。単価を先に円にしてから 単価×数量 にするので、紙の上でも
+  // 単価×数量＝金額、金額の合計＝小計 になり、合計に小数が出ない（ユーザーの答え「四捨五入」2026-10）
+  const yen = v => (v == null ? null : Math.round(v));
+
   function computedRows() {
     const master = Object.keys(cart).map(idStr => {
       const id = Number(idStr);
@@ -740,14 +744,15 @@
       const priceRow = priceRowById.get(id);
       const qty = cart[id] || 1;
       const suggested = suggestedUnitPrice(item, priceRow);
-      const unitPrice = meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested;
-      const amount = unitPrice != null ? unitPrice * qty : null;
+      const unitPrice = yen(meta.priceOverrides[id] != null ? tssNum(meta.priceOverrides[id]) : suggested);
+      const amount = unitPrice != null ? yen(unitPrice * qty) : null;
       return {
         key: String(id), id, manual: false, item, priceRow, qty,
         name: item.name, sub: item.maker + ' ／ ' + item.spec,
         saleUnit: saleUnitOf(id, item),
         unitPrice,
-        unitPriceStr: meta.priceOverrides[id] != null ? meta.priceOverrides[id] : (suggested != null ? String(Math.round(suggested)) : ''),
+        // 手で打った単価も、計算に使う円単位の値を出す（519.5 と打ったら 520）。数として読めない文字はそのまま
+        unitPriceStr: meta.priceOverrides[id] != null ? (unitPrice != null ? String(unitPrice) : meta.priceOverrides[id]) : (suggested != null ? String(Math.round(suggested)) : ''),
         amount, per: perBasis(priceRow, id, unitPrice),
       };
     }).filter(Boolean).sort((a, b) => a.id - b.id);
@@ -755,12 +760,12 @@
     // 手入力で足した商品（商品マスターに無いもの）
     const manual = (meta.manual || []).map(m => {
       const qty = tssNum(m.qty) ?? 1;
-      const unitPrice = tssNum(m.price);
+      const unitPrice = yen(tssNum(m.price));
       return {
         key: m.key, id: null, manual: true, item: null, priceRow: null, qty,
         name: m.name || '', sub: m.spec || '', saleUnit: m.unit || '個',
-        unitPrice, unitPriceStr: m.price != null ? String(m.price) : '',
-        amount: unitPrice != null ? unitPrice * qty : null, per: null,
+        unitPrice, unitPriceStr: unitPrice != null ? String(unitPrice) : (m.price != null ? String(m.price) : ''),
+        amount: unitPrice != null ? yen(unitPrice * qty) : null, per: null,
       };
     });
     return master.concat(manual);
@@ -1223,7 +1228,8 @@
         cell(r, r + 1, 1, Number(it.qty), numSt(1));
         cell(r, r + 1, 2, String(it.saleUnit || ''), numSt(2));
         cell(r, r + 1, 3, it.unitPrice != null ? it.unitPrice : '—', numSt(3, { fmt: YEN }));
-        cell(r, r + 1, 4, { f: `IF(ISNUMBER(${pRef}),${qRef}*${pRef},"—")`, v: it.amount != null ? it.amount : '—' }, numSt(4, { fmt: YEN }));
+        // 金額は円単位（四捨五入）。Excel で単価や数量を打ちかえても小数にならないように
+        cell(r, r + 1, 4, { f: `IF(ISNUMBER(${pRef}),ROUND(${qRef}*${pRef},0),"—")`, v: it.amount != null ? it.amount : '—' }, numSt(4, { fmt: YEN }));
         if (it.per) {
           cell(r, r, 5, it.per.label, st(5, { font: F(7.5, { color: C.gray }), border: { r: B(C.line) }, align: { h: 'right', v: 'bottom', indent: 1, shrink: true } }));
           cell(r + 1, r + 1, 5, { f: `IF(ISNUMBER(${pRef}),${pRef}/(${it.per.content}/${it.per.basis}),"")`, v: it.per.value },
