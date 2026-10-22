@@ -34,11 +34,11 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 
 - `quoteDoc()`：印刷と Excel が使う共通のデータ `{groups, subtotal, tax=Math.round(subtotal*0.1), total=subtotal+tax, today, office, dateStr, customerName, title, showTotal}`。条件・番号・担当・備考は両方とも `meta` から直接読む。
   **片方だけ直さない。**
-- `perBasis()`：`{label, value, content, basis}`（content・basis は単価の内訳の式に使う）。`computedRows()`：単価は `meta.priceOverrides` か `tssSellOf()`、丸めない（画面の単価欄だけ `Math.round` した文字）。`computedGroups()`：メーカー順、手入力は「その他」として最後。
+- `perBasis()`：`{label, value, content, basis}`（content・basis は単価の内訳の式に使う）。`computedRows()`：単価は `meta.priceOverrides[id]` か `tssSellOf()` を四捨五入して円にしたもの（`yen()`）、金額＝単価×数量（どちらも円単位。下の「これから」の1）。`computedGroups()`：メーカー順、手入力は「その他」として最後。
 - 印刷 `#btn-print`：`#print-content-holder` に帳票の HTML を入れて `window.print()`。A4縦・余白0、`.doc` の内側の余白 11mm・幅182mm、書体 BIZ UDPMincho。
 - Excel `buildQuoteXlsx(d)` → `#btn-excel` で `TssXlsx.download()`。ファイル名 `題名_お客様名_YYYY-MM-DD.xlsx`（お客様名が空なら省く。`\/:*?"<>|` と改行は `_`）。
   - 頭・帯・下の枠を印刷と同じ位置（横 mm、縦 pt）に `put()` で置く。列は表の列（colgroup 34/7/8/15/18/18%）を先に取り、ほかの枠の境目を足す（2mm より近い境目はまとめる）。行は `layBlock()` で縦の境目から作る（**0.3pt** より近い境目はまとめる）。1つの枠は結合セル。
-  - 1商品は2行：品名・数量・単位・単価・金額のセルは2行を結合し、単価の内訳の列だけ上の行に「100mLあたり」、下の行にその単価（式）。式：金額 `IF(ISNUMBER(単価),数量*単価,"—")`・内訳 `単価/(content/basis)`・メーカー小計 `SUM`・小計 `SUM(全金額)`・消費税 `ROUND(小計*0.1,0)`・合計 小計＋消費税。表示形式 `"￥"#,##0`。
+  - 1商品は2行：品名・数量・単位・単価・金額のセルは2行を結合し、単価の内訳の列だけ上の行に「100mLあたり」、下の行にその単価（式）。式：金額 `IF(ISNUMBER(単価),ROUND(数量*単価,0),"—")`・内訳 `単価/(content/basis)`・メーカー小計 `SUM`・小計 `SUM(全金額)`・消費税 `ROUND(小計*0.1,0)`・合計 小計＋消費税。表示形式 `"￥"#,##0`。
   - 帯・小計・合計は showTotal のときだけ。印刷設定：A4縦、余白 左右14mm・上下11mm、横1ページ、印刷範囲つき。
 - `assets/xlsx.js`（`window.TssXlsx`）：`MINCHO:'BIZ UDP明朝 Medium'`・`PT_MM`・`createBook`（`ws.setCols(mm[])`・`ws.height(r,pt)`＝409pt まで・同じ行は大きい方・`ws.box()`＝結合と外枠の罫線の振り分け・`ws.page`＝paper 9・余白・fitWidth/fitHeight・hCenter・printArea・printTitles）・
   `textEm`・`lineCount`（使える幅 93%）・`letterSpace`・`ref`・`range`・`download`。値は 数値・文字列・`{rich:[{t,font}]}`・`{f,v}`・null。zip は自前（無圧縮＋CRC-32、外部ライブラリなし）。`fullCalcOnLoad="1"`。
@@ -62,11 +62,12 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 - スマホで上のボタン4つの文字が細切れ → `.actions{flex-wrap:wrap}` で2段に。
 - `assets/xlsx.js` の正規表現に U+FFFE・U+FFFF が文字そのもので入っている（動くが、直すなら `\uFFFE\uFFFF`）。
 
-## これから（2026-10-21 の時点）
+## これから（2026-10-22 の時点）
 
-1. **合計の小数**：印刷と画面では「￥60,413.5」、Excel では「￥60,414」と出る（合計を丸めずに表示している。小計は丸める）。円単位にそろえるかユーザーに3回聞いて返事待ち。
-   直すなら `quoteDoc`・`renderTotals`・印刷・Excel をいっしょに。
-2. 会社の Excel で見本を開いて警告が出ないかの確認（返事待ち）。ポータルのタイルの使い方の文に Excel 保存がまだない。
+1. **金額は円単位（四捨五入）**にした（ユーザーの答え「四捨五入」。2026-10-22 公開。7da8f68）：`computedRows` の `yen()` で単価を四捨五入して円にしてから 金額＝単価×数量、
+   小計＝金額の合計、消費税＝小計×10%（四捨五入）、合計＝小計＋消費税。紙の上でも 単価×数量＝金額 になる（前は単価を丸めて出し、金額は丸める前の単価で計算していたので合わず、合計が「￥60,413.5」になった）。
+   手で打った小数の単価は、Enter のあと円の値を入力欄に出す（519.5 → 520）。Excel の金額の式は `ROUND(数量*単価,0)`。チラシ・価格表（price-calc.html）の販売価格の表示も `Math.round` なので、それとそろう。
+2. 会社の Excel で見本を開いて警告が出ないかの確認（返事待ち）。ポータルのタイルの使い方の文には Excel 保存と円単位を書いた（2026-10-22）。
 3. 表紙と価格表は Excel 保存の対象にしていない（聞いていない）。
 4. main に入っていない以前のブランチが3本（`claude/save-share-contacts-flyers-wlrt3h`・`claude/debug-and-verification-9tzg5s`・`claude/app-comprehensive-debug-c9srvh`。壱岐営業所の住所など）と、開いたままの PR が2つ（#1 audit-images の sharp の読み込み先の直し、#2 見積の単価・住所）。
    扱いは未定。#1 が入れば、audit-images のための sharp の回り道は要らなくなる。
