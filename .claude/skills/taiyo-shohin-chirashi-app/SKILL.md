@@ -7,7 +7,7 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 
 病院・施設向けの業務用消耗品について、カタログチラシ・御見積書・表紙を作るアプリ。使うのは営業所の営業担当、依頼してくるのは行橋営業所の担当者（プログラマーではない。パソコンとスマホ）。
 発行する営業所は19営業所から選べる（`assets/offices.js`、初めは行橋営業所）。
-このスキルは 2026年10月のセッション（御見積書を Excel でも保存できるようにした）までの知識をまとめたもの。
+このスキルは 2026年10月のセッション（御見積書を Excel でも保存できるようにした・価格＋品番で印刷が止まる不具合を直し「ロケット石鹸のみ」を足した 10-28）までの知識をまとめたもの。
 
 ポータル全体に共通のこと（公開の流れ・ユーザーの好み・報告のしかた）は `taiyo-portal` スキル、Excel の作り方と確かめ方の詳しいことは `taiyo-excel-export` スキルにある（入っていれば一緒に読む）。
 
@@ -23,7 +23,7 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 ## 画面
 
 - メインメニュー（`index.html`）：営業所と担当者名・携帯を設定し、4つから選ぶ。
-  チラシ → `flyers.html`（メーカー別・用途別）→ 各チラシ（`kao-rocket.html` など・`omakase*.html`）か、自分で4点選ぶ `custom.html`／見積 → `quote.html`／表紙 → `cover.html`（A4横。`covers.html` は表紙チラシ15パターン）／価格表 → `price-calc.html`（社内用）。
+  チラシ → `flyers.html`（メーカー別・用途別・おすすめの組み合わせ）→ 各チラシ（`kao-rocket.html` など・`omakase*.html`＝おすすめの組み合わせ9パターン、`omakase14` は「ロケット石鹸のみ」で5用途・16ページ）か、自分で4点選ぶ `custom.html`／見積 → `quote.html`／表紙 → `cover.html`（A4横。`covers.html` は表紙チラシ15パターン）／価格表 → `price-calc.html`（社内用）。
 - `quote.html`：タブ「商品を選ぶ」（検索・メーカーの絞り込み・チェック。チラシの「見積に追加」も同じカート）と「見積書を確認・印刷」（宛名・帳票タイトル・番号・条件・担当・携帯・備考・明細。手入力の行も足せる。
   「合計金額を印刷する」は初めオフ。施設名を付けて保存）。上のボタン：📘表紙をつくる／印刷 / PDF保存／📗 Excelで保存／見積をクリア。
 - 価格はリポジトリに**無い**（public だから）。各端末の localStorage（`tsss-price-v1`）だけ。ほかのキー：`tss_quote_cart_v1`・`tss_quote_meta_v1`・`tss_quote_saved_v1`・`tss_office_v1`・`tss_staff_v1`・`tss_chirashi_composition_v1`、sessionStorage `tss_chirashi_tempSell_v1`。
@@ -55,7 +55,20 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 
 確かめ方・公開の手順は `references/build-test-publish.md`。
 
+## チラシの写真枠と印刷のチェック（`assets/flyer-render.js`）
+
+- `tssFitPhotos(mount)`：ページごとに4枚の写真枠を同じだけ広げる（本文に12px以上の余り）／縮める（本文がはみ出すとき。最小80px）。`renderAll` のたびと `document.fonts.ready` のあと、印刷ボタンの直後に走る。
+  余りは `tssCardSlack(card)`（品番行は margin-top:auto なので説明文との間に余りが集まる・品番なしなら本文の下）。CSS の写真枠は `flex: 0 0 auto`（勝手に縮まない）。
+- 印刷の前のチェック（`runPrintFlow`）：画像の読み込み・1ページ4枚・社名・本文のはみ出し・ページのはみ出し。どれかで止めて alert。custom.html にも同じチェックがある（写真枠の自動合わせは無い。写真170px固定で、文字の多い商品でも収まるのを確かめた）。
+- おすすめの組み合わせ：`randomSample`（`max`・`preferMakers`・`onlyMakers`・`alwaysInclude`・`pricedOnly`）。`tssPickRandom` と `validate.cjs` の `randomSampleSafeCount` の前でしぼる。`onlyMakers` のパターンに商品0件の用途を入れると validate が誤りにする。
+- 検査：`scripts/audit-flyers.mjs`（全チラシ × 価格・品番・チェック欄・金額を編集。Google Fonts だけ通して本物の書体で測る）。
+
 ## 落とし穴（2026-10 にあったこと）
+
+- **印刷が止まるのに作業環境では再現しない**（10-28）：価格＋品番で本文が 8.5px はみ出し「1ページに4商品と社名を安全に収められない」。Noto Sans JP（Google Fonts）が読み込まれた端末だけで起きる。
+  Playwright の `chromium.launch({proxy:{server: process.env.HTTPS_PROXY, bypass:'127.0.0.1,localhost'}})` で fonts.googleapis.com・fonts.gstatic.com だけ通すと再現する。19種のうち9種で起きていた → 写真枠を縮めて直した。
+- ロケット石鹸の「12 ボディソープ」23点・「13 ビューティ/オーラルケア」14点は、どの用途（yoto・omakase の sourceCategories）にも入っていない（2026-10-28 時点。入れるかユーザーに聞いている）。
+  yoto（用途別）に足すと総数が4の倍数でなくなり、チラシ全体が止まるので、足すときは件数も合わせる。
 
 - 結合セルが重なった（J17:Q17 と J17:Q18）：`layBlock` が 1pt より近い境目をまとめていて、0.75pt 違いの境目が1つになった → 0.3pt に（どの枠も 0.3pt より高い）。**XSD の検査では見つからず、結合の重なりの検査で見つかった。**
 - 備考の左の太い線は、印刷では横の合計の欄の下まで伸びる → Excel にも線だけの枠を足した。

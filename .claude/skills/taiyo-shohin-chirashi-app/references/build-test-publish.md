@@ -13,6 +13,8 @@
   `tss_quote_cart_v1`＝`{商品id: 数量}`、`tsss-price-v1`＝`{prices, qtys, margins, sellPrices: {商品id: 販売単価}, units, bases}`（`assets/pricing.js` の `tssSavePrices` の形）、`tss_quote_meta_v1`（宛名・番号・条件など）。confirm と alert を止める（`page.on('dialog', d => d.accept())`）。
   見本の例：a＝お客様名・番号・合計あり・2行の備考・担当と携帯・手入力1行・小数の単価 2480.5・単価なし1件、b＝空欄・合計なし。
 - `window.print` を空にしてから `#btn-print` を押し、`#print-content-holder` の HTML を保存。`#btn-excel` のダウンロードも保存。1366×900 と 390×844 でスクリーンショット。
+- チラシの印刷チェック：`node .claude/skills/taiyo-shohin-chirashi-app/scripts/audit-flyers.mjs`（全チラシ × 表示の組み合わせ。Google Fonts だけ通して本物の書体で測る。代わりの書体では印刷が止まる不具合が再現しない）。
+  実際の PDF は `page.pdf({preferCSSPageSize: true, printBackground: true})` → `pdfinfo` のページ数と、`pdftotext` で社名の数がページ数と同じか。
 - 印刷を変えていないこと：`git show HEAD:quote.html > quote_orig_tmp.html` で前の版も開き、`#print-content-holder` の中身が同じか比べる（あとで一時ファイルは消す）。
 
 ## 3. Excel を確かめる（`taiyo-excel-export` スキルの scripts）

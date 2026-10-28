@@ -174,8 +174,8 @@
 
   <div class="view" id="view-random">
     <div class="maker-hint">
-      <p>12の用途ごとに、おすすめの商品を組み合わせたチラシです。開き直すと別の組み合わせになります。ペーパータオル・トイレットペーパー・ポリ袋・手袋・とろみ剤といった定番商品は、どのパターンにも必ず入ります。</p>
-      <button type="button" class="printall-btn" style="border-color:#0f7f86;color:#0f7f86;" onclick="tssPrintAllRandom()">🖨 8パターンすべて印刷</button>
+      <p>12の用途ごとに、おすすめの商品を組み合わせたチラシです。開き直すと別の組み合わせになります。ペーパータオル・トイレットペーパー・ポリ袋・手袋・とろみ剤といった定番商品は、「ロケット石鹸のみ」を除くどのパターンにも必ず入ります。</p>
+      <button type="button" class="printall-btn" style="border-color:#0f7f86;color:#0f7f86;" onclick="tssPrintAllRandom()">🖨 9パターンすべて印刷</button>
     </div>
     <div class="cards">
       <a class="card" href="./omakase.html" style="--c:#0f7f86;">
@@ -205,6 +205,13 @@
         <h2>16商品・4ページ</h2>
         <p>①とは別の組み合わせの大ボリューム版です</p>
         <div class="meta"><span class="count">12用途・全48ページ</span><span class="arrow">開く →</span></div>
+      </a>
+      <a class="card" href="./omakase14.html" style="--c:#0f7f86;">
+        <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase14.html')">🖨 印刷</button>
+        <span class="cat">ロケット石鹸のみ</span>
+        <h2>16商品・4ページ</h2>
+        <p>ロケット石鹸の商品だけで組み合わせます。商品のある5用途に、1用途あたり16商品まで載せます</p>
+        <div class="meta"><span class="count">5用途・全16ページ</span><span class="arrow">開く →</span></div>
       </a>
       <a class="card" href="./omakase6.html" style="--c:#0b66a3;">
         <button type="button" class="card-print-btn" title="このチラシを印刷する" onclick="tssOpenAutoprint(event, './omakase6.html')">🖨 印刷</button>
@@ -415,7 +422,7 @@
   </div>
 </div>
 <script src="./assets/pricing.js"></script>
-<script src="./assets/flyer-render.js?v=20260908-1"></script>
+<script src="./assets/flyer-render.js?v=20261028-1"></script>
 <script>
   document.querySelectorAll('button.switch-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -439,8 +446,8 @@
   (async () => {
     try {
       const [pagesData, productsData] = await Promise.all([
-        fetch('./data/pages.json?v=20260908-1').then(r => r.json()),
-        fetch('./data/products.json?v=20260908-1').then(r => r.json()),
+        fetch('./data/pages.json?v=20261028-1').then(r => r.json()),
+        fetch('./data/products.json?v=20261028-1').then(r => r.json()),
       ]);
       tssSetPricedIds();
       const counts = new Map();  // チラシkey -> ページ数
@@ -497,6 +504,7 @@
     './omakase8.html',
     './omakase12.html',
     './omakase13.html',
+    './omakase14.html',
     './omakase6.html',
     './omakase9.html',
     './omakase10.html',

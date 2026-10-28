@@ -164,6 +164,9 @@ for (const flyer of pages.flyers) {
     if (flyer.autoPaginate) {
       let printableItems = items.filter(it => it.fixedFlyer !== false);
       if (flyer.randomSample) {
+        // 1社だけで組むパターンは、そのメーカーの商品だけを候補として数える（flyer-render.js の tssPickRandom と同じ）
+        const onlyMakers = flyer.randomSample.onlyMakers;
+        if (Array.isArray(onlyMakers)) printableItems = printableItems.filter(it => onlyMakers.includes(it.maker));
         const originalCount = printableItems.length;
         const safeCount = randomSampleSafeCount(originalCount, flyer.randomSample);
         if (originalCount === 0) {

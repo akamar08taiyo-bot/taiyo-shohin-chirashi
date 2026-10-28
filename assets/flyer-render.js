@@ -168,6 +168,9 @@ function tssPricedOnlyUnavailable(flyer) {
 //   3. それ以外（メーカー不問。1・2で8点に足りない用途をここで埋める）
 // 件数は必ず4の倍数（0/4/max）にして、1ページ4商品ちょうどの制約を崩さない。
 function tssPickRandom(pool, opts) {
+  // 1社だけで組むパターン（ロケット石鹸のみ など）は、ほかのメーカーを候補から外す。
+  // preferMakers（優先するだけで、足りなければ他社で埋める）とは違い、他社では埋めない。
+  if (opts && Array.isArray(opts.onlyMakers)) pool = pool.filter(item => opts.onlyMakers.includes(item.maker));
   // 価格の入っている商品だけで組む指定があれば、抽選の前に候補をしぼる。
   // 4の倍数の判定もしぼったあとの件数で行う（1ページ4商品の制約を守るため）。
   if (opts && opts.pricedOnly && TSS_PRICED_IDS) pool = pool.filter(item => TSS_PRICED_IDS.has(item.id));
@@ -206,15 +209,40 @@ function tssShuffleInPlace(arr) {
 
 // カードの本文（説明文）の下には、商品によって余白ができる。
 // その余っている高さのぶんだけ、写真枠を広げて商品を大きく見せる。
-// 広げる量はページ単位で「4枚のうち一番余白が少ないカード」に合わせるので、
+// 反対に、価格と品番・JANを両方出すと本文が長くなり、写真枠が元の高さのままでは
+// 本文がカードの下にはみ出して印刷が止まる（Noto Sans JP が読み込まれた端末で起きる）。
+// そのときは、はみ出す分だけ写真枠を縮める。
+// 広げる・縮める量はページ単位で「4枚のうち一番余白が少ないカード」に合わせるので、
 // 同じページの4枚は必ず同じ写真サイズのまま揃う。
 // 文字は動かさない（幅が変わらないので折り返しも変わらない）。
-const TSS_PHOTO_SAFE_GAP = 12;   // 本文と品番行の間に必ず残す余白
+const TSS_PHOTO_SAFE_GAP = 12;     // 写真を広げるとき、本文と品番行の間に残す余白
+const TSS_PHOTO_SHRINK_MARGIN = 4; // 写真を縮めるとき、本文の下に残す余白（印刷時の端数ぶん）
+const TSS_PHOTO_MIN_HEIGHT = 80;   // これより小さくすると商品が分からないので、ここで止める
+
+// カードの中で本文が使わずに余っている高さ（負なら、はみ出している高さ）。
+function tssCardSlack(card) {
+  const body = card.querySelector('.tss-card-body');
+  if (!body || !body.lastElementChild) return null;
+  const style = getComputedStyle(body);
+  const bodyRect = body.getBoundingClientRect();
+  const cardBottom = card.getBoundingClientRect().bottom - (parseFloat(getComputedStyle(card).borderBottomWidth) || 0);
+  // 本文の最後の要素の下に残っている余白（品番を出さないときは、ここに余りが集まる）
+  let slack = (bodyRect.bottom - (parseFloat(style.paddingBottom) || 0)) - body.lastElementChild.getBoundingClientRect().bottom;
+  // 品番行は margin-top:auto で下に寄せているので、説明文との間に余りが集まる
+  const code = body.querySelector('.tss-card-code');
+  if (code && code.previousElementSibling) {
+    slack += code.getBoundingClientRect().top - code.previousElementSibling.getBoundingClientRect().bottom - (parseFloat(style.rowGap) || 0);
+  }
+  // 本文はカードより低くならない（flex: 1 0 auto）ので、入りきらない分はカードの下にはみ出す
+  slack -= Math.max(0, bodyRect.bottom - cardBottom);
+  return slack;
+}
+
 function tssFitPhotos(mount) {
   const pages = [...mount.querySelectorAll('.page')];
   // 一度もとの高さに戻してから測り直す。
   // Webフォントの読み込み後など、文字の高さが変わったときに再実行しても
-  // 前回広げた分を二重に足さないようにするため。
+  // 前回広げた・縮めた分を二重に足さないようにするため。
   for (const photo of mount.querySelectorAll('.tss-card-photo')) {
     if (photo.dataset.baseHeight) photo.style.height = photo.dataset.baseHeight + 'px';
     else photo.dataset.baseHeight = String(parseFloat(photo.style.height) || photo.getBoundingClientRect().height);
@@ -222,23 +250,21 @@ function tssFitPhotos(mount) {
   for (const page of pages) {
     const cards = [...page.querySelectorAll('.tss-card')];
     if (!cards.length) continue;
-    let minGap = Infinity;
+    let minSlack = Infinity;
     for (const card of cards) {
-      const desc = card.querySelector('.tss-card-desc');
-      const code = card.querySelector('.tss-card-code');
-      const body = card.querySelector('.tss-card-body');
-      if (!desc || !code || !body) { minGap = 0; break; }
-      // 本文が入りきらないカードは、はみ出している分だけ余白を負として扱う
-      const spill = body.getBoundingClientRect().bottom - card.getBoundingClientRect().bottom;
-      const gap = code.getBoundingClientRect().top - desc.getBoundingClientRect().bottom;
-      minGap = Math.min(minGap, gap - Math.max(0, spill));
+      const slack = tssCardSlack(card);
+      if (slack == null) { minSlack = 0; break; }
+      minSlack = Math.min(minSlack, slack);
     }
-    const grow = Math.floor(minGap - TSS_PHOTO_SAFE_GAP);
-    if (!isFinite(grow) || grow <= 0) continue;
+    if (!isFinite(minSlack)) continue;
+    let delta = 0;
+    if (minSlack >= TSS_PHOTO_SAFE_GAP) delta = Math.floor(minSlack - TSS_PHOTO_SAFE_GAP);
+    else if (minSlack < 0) delta = -Math.ceil(TSS_PHOTO_SHRINK_MARGIN - minSlack);
+    if (!delta) continue;
     for (const card of cards) {
       const photo = card.querySelector('.tss-card-photo');
       if (!photo) continue;
-      photo.style.height = (parseFloat(photo.dataset.baseHeight) + grow) + 'px';
+      photo.style.height = Math.max(TSS_PHOTO_MIN_HEIGHT, parseFloat(photo.dataset.baseHeight) + delta) + 'px';
     }
   }
 }
@@ -270,11 +296,11 @@ function tssInterleaveByMaker(items) {
 
 async function renderFlyer(flyerKey, mountId) {
   const [pagesData, productsData, priceRows, salesPriority] = await Promise.all([
-    fetch('./data/pages.json?v=20260908-1').then(r => r.json()),
-    fetch('./data/products.json?v=20260908-1').then(r => r.json()),
-    fetch('./data/price-rows.json?v=20260908-1').then(r => r.json()),
+    fetch('./data/pages.json?v=20261028-1').then(r => r.json()),
+    fetch('./data/products.json?v=20261028-1').then(r => r.json()),
+    fetch('./data/price-rows.json?v=20261028-1').then(r => r.json()),
     // 売れている商品の優先順位。無くてもチラシは出せるようにしておく。
-    fetch('./data/sales-priority.json?v=20260908-1').then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('./data/sales-priority.json?v=20261028-1').then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
   tssSetSalesPriority(salesPriority && salesPriority.ids, salesPriority && salesPriority.stockIds);
   tssSetPricedIds();
@@ -947,6 +973,12 @@ async function renderFlyer(flyerKey, mountId) {
       new Promise(resolve => setTimeout(resolve, 12000)),
     ]);
     const failed = images.filter(img => !img.complete || img.naturalWidth === 0 || img.naturalHeight === 0);
+    // 印刷の直前に、読み込みが終わった文字の高さで写真枠を合わせ直す。
+    // 通信が遅いとWebフォントが表示のあとから届き、最初に測った寸法のままでは本文がはみ出すため。
+    if (document.fonts && document.fonts.ready) {
+      await Promise.race([document.fonts.ready, new Promise(resolve => setTimeout(resolve, 5000))]);
+    }
+    tssFitPhotos(mount);
     printBtn.disabled = false;
     printBtn.textContent = originalLabel;
     if (failed.length) {
