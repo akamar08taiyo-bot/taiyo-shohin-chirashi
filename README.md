@@ -20,7 +20,7 @@ lion.html             ライオンハイジーン（全36ページ・固定チ�
 omutsu.html           紙おむつ・尿とりパッド（全29ページ・116商品）
 saraya.html           サラヤ（全4ページ・固定チラシ16商品。他2商品はピッカー専用）
 care.html             おしりふき・とろみ剤（全2ページ・8商品。他1商品はピッカー専用）
-omakase*.html         おすすめの組み合わせ（9パターン。開くたびに組み直す。omakase14 は「ロケット石鹸のみ」）
+omakase*.html         おすすめの組み合わせ（9パターン。開くたびに組み直す。omakase14 は「ロケット石鹸のみ」6用途・20ページ）
 price-calc.html       価格・単価計算シート（社内用）
 validate.cjs          データ整合性チェック（`node validate.cjs`）
 assets/

@@ -23,7 +23,7 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 ## 画面
 
 - メインメニュー（`index.html`）：営業所と担当者名・携帯を設定し、4つから選ぶ。
-  チラシ → `flyers.html`（メーカー別・用途別・おすすめの組み合わせ）→ 各チラシ（`kao-rocket.html` など・`omakase*.html`＝おすすめの組み合わせ9パターン、`omakase14` は「ロケット石鹸のみ」で5用途・16ページ）か、自分で4点選ぶ `custom.html`／見積 → `quote.html`／表紙 → `cover.html`（A4横。`covers.html` は表紙チラシ15パターン）／価格表 → `price-calc.html`（社内用）。
+  チラシ → `flyers.html`（メーカー別・用途別・おすすめの組み合わせ）→ 各チラシ（`kao-rocket.html` など・`omakase*.html`＝おすすめの組み合わせ9パターン、`omakase14` は「ロケット石鹸のみ」で6用途・20ページ）か、自分で4点選ぶ `custom.html`／見積 → `quote.html`／表紙 → `cover.html`（A4横。`covers.html` は表紙チラシ15パターン）／価格表 → `price-calc.html`（社内用）。
 - `quote.html`：タブ「商品を選ぶ」（検索・メーカーの絞り込み・チェック。チラシの「見積に追加」も同じカート）と「見積書を確認・印刷」（宛名・帳票タイトル・番号・条件・担当・携帯・備考・明細。手入力の行も足せる。
   「合計金額を印刷する」は初めオフ。施設名を付けて保存）。上のボタン：📘表紙をつくる／印刷 / PDF保存／📗 Excelで保存／見積をクリア。
 - 価格はリポジトリに**無い**（public だから）。各端末の localStorage（`tsss-price-v1`）だけ。ほかのキー：`tss_quote_cart_v1`・`tss_quote_meta_v1`・`tss_quote_saved_v1`・`tss_office_v1`・`tss_staff_v1`・`tss_chirashi_composition_v1`、sessionStorage `tss_chirashi_tempSell_v1`。
@@ -67,8 +67,9 @@ description: 太陽シルバーサービスの業務アプリ「チラシ作成�
 
 - **印刷が止まるのに作業環境では再現しない**（10-28）：価格＋品番で本文が 8.5px はみ出し「1ページに4商品と社名を安全に収められない」。Noto Sans JP（Google Fonts）が読み込まれた端末だけで起きる。
   Playwright の `chromium.launch({proxy:{server: process.env.HTTPS_PROXY, bypass:'127.0.0.1,localhost'}})` で fonts.googleapis.com・fonts.gstatic.com だけ通すと再現する。19種のうち9種で起きていた → 写真枠を縮めて直した。
-- ロケット石鹸の「12 ボディソープ」23点・「13 ビューティ/オーラルケア」14点は、どの用途（yoto・omakase の sourceCategories）にも入っていない（2026-10-28 時点。入れるかユーザーに聞いている）。
-  yoto（用途別）に足すと総数が4の倍数でなくなり、チラシ全体が止まるので、足すときは件数も合わせる。
+- ロケット石鹸の「12 ボディソープ」23点・「13 ビューティ/オーラルケア」14点が、どの用途にも入っていなかった（2026-10-28 に YT07 入浴・ボディケアへ足した。ユーザーの「はい」）。
+  yoto（用途別）は総数が4の倍数でないとチラシ全体が止まる（737件になった）ので、yoto だけ `excludeIds: [878]`（animo ヤシの実石鹸 80g×2P。同じ石鹸の3Pは載る）で736件にした。
+  **用途に分類を足す・商品を足すときは、yoto の総数が4の倍数か `node validate.cjs` で確かめる。**
 
 - 結合セルが重なった（J17:Q17 と J17:Q18）：`layBlock` が 1pt より近い境目をまとめていて、0.75pt 違いの境目が1つになった → 0.3pt に（どの枠も 0.3pt より高い）。**XSD の検査では見つからず、結合の重なりの検査で見つかった。**
 - 備考の左の太い線は、印刷では横の合計の欄の下まで伸びる → Excel にも線だけの枠を足した。
