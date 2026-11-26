@@ -29,17 +29,32 @@ const TSS_OFFICE_MASTER = [
 const TSS_OFFICE_KEY = 'tss_office_v1';
 const TSS_DEFAULT_OFFICE = '行橋営業所';
 
+const TSS_OFFICE_OVERRIDE_KEY = 'tss_office_portal_override_v1';
+
+function tssPortalSession() {
+  try { return JSON.parse(localStorage.getItem('taiyo_portal_session') || 'null'); } catch { return null; }
+}
+
 function tssLoadOffice() {
+  const fallback = TSS_OFFICE_MASTER.find(o => o.name === TSS_DEFAULT_OFFICE);
   try {
-    const saved = localStorage.getItem(TSS_OFFICE_KEY);
-    return TSS_OFFICE_MASTER.find(o => o.name === saved) || TSS_OFFICE_MASTER.find(o => o.name === TSS_DEFAULT_OFFICE);
+    const session = tssPortalSession();
+    const saved = TSS_OFFICE_MASTER.find(o => o.name === localStorage.getItem(TSS_OFFICE_KEY));
+    const selected = TSS_OFFICE_MASTER.find(o => o.name === session?.office);
+    const override = session?.selectedAt && session.selectedAt === localStorage.getItem(TSS_OFFICE_OVERRIDE_KEY);
+    return (override ? saved : selected) || saved || fallback;
   } catch (e) {
-    return TSS_OFFICE_MASTER.find(o => o.name === TSS_DEFAULT_OFFICE);
+    return fallback;
   }
 }
 
 function tssSaveOffice(name) {
-  try { localStorage.setItem(TSS_OFFICE_KEY, name); } catch (e) {}
+  try {
+    localStorage.setItem(TSS_OFFICE_KEY, name);
+    const selectedAt = tssPortalSession()?.selectedAt;
+    if (selectedAt) localStorage.setItem(TSS_OFFICE_OVERRIDE_KEY, selectedAt);
+    else localStorage.removeItem(TSS_OFFICE_OVERRIDE_KEY);
+  } catch (e) {}
 }
 
 /* ===== 担当者（担当名・携帯番号）=====
